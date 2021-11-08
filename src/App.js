@@ -3,11 +3,14 @@ import { Route, Switch } from "react-router-dom";
 import LoginView from "./components/common/LoginView";
 import DashBoardView from "./components/dashboard/DashBoardView";
 import AddEventView from "./components/event/AddEventView";
+import ApplicationList from "./components/event/ApplicationList";
+import ModifiableEventList from "./components/event/event-components/ModifiableEventList";
 import EventListView from "./components/event/EventListView";
 import EventManageView from "./components/event/EventManageView";
 import ScEventListView from "./components/event/ScEventListView";
 import RecommendedListView from "./components/main-design/RecommendedListView";
 import SkinAndBannerDesignView from "./components/main-design/SkinAndBannerDesignView";
+import ModifiablePlaceList from "./components/place/place-components/ModifiablePlaceList";
 
 const App = () => {
   return (
@@ -57,6 +60,15 @@ const App = () => {
       {/* 문화행사 관리 > 문화행사 등록하기 */}
       <Route path="/event/add-event">
         <AddEventView />
+      </Route>
+      {/* 문화행사 관리 > 등록 신청 리스트 */}
+      <Route path="/event/event-application-list">
+        <ApplicationList tableTitle="문화행사" Table={ModifiableEventList} />
+      </Route>
+
+      {/* 문화공간 관리 > 등록 신청 리스트 */}
+      <Route path="/place/place-application-list">
+        <ApplicationList tableTitle="문화공간" Table={ModifiablePlaceList} />
       </Route>
 
       {/* 로그인 */}

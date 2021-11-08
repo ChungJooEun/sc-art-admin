@@ -165,7 +165,9 @@ const SideMenuBar = () => {
                 <li className="sidebar-menu-item">
                   <a
                     className="sidebar-menu-button"
-                    href="../event/event-application-list.html"
+                    onClick={() =>
+                      (window.location.href = "/event/event-application-list")
+                    }
                   >
                     <span className="sidebar-menu-text">등록 신청 리스트</span>
                   </a>
@@ -252,7 +254,9 @@ const SideMenuBar = () => {
                 <li className="sidebar-menu-item">
                   <a
                     className="sidebar-menu-button"
-                    href="../place/place-application-detail.html"
+                    onClick={() =>
+                      (window.location.href = "/place/place-application-detail")
+                    }
                   >
                     <span className="sidebar-menu-text">문화공간 등록하기</span>
                   </a>
@@ -260,7 +264,9 @@ const SideMenuBar = () => {
                 <li className="sidebar-menu-item">
                   <a
                     className="sidebar-menu-button"
-                    href="../place/place-application-list.html"
+                    onClick={() =>
+                      (window.location.href = "/place/place-application")
+                    }
                   >
                     <span className="sidebar-menu-text">등록 신청 리스트</span>
                   </a>
