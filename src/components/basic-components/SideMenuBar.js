@@ -44,14 +44,14 @@ const SideMenuBar = () => {
                 id="dashboards_menu"
               >
                 <li className="sidebar-menu-item">
-                  <a
+                  <Link
                     className="sidebar-menu-button"
-                    href="../main_design/skin-and-banner-design.html"
+                    to="/main-design/skin-and-banner-design"
                   >
                     <span className="sidebar-menu-text">
                       메인 배너&스킨 관리
                     </span>
-                  </a>
+                  </Link>
                 </li>
                 <li className="sidebar-menu-item">
                   <a
