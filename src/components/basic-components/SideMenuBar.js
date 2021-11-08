@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 const SideMenuBar = () => {
   return (
@@ -9,23 +8,29 @@ const SideMenuBar = () => {
           className="sidebar sidebar-dark sidebar-left"
           data-perfect-scrollbar
         >
-          <Link to="/dashboard" className="sidebar-brand ">
+          <a
+            onClick={() => (window.location.href = "/dashboard")}
+            className="sidebar-brand "
+          >
             <img
               className="sidebar-brand-icon"
               src="../assets/images/logo-w.png"
               alt=""
             />
-          </Link>
+          </a>
 
           <div className="sidebar-heading">Seocho Admin</div>
           <ul className="sidebar-menu">
             <li className="sidebar-menu-item active">
-              <Link className="sidebar-menu-button" to="/dashboard">
+              <a
+                className="sidebar-menu-button"
+                onClick={() => (window.location.href = "/dashboard")}
+              >
                 <span className="material-icons sidebar-menu-icon sidebar-menu-icon--left">
                   insert_chart_outlined
                 </span>
                 <span className="sidebar-menu-text">대시보드</span>
-              </Link>
+              </a>
             </li>
             <li className="sidebar-menu-item">
               <a
@@ -44,19 +49,24 @@ const SideMenuBar = () => {
                 id="dashboards_menu"
               >
                 <li className="sidebar-menu-item">
-                  <Link
+                  <a
                     className="sidebar-menu-button"
-                    to="/main-design/skin-and-banner-design"
+                    onClick={() =>
+                      (window.location.href =
+                        "/main-design/skin-and-banner-design")
+                    }
                   >
                     <span className="sidebar-menu-text">
                       메인 배너&스킨 관리
                     </span>
-                  </Link>
+                  </a>
                 </li>
                 <li className="sidebar-menu-item">
                   <a
                     className="sidebar-menu-button"
-                    href="../main_design/recommend-event.html"
+                    onClick={() =>
+                      (window.location.href = "/main-design/recommend-event")
+                    }
                   >
                     <span className="sidebar-menu-text">
                       추천 문화행사 리스트
@@ -66,7 +76,9 @@ const SideMenuBar = () => {
                 <li className="sidebar-menu-item">
                   <a
                     className="sidebar-menu-button"
-                    href="../main_design/recommend-place.html"
+                    onClick={() =>
+                      (window.location.href = "/main-design/recommend-place")
+                    }
                   >
                     <span className="sidebar-menu-text">
                       추천 문화공간 리스트
