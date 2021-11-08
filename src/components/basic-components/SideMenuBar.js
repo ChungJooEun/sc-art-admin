@@ -106,7 +106,9 @@ const SideMenuBar = () => {
                 <li className="sidebar-menu-item">
                   <a
                     className="sidebar-menu-button"
-                    href="../event/event-manage.html"
+                    onClick={() =>
+                      (window.location.href = "/event/event-manage")
+                    }
                   >
                     <span className="sidebar-menu-text">문화행사</span>
                   </a>

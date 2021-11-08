@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Route, Switch } from "react-router-dom";
 import LoginView from "./components/common/LoginView";
 import DashBoardView from "./components/dashboard/DashBoardView";
+import EventManageView from "./components/event/EventManageView";
 import RecommendedListView from "./components/main-design/RecommendedListView";
 import SkinAndBannerDesignView from "./components/main-design/SkinAndBannerDesignView";
 
@@ -28,6 +29,10 @@ const App = () => {
       {/* 메인 디자인 관리 > 추천 문화행사 리스트 */}
       <Route path="/main-design/recommend-place">
         <RecommendedListView />
+      </Route>
+
+      <Route path="/event/event-manage">
+        <EventManageView />
       </Route>
 
       {/* 로그인 */}
