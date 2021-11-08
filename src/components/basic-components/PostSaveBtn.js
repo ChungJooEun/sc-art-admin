@@ -1,6 +1,22 @@
 import React from "react";
 
-const PostSaveBtn = () => {
+const PostSaveBtn = ({ options }) => {
+  const getOptions = () => {
+    let optionAry = [
+      <option selected value={options[0].value}>
+        {options[0].name}
+      </option>,
+    ];
+
+    for (let i = 1; i < options.length; i++) {
+      optionAry.push(
+        <option value={options[i].value}>{options[i].name}</option>
+      );
+    }
+
+    return optionAry;
+  };
+
   return (
     <div className="list-group-item">
       <div
@@ -12,9 +28,7 @@ const PostSaveBtn = () => {
           <label className="col-md-1 col-form-label form-label">상태</label>
           <div className="col-md-8">
             <select id="custom-select" className="form-control custom-select">
-              <option selected="">임시저장</option>
-              <option value="1">게시</option>
-              <option value="2">비공개</option>
+              {getOptions()}
             </select>
           </div>
           <div className="flex"></div>

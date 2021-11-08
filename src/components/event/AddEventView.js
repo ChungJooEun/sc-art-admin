@@ -22,7 +22,7 @@ const pagePathList = [
   },
 ];
 
-const AddEventView = () => {
+const AddEventView = ({ options }) => {
   useEffect(() => {
     const srcList = [
       "/assets/vendor/jquery.min.js",
@@ -117,7 +117,7 @@ const AddEventView = () => {
 
               <div className="detail_under_menu ">
                 <div className="card">
-                  <PostSaveBtn />
+                  <PostSaveBtn options={options} />
                 </div>
               </div>
             </div>
