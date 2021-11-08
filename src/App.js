@@ -1,19 +1,23 @@
 import React, { useState } from "react";
 import { Route, Switch } from "react-router-dom";
 import LoginView from "./components/common/LoginView";
+import DashBoardView from "./components/dashboard/DashBoardView";
 
 const App = () => {
   return (
     <Switch>
-      {/* 로그인 */}
+      {/* 홈 */}
       <Route path="/" exact={true}>
-        <LoginView />
+        <DashBoardView />
       </Route>
+      <Route path="/dashboard">
+        <DashBoardView />
+      </Route>
+
+      {/* 로그인 */}
       <Route path="/common/login">
         <LoginView />
       </Route>
-
-      <Route path="/dashboard"></Route>
     </Switch>
   );
 };
