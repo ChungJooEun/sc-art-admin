@@ -147,7 +147,9 @@ const SideMenuBar = () => {
                 <li className="sidebar-menu-item">
                   <a
                     className="sidebar-menu-button"
-                    href="../event/seocho-festival.html"
+                    onClick={() =>
+                      (window.location.href = "/event/seocho-festival")
+                    }
                   >
                     <span className="sidebar-menu-text">서초구 축제</span>
                   </a>

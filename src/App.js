@@ -4,6 +4,7 @@ import LoginView from "./components/common/LoginView";
 import DashBoardView from "./components/dashboard/DashBoardView";
 import EventListView from "./components/event/EventListView";
 import EventManageView from "./components/event/EventManageView";
+import ScEventListView from "./components/event/ScEventListView";
 import RecommendedListView from "./components/main-design/RecommendedListView";
 import SkinAndBannerDesignView from "./components/main-design/SkinAndBannerDesignView";
 
@@ -47,6 +48,10 @@ const App = () => {
       {/* 문화행사 관리 > 문화행사 > 기타 */}
       <Route path="/event/event-others-list">
         <EventListView pageTitle="기타" />
+      </Route>
+      {/* 문화행사 관리 > 서초구 축제 */}
+      <Route path="/event/seocho-festival">
+        <ScEventListView />
       </Route>
 
       {/* 로그인 */}
