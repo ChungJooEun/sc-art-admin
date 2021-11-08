@@ -12,7 +12,9 @@ const ModifiableEventListItem = () => {
           <div className="media-body">
             <div className="d-flex flex-column">
               <a
-                href="../event/event-application-detail.html"
+                onClick={() =>
+                  (window.location.href = "/event/event-application-detail")
+                }
                 className="mb-0 txt_line_table_title"
               >
                 <strong className="js-lists-values-cultural-event">

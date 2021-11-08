@@ -25,7 +25,9 @@ const CheckableEventListItem = () => {
           <div class="media-body">
             <div class="d-flex flex-column">
               <p class="mb-0 txt_line_table_title">
-                <a href="../event/event-detail.html">
+                <a
+                  onClick={() => (window.location.href = "/event/event-detail")}
+                >
                   <strong class="js-lists-values-cultural-event">
                     행사이름
                   </strong>

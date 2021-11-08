@@ -5,12 +5,25 @@ import DashBoardView from "./components/dashboard/DashBoardView";
 import AddEventView from "./components/event/AddEventView";
 import ApplicationList from "./components/event/ApplicationList";
 import ModifiableEventList from "./components/event/event-components/ModifiableEventList";
+import EventDetailView from "./components/event/EventDetailView";
 import EventListView from "./components/event/EventListView";
 import EventManageView from "./components/event/EventManageView";
 import ScEventListView from "./components/event/ScEventListView";
 import RecommendedListView from "./components/main-design/RecommendedListView";
 import SkinAndBannerDesignView from "./components/main-design/SkinAndBannerDesignView";
 import ModifiablePlaceList from "./components/place/place-components/ModifiablePlaceList";
+
+const addPostOptions = [
+  { value: 1, name: "임시저장" },
+  { value: 2, name: "게시" },
+  { value: 3, name: "비공개" },
+];
+
+const waitingPostOptions = [
+  { value: 1, name: "대기중" },
+  { value: 2, name: "게시" },
+  { value: 3, name: "기각" },
+];
 
 const App = () => {
   return (
@@ -59,11 +72,19 @@ const App = () => {
       </Route>
       {/* 문화행사 관리 > 문화행사 등록하기 */}
       <Route path="/event/add-event">
-        <AddEventView />
+        <AddEventView options={addPostOptions} />
       </Route>
       {/* 문화행사 관리 > 등록 신청 리스트 */}
       <Route path="/event/event-application-list">
         <ApplicationList tableTitle="문화행사" Table={ModifiableEventList} />
+      </Route>
+      {/* 문화행사 관리 > 문화행사 상세조회 */}
+      <Route path="/event/event-detail">
+        <EventDetailView options={addPostOptions} isApproved={true} />
+      </Route>
+      {/* 문화행사 관리 > 등록신청 문화행사 상세조회 */}
+      <Route path="/event/event-application-detail">
+        <EventDetailView options={waitingPostOptions} isApproved={false} />
       </Route>
 
       {/* 문화공간 관리 > 등록 신청 리스트 */}
