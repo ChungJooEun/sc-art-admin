@@ -1,0 +1,139 @@
+[dir] .btn-group-lg>.btn, [dir] .btn-big {
+    padding: 4rem 2rem;
+    border-radius: .5rem;
+    margin:.5rem 0;
+}
+
+button{
+  margin:0;
+  border:0;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.left-menu-title{
+  margin-top: 100px !important;
+}
+
+.admin-header-wrap{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.admin-header-wrap .admin-logo{
+width: 20%;
+
+
+}
+.admin-header-wrap .admin-header-left{
+width: 20%;
+text-align: right;
+
+}
+
+.ssub{
+  color: #dddddd;
+  text-align:left;
+  margin-left: 60px;
+}
+
+.active{
+  font-weight: 500;
+}
+
+.txt_line_table_title {
+  max-width:150px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.status-temporary {
+  color: red;
+}
+
+table {
+  text-align: center;
+}
+
+.text-aline-left{
+  text-align: left;
+}
+
+a {
+  color:#272c33;
+}
+
+.form-label {
+  font-weight: 600;
+}
+
+.event-list-title{
+  font-size: medium;
+}
+
+.section-sc-fe .table td, .section-sc-fe .table th{
+  border-top: 0px;
+}
+
+.page-section-margin-100px {
+  height:200px;
+}
+
+.category_frame {
+  margin-bottom: 1rem;
+}
+
+.user-table {
+  text-align: left;
+}
+
+.user-table-title {
+  width: 200px;
+  background-color: rgb(220, 220, 220);
+}
+
+.user-review-tab-menu {
+  margin: 0 1rem;
+}
+
+.material-icons-red {
+  color: red;
+}
+
+.material-icons-yellow {
+  color: #e4a93c;
+}
+
+review-text-aline-right {
+  text-align: right;
+}
+
+.sidebar-brand-icon {
+	display:flex;
+	width:80px;
+}
+
+.gradient-1 {
+  background: linear-gradient(45deg, #f4a183, #b8512b);
+  color: white;
+}
+
+.gradient-2 {
+  background: linear-gradient(45deg, #947be1, rgb(199, 107, 213));
+  color: white;
+}
+
+.gradient-3 {
+  background: linear-gradient(45deg, #e1cc56, #daa728);
+  color: white;
+}
+
+.gradient-4 {
+  background: linear-gradient(45deg, #66d7d8, #58bed0);
+  color: white;
+}
+
+.save-button {
+  margin-bottom: 100px;
+}
