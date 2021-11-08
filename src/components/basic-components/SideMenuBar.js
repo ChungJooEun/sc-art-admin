@@ -157,7 +157,7 @@ const SideMenuBar = () => {
                 <li className="sidebar-menu-item">
                   <a
                     className="sidebar-menu-button"
-                    href="../event/add-event.html"
+                    onClick={() => (window.location.href = "/event/add-event")}
                   >
                     <span className="sidebar-menu-text">문화행사 등록하기</span>
                   </a>

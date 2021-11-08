@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Route, Switch } from "react-router-dom";
 import LoginView from "./components/common/LoginView";
 import DashBoardView from "./components/dashboard/DashBoardView";
+import AddEventView from "./components/event/AddEventView";
 import EventListView from "./components/event/EventListView";
 import EventManageView from "./components/event/EventManageView";
 import ScEventListView from "./components/event/ScEventListView";
@@ -52,6 +53,10 @@ const App = () => {
       {/* 문화행사 관리 > 서초구 축제 */}
       <Route path="/event/seocho-festival">
         <ScEventListView />
+      </Route>
+      {/* 문화행사 관리 > 문화행사 등록하기 */}
+      <Route path="/event/add-event">
+        <AddEventView />
       </Route>
 
       {/* 로그인 */}
