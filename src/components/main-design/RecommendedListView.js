@@ -4,6 +4,8 @@ import PageTitle from "../basic-components/PageTitle";
 import SideMenuBar from "../basic-components/SideMenuBar";
 
 import CheckableEventList from "../event/event-components/CheckableEventList";
+import CheckablePlaceList from "../place/place-components/CheckablePlaceList";
+
 import SelectListModal from "./recommndedList-components/SelectListModal";
 import RecommendedList from "./recommndedList-components/RecommendedList";
 
@@ -93,7 +95,9 @@ const RecommendedListView = () => {
 
           {modalOn ? (
             <SelectListModal
-              CheckableListComponent={CheckableEventList}
+              CheckableListComponent={
+                page === "event" ? CheckableEventList : CheckablePlaceList
+              }
               closeModal={toggleModal}
             />
           ) : (
