@@ -398,7 +398,7 @@ const SideMenuBar = () => {
             <li className="sidebar-menu-item">
               <a
                 className="sidebar-menu-button"
-                href="../admin/admin-manage.html"
+                onClick={() => (window.location.href = "/admin/admin-manage")}
               >
                 <span className="material-icons sidebar-menu-icon sidebar-menu-icon--left">
                   assignment_ind
