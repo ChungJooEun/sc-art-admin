@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
 import GlobalBar from "../basic-components/GlobalBar";
 import PageTitle from "../basic-components/PageTitle";
-import Paging from "../basic-components/Paging";
 import SideMenuBar from "../basic-components/SideMenuBar";
-import AdminList from "./admin-components/AdminList";
+import AdminInfoForm from "./admin-components/AdminInfoForm";
 
 const pagePathList = [
   {
@@ -12,7 +11,7 @@ const pagePathList = [
   },
 ];
 
-const AdminManageView = () => {
+const AddAdminView = () => {
   useEffect(() => {
     const srcList = [
       "/assets/vendor/jquery.min.js",
@@ -71,42 +70,30 @@ const AdminManageView = () => {
       >
         <div className="mdk-drawer-layout__content page-content">
           <GlobalBar />
-
           <PageTitle pageTitle="관리자 관리" pagePathList={pagePathList} />
+
           <div className="container-fluid page__container">
-            <div className="page-section">
-              <div className="page-separator">
-                <div className="page-separator__text">총 117</div>
-              </div>
-              <div
-                className="navbar navbar-expand x-0 pl-lg-16pt navbar-light bg-body"
-                id="default-navbar"
-                data-primary=""
-              >
-                <form className="d-none d-md-flex">
-                  <button
-                    type="button"
-                    className="btn btn-accent"
-                    onClick={() =>
-                      (window.location.href = "/admin/add-admin-account")
-                    }
-                  >
-                    새로운 관리자 등록하기 +{" "}
-                  </button>
-                </form>
-                <div className="flex"></div>
-              </div>
-              <div className="card dashboard-area-tabs mb-32pt">
-                <div
-                  className="table-responsive"
-                  data-toggle="lists"
-                  data-lists-sort-by="js-lists-values-date"
-                  data-lists-sort-desc="true"
-                  data-lists-values='["js-lists-values-lead", "js-lists-values-project", "js-lists-values-status", "js-lists-values-budget", "js-lists-values-date"]'
-                >
-                  <AdminList />
+            <div className="container-fluid page__container">
+              <div className="page-section">
+                <div className="page-separator">
+                  <div className="page-separator__text">관리자 등록하기</div>
                 </div>
-                <Paging />
+                <AdminInfoForm />
+                <button
+                  className="btn btn btn-secondary ml-16pt"
+                  onClick={() => (window.location.href = "/admin/admin-manage")}
+                >
+                  취소
+                </button>
+                <button
+                  className="btn btn-success"
+                  data-toggle="swal"
+                  data-swal-title="완료!"
+                  data-swal-text="새로운 관리자가 등록되었습니다!"
+                  data-swal-type="success"
+                >
+                  저장
+                </button>
               </div>
             </div>
           </div>
@@ -117,4 +104,4 @@ const AdminManageView = () => {
   );
 };
 
-export default AdminManageView;
+export default AddAdminView;

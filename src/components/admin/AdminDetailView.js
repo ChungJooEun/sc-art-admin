@@ -85,13 +85,15 @@ const AdminDetailView = () => {
               </div>
               <button
                 className="btn btn btn-secondary ml-16pt"
-                onclick="location.href='../admin/admin-manage.html'"
+                onClick={() => (window.location.href = "/admin/admin-manage")}
               >
                 뒤로
               </button>
               <button
                 className="btn btn-success"
-                onclick="location.href='../admin/add-admin-account.html'"
+                onClick={() =>
+                  (window.location.href = "/admin/add-admin-account")
+                }
               >
                 수정하기
               </button>
