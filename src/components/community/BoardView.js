@@ -8,7 +8,7 @@ import BoardList from "./board-components/BoardList";
 const pagePathList = [
   {
     pageUrl: "/dashboard",
-    pageName: "홈",
+    pageName: "커뮤니티",
   },
 ];
 const BoardView = ({ pageTitle }) => {

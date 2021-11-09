@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Route, Switch } from "react-router-dom";
 import LoginView from "./components/common/LoginView";
 import BoardView from "./components/community/BoardView";
+import PressReleaseBoard from "./components/community/PressReleaseBoard";
 import DashBoardView from "./components/dashboard/DashBoardView";
 import AddEventView from "./components/event/AddEventView";
 import ApplicationList from "./components/event/ApplicationList";
@@ -160,9 +161,9 @@ const App = () => {
         <BoardView pageTitle="문화계 소식" />
       </Route>
       {/* 커뮤니티 > 보도자료 */}
-      {/* <Route path="/community/press-release">
-        <BoardView pageTitle="보도자료" />
-      </Route> */}
+      <Route path="/community/press-release">
+        <PressReleaseBoard />
+      </Route>
 
       {/* 로그인 */}
       <Route path="/common/login">
