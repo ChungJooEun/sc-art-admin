@@ -16,7 +16,7 @@ const RelatedSiteListItem = () => {
         className="btn btn-success"
         type="button"
         onClick={() =>
-          (window.location.href = "/related-sites/add-related-sites")
+          (window.location.href = "/related-sites/edit-related-sites")
         }
       >
         수정하기
