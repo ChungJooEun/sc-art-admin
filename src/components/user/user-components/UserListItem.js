@@ -12,7 +12,7 @@ const UserListItem = () => {
           <div className="media-body">
             <div className="d-flex flex-column">
               <p className="mb-0">
-                <a onClick={() => (window.location.href = "user-detail")}>
+                <a onClick={() => (window.location.href = "/user/user-detail")}>
                   <strong className="js-lists-values-cultural-userid">
                     아이디
                   </strong>
