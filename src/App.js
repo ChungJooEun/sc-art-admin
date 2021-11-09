@@ -21,6 +21,7 @@ import PlaceDetailView from "./components/place/PlaceDetailView";
 import PlaceListView from "./components/place/PlaceListView";
 import PlaceManageView from "./components/place/PlaceManageView";
 import ScPlaceView from "./components/place/ScPlaceView";
+import UserListView from "./components/user/UserListView";
 
 const addPostOptions = [
   { value: 1, name: "임시저장" },
@@ -178,6 +179,15 @@ const App = () => {
       {/* 문화 파트너스 > 문화 파트너스 추가 */}
       <Route path="/related-sites/add-related-sites">
         <AddRelatedSiteView />
+      </Route>
+      {/* 문화 파트너스 > 문화 파트너스 수정 */}
+      <Route path="/related-sites/edit-related-sites">
+        <AddRelatedSiteView />
+      </Route>
+
+      {/* 로그인 */}
+      <Route path="/user/user-list">
+        <UserListView />
       </Route>
 
       {/* 로그인 */}

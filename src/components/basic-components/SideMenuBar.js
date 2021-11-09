@@ -385,7 +385,10 @@ const SideMenuBar = () => {
               </ul>
             </li>
             <li className="sidebar-menu-item">
-              <a className="sidebar-menu-button" href="../user/user-list.html">
+              <a
+                className="sidebar-menu-button"
+                onClick={() => (window.location.href = "/user/user-list")}
+              >
                 <span className="material-icons sidebar-menu-icon sidebar-menu-icon--left">
                   people
                 </span>
