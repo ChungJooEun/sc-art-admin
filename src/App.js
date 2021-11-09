@@ -11,6 +11,7 @@ import EventManageView from "./components/event/EventManageView";
 import ScEventListView from "./components/event/ScEventListView";
 import RecommendedListView from "./components/main-design/RecommendedListView";
 import SkinAndBannerDesignView from "./components/main-design/SkinAndBannerDesignView";
+import AddPlaceView from "./components/place/AddPlaceView";
 import ModifiablePlaceList from "./components/place/place-components/ModifiablePlaceList";
 import PlaceListView from "./components/place/PlaceListView";
 import PlaceManageView from "./components/place/PlaceManageView";
@@ -111,13 +112,17 @@ const App = () => {
         <PlaceListView pageTitle="갤러리" />
       </Route>
 
-      {/* 문화공간 관리 > 등록 신청 리스트 */}
+      {/* 문화공간 관리 > 서리풀 청년아트 센터 */}
       <Route path="/place/scplace-art-center">
         <ScPlaceView pageTitle="서리풀 청년아트 센터" />
       </Route>
-      {/* 문화공간 관리 > 등록 신청 리스트 */}
+      {/* 문화공간 관리 > 서리풀 청년아트 갤러리 */}
       <Route path="/place/scplace-art-gallery">
         <ScPlaceView pageTitle="서리풀 청년아트 갤러리" />
+      </Route>
+      {/* 문화공간 관리 > 문화공간 등록하기 */}
+      <Route path="/place/add-place">
+        <AddPlaceView options={addPostOptions} />
       </Route>
 
       {/* 문화공간 관리 > 등록 신청 리스트 */}
