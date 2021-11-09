@@ -7,6 +7,7 @@ import Editor from "../basic-components/editor-components/Editor";
 import VideoAddForm from "../basic-components/video-components/VideoAddForm";
 import VideoListItem from "../basic-components/video-components/VideoListItem";
 import PostSaveBtn from "../basic-components/PostSaveBtn";
+import ImageForm from "../basic-components/ImageForm";
 
 import EventInfoForm from "./add-form-components/EventInfoForm";
 import Curation from "./add-form-components/Curation";
@@ -90,7 +91,10 @@ const EventDetailView = ({ options, isApproved }) => {
 
           <div className="container-fluid page__container">
             <div className="page-section">
-              <EventInfoForm />
+              <div className="row">
+                <ImageForm />
+                <EventInfoForm />
+              </div>
 
               <Curation />
 

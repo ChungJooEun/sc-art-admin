@@ -9,6 +9,7 @@ import VideoListItem from "../basic-components/video-components/VideoListItem";
 import PostSaveBtn from "../basic-components/PostSaveBtn";
 
 import EventInfoForm from "./add-form-components/EventInfoForm";
+import ImageForm from "../basic-components/ImageForm";
 import Curation from "./add-form-components/Curation";
 
 const pagePathList = [
@@ -81,7 +82,6 @@ const AddEventView = ({ options }) => {
       >
         <div className="mdk-drawer-layout__content page-content">
           <GlobalBar />
-
           <PageTitle
             pageTitle="문화행사 등록하기"
             pagePathList={pagePathList}
@@ -89,7 +89,10 @@ const AddEventView = ({ options }) => {
 
           <div className="container-fluid page__container">
             <div className="page-section">
-              <EventInfoForm />
+              <div className="row">
+                <ImageForm />
+                <EventInfoForm />
+              </div>
 
               <Curation />
 
