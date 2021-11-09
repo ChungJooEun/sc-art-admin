@@ -24,7 +24,9 @@ const CheckablePlaceListItem = () => {
           <div className="media-body">
             <div className="d-flex flex-column">
               <p className="mb-0 txt_line_table_title">
-                <a href="../place/place-detail.html">
+                <a
+                  onClick={() => (window.location.href = "/place/place-detail")}
+                >
                   <strong className="js-lists-values-cultural-event">
                     공간
                   </strong>
