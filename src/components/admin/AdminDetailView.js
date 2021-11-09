@@ -92,7 +92,7 @@ const AdminDetailView = () => {
               <button
                 className="btn btn-success"
                 onClick={() =>
-                  (window.location.href = "/admin/add-admin-account")
+                  (window.location.href = "/admin/admin-account-edit")
                 }
               >
                 수정하기

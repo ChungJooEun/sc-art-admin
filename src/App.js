@@ -215,6 +215,10 @@ const App = () => {
       <Route path="/admin/add-admin-account">
         <AddAdminView />
       </Route>
+      {/* 관리자 수정 */}
+      <Route path="/admin/admin-account-edit">
+        <AddAdminView />
+      </Route>
 
       {/* 로그인 */}
       <Route path="/common/login">
