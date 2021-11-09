@@ -277,7 +277,7 @@ const SideMenuBar = () => {
                   <a
                     className="sidebar-menu-button"
                     onClick={() =>
-                      (window.location.href = "/place/place-application")
+                      (window.location.href = "/place/place-application-list")
                     }
                   >
                     <span className="sidebar-menu-text">등록 신청 리스트</span>
@@ -304,7 +304,9 @@ const SideMenuBar = () => {
                 <li className="sidebar-menu-item">
                   <a
                     className="sidebar-menu-button"
-                    href="../community/notice-board.html"
+                    onClick={() =>
+                      (window.location.href = "/community/notice-board")
+                    }
                   >
                     <span className="sidebar-menu-text">공지사항</span>
                   </a>
@@ -312,7 +314,9 @@ const SideMenuBar = () => {
                 <li className="sidebar-menu-item">
                   <a
                     className="sidebar-menu-button"
-                    href="../community/event-board.html"
+                    onClick={() =>
+                      (window.location.href = "/community/event-board")
+                    }
                   >
                     <span className="sidebar-menu-text">이벤트</span>
                   </a>
@@ -320,7 +324,9 @@ const SideMenuBar = () => {
                 <li className="sidebar-menu-item">
                   <a
                     className="sidebar-menu-button"
-                    href="../community/news-board.html"
+                    onClick={() =>
+                      (window.location.href = "/community/news-board")
+                    }
                   >
                     <span className="sidebar-menu-text">문화계 소식</span>
                   </a>
@@ -328,7 +334,9 @@ const SideMenuBar = () => {
                 <li className="sidebar-menu-item">
                   <a
                     className="sidebar-menu-button"
-                    href="../community/press-release.html"
+                    onClick={() =>
+                      (window.location.href = "/community/press-release")
+                    }
                   >
                     <span className="sidebar-menu-text">보도자료</span>
                   </a>

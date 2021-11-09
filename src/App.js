@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Route, Switch } from "react-router-dom";
 import LoginView from "./components/common/LoginView";
+import BoardView from "./components/community/BoardView";
 import DashBoardView from "./components/dashboard/DashBoardView";
 import AddEventView from "./components/event/AddEventView";
 import ApplicationList from "./components/event/ApplicationList";
@@ -145,6 +146,23 @@ const App = () => {
       <Route path="/place/place-application-detail">
         <PlaceDetailView options={waitingPostOptions} isApproved={false} />
       </Route>
+
+      {/* 커뮤니티 > 공지사항 */}
+      <Route path="/community/notice-board">
+        <BoardView pageTitle="공지사항" />
+      </Route>
+      {/* 커뮤니티 > 이벤트 */}
+      <Route path="/community/event-board">
+        <BoardView pageTitle="이벤트" />
+      </Route>
+      {/* 커뮤니티 > 문화계 소식 */}
+      <Route path="/community/news-board">
+        <BoardView pageTitle="문화계 소식" />
+      </Route>
+      {/* 커뮤니티 > 보도자료 */}
+      {/* <Route path="/community/press-release">
+        <BoardView pageTitle="보도자료" />
+      </Route> */}
 
       {/* 로그인 */}
       <Route path="/common/login">
