@@ -23,6 +23,7 @@ import PlaceManageView from "./components/place/PlaceManageView";
 import ScPlaceView from "./components/place/ScPlaceView";
 import UserListView from "./components/user/UserListView";
 import UserDetailView from "./components/user/UserDetailView";
+import UserDetailEditView from "./components/user/UserDetailEditView";
 
 const addPostOptions = [
   { value: 1, name: "임시저장" },
@@ -186,13 +187,17 @@ const App = () => {
         <AddRelatedSiteView />
       </Route>
 
-      {/* 로그인 */}
+      {/* 사용자 */}
       <Route path="/user/user-list">
         <UserListView />
       </Route>
-
+      {/* 사용자 상세조회 */}
       <Route path="/user/user-detail">
         <UserDetailView />
+      </Route>
+      {/* 사용자 상세조회 */}
+      <Route path="/user/user-detail-edit">
+        <UserDetailEditView />
       </Route>
 
       {/* 로그인 */}
