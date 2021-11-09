@@ -244,7 +244,9 @@ const SideMenuBar = () => {
                 <li className="sidebar-menu-item">
                   <a
                     className="sidebar-menu-button"
-                    href="../place/scplace-art-center.html"
+                    onClick={() =>
+                      (window.location.href = "/place/scplace-art-center")
+                    }
                   >
                     <span className="sidebar-menu-text">
                       서리풀 청년아트 센터
@@ -254,7 +256,9 @@ const SideMenuBar = () => {
                 <li className="sidebar-menu-item">
                   <a
                     className="sidebar-menu-button"
-                    href="../place/scplace-art-gallery.html"
+                    onClick={() =>
+                      (window.location.href = "/place/scplace-art-gallery")
+                    }
                   >
                     <span className="sidebar-menu-text">
                       서리풀 청년아트 갤러리

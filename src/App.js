@@ -14,6 +14,7 @@ import SkinAndBannerDesignView from "./components/main-design/SkinAndBannerDesig
 import ModifiablePlaceList from "./components/place/place-components/ModifiablePlaceList";
 import PlaceListView from "./components/place/PlaceListView";
 import PlaceManageView from "./components/place/PlaceManageView";
+import ScPlaceView from "./components/place/ScPlaceView";
 
 const addPostOptions = [
   { value: 1, name: "임시저장" },
@@ -108,6 +109,15 @@ const App = () => {
       {/* 문화공간 관리 > 갤러리 */}
       <Route path="/place/gallery-list">
         <PlaceListView pageTitle="갤러리" />
+      </Route>
+
+      {/* 문화공간 관리 > 등록 신청 리스트 */}
+      <Route path="/place/scplace-art-center">
+        <ScPlaceView pageTitle="서리풀 청년아트 센터" />
+      </Route>
+      {/* 문화공간 관리 > 등록 신청 리스트 */}
+      <Route path="/place/scplace-art-gallery">
+        <ScPlaceView pageTitle="서리풀 청년아트 갤러리" />
       </Route>
 
       {/* 문화공간 관리 > 등록 신청 리스트 */}
