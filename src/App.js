@@ -170,8 +170,12 @@ const App = () => {
         <PressReleaseBoard />
       </Route> */}
 
-      {/* 문화 파트너스 */}
+      {/* 문화 파트너스 > 문화 파트너스 */}
       <Route path="/related-sites/related-sites">
+        <RelatedSitesView />
+      </Route>
+      {/* 문화 파트너스 > 문화 파트너스 추가 */}
+      <Route path="/related-sites/add-related-sites">
         <RelatedSitesView />
       </Route>
 
