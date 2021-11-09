@@ -83,7 +83,7 @@ const PlaceManageView = () => {
                 <div className="page-separator__text">주요 업무</div>
               </div>
               <div className="row mb-lg-8pt">
-                <div className="flex" style="max-width: 100%">
+                <div className="flex" style={{ maxWidth: "100%" }}>
                   <button
                     type="button"
                     className="btn btn-block btn-accent btn-lg"

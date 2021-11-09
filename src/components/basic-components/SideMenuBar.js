@@ -204,7 +204,9 @@ const SideMenuBar = () => {
                 <li className="sidebar-menu-item">
                   <a
                     className="sidebar-menu-button"
-                    href="../place/concert-hall-list.html"
+                    onClick={() =>
+                      (window.location.href = "/place/concert-hall-list")
+                    }
                   >
                     <span className="sidebar-menu-text">공연장</span>
                   </a>
@@ -212,7 +214,9 @@ const SideMenuBar = () => {
                 <li className="sidebar-menu-item">
                   <a
                     className="sidebar-menu-button"
-                    href="../place/practice-list.html"
+                    onClick={() =>
+                      (window.location.href = "/place/practice-list")
+                    }
                   >
                     <span className="sidebar-menu-text">연습실</span>
                   </a>
@@ -220,7 +224,9 @@ const SideMenuBar = () => {
                 <li className="sidebar-menu-item">
                   <a
                     className="sidebar-menu-button"
-                    href="../place/musical-instrument-shop.html"
+                    onClick={() =>
+                      (window.location.href = "/place/musical-instrument-shop")
+                    }
                   >
                     <span className="sidebar-menu-text">악기상점</span>
                   </a>
@@ -228,7 +234,9 @@ const SideMenuBar = () => {
                 <li className="sidebar-menu-item">
                   <a
                     className="sidebar-menu-button"
-                    href="../place/gallery-list.html"
+                    onClick={() =>
+                      (window.location.href = "/place/gallery-list")
+                    }
                   >
                     <span className="sidebar-menu-text">갤러리</span>
                   </a>

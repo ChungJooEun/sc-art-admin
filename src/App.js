@@ -12,6 +12,7 @@ import ScEventListView from "./components/event/ScEventListView";
 import RecommendedListView from "./components/main-design/RecommendedListView";
 import SkinAndBannerDesignView from "./components/main-design/SkinAndBannerDesignView";
 import ModifiablePlaceList from "./components/place/place-components/ModifiablePlaceList";
+import PlaceListView from "./components/place/PlaceListView";
 import PlaceManageView from "./components/place/PlaceManageView";
 
 const addPostOptions = [
@@ -92,6 +93,23 @@ const App = () => {
       <Route path="/place/place-manage">
         <PlaceManageView />
       </Route>
+      {/* 문화공간 관리 > 공연장 */}
+      <Route path="/place/concert-hall-list">
+        <PlaceListView pageTitle="공연장" />
+      </Route>
+      {/* 문화공간 관리 > 연습실 */}
+      <Route path="/place/practice-list">
+        <PlaceListView pageTitle="연습실" />
+      </Route>
+      {/* 문화공간 관리 > 악기상점 */}
+      <Route path="/place/musical-instrument-shop">
+        <PlaceListView pageTitle="악기상점" />
+      </Route>
+      {/* 문화공간 관리 > 갤러리 */}
+      <Route path="/place/gallery-list">
+        <PlaceListView pageTitle="갤러리" />
+      </Route>
+
       {/* 문화공간 관리 > 등록 신청 리스트 */}
       <Route path="/place/place-application-list">
         <ApplicationList tableTitle="문화공간" Table={ModifiablePlaceList} />
