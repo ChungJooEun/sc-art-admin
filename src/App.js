@@ -3,6 +3,7 @@ import { Route, Switch } from "react-router-dom";
 import LoginView from "./components/common/LoginView";
 import BoardView from "./components/community/BoardView";
 import PressReleaseBoard from "./components/community/PressReleaseBoard";
+import RelatedSitesView from "./components/community/RelatedSitesView";
 import DashBoardView from "./components/dashboard/DashBoardView";
 import AddEventView from "./components/event/AddEventView";
 import ApplicationList from "./components/event/ApplicationList";
@@ -163,6 +164,15 @@ const App = () => {
       {/* 커뮤니티 > 보도자료 */}
       <Route path="/community/press-release">
         <PressReleaseBoard />
+      </Route>
+      {/* 커뮤니티 > 상세조회 -> 체크 필요 */}
+      {/* <Route path="/community/press-release">
+        <PressReleaseBoard />
+      </Route> */}
+
+      {/* 문화 파트너스 */}
+      <Route path="/related-sites/related-sites">
+        <RelatedSitesView />
       </Route>
 
       {/* 로그인 */}

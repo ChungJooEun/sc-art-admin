@@ -362,7 +362,9 @@ const SideMenuBar = () => {
                 <li className="sidebar-menu-item">
                   <a
                     className="sidebar-menu-button"
-                    href="../related-sites/related-sites.html"
+                    onClick={() =>
+                      (window.location.href = "/related-sites/related-sites")
+                    }
                   >
                     <span className="sidebar-menu-text">문화 파트너스</span>
                   </a>
