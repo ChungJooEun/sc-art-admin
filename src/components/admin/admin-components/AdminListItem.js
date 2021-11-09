@@ -5,7 +5,10 @@ const AdminListItem = () => {
     <tr>
       <td className="js-lists-values-number small">3</td>
       <td>
-        <a href="admin-account-detail.html" className="js-lists-values-a">
+        <a
+          onClick={() => (window.location.href = "/admin/admin-account-detail")}
+          className="js-lists-values-a"
+        >
           이름
         </a>
       </td>

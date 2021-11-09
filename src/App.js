@@ -25,6 +25,7 @@ import UserListView from "./components/user/UserListView";
 import UserDetailView from "./components/user/UserDetailView";
 import UserDetailEditView from "./components/user/UserDetailEditView";
 import AdminManageView from "./components/admin/AdminManageView";
+import AdminDetailView from "./components/admin/AdminDetailView";
 
 const addPostOptions = [
   { value: 1, name: "임시저장" },
@@ -204,6 +205,10 @@ const App = () => {
       {/* 관리자 조회 */}
       <Route path="/admin/admin-manage">
         <AdminManageView />
+      </Route>
+      {/* 관리자 상세조회 */}
+      <Route path="/admin/admin-account-detail">
+        <AdminDetailView />
       </Route>
 
       {/* 로그인 */}
