@@ -193,7 +193,9 @@ const SideMenuBar = () => {
                 <li className="sidebar-menu-item">
                   <a
                     className="sidebar-menu-button"
-                    href="../place/place-manage.html"
+                    onClick={() =>
+                      (window.location.href = "/place/place-manage")
+                    }
                   >
                     <span className="sidebar-menu-text">문화공간</span>
                   </a>

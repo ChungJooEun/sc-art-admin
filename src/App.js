@@ -12,6 +12,7 @@ import ScEventListView from "./components/event/ScEventListView";
 import RecommendedListView from "./components/main-design/RecommendedListView";
 import SkinAndBannerDesignView from "./components/main-design/SkinAndBannerDesignView";
 import ModifiablePlaceList from "./components/place/place-components/ModifiablePlaceList";
+import PlaceManageView from "./components/place/PlaceManageView";
 
 const addPostOptions = [
   { value: 1, name: "임시저장" },
@@ -87,6 +88,10 @@ const App = () => {
         <EventDetailView options={waitingPostOptions} isApproved={false} />
       </Route>
 
+      {/* 문화공간 관리 > 문화공간 */}
+      <Route path="/place/place-manage">
+        <PlaceManageView />
+      </Route>
       {/* 문화공간 관리 > 등록 신청 리스트 */}
       <Route path="/place/place-application-list">
         <ApplicationList tableTitle="문화공간" Table={ModifiablePlaceList} />
