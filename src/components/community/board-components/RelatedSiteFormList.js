@@ -1,17 +1,20 @@
 import React from "react";
 
+import RelatedSiteFormListItem from "./RelatedSiteFormListItem";
+
 const RelatedSiteFormList = () => {
   return (
     <div className="list-group">
-      <RelatedSiteFormList />
-      <RelatedSiteFormList />
-      <RelatedSiteFormList />
-      <RelatedSiteFormList />
-      <RelatedSiteFormList />
-      <RelatedSiteFormList />
-      <RelatedSiteFormList />
-      <RelatedSiteFormList />
-      <RelatedSiteFormList />
+      <RelatedSiteFormListItem />
+      <RelatedSiteFormListItem />
+      <RelatedSiteFormListItem />
+      <RelatedSiteFormListItem />
+      <RelatedSiteFormListItem />
+      <RelatedSiteFormListItem />
+      <RelatedSiteFormListItem />
+      <RelatedSiteFormListItem />
+      <RelatedSiteFormListItem />
+      <RelatedSiteFormListItem />
     </div>
   );
 };

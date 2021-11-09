@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Route, Switch } from "react-router-dom";
 import LoginView from "./components/common/LoginView";
+import AddRelatedSiteView from "./components/community/AddRelatedSiteView";
 import BoardView from "./components/community/BoardView";
 import PressReleaseBoard from "./components/community/PressReleaseBoard";
 import RelatedSitesView from "./components/community/RelatedSitesView";
@@ -176,7 +177,7 @@ const App = () => {
       </Route>
       {/* 문화 파트너스 > 문화 파트너스 추가 */}
       <Route path="/related-sites/add-related-sites">
-        <RelatedSitesView />
+        <AddRelatedSiteView />
       </Route>
 
       {/* 로그인 */}
