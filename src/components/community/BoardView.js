@@ -11,7 +11,7 @@ const pagePathList = [
     pageName: "커뮤니티",
   },
 ];
-const BoardView = ({ pageTitle }) => {
+const BoardView = ({ pageTitle, addPostUrl }) => {
   useEffect(() => {
     const srcList = [
       "/assets/vendor/jquery.min.js",
@@ -86,9 +86,7 @@ const BoardView = ({ pageTitle }) => {
                   <button
                     type="button"
                     class="btn btn-accent"
-                    onClick={() =>
-                      (window.location.href = "notice-board-detail")
-                    }
+                    onClick={() => (window.location.href = addPostUrl)}
                   >
                     글쓰기{" "}
                   </button>

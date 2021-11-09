@@ -27,6 +27,7 @@ import UserDetailEditView from "./components/user/UserDetailEditView";
 import AdminManageView from "./components/admin/AdminManageView";
 import AdminDetailView from "./components/admin/AdminDetailView";
 import AddAdminView from "./components/admin/AddAdminView";
+import AddBoardView from "./components/community/AddBoardView";
 
 const addPostOptions = [
   { value: 1, name: "임시저장" },
@@ -43,6 +44,39 @@ const waitingPostOptions = [
   { value: 1, name: "대기중" },
   { value: 2, name: "게시" },
   { value: 3, name: "기각" },
+];
+
+const noticeBoardPagePathList = [
+  {
+    pageUrl: "/dashboard",
+    pageName: "홈",
+  },
+  {
+    pageUrl: "/community/notice-board",
+    pageName: "공지사항",
+  },
+];
+
+const eventBoardPagePathList = [
+  {
+    pageUrl: "/dashboard",
+    pageName: "이벤트",
+  },
+  {
+    pageUrl: "/community/event-board",
+    pageName: "문화계 소식",
+  },
+];
+
+const newsBoardPagePathList = [
+  {
+    pageUrl: "/dashboard",
+    pageName: "홈",
+  },
+  {
+    pageUrl: "/community/news-board",
+    pageName: "문화계 소식",
+  },
 ];
 
 const App = () => {
@@ -158,20 +192,40 @@ const App = () => {
 
       {/* 커뮤니티 > 공지사항 */}
       <Route path="/community/notice-board">
-        <BoardView pageTitle="공지사항" />
+        <BoardView
+          pageTitle="공지사항"
+          addPostUrl="/community/add-notice-board"
+        />
       </Route>
       {/* 커뮤니티 > 이벤트 */}
       <Route path="/community/event-board">
-        <BoardView pageTitle="이벤트" />
+        <BoardView pageTitle="이벤트" addPostUrl="/community/add-event-board" />
       </Route>
       {/* 커뮤니티 > 문화계 소식 */}
       <Route path="/community/news-board">
-        <BoardView pageTitle="문화계 소식" />
+        <BoardView
+          pageTitle="문화계 소식"
+          addPostUrl="/community/add-news-board"
+        />
       </Route>
       {/* 커뮤니티 > 보도자료 */}
       <Route path="/community/press-release">
         <PressReleaseBoard />
       </Route>
+
+      {/* 커뮤니티 > 공지사항 소식 추가 */}
+      <Route path="/community/add-notice-board">
+        <AddBoardView pagePathList={noticeBoardPagePathList} />
+      </Route>
+      {/* 커뮤니티 > 이벤트 소식 추가 */}
+      <Route path="/community/add-event-board">
+        <AddBoardView pagePathList={eventBoardPagePathList} />
+      </Route>
+      {/* 커뮤니티 > 문화계 소식 추가 */}
+      <Route path="/community/add-news-board">
+        <AddBoardView pagePathList={newsBoardPagePathList} />
+      </Route>
+
       {/* 커뮤니티 > 상세조회 -> 체크 필요 */}
       {/* <Route path="/community/press-release">
         <PressReleaseBoard />
