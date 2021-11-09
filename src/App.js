@@ -226,10 +226,18 @@ const App = () => {
         <AddBoardView pagePathList={newsBoardPagePathList} />
       </Route>
 
-      {/* 커뮤니티 > 상세조회 -> 체크 필요 */}
-      {/* <Route path="/community/press-release">
-        <PressReleaseBoard />
-      </Route> */}
+      {/* 커뮤니티 > 공지사항 상세조회 */}
+      <Route path="/community/notice-board-detail">
+        <AddBoardView pagePathList={noticeBoardPagePathList} />
+      </Route>
+      {/* 커뮤니티 > 이벤트 상세조회 */}
+      <Route path="/community/event-board-detail">
+        <AddBoardView pagePathList={eventBoardPagePathList} />
+      </Route>
+      {/* 커뮤니티 > 문화계 상세조회 */}
+      <Route path="/community/news-board-detail">
+        <AddBoardView pagePathList={newsBoardPagePathList} />
+      </Route>
 
       {/* 문화 파트너스 > 문화 파트너스 */}
       <Route path="/related-sites/related-sites">

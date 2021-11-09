@@ -1,6 +1,18 @@
 import React from "react";
 
 const BoardListItem = () => {
+  const getDetailUrl = () => {
+    const curUrl = window.location.href;
+
+    if (curUrl.includes("notice")) {
+      return "/community/notice-board-detail";
+    } else if (curUrl.includes("event")) {
+      return "/community/event-board-detail";
+    } else {
+      return "/community/news-board-detail";
+    }
+  };
+
   return (
     <tr className="selected">
       <td className="pr-0">
@@ -24,11 +36,7 @@ const BoardListItem = () => {
           <div className="media-body">
             <div className="d-flex flex-column">
               <p className="mb-0 txt_line_table_title">
-                <a
-                  onClick={() =>
-                    (window.location.href = "/community/notice-board-detail")
-                  }
-                >
+                <a onClick={() => (window.location.href = getDetailUrl())}>
                   <strong className="js-lists-values-cultural-seocho-festival-name">
                     공지사항
                   </strong>
