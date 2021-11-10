@@ -17,8 +17,8 @@ const pagePathList = [
     pageName: "홈",
   },
   {
-    pageUrl: "/event/event-manage",
-    pageName: "문화행사 관리",
+    pageUrl: "/place/place-manage",
+    pageName: "문화공간 관리",
   },
 ];
 

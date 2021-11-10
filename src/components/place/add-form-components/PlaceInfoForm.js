@@ -19,15 +19,12 @@ const PlaceInfoForm = () => {
                 장소
               </label>
               <div className="col-md-10">
-                <select
-                  id="select01"
-                  data-toggle="select"
+                <input
+                  id="title"
+                  type="text"
+                  placeholder="장소"
                   className="form-control"
-                >
-                  <option selected="">장소1</option>
-                  <option>장소2</option>
-                  <option>장소3</option>
-                </select>
+                />
               </div>
             </div>
           </div>
@@ -46,11 +43,39 @@ const PlaceInfoForm = () => {
               >
                 주소
               </label>
+              <div className="col-md-8">
+                <input
+                  id="title"
+                  type="text"
+                  placeholder="주소"
+                  className="form-control"
+                />
+              </div>
+
+              <button type="button" className="btn btn-primary">
+                주소 검색
+              </button>
+            </div>
+          </div>
+          <br />
+          <div
+            role="group"
+            aria-labelledby="label-question"
+            className="m-0 form-group"
+          >
+            <div className="form-row align-items-center">
+              <label
+                id="label-question"
+                for="question"
+                className="col-md-2 col-form-label form-label"
+              >
+                상세 주소
+              </label>
               <div className="col-md-10">
                 <input
                   id="title"
                   type="text"
-                  placeholder="상세주소"
+                  placeholder="상세 주소"
                   className="form-control"
                 />
               </div>
@@ -145,6 +170,31 @@ const PlaceInfoForm = () => {
           <div
             role="group"
             aria-labelledby="label-question"
+            className="m-0 form-group"
+          >
+            <div className="form-row align-items-center">
+              <label
+                id="label-question"
+                for="question"
+                className="col-md-2 col-form-label form-label"
+              >
+                휴무일
+              </label>
+              <div className="col-md-10">
+                <input
+                  id="title"
+                  type="text"
+                  placeholder="휴무일"
+                  className="form-control"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* <div className="list-group-item">
+          <div
+            role="group"
+            aria-labelledby="label-question"
             className="m-0 form-group align-items-center"
           >
             <div className="form-row">
@@ -188,7 +238,7 @@ const PlaceInfoForm = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
