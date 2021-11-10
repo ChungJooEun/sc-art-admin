@@ -22,7 +22,7 @@ const ModifiablePlaceListItem = ({ placeInfo, no }) => {
                   }
                 >
                   <strong className="js-lists-values-cultural-event">
-                    {placeInfo.name}{" "}
+                    {placeInfo.name}
                   </strong>
                 </a>
               </p>
@@ -40,7 +40,9 @@ const ModifiablePlaceListItem = ({ placeInfo, no }) => {
       <td className="js-lists-values-registration-date small">
         {replaceString(placeInfo.create_date)}
       </td>
-      <td className="js-lists-values-employer-name small">관리자1</td>
+      <td className="js-lists-values-employer-name small">
+        {placeInfo.writer}
+      </td>
       <td className="js-lists-values-status small">
         <select
           id="select01"

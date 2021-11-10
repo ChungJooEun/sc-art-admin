@@ -1,6 +1,10 @@
 import React from "react";
 
-const CheckablePlaceListItem = () => {
+const replaceString = (string) => {
+  return string.replace(/-/gi, ".");
+};
+
+const CheckablePlaceListItem = ({ placeInfo, no }) => {
   return (
     <tr>
       <td className="pr-0">
@@ -15,7 +19,7 @@ const CheckablePlaceListItem = () => {
           </label>
         </div>
       </td>
-      <td className="js-lists-values-place small">52</td>
+      <td className="js-lists-values-place small">{no}</td>
       <td className="text-aline-left">
         <div
           className="media flex-nowrap align-items-center"
@@ -28,7 +32,7 @@ const CheckablePlaceListItem = () => {
                   onClick={() => (window.location.href = "/place/place-detail")}
                 >
                   <strong className="js-lists-values-cultural-event">
-                    공간
+                    {placeInfo.name}{" "}
                   </strong>
                 </a>
               </p>
@@ -38,12 +42,26 @@ const CheckablePlaceListItem = () => {
         </div>
       </td>
       <td>
-        <a className="chip chip-outline-secondary js-lists-values-tag">기타</a>
+        <a className="chip chip-outline-secondary js-lists-values-tag">
+          {placeInfo.space_type_name}
+        </a>
       </td>
-      <td className="js-lists-values-place small">장소1</td>
-      <td className="js-lists-values-registration-date small">2021.07.12</td>
-      <td className="js-lists-values-employer-name small">관리자1</td>
-      <td className="js-lists-values-status small">대기 중</td>
+      <td className="js-lists-values-place small">{placeInfo.address}</td>
+      <td className="js-lists-values-registration-date small">
+        {replaceString(placeInfo.create_date)}
+      </td>
+      <td className="js-lists-values-employer-name small">
+        {placeInfo.writer}
+      </td>
+      <td
+        className={
+          placeInfo.state === "임시저장"
+            ? "js-lists-values-status small status-temporary"
+            : "js-lists-values-status small"
+        }
+      >
+        {placeInfo.state}
+      </td>
     </tr>
   );
 };

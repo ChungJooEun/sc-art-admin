@@ -2,7 +2,8 @@ import React from "react";
 
 import CheckablePlaceListItem from "../place-components/CheckablePlaceListItem";
 
-const CheckablePlaceList = () => {
+const CheckablePlaceList = ({ list, pageNumber, count }) => {
+  let no = pageNumber * count;
   return (
     <table className="table mb-0 thead-border-top-0 table-nowrap">
       <thead>
@@ -78,16 +79,13 @@ const CheckablePlaceList = () => {
         </tr>
       </thead>
       <tbody className="list" id="staff">
-        <CheckablePlaceListItem />
-        <CheckablePlaceListItem />
-        <CheckablePlaceListItem />
-        <CheckablePlaceListItem />
-        <CheckablePlaceListItem />
-        <CheckablePlaceListItem />
-        <CheckablePlaceListItem />
-        <CheckablePlaceListItem />
-        <CheckablePlaceListItem />
-        <CheckablePlaceListItem />
+        {list.map((placeInfo) => (
+          <CheckablePlaceListItem
+            key={placeInfo.id}
+            placeInfo={placeInfo}
+            no={no--}
+          />
+        ))}
       </tbody>
     </table>
   );
