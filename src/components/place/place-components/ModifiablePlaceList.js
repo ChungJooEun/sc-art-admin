@@ -1,7 +1,8 @@
 import React from "react";
 import ModifiablePlaceListItem from "./ModifiablePlaceListItem";
 
-const ModifiablePlaceList = () => {
+const ModifiablePlaceList = ({ list, pageNumber, count }) => {
+  let no = pageNumber * count;
   return (
     <div
       className="table-responsive"
@@ -71,11 +72,13 @@ const ModifiablePlaceList = () => {
           </tr>
         </thead>
         <tbody className="list" id="staff">
-          <ModifiablePlaceListItem />
-          <ModifiablePlaceListItem />
-          <ModifiablePlaceListItem />
-          <ModifiablePlaceListItem />
-          <ModifiablePlaceListItem />
+          {list.map((placeInfo) => (
+            <ModifiablePlaceListItem
+              key={placeInfo.id}
+              placeInfo={placeInfo}
+              no={no--}
+            />
+          ))}
         </tbody>
       </table>
     </div>

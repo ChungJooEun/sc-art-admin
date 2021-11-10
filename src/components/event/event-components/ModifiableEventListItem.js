@@ -1,9 +1,13 @@
 import React from "react";
 
-const ModifiableEventListItem = () => {
+const replaceString = (string) => {
+  return string.replace(/-/gi, ".");
+};
+
+const ModifiableEventListItem = ({ eventInfo, no }) => {
   return (
     <tr>
-      <td className="js-lists-values-place small">5</td>
+      <td className="js-lists-values-place small">{no}</td>
       <td className="text-aline-left">
         <div
           className="media flex-nowrap align-items-center"
@@ -18,7 +22,7 @@ const ModifiableEventListItem = () => {
                 className="mb-0 txt_line_table_title"
               >
                 <strong className="js-lists-values-cultural-event">
-                  행사이름행사이름행사이름행사이름행사이름행사이름행사이름행사이름
+                  {eventInfo.name}
                 </strong>
               </a>
               <small className="js-lists-values-employee-email text-50"></small>
@@ -27,18 +31,35 @@ const ModifiableEventListItem = () => {
         </div>
       </td>
       <td>
-        <a className="chip chip-outline-secondary js-lists-values-tag">기타</a>
+        <a className="chip chip-outline-secondary js-lists-values-tag">
+          {eventInfo.event_type_name}
+        </a>
       </td>
-      <td className="js-lists-values-place small">장소1</td>
-      <td className="js-lists-values-price small">₩12,402</td>
-      <td className="js-lists-values-registration-date small">2021.07.12</td>
-      <td className="js-lists-values-deadline small">2021.07.12</td>
-      <td className="js-lists-values-employer-name small">관리자1</td>
+      <td className="js-lists-values-place small">{eventInfo.address}</td>
+      <td className="js-lists-values-price small">
+        {" "}
+        {eventInfo.price === 0 ? "무료" : `${eventInfo.price}원`}
+      </td>
+      <td className="js-lists-values-registration-date small">
+        {replaceString(eventInfo.create_date)}
+      </td>
+      <td className="js-lists-values-deadline small">
+        {" "}
+        {replaceString(eventInfo.close_date)}
+      </td>
+      <td className="js-lists-values-employer-name small">
+        {eventInfo.writer}
+      </td>
       <td className="js-lists-values-status small">
-        <select id="select01" data-toggle="select" className="form-control">
-          <option selected="">대기 중</option>
-          <option>게시</option>
-          <option>기각</option>
+        <select
+          id="select01"
+          data-toggle="select"
+          className="form-control"
+          value={eventInfo.state}
+        >
+          <option value="대기중">대기중</option>
+          <option value="게시">게시</option>
+          <option value="기각">기각</option>
         </select>
       </td>
     </tr>

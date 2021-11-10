@@ -1,7 +1,9 @@
 import React from "react";
 import ModifiableEventListItem from "./ModifiableEventListItem";
 
-const ModifiableEventList = () => {
+const ModifiableEventList = ({ list, pageNumber, count }) => {
+  let no = pageNumber * count;
+
   return (
     <div
       className="table-responsive"
@@ -95,11 +97,13 @@ const ModifiableEventList = () => {
           </tr>
         </thead>
         <tbody className="list" id="staff">
-          <ModifiableEventListItem />
-          <ModifiableEventListItem />
-          <ModifiableEventListItem />
-          <ModifiableEventListItem />
-          <ModifiableEventListItem />
+          {list.map((eventInfo) => (
+            <ModifiableEventListItem
+              eventInfo={eventInfo}
+              key={eventInfo.id}
+              no={no--}
+            />
+          ))}
         </tbody>
       </table>
     </div>
