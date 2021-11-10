@@ -1,6 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 
 const EventInfoForm = () => {
+  const [showInputBox, setShowInputBox] = useState(false);
+
+  const toggleInputBox = () => {
+    setShowInputBox(!showInputBox);
+  };
+
   return (
     <div className="col-lg-8">
       <div className="list-group">
@@ -43,17 +49,36 @@ const EventInfoForm = () => {
               >
                 장소
               </label>
-              <div className="col-md-10">
-                <select
-                  id="select01"
-                  data-toggle="select"
-                  className="form-control"
-                >
-                  <option selected>장소1</option>
-                  <option>장소2</option>
-                  <option>장소3</option>
-                </select>
-              </div>
+              {showInputBox ? (
+                <div className="col-md-8">
+                  <input
+                    id="title"
+                    type="text"
+                    placeholder="장소"
+                    className="form-control"
+                  />
+                </div>
+              ) : (
+                <div className="col-md-8">
+                  <select
+                    id="select01"
+                    data-toggle="select"
+                    className="form-control"
+                  >
+                    <option selected>장소1</option>
+                    <option>장소2</option>
+                    <option>장소3</option>
+                  </select>
+                </div>
+              )}
+
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() => toggleInputBox()}
+              >
+                {showInputBox ? "리스트 보기" : "입력칸 보기"}
+              </button>
             </div>
           </div>
         </div>
@@ -75,15 +100,38 @@ const EventInfoForm = () => {
                 <input
                   id="title"
                   type="text"
-                  placeholder="상세주소"
+                  placeholder="주소"
                   className="form-control"
                 />
               </div>
-              <form className="d-none d-md-flex">
-                <button type="submit" className="btn btn-primary">
-                  검색
-                </button>
-              </form>
+
+              <button type="button" className="btn btn-primary">
+                주소 검색
+              </button>
+            </div>
+          </div>
+          <br />
+          <div
+            role="group"
+            aria-labelledby="label-question"
+            className="m-0 form-group"
+          >
+            <div className="form-row align-items-center">
+              <label
+                id="label-question"
+                for="question"
+                className="col-md-2 col-form-label form-label"
+              >
+                상세 주소
+              </label>
+              <div className="col-md-10">
+                <input
+                  id="title"
+                  type="text"
+                  placeholder="상세 주소"
+                  className="form-control"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -199,6 +247,28 @@ const EventInfoForm = () => {
               className="col-md-2 col-form-label form-label"
             >
               홈페이지
+            </label>
+            <div className="col-md-10">
+              <input
+                id="maskSample01"
+                type="url"
+                className="form-control"
+                placeholder="www.site.com"
+                data-mask="#.##0,00"
+                data-mask-reverse="true"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+        </div>
+        <div className="list-group-item">
+          <div className="form-group row align-items-center mb-0">
+            <label
+              id="label-question"
+              for="question"
+              className="col-md-2 col-form-label form-label"
+            >
+              예매 사이트
             </label>
             <div className="col-md-10">
               <input
