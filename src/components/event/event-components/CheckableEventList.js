@@ -2,7 +2,9 @@ import React from "react";
 
 import CheckableEventListItem from "../event-components/CheckableEventListItem";
 
-const CheckableEventList = () => {
+const CheckableEventList = ({ list, pageNumber, count }) => {
+  let no = pageNumber * count;
+
   return (
     <table className="table mb-0 thead-border-top-0 table-nowrap">
       <thead>
@@ -96,16 +98,13 @@ const CheckableEventList = () => {
         </tr>
       </thead>
       <tbody className="list" id="staff">
-        <CheckableEventListItem />
-        <CheckableEventListItem />
-        <CheckableEventListItem />
-        <CheckableEventListItem />
-        <CheckableEventListItem />
-        <CheckableEventListItem />
-        <CheckableEventListItem />
-        <CheckableEventListItem />
-        <CheckableEventListItem />
-        <CheckableEventListItem />
+        {list.map((eventInfo) => (
+          <CheckableEventListItem
+            eventInfo={eventInfo}
+            key={eventInfo.id}
+            no={no--}
+          />
+        ))}
       </tbody>
     </table>
   );

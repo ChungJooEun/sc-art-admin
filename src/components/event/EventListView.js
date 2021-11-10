@@ -1,4 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+
+import axios from "axios";
 
 import SideMenuBar from "../basic-components/SideMenuBar";
 import PageTitle from "../basic-components/PageTitle";
@@ -14,8 +16,87 @@ const pagePathList = [
   },
 ];
 
+const data = [
+  {
+    id: 1,
+    name: "행사이름 1",
+    event_type_name: "전시",
+    address: "주소 1",
+    price: 12000, // 누락
+    open_date: "2021-11-09", // 사용안함
+    close_date: "2021-11-19",
+    create_date: "2021-11-08",
+    writer: "관리자1", // 누락
+    state: "대기중", // 누락
+  },
+  {
+    id: 2,
+    name: "행사이름 2",
+    event_type_name: "공연",
+    address: "주소 2",
+    price: 0, // 누락
+    open_date: "2021-11-09", // 사용안함
+    close_date: "2021-11-19",
+    create_date: "2021-11-08",
+    writer: "관리자1", // 누락
+    state: "대기중", // 누락
+  },
+  {
+    id: 3,
+    name: "행사이름 3",
+    event_type_name: "기타",
+    address: "주소 3",
+    price: 12000, // 누락
+    open_date: "2021-11-09", // 사용안함
+    close_date: "2021-11-19",
+    create_date: "2021-11-08",
+    writer: "관리자1", // 누락
+    state: "대기중", // 누락
+  },
+  {
+    id: 4,
+    name: "행사이름 4",
+    event_type_name: "전시",
+    address: "주소 4",
+    price: 12000, // 누락
+    open_date: "2021-11-09", // 사용안함
+    close_date: "2021-11-19",
+    create_date: "2021-11-08",
+    writer: "관리자1", // 누락
+    state: "대기중", // 누락
+  },
+  {
+    id: 5,
+    name: "행사이름 5",
+    event_type_name: "기타",
+    address: "주소 5",
+    price: 0, // 누락
+    open_date: "2021-11-09", // 사용안함
+    close_date: "2021-11-19",
+    create_date: "2021-11-08",
+    writer: "관리자5", // 누락
+    state: "대기중", // 누락
+  },
+];
+
+const count = 5;
+
 const EventListView = ({ pageTitle }) => {
+  const [eventList, setEventList] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [pageNumber, setPageNumber] = useState(1);
+
+  const getEventList = () => {
+    // axios 코드 추가
+    setEventList(data);
+    setLoading(false);
+  };
+
   useEffect(() => {
+    // list init 코드
+    getEventList();
+
+    // 스크립트 추가 코드
     const srcList = [
       "/assets/vendor/jquery.min.js",
       "/assets/vendor/popper.min.js",
@@ -54,6 +135,14 @@ const EventListView = ({ pageTitle }) => {
       }
     };
   });
+
+  if (loading) {
+    return <p>로딩중..</p>;
+  }
+
+  if (!eventList) {
+    return <p>fail to loading data</p>;
+  }
 
   return (
     <>
@@ -147,7 +236,11 @@ const EventListView = ({ pageTitle }) => {
                   data-lists-sort-desc="true"
                   data-lists-values='["js-lists-values-lead", "js-lists-values-project", "js-lists-values-status", "js-lists-values-budget", "js-lists-values-date"]'
                 >
-                  <CheckableEventList />
+                  <CheckableEventList
+                    list={eventList}
+                    pageNumber={pageNumber}
+                    count={count}
+                  />
                 </div>
                 <Paging />
               </div>

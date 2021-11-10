@@ -1,6 +1,10 @@
 import React from "react";
 
-const CheckableEventListItem = () => {
+const replaceString = (string) => {
+  return string.replace(/-/gi, ".");
+};
+
+const CheckableEventListItem = ({ eventInfo, no }) => {
   return (
     <tr class="selected">
       <td class="pr-0">
@@ -16,7 +20,7 @@ const CheckableEventListItem = () => {
           </label>
         </div>
       </td>
-      <td class="js-lists-values-place small">55</td>
+      <td class="js-lists-values-place small">{no}</td>
       <td class="text-aline-left">
         <div
           class="media flex-nowrap align-items-center"
@@ -29,7 +33,7 @@ const CheckableEventListItem = () => {
                   onClick={() => (window.location.href = "/event/event-detail")}
                 >
                   <strong class="js-lists-values-cultural-event">
-                    행사이름
+                    {eventInfo.name}
                   </strong>
                 </a>
               </p>
@@ -39,14 +43,22 @@ const CheckableEventListItem = () => {
         </div>
       </td>
       <td>
-        <a class="chip chip-outline-secondary js-lists-values-tag">공연</a>
+        <a class="chip chip-outline-secondary js-lists-values-tag">
+          {eventInfo.event_type_name}
+        </a>
       </td>
-      <td class="js-lists-values-place small">장소1</td>
-      <td class="js-lists-values-price small">₩12,402</td>
-      <td class="js-lists-values-registration-date small">2021.07.12</td>
-      <td class="js-lists-values-deadline small">2021.07.12</td>
-      <td class="js-lists-values-employer-name small">관리자1</td>
-      <td class="js-lists-values-status small">대기 중</td>
+      <td class="js-lists-values-place small">{eventInfo.address}</td>
+      <td class="js-lists-values-price small">
+        {eventInfo.price === 0 ? "무료" : `${eventInfo.price}원`}
+      </td>
+      <td class="js-lists-values-registration-date small">
+        {replaceString(eventInfo.create_date)}
+      </td>
+      <td class="js-lists-values-deadline small">
+        {replaceString(eventInfo.close_date)}
+      </td>
+      <td class="js-lists-values-employer-name small">{eventInfo.writer}</td>
+      <td class="js-lists-values-status small">{eventInfo.state}</td>
     </tr>
   );
 };
