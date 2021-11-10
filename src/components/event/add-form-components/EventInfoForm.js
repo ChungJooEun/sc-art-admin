@@ -77,7 +77,7 @@ const EventInfoForm = () => {
                 className="btn btn-primary"
                 onClick={() => toggleInputBox()}
               >
-                {showInputBox ? "리스트 보기" : "입력칸 보기"}
+                {showInputBox ? "장소 선택" : "직접 입력"}
               </button>
             </div>
           </div>
