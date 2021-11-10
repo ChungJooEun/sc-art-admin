@@ -2,7 +2,7 @@ import React from "react";
 
 import CheckableEventListItem from "../event-components/CheckableEventListItem";
 
-const CheckableEventList = ({ list, pageNumber, count }) => {
+const CheckableEventList = ({ list, pageNumber, count, isModal }) => {
   let no = pageNumber * count;
 
   return (
@@ -103,6 +103,7 @@ const CheckableEventList = ({ list, pageNumber, count }) => {
             eventInfo={eventInfo}
             key={eventInfo.id}
             no={no--}
+            isModal={isModal}
           />
         ))}
       </tbody>
