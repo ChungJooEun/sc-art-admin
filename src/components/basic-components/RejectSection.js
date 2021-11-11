@@ -1,6 +1,6 @@
 import React from "react";
 
-const RejectSection = () => {
+const RejectSection = ({ reason }) => {
   return (
     <>
       <div className="list-group-item">
@@ -39,6 +39,7 @@ const RejectSection = () => {
               placeholder="기각사유..."
               rows="4"
               className="form-control"
+              value={reason}
             ></textarea>
           </div>
         </div>

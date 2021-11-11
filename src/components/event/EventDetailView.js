@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 
 import GlobalBar from "../basic-components/GlobalBar";
@@ -24,10 +24,151 @@ const pagePathList = [
     pageName: "문화행사 관리",
   },
 ];
+const convertDateFormat = (str) => {
+  const date = new Date(str);
+
+  return "" + date.getFullYear() + (date.getMonth() + 1) + date.getDate();
+};
 
 const EventDetailView = ({ options, isApproved, match }) => {
-  const [eventDetail, setEventDetail] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const getVideoId = (url) => {
+    let videoId;
+
+    if (url.indexOf("watch?v=") === 24) {
+      videoId = url.slice(32, 43);
+    } else {
+      videoId = url.slice(17, 28);
+    }
+
+    return videoId;
+  };
+
+  const [formInfo, setFormInfo] = useState(null);
+  const getFormInfo = useCallback(
+    (result) => {
+      setFormInfo({
+        ...formInfo,
+        result,
+      });
+    },
+    [formInfo]
+  );
+
+  const [curationInfo, setCurationInfo] = useState(null);
+  const getCurationInfo = useCallback((info) => {
+    setCurationInfo(info);
+  }, []);
+
+  const [detail, setDetail] = useState("");
+  const getDetail = useCallback((result) => {
+    setDetail(result);
+  }, []);
+
+  const [vId, setVid] = useState(null);
+  const [videos, setVideos] = useState(null);
+  const getVideo = useCallback(
+    (url) => {
+      setVideos(
+        videos.concat({
+          vId: vId,
+          url: url,
+        })
+      );
+
+      setVid(vId + 1);
+    },
+    [vId, videos]
+  );
+
+  const getImgUrl = useCallback(
+    (imgFile) => {
+      setFormInfo({
+        ...formInfo,
+        resources: imgFile,
+      });
+    },
+    [formInfo]
+  );
+
+  const postEvent = async (eventData) => {
+    const url = "/api/admin/cultural-event/regist";
+
+    try {
+      const response = await axios.post(url, eventData, {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      });
+
+      console.log(response.status);
+      if (response.status === 200) {
+        console.log(response.data);
+        // window.location.href = "/event/event-manage";
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const onSubmitEvent = (formState) => {
+    let formData = new FormData();
+
+    if (formInfo.resources) {
+      formData.append(
+        "file",
+        formInfo.resources[0],
+        formInfo.resources[0].name
+      );
+    }
+
+    formData.append("name", formInfo.name);
+    formData.append("location", formInfo.location);
+    formData.append("address1", formInfo.adderss1);
+    formData.append("address2", formInfo.address2);
+    formData.append("open_date", formInfo.open_date);
+    formData.append("close_date", formInfo.close_date);
+    formData.append("age", formInfo.age);
+    formData.append("homepage", formInfo.homepage);
+    formData.append("phone", formInfo.phone);
+    formData.append("price", formInfo.price);
+    formData.append("open_time", formInfo.open_time);
+    formData.append("close_time", formInfo.close_time);
+    formData.append("festival_id", formInfo.festival_id);
+    formData.append("state", formState);
+    formData.append("more_information", detail);
+    formData.append("userid", "dowon.lee");
+
+    var vAry;
+    var temp;
+
+    // curation
+    vAry = new Array();
+    for (let i = 0; i < curationInfo.event_field.length; i++) {
+      vAry.push(curationInfo.event_field[i]);
+    }
+    formData.append("event_field", vAry);
+
+    vAry = new Array();
+    for (let i = 0; i < curationInfo.event_theme.length; i++) {
+      vAry.push(curationInfo.event_theme[i]);
+    }
+    formData.append("event_theme", vAry);
+
+    formData.append("event_type", curationInfo.event_type);
+
+    // youtube
+    vAry = new Array();
+    for (let i = 0; i < videos.length; i++) {
+      temp = new Object();
+      temp.url = videos[i].url;
+      vAry.push(temp);
+    }
+    formData.append("videos", vAry);
+
+    postEvent(formData);
+  };
 
   useEffect(() => {
     const srcList = [
@@ -70,10 +211,22 @@ const EventDetailView = ({ options, isApproved, match }) => {
         const response = await axios.get(url);
 
         if (response.status === 200) {
-          setEventDetail(response.data);
-          setLoading(false);
+          setCurationInfo(response.data);
+          setDetail(response.data.more_information);
+          setFormInfo(response.data);
 
-          console.log(response.data);
+          setVid(response.data.videos.length);
+
+          let ary = [];
+          for (let i = 0; i < response.data.videos.length; i++) {
+            ary.concat({
+              vId: i,
+              url: response.data.videos[i].url,
+            });
+          }
+          setVideos(ary);
+
+          setLoading(false);
         }
       } catch (e) {
         console.log(e);
@@ -93,7 +246,7 @@ const EventDetailView = ({ options, isApproved, match }) => {
     return <p>로딩중..</p>;
   }
 
-  if (!eventDetail) {
+  if (!formInfo || !curationInfo || !detail || !videos) {
     return <p>fail to loading data</p>;
   }
 
@@ -125,18 +278,24 @@ const EventDetailView = ({ options, isApproved, match }) => {
           <div className="container-fluid page__container">
             <div className="page-section">
               <div className="row">
-                <ImageForm imgUrl={eventDetail.resources} />
-                <EventInfoForm eventInfo={eventDetail} />
+                <ImageForm
+                  imgUrl={formInfo.resources.image[0].url}
+                  getImgUrl={getImgUrl}
+                />
+                <EventInfoForm eventInfo={formInfo} getFormInfo={getFormInfo} />
               </div>
 
-              <Curation />
+              <Curation
+                curationInfo={curationInfo}
+                getCurationInfo={getCurationInfo}
+              />
 
               <div className="page-section">
                 <div className="page-separator">
                   <div className="page-separator__text">상세정보</div>
                 </div>
 
-                <Editor />
+                <Editor mor_information={detail} getDetail={getDetail} />
               </div>
 
               <div className="page-section">
@@ -144,18 +303,22 @@ const EventDetailView = ({ options, isApproved, match }) => {
                   <div className="page-separator__text">관련 영상 업로드</div>
                 </div>
                 <div className="list-group-item">
-                  <VideoAddForm />
+                  <VideoAddForm getVideo={getVideo} />
                 </div>
                 <div className="row card-group-row">
-                  <VideoListItem />
-                  <VideoListItem />
-                  <VideoListItem />
+                  {videos.videos.map((video) => (
+                    <VideoListItem vId={getVideoId(video.url)} key={video.id} />
+                  ))}
                 </div>
               </div>
 
               <div className="detail_under_menu ">
                 <div className="card">
-                  <PostSaveBtn options={options} />
+                  <PostSaveBtn
+                    options={options}
+                    onSubmitEvent={onSubmitEvent}
+                    state={formInfo.state}
+                  />
                   {isApproved ? "" : <RejectSection />}
                 </div>
               </div>
