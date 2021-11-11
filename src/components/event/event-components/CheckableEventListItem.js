@@ -4,6 +4,17 @@ const replaceString = (string) => {
   return string.replace(/-/gi, ".");
 };
 
+const addDot = (string) => {
+  let result = "";
+  return result.concat(
+    string.slice(0, 4),
+    ".",
+    string.slice(4, 6),
+    ".",
+    string.slice(6)
+  );
+};
+
 const CheckableEventListItem = ({ eventInfo, no, isModal }) => {
   return (
     <tr className="selected">
@@ -53,15 +64,15 @@ const CheckableEventListItem = ({ eventInfo, no, isModal }) => {
           {eventInfo.event_type_name}
         </a>
       </td>
-      <td className="js-lists-values-place small">{eventInfo.address}</td>
+      <td className="js-lists-values-place small">{eventInfo.address1}</td>
       <td className="js-lists-values-price small">
         {eventInfo.price === 0 ? "무료" : `${eventInfo.price}원`}
       </td>
       <td className="js-lists-values-registration-date small">
-        {replaceString(eventInfo.create_date)}
+        {replaceString(eventInfo.create_date.slice(0, 10))}
       </td>
       <td className="js-lists-values-deadline small">
-        {replaceString(eventInfo.close_date)}
+        {addDot(eventInfo.close_date)}
       </td>
       <td className="js-lists-values-employer-name small">
         {eventInfo.writer}

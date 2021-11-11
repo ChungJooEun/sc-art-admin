@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
+import axios from "axios";
 
 import SideMenuBar from "../basic-components/SideMenuBar";
 import GlobalBar from "../basic-components/GlobalBar";
@@ -82,13 +83,37 @@ const count = 5;
 
 const EventManageView = () => {
   const [eventList, setEventList] = useState(null);
+  const [totalNumber, setTotalNumber] = useState(null);
   const [loading, setLoading] = useState(true);
   const [pageNumber, setPageNumber] = useState(1);
 
-  const getEventList = () => {
-    // axios 코드 추가
-    setEventList(data);
-    setLoading(false);
+  const getEventList = useCallback(async () => {
+    const url = "/api/admin/cultural-event/list";
+
+    try {
+      const response = await axios.get(url, {
+        params: {
+          sort_type: "desc",
+          sort_column: "create_date",
+          page: pageNumber,
+          count: count,
+          from_date: "20210101",
+          to_date: "20221231",
+        },
+      });
+
+      if (response.status === 200) {
+        setEventList(response.data.list);
+        setTotalNumber(response.data.total_count);
+        setLoading(false);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }, [pageNumber]);
+
+  const getPageNumber = (pickNumber) => {
+    setPageNumber(pickNumber);
   };
 
   useEffect(() => {
@@ -132,7 +157,7 @@ const EventManageView = () => {
         document.body.removeChild(scriptList[i]);
       }
     };
-  });
+  }, [getEventList]);
 
   if (loading) {
     return <p>loading..</p>;
@@ -272,7 +297,7 @@ const EventManageView = () => {
             </div>
             <div className="page-section">
               <div className="page-separator">
-                <div className="page-separator__text">전체(12)</div>
+                <div className="page-separator__text">전체({totalNumber})</div>
               </div>
               <div
                 className="navbar navbar-expand x-0 pl-lg-16pt navbar-light bg-body"
@@ -340,7 +365,12 @@ const EventManageView = () => {
                     count={count}
                   />
                 </div>
-                <Paging />
+                <Paging
+                  pageNumber={pageNumber}
+                  getPageNumber={getPageNumber}
+                  totalNum={totalNumber}
+                  count={count}
+                />
               </div>
             </div>
           </div>

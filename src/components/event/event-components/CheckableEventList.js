@@ -3,7 +3,7 @@ import React from "react";
 import CheckableEventListItem from "../event-components/CheckableEventListItem";
 
 const CheckableEventList = ({ list, pageNumber, count, isModal }) => {
-  let no = pageNumber * count;
+  let no = (pageNumber - 1) * count + 1;
 
   return (
     <table className="table mb-0 thead-border-top-0 table-nowrap">
@@ -102,7 +102,7 @@ const CheckableEventList = ({ list, pageNumber, count, isModal }) => {
           <CheckableEventListItem
             eventInfo={eventInfo}
             key={eventInfo.id}
-            no={no--}
+            no={no++}
             isModal={isModal}
           />
         ))}
