@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import GlobalBar from "../basic-components/GlobalBar";
 import Paging from "../basic-components/Paging";
@@ -17,8 +17,70 @@ const pagePathList = [
   },
 ];
 
+const data = [
+  {
+    id: 1,
+    name: "공간이름 1",
+    space_type_name: "공연장",
+    address: "주소 1",
+    create_date: "2021-11-08",
+    writer: "관리자1", // 누락
+    state: "대기중", // 누락
+  },
+  {
+    id: 2,
+    name: "공간이름 2",
+    space_type_name: "연습실",
+    address: "주소 2",
+    create_date: "2021-11-08",
+    writer: "관리자2", // 누락
+    state: "기각", // 누락
+  },
+  {
+    id: 3,
+    name: "공간이름 3",
+    space_type_name: "연습실",
+    address: "주소 3",
+    create_date: "2021-11-08",
+    writer: "관리자2", // 누락
+    state: "기각", // 누락
+  },
+  {
+    id: 4,
+    name: "공간이름 4",
+    space_type_name: "악기상점",
+    address: "주소 4",
+    create_date: "2021-11-08",
+    writer: "관리자2", // 누락
+    state: "게시", // 누락
+  },
+  {
+    id: 5,
+    name: "공간이름 5",
+    space_type_name: "갤러리",
+    address: "주소 4",
+    create_date: "2021-11-08",
+    writer: "관리자5", // 누락
+    state: "기각", // 누락
+  },
+];
+
+const count = 5;
+
 const PlaceListView = ({ pageTitle }) => {
+  const [placeList, setPlaceList] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [pageNumber, setPageNumber] = useState(1);
+
+  const getPlaceList = () => {
+    // axios 코드 추가
+    setPlaceList(data);
+    setLoading(false);
+  };
+
   useEffect(() => {
+    getPlaceList();
+
     const srcList = [
       "/assets/vendor/jquery.min.js",
       "/assets/vendor/popper.min.js",
@@ -57,6 +119,15 @@ const PlaceListView = ({ pageTitle }) => {
       }
     };
   });
+
+  if (loading) {
+    return <p>loading..</p>;
+  }
+
+  if (!placeList) {
+    return <p>fail to loading data</p>;
+  }
+
   return (
     <>
       <div className="preloader">
@@ -127,7 +198,11 @@ const PlaceListView = ({ pageTitle }) => {
                   data-lists-sort-desc="true"
                   data-lists-values='["js-lists-values-lead", "js-lists-values-project", "js-lists-values-status", "js-lists-values-budget", "js-lists-values-date"]'
                 >
-                  <CheckablePlaceList />
+                  <CheckablePlaceList
+                    list={placeList}
+                    pageNumber={pageNumber}
+                    count={count}
+                  />
                 </div>
                 <Paging />
               </div>

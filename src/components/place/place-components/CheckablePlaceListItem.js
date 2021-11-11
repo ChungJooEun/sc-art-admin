@@ -4,9 +4,9 @@ const replaceString = (string) => {
   return string.replace(/-/gi, ".");
 };
 
-const CheckablePlaceListItem = ({ placeInfo, no }) => {
+const CheckablePlaceListItem = ({ placeInfo, no, isModal }) => {
   return (
-    <tr>
+    <tr className="selected">
       <td className="pr-0">
         <div className="custom-control custom-checkbox">
           <input
@@ -42,7 +42,13 @@ const CheckablePlaceListItem = ({ placeInfo, no }) => {
         </div>
       </td>
       <td>
-        <a className="chip chip-outline-secondary js-lists-values-tag">
+        <a
+          className={
+            isModal
+              ? "js-lists-values-employer-name small"
+              : "chip chip-outline-secondary js-lists-values-tag"
+          }
+        >
           {placeInfo.space_type_name}
         </a>
       </td>

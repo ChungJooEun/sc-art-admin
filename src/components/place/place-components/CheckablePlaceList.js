@@ -2,7 +2,7 @@ import React from "react";
 
 import CheckablePlaceListItem from "../place-components/CheckablePlaceListItem";
 
-const CheckablePlaceList = ({ list, pageNumber, count }) => {
+const CheckablePlaceList = ({ list, pageNumber, count, isModal }) => {
   let no = pageNumber * count;
   return (
     <table className="table mb-0 thead-border-top-0 table-nowrap">
@@ -84,6 +84,7 @@ const CheckablePlaceList = ({ list, pageNumber, count }) => {
             key={placeInfo.id}
             placeInfo={placeInfo}
             no={no--}
+            isModal={isModal}
           />
         ))}
       </tbody>
