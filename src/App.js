@@ -147,19 +147,19 @@ const App = () => {
       </Route>
       {/* 문화공간 관리 > 공연장 */}
       <Route path="/place/concert-hall-list">
-        <PlaceListView pageTitle="공연장" />
+        <PlaceListView pageTitle="공연장" type="hall" />
       </Route>
       {/* 문화공간 관리 > 연습실 */}
       <Route path="/place/practice-list">
-        <PlaceListView pageTitle="연습실" />
+        <PlaceListView pageTitle="연습실" type="practice" />
       </Route>
       {/* 문화공간 관리 > 악기상점 */}
       <Route path="/place/musical-instrument-shop">
-        <PlaceListView pageTitle="악기상점" />
+        <PlaceListView pageTitle="악기상점" type="instrument" />
       </Route>
       {/* 문화공간 관리 > 갤러리 */}
       <Route path="/place/gallery-list">
-        <PlaceListView pageTitle="갤러리" />
+        <PlaceListView pageTitle="갤러리" type="gallery" />
       </Route>
 
       {/* 문화공간 관리 > 서리풀 청년아트 센터 */}

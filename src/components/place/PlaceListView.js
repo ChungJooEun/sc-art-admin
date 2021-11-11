@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
+import axios from "axios";
 
 import GlobalBar from "../basic-components/GlobalBar";
 import Paging from "../basic-components/Paging";
@@ -17,70 +18,43 @@ const pagePathList = [
   },
 ];
 
-const data = [
-  {
-    id: 1,
-    name: "공간이름 1",
-    space_type_name: "공연장",
-    address: "주소 1",
-    create_date: "2021-11-08",
-    writer: "관리자1", // 누락
-    state: "대기중", // 누락
-  },
-  {
-    id: 2,
-    name: "공간이름 2",
-    space_type_name: "연습실",
-    address: "주소 2",
-    create_date: "2021-11-08",
-    writer: "관리자2", // 누락
-    state: "기각", // 누락
-  },
-  {
-    id: 3,
-    name: "공간이름 3",
-    space_type_name: "연습실",
-    address: "주소 3",
-    create_date: "2021-11-08",
-    writer: "관리자2", // 누락
-    state: "기각", // 누락
-  },
-  {
-    id: 4,
-    name: "공간이름 4",
-    space_type_name: "악기상점",
-    address: "주소 4",
-    create_date: "2021-11-08",
-    writer: "관리자2", // 누락
-    state: "게시", // 누락
-  },
-  {
-    id: 5,
-    name: "공간이름 5",
-    space_type_name: "갤러리",
-    address: "주소 4",
-    create_date: "2021-11-08",
-    writer: "관리자5", // 누락
-    state: "기각", // 누락
-  },
-];
-
 const count = 5;
 
-const PlaceListView = ({ pageTitle }) => {
+const PlaceListView = ({ pageTitle, type }) => {
   const [placeList, setPlaceList] = useState(null);
+  const [totalNumber, setTotalNumber] = useState(null);
   const [loading, setLoading] = useState(true);
   const [pageNumber, setPageNumber] = useState(1);
 
-  const getPlaceList = () => {
-    // axios 코드 추가
-    setPlaceList(data);
-    setLoading(false);
+  const getPlaceList = useCallback(async () => {
+    const url = `/api/admin/cultural-space/list/${type}`;
+
+    try {
+      const response = await axios.get(url, {
+        params: {
+          sort_type: "desc",
+          sort_column: "create_date",
+          page: pageNumber,
+          count: count,
+        },
+      });
+
+      if (response.status === 200) {
+        setPlaceList(response.data.list);
+        setTotalNumber(response.data.total_count);
+        setLoading(false);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }, [pageNumber, type]);
+
+  const getPageNumber = (pickNumber) => {
+    setPageNumber(pickNumber);
   };
 
   useEffect(() => {
     getPlaceList();
-
     const srcList = [
       "/assets/vendor/jquery.min.js",
       "/assets/vendor/popper.min.js",
@@ -118,7 +92,7 @@ const PlaceListView = ({ pageTitle }) => {
         document.body.removeChild(scriptList[i]);
       }
     };
-  });
+  }, [getPlaceList]);
 
   if (loading) {
     return <p>loading..</p>;
@@ -152,7 +126,9 @@ const PlaceListView = ({ pageTitle }) => {
           <div className="container-fluid page__container">
             <div className="page-section">
               <div className="page-separator">
-                <div className="page-separator__text">{pageTitle}(14)</div>
+                <div className="page-separator__text">
+                  {pageTitle}({totalNumber})
+                </div>
               </div>
               <div
                 className="navbar navbar-expand x-0 pl-lg-16pt navbar-light bg-body"
@@ -204,7 +180,12 @@ const PlaceListView = ({ pageTitle }) => {
                     count={count}
                   />
                 </div>
-                <Paging />
+                <Paging
+                  pageNumber={pageNumber}
+                  getPageNumber={getPageNumber}
+                  totalNum={totalNumber}
+                  count={count}
+                />
               </div>
             </div>
           </div>
