@@ -1,7 +1,18 @@
 import React from "react";
 
-const replaceString = (string) => {
-  return string.replace(/-/gi, ".");
+// const replaceString = (string) => {
+//   return string.replace(/-/gi, ".");
+// };
+
+const addDot = (string) => {
+  let result = "";
+  return result.concat(
+    string.slice(0, 4),
+    ".",
+    string.slice(4, 6),
+    ".",
+    string.slice(6)
+  );
 };
 
 const ModifiableEventListItem = ({ eventInfo, no }) => {
@@ -17,7 +28,7 @@ const ModifiableEventListItem = ({ eventInfo, no }) => {
             <div className="d-flex flex-column">
               <a
                 onClick={() =>
-                  (window.location.href = "/event/event-application-detail")
+                  (window.location.href = `/event/event-application-detail/${eventInfo.id}`)
                 }
                 className="mb-0 txt_line_table_title"
               >
@@ -41,14 +52,14 @@ const ModifiableEventListItem = ({ eventInfo, no }) => {
         {eventInfo.price === 0 ? "무료" : `${eventInfo.price}원`}
       </td>
       <td className="js-lists-values-registration-date small">
-        {replaceString(eventInfo.create_date)}
+        {addDot(eventInfo.create_date)}
       </td>
       <td className="js-lists-values-deadline small">
         {" "}
-        {replaceString(eventInfo.close_date)}
+        {addDot(eventInfo.close_date)}
       </td>
       <td className="js-lists-values-employer-name small">
-        {eventInfo.writer}
+        {eventInfo.creator}
       </td>
       <td className="js-lists-values-status small">
         <select
@@ -57,9 +68,9 @@ const ModifiableEventListItem = ({ eventInfo, no }) => {
           className="form-control"
           value={eventInfo.state}
         >
-          <option value="대기중">대기중</option>
-          <option value="게시">게시</option>
-          <option value="기각">기각</option>
+          <option value="WAIT">대기중</option>
+          <option value="POST">게시</option>
+          <option value="TEMP_SAVE">기각</option>
         </select>
       </td>
     </tr>
