@@ -21,6 +21,8 @@ const TaskRequest = () => {
   const onChangeTapMenu = (menu) => {
     setTapMenu(menu);
 
+    console.log(menu);
+
     if (menu === 1) {
       setPageNumber_Event(1);
     } else {
@@ -105,7 +107,7 @@ const TaskRequest = () => {
 
       <div className="card dashboard-area-tabs mb-32pt">
         <div className="card-header p-0 nav">
-          <div className="row no-gutters" role="tablist">
+          <div className="row no-gutters">
             <div className="col-auto">
               <div
                 className={

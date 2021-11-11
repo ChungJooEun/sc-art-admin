@@ -1,36 +1,38 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const SideMenuBar = () => {
   return (
-    <div className="mdk-drawer js-mdk-drawer" id="default-drawer">
-      <div className="mdk-drawer__content">
+    <div
+      className="mdk-drawer js-mdk-drawer"
+      id="default-drawer"
+      style={{ width: "255px" }}
+    >
+      <div
+        className=""
+        style={{ height: "100%", position: "fixed", width: "inherit" }}
+      >
         <div
           className="sidebar sidebar-dark sidebar-left"
           data-perfect-scrollbar
         >
-          <a
-            onClick={() => (window.location.href = "/dashboard")}
-            className="sidebar-brand "
-          >
+          <Link to="/dashboard" className="sidebar-brand ">
             <img
               className="sidebar-brand-icon"
               src="../assets/images/logo-w.png"
               alt=""
             />
-          </a>
+          </Link>
 
           <div className="sidebar-heading">Seocho Admin</div>
           <ul className="sidebar-menu">
             <li className="sidebar-menu-item active">
-              <a
-                className="sidebar-menu-button"
-                onClick={() => (window.location.href = "/dashboard")}
-              >
+              <Link className="sidebar-menu-button" to="/dashboard">
                 <span className="material-icons sidebar-menu-icon sidebar-menu-icon--left">
                   insert_chart_outlined
                 </span>
                 <span className="sidebar-menu-text">대시보드</span>
-              </a>
+              </Link>
             </li>
             <li className="sidebar-menu-item">
               <a
@@ -49,41 +51,34 @@ const SideMenuBar = () => {
                 id="dashboards_menu"
               >
                 <li className="sidebar-menu-item">
-                  <a
+                  <Link
                     className="sidebar-menu-button"
-                    onClick={() =>
-                      (window.location.href =
-                        "/main-design/skin-and-banner-design")
-                    }
+                    to="/main-design/skin-and-banner-design"
                   >
                     <span className="sidebar-menu-text">
                       메인 배너&스킨 관리
                     </span>
-                  </a>
+                  </Link>
                 </li>
                 <li className="sidebar-menu-item">
-                  <a
+                  <Link
                     className="sidebar-menu-button"
-                    onClick={() =>
-                      (window.location.href = "/main-design/recommend-event")
-                    }
+                    to="/main-design/recommend-event"
                   >
                     <span className="sidebar-menu-text">
                       추천 문화행사 리스트
                     </span>
-                  </a>
+                  </Link>
                 </li>
                 <li className="sidebar-menu-item">
-                  <a
+                  <Link
                     className="sidebar-menu-button"
-                    onClick={() =>
-                      (window.location.href = "/main-design/recommend-place")
-                    }
+                    to="/main-design/recommend-place"
                   >
                     <span className="sidebar-menu-text">
                       추천 문화공간 리스트
                     </span>
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </li>
@@ -104,73 +99,58 @@ const SideMenuBar = () => {
                 id="enterprise_menu"
               >
                 <li className="sidebar-menu-item">
-                  <a
+                  <Link
                     className="sidebar-menu-button"
-                    onClick={() =>
-                      (window.location.href = "/event/event-manage")
-                    }
+                    to="/event/event-manage"
                   >
                     <span className="sidebar-menu-text">문화행사</span>
-                  </a>
+                  </Link>
                 </li>
 
                 <li className="sidebar-menu-item">
-                  <a
+                  <Link
                     className="sidebar-menu-button"
-                    onClick={() =>
-                      (window.location.href = "/event/exhibit-list")
-                    }
+                    to="/event/exhibit-list"
                   >
                     <span className="sidebar-menu-text">- 전시</span>
-                  </a>
+                  </Link>
                 </li>
                 <li className="sidebar-menu-item">
-                  <a
+                  <Link
                     className="sidebar-menu-button"
-                    onClick={() =>
-                      (window.location.href = "/event/festival-list")
-                    }
+                    to="/event/festival-list"
                   >
                     <span className="sidebar-menu-text">- 공연</span>
-                  </a>
+                  </Link>
                 </li>
                 <li className="sidebar-menu-item">
-                  <a
+                  <Link
                     className="sidebar-menu-button"
-                    onClick={() =>
-                      (window.location.href = "/event/event-others-list")
-                    }
+                    to="/event/event-others-list"
                   >
                     <span className="sidebar-menu-text">- 기타</span>
-                  </a>
+                  </Link>
                 </li>
                 <li className="sidebar-menu-item">
-                  <a
+                  <Link
                     className="sidebar-menu-button"
-                    onClick={() =>
-                      (window.location.href = "/event/seocho-festival")
-                    }
+                    to="/event/seocho-festival"
                   >
                     <span className="sidebar-menu-text">서초구 축제</span>
-                  </a>
+                  </Link>
                 </li>
                 <li className="sidebar-menu-item">
-                  <a
-                    className="sidebar-menu-button"
-                    onClick={() => (window.location.href = "/event/add-event")}
-                  >
+                  <Link className="sidebar-menu-button" to="/event/add-event">
                     <span className="sidebar-menu-text">문화행사 등록하기</span>
-                  </a>
+                  </Link>
                 </li>
                 <li className="sidebar-menu-item">
-                  <a
+                  <Link
                     className="sidebar-menu-button"
-                    onClick={() =>
-                      (window.location.href = "/event/event-application-list")
-                    }
+                    to="/event/event-application-list"
                   >
                     <span className="sidebar-menu-text">등록 신청 리스트</span>
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </li>
@@ -191,97 +171,78 @@ const SideMenuBar = () => {
                 id="productivity_menu"
               >
                 <li className="sidebar-menu-item">
-                  <a
+                  <Link
                     className="sidebar-menu-button"
-                    onClick={() =>
-                      (window.location.href = "/place/place-manage")
-                    }
+                    to="/place/place-manage"
                   >
                     <span className="sidebar-menu-text">문화공간</span>
-                  </a>
+                  </Link>
                 </li>
 
                 <li className="sidebar-menu-item">
-                  <a
+                  <Link
                     className="sidebar-menu-button"
-                    onClick={() =>
-                      (window.location.href = "/place/concert-hall-list")
-                    }
+                    to="/place/concert-hall-list"
                   >
-                    <span className="sidebar-menu-text">공연장</span>
-                  </a>
+                    <span className="sidebar-menu-text">- 공연장</span>
+                  </Link>
                 </li>
                 <li className="sidebar-menu-item">
-                  <a
+                  <Link
                     className="sidebar-menu-button"
-                    onClick={() =>
-                      (window.location.href = "/place/practice-list")
-                    }
+                    to="/place/practice-list"
                   >
-                    <span className="sidebar-menu-text">연습실</span>
-                  </a>
+                    <span className="sidebar-menu-text">- 연습실</span>
+                  </Link>
                 </li>
                 <li className="sidebar-menu-item">
-                  <a
+                  <Link
                     className="sidebar-menu-button"
-                    onClick={() =>
-                      (window.location.href = "/place/musical-instrument-shop")
-                    }
+                    to="/place/musical-instrument-shop"
                   >
-                    <span className="sidebar-menu-text">악기상점</span>
-                  </a>
+                    <span className="sidebar-menu-text">- 악기상점</span>
+                  </Link>
                 </li>
                 <li className="sidebar-menu-item">
-                  <a
+                  <Link
                     className="sidebar-menu-button"
-                    onClick={() =>
-                      (window.location.href = "/place/gallery-list")
-                    }
+                    to="/place/gallery-list"
                   >
-                    <span className="sidebar-menu-text">갤러리</span>
-                  </a>
+                    <span className="sidebar-menu-text">- 갤러리</span>
+                  </Link>
                 </li>
                 <li className="sidebar-menu-item">
-                  <a
+                  <Link
                     className="sidebar-menu-button"
-                    onClick={() =>
-                      (window.location.href = "/place/scplace-art-center")
-                    }
+                    to="/place/scplace-art-center"
                   >
                     <span className="sidebar-menu-text">
                       서리풀 청년아트 센터
                     </span>
-                  </a>
+                  </Link>
                 </li>
                 <li className="sidebar-menu-item">
-                  <a
+                  <Link
                     className="sidebar-menu-button"
-                    onClick={() =>
-                      (window.location.href = "/place/scplace-art-gallery")
-                    }
+                    to="/place/scplace-art-gallery"
                   >
                     <span className="sidebar-menu-text">
                       서리풀 청년아트 갤러리
                     </span>
-                  </a>
+                  </Link>
                 </li>
                 <li className="sidebar-menu-item">
-                  <a
-                    className="sidebar-menu-button"
-                    onClick={() => (window.location.href = "/place/add-place")}
-                  >
+                  <Link className="sidebar-menu-button" to="/place/add-place">
                     <span className="sidebar-menu-text">문화공간 등록하기</span>
-                  </a>
+                  </Link>
                 </li>
                 <li className="sidebar-menu-item">
-                  <a
+                  <Link
                     className="sidebar-menu-button"
-                    onClick={() =>
-                      (window.location.href = "/place/place-application-list")
-                    }
+                    to="/place/place-application-list"
                   >
                     <span className="sidebar-menu-text">등록 신청 리스트</span>
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </li>
@@ -302,44 +263,36 @@ const SideMenuBar = () => {
                 id="community_menu"
               >
                 <li className="sidebar-menu-item">
-                  <a
+                  <Link
                     className="sidebar-menu-button"
-                    onClick={() =>
-                      (window.location.href = "/community/notice-board")
-                    }
+                    to="/community/notice-board"
                   >
                     <span className="sidebar-menu-text">공지사항</span>
-                  </a>
+                  </Link>
                 </li>
                 <li className="sidebar-menu-item">
-                  <a
+                  <Link
                     className="sidebar-menu-button"
-                    onClick={() =>
-                      (window.location.href = "/community/event-board")
-                    }
+                    to="/community/event-board"
                   >
                     <span className="sidebar-menu-text">이벤트</span>
-                  </a>
+                  </Link>
                 </li>
                 <li className="sidebar-menu-item">
-                  <a
+                  <Link
                     className="sidebar-menu-button"
-                    onClick={() =>
-                      (window.location.href = "/community/news-board")
-                    }
+                    to="/community/news-board"
                   >
                     <span className="sidebar-menu-text">문화계 소식</span>
-                  </a>
+                  </Link>
                 </li>
                 <li className="sidebar-menu-item">
-                  <a
+                  <Link
                     className="sidebar-menu-button"
-                    onClick={() =>
-                      (window.location.href = "/community/press-release")
-                    }
+                    to="/community/press-release"
                   >
                     <span className="sidebar-menu-text">보도자료</span>
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </li>
@@ -360,51 +313,40 @@ const SideMenuBar = () => {
                 id="related-sites"
               >
                 <li className="sidebar-menu-item">
-                  <a
+                  <Link
                     className="sidebar-menu-button"
-                    onClick={() =>
-                      (window.location.href = "/related-sites/related-sites")
-                    }
+                    to="/related-sites/related-sites"
                   >
                     <span className="sidebar-menu-text">문화 파트너스</span>
-                  </a>
+                  </Link>
                 </li>
                 <li className="sidebar-menu-item">
-                  <a
+                  <Link
                     className="sidebar-menu-button"
-                    onClick={() =>
-                      (window.location.href =
-                        "/related-sites/add-related-sites")
-                    }
+                    to="/related-sites/add-related-sites"
                   >
                     <span className="sidebar-menu-text">
                       문화 파트너스 추가
                     </span>
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </li>
             <li className="sidebar-menu-item">
-              <a
-                className="sidebar-menu-button"
-                onClick={() => (window.location.href = "/user/user-list")}
-              >
+              <Link className="sidebar-menu-button" to="/user/user-list">
                 <span className="material-icons sidebar-menu-icon sidebar-menu-icon--left">
                   people
                 </span>
                 <span className="sidebar-menu-text">사용자</span>
-              </a>
+              </Link>
             </li>
             <li className="sidebar-menu-item">
-              <a
-                className="sidebar-menu-button"
-                onClick={() => (window.location.href = "/admin/admin-manage")}
-              >
+              <Link className="sidebar-menu-button" to="/admin/admin-manage">
                 <span className="material-icons sidebar-menu-icon sidebar-menu-icon--left">
                   assignment_ind
                 </span>
                 <span className="sidebar-menu-text">관리자 관리</span>
-              </a>
+              </Link>
             </li>
           </ul>
         </div>

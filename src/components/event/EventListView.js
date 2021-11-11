@@ -33,7 +33,7 @@ const EventListView = ({ pageTitle, type }) => {
           sort_column: "create_date",
           page: pageNumber,
           count: count,
-          from_date: "20210101",
+          from_date: "20000101",
           to_date: "20221231",
         },
       });
@@ -53,9 +53,6 @@ const EventListView = ({ pageTitle, type }) => {
   };
 
   useEffect(() => {
-    // list init 코드
-    getEventList();
-
     // 스크립트 추가 코드
     const srcList = [
       "/assets/vendor/jquery.min.js",
@@ -89,6 +86,9 @@ const EventListView = ({ pageTitle, type }) => {
       document.body.appendChild(script);
     }
 
+    // list init 코드
+    getEventList();
+
     return () => {
       for (let i = 0; i < scriptList.length; i++) {
         document.body.removeChild(scriptList[i]);
@@ -106,7 +106,7 @@ const EventListView = ({ pageTitle, type }) => {
 
   return (
     <>
-      <div className="preloader">
+      {/* <div className="preloader">
         <div className="sk-chase">
           <div className="sk-chase-dot"></div>
           <div className="sk-chase-dot"></div>
@@ -115,7 +115,7 @@ const EventListView = ({ pageTitle, type }) => {
           <div className="sk-chase-dot"></div>
           <div className="sk-chase-dot"></div>
         </div>
-      </div>
+      </div> */}
       <div
         className="mdk-drawer-layout js-mdk-drawer-layout"
         data-push

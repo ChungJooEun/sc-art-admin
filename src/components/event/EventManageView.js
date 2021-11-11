@@ -16,69 +16,6 @@ const pagePathList = [
   },
 ];
 
-const data = [
-  {
-    id: 1,
-    name: "행사이름 1",
-    event_type_name: "전시",
-    address: "주소 1",
-    price: 12000, // 누락
-    open_date: "2021-11-09", // 사용안함
-    close_date: "2021-11-19",
-    create_date: "2021-11-08",
-    writer: "관리자1", // 누락
-    state: "대기중", // 누락
-  },
-  {
-    id: 2,
-    name: "행사이름 2",
-    event_type_name: "공연",
-    address: "주소 2",
-    price: 0, // 누락
-    open_date: "2021-11-09", // 사용안함
-    close_date: "2021-11-19",
-    create_date: "2021-11-08",
-    writer: "관리자1", // 누락
-    state: "대기중", // 누락
-  },
-  {
-    id: 3,
-    name: "행사이름 3",
-    event_type_name: "기타",
-    address: "주소 3",
-    price: 12000, // 누락
-    open_date: "2021-11-09", // 사용안함
-    close_date: "2021-11-19",
-    create_date: "2021-11-08",
-    writer: "관리자1", // 누락
-    state: "대기중", // 누락
-  },
-  {
-    id: 4,
-    name: "행사이름 4",
-    event_type_name: "전시",
-    address: "주소 4",
-    price: 12000, // 누락
-    open_date: "2021-11-09", // 사용안함
-    close_date: "2021-11-19",
-    create_date: "2021-11-08",
-    writer: "관리자1", // 누락
-    state: "대기중", // 누락
-  },
-  {
-    id: 5,
-    name: "행사이름 5",
-    event_type_name: "기타",
-    address: "주소 5",
-    price: 0, // 누락
-    open_date: "2021-11-09", // 사용안함
-    close_date: "2021-11-19",
-    create_date: "2021-11-08",
-    writer: "관리자5", // 누락
-    state: "대기중", // 누락
-  },
-];
-
 const count = 5;
 
 const EventManageView = () => {
@@ -169,7 +106,7 @@ const EventManageView = () => {
 
   return (
     <>
-      <div className="preloader">
+      {/* <div className="preloader">
         <div className="sk-chase">
           <div className="sk-chase-dot"></div>
           <div className="sk-chase-dot"></div>
@@ -178,7 +115,7 @@ const EventManageView = () => {
           <div className="sk-chase-dot"></div>
           <div className="sk-chase-dot"></div>
         </div>
-      </div>
+      </div> */}
       <div
         className="mdk-drawer-layout js-mdk-drawer-layout"
         data-push

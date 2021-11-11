@@ -54,7 +54,6 @@ const PlaceListView = ({ pageTitle, type }) => {
   };
 
   useEffect(() => {
-    getPlaceList();
     const srcList = [
       "/assets/vendor/jquery.min.js",
       "/assets/vendor/popper.min.js",
@@ -87,6 +86,8 @@ const PlaceListView = ({ pageTitle, type }) => {
       document.body.appendChild(script);
     }
 
+    getPlaceList();
+
     return () => {
       for (let i = 0; i < scriptList.length; i++) {
         document.body.removeChild(scriptList[i]);
@@ -104,7 +105,7 @@ const PlaceListView = ({ pageTitle, type }) => {
 
   return (
     <>
-      <div className="preloader">
+      {/* <div className="preloader">
         <div className="sk-chase">
           <div className="sk-chase-dot"></div>
           <div className="sk-chase-dot"></div>
@@ -113,7 +114,7 @@ const PlaceListView = ({ pageTitle, type }) => {
           <div className="sk-chase-dot"></div>
           <div className="sk-chase-dot"></div>
         </div>
-      </div>
+      </div> */}
       <div
         className="mdk-drawer-layout js-mdk-drawer-layout"
         data-push

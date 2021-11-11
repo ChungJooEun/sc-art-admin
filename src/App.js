@@ -110,7 +110,7 @@ const App = () => {
       </Route>
       {/* 문화행사 관리 > 문화행사 > 전시 */}
       <Route path="/event/exhibit-list">
-        <EventListView pageTitle="전시" type="exibition" />
+        <EventListView pageTitle="전시" type="exhibition" />
       </Route>
       {/* 문화행사 관리 > 문화행사 > 공연 */}
       <Route path="/event/festival-list">
