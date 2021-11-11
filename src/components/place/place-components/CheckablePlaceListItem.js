@@ -52,9 +52,9 @@ const CheckablePlaceListItem = ({ placeInfo, no, isModal }) => {
           {placeInfo.space_type_name}
         </a>
       </td>
-      <td className="js-lists-values-place small">{placeInfo.address}</td>
+      <td className="js-lists-values-place small">{placeInfo.address1}</td>
       <td className="js-lists-values-registration-date small">
-        {replaceString(placeInfo.create_date)}
+        {replaceString(placeInfo.create_date.slice(0, 10))}
       </td>
       <td className="js-lists-values-employer-name small">
         {placeInfo.writer}

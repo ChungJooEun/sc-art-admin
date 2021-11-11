@@ -3,7 +3,7 @@ import React from "react";
 import CheckablePlaceListItem from "../place-components/CheckablePlaceListItem";
 
 const CheckablePlaceList = ({ list, pageNumber, count, isModal }) => {
-  let no = pageNumber * count;
+  let no = (pageNumber - 1) * count + 1;
   return (
     <table className="table mb-0 thead-border-top-0 table-nowrap">
       <thead>
@@ -83,7 +83,7 @@ const CheckablePlaceList = ({ list, pageNumber, count, isModal }) => {
           <CheckablePlaceListItem
             key={placeInfo.id}
             placeInfo={placeInfo}
-            no={no--}
+            no={no++}
             isModal={isModal}
           />
         ))}
