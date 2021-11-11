@@ -110,15 +110,15 @@ const App = () => {
       </Route>
       {/* 문화행사 관리 > 문화행사 > 전시 */}
       <Route path="/event/exhibit-list">
-        <EventListView pageTitle="전시" />
+        <EventListView pageTitle="전시" type="exibition" />
       </Route>
       {/* 문화행사 관리 > 문화행사 > 공연 */}
       <Route path="/event/festival-list">
-        <EventListView pageTitle="공연" />
+        <EventListView pageTitle="공연" type="show" />
       </Route>
       {/* 문화행사 관리 > 문화행사 > 기타 */}
       <Route path="/event/event-others-list">
-        <EventListView pageTitle="기타" />
+        <EventListView pageTitle="기타" type="other" />
       </Route>
       {/* 문화행사 관리 > 서초구 축제 */}
       <Route path="/event/seocho-festival">

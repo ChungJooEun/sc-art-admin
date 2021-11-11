@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 
 import SideMenuBar from "../basic-components/SideMenuBar";
@@ -16,80 +15,41 @@ const pagePathList = [
   },
 ];
 
-const data = [
-  {
-    id: 1,
-    name: "행사이름 1",
-    event_type_name: "전시",
-    address: "주소 1",
-    price: 12000, // 누락
-    open_date: "2021-11-09", // 사용안함
-    close_date: "2021-11-19",
-    create_date: "2021-11-08",
-    writer: "관리자1", // 누락
-    state: "대기중", // 누락
-  },
-  {
-    id: 2,
-    name: "행사이름 2",
-    event_type_name: "공연",
-    address: "주소 2",
-    price: 0, // 누락
-    open_date: "2021-11-09", // 사용안함
-    close_date: "2021-11-19",
-    create_date: "2021-11-08",
-    writer: "관리자1", // 누락
-    state: "대기중", // 누락
-  },
-  {
-    id: 3,
-    name: "행사이름 3",
-    event_type_name: "기타",
-    address: "주소 3",
-    price: 12000, // 누락
-    open_date: "2021-11-09", // 사용안함
-    close_date: "2021-11-19",
-    create_date: "2021-11-08",
-    writer: "관리자1", // 누락
-    state: "대기중", // 누락
-  },
-  {
-    id: 4,
-    name: "행사이름 4",
-    event_type_name: "전시",
-    address: "주소 4",
-    price: 12000, // 누락
-    open_date: "2021-11-09", // 사용안함
-    close_date: "2021-11-19",
-    create_date: "2021-11-08",
-    writer: "관리자1", // 누락
-    state: "대기중", // 누락
-  },
-  {
-    id: 5,
-    name: "행사이름 5",
-    event_type_name: "기타",
-    address: "주소 5",
-    price: 0, // 누락
-    open_date: "2021-11-09", // 사용안함
-    close_date: "2021-11-19",
-    create_date: "2021-11-08",
-    writer: "관리자5", // 누락
-    state: "대기중", // 누락
-  },
-];
-
 const count = 5;
 
-const EventListView = ({ pageTitle }) => {
+const EventListView = ({ pageTitle, type }) => {
   const [eventList, setEventList] = useState(null);
+  const [totalNumber, setTotalNumber] = useState(null);
   const [loading, setLoading] = useState(true);
   const [pageNumber, setPageNumber] = useState(1);
 
-  const getEventList = () => {
-    // axios 코드 추가
-    setEventList(data);
-    setLoading(false);
+  const getEventList = useCallback(async () => {
+    const url = `/api/admin/cultural-event/list/${type}`;
+
+    try {
+      const response = await axios.get(url, {
+        params: {
+          sort_type: "desc",
+          sort_column: "create_date",
+          page: pageNumber,
+          count: count,
+          from_date: "20210101",
+          to_date: "20221231",
+        },
+      });
+
+      if (response.status === 200) {
+        setEventList(response.data.list);
+        setTotalNumber(response.data.total_count);
+        setLoading(false);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }, [pageNumber, type]);
+
+  const getPageNumber = (pickNumber) => {
+    setPageNumber(pickNumber);
   };
 
   useEffect(() => {
@@ -134,7 +94,7 @@ const EventListView = ({ pageTitle }) => {
         document.body.removeChild(scriptList[i]);
       }
     };
-  });
+  }, [getEventList]);
 
   if (loading) {
     return <p>로딩중..</p>;
@@ -173,7 +133,9 @@ const EventListView = ({ pageTitle }) => {
           <div className="container-fluid page__container">
             <div className="page-section">
               <div className="page-separator">
-                <div className="page-separator__text">{pageTitle}(12)</div>
+                <div className="page-separator__text">
+                  {pageTitle}({totalNumber})
+                </div>
               </div>
               <div
                 className="navbar navbar-expand x-0 pl-lg-16pt navbar-light bg-body"
@@ -242,7 +204,12 @@ const EventListView = ({ pageTitle }) => {
                     count={count}
                   />
                 </div>
-                <Paging />
+                <Paging
+                  pageNumber={pageNumber}
+                  getPageNumber={getPageNumber}
+                  totalNum={totalNumber}
+                  count={count}
+                />
               </div>
             </div>
           </div>
