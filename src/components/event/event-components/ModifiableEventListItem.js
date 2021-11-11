@@ -35,7 +35,7 @@ const ModifiableEventListItem = ({ eventInfo, no }) => {
           {eventInfo.event_type_name}
         </a>
       </td>
-      <td className="js-lists-values-place small">{eventInfo.address}</td>
+      <td className="js-lists-values-place small">{eventInfo.address1}</td>
       <td className="js-lists-values-price small">
         {" "}
         {eventInfo.price === 0 ? "무료" : `${eventInfo.price}원`}

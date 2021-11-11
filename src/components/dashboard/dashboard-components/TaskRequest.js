@@ -1,161 +1,99 @@
-import React, { useEffect, useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState, useCallback } from "react";
 
 import Paging from "../../basic-components/Paging";
 import ModifiableEventList from "../../event/event-components/ModifiableEventList";
 import ModifiablePlaceList from "../../place/place-components/ModifiablePlaceList";
 
-const dataEventList = [
-  {
-    id: 1,
-    name: "행사이름 1",
-    event_type_name: "전시",
-    address: "주소 1",
-    price: 12000, // 누락
-    open_date: "2021-11-09", // 사용안함
-    close_date: "2021-11-19",
-    create_date: "2021-11-08",
-    writer: "관리자1", // 누락
-    state: "기각", // 누락
-  },
-  {
-    id: 2,
-    name: "행사이름 2",
-    event_type_name: "공연",
-    address: "주소 2",
-    price: 0, // 누락
-    open_date: "2021-11-09", // 사용안함
-    close_date: "2021-11-19",
-    create_date: "2021-11-08",
-    writer: "관리자1", // 누락
-    state: "대기중", // 누락
-  },
-  {
-    id: 3,
-    name: "행사이름 3",
-    event_type_name: "기타",
-    address: "주소 3",
-    price: 12000, // 누락
-    open_date: "2021-11-09", // 사용안함
-    close_date: "2021-11-19",
-    create_date: "2021-11-08",
-    writer: "관리자1", // 누락
-    state: "대기중", // 누락
-  },
-  {
-    id: 4,
-    name: "행사이름 4",
-    event_type_name: "전시",
-    address: "주소 4",
-    price: 12000, // 누락
-    open_date: "2021-11-09", // 사용안함
-    close_date: "2021-11-19",
-    create_date: "2021-11-08",
-    writer: "관리자1", // 누락
-    state: "대기중", // 누락
-  },
-  {
-    id: 5,
-    name: "행사이름 5",
-    event_type_name: "기타",
-    address: "주소 5",
-    price: 0, // 누락
-    open_date: "2021-11-09", // 사용안함
-    close_date: "2021-11-19",
-    create_date: "2021-11-08",
-    writer: "관리자5", // 누락
-    state: "대기중", // 누락
-  },
-];
-
-const dataPlaceList = [
-  {
-    id: 1,
-    name: "공간이름 1",
-    space_type_name: "공연장",
-    address: "주소 1",
-    create_date: "2021-11-08",
-    writer: "관리자1", // 누락
-    state: "대기중", // 누락
-  },
-  {
-    id: 2,
-    name: "공간이름 2",
-    space_type_name: "연습실",
-    address: "주소 2",
-    create_date: "2021-11-08",
-    writer: "관리자2", // 누락
-    state: "기각", // 누락
-  },
-  {
-    id: 3,
-    name: "공간이름 3",
-    space_type_name: "연습실",
-    address: "주소 3",
-    create_date: "2021-11-08",
-    writer: "관리자2", // 누락
-    state: "기각", // 누락
-  },
-  {
-    id: 4,
-    name: "공간이름 4",
-    space_type_name: "악기상점",
-    address: "주소 4",
-    create_date: "2021-11-08",
-    writer: "관리자2", // 누락
-    state: "게시", // 누락
-  },
-  {
-    id: 5,
-    name: "공간이름 5",
-    space_type_name: "갤러리",
-    address: "주소 4",
-    create_date: "2021-11-08",
-    writer: "관리자5", // 누락
-    state: "기각", // 누락
-  },
-];
-
 const count = 5;
 
 const TaskRequest = () => {
-  const [list, setList] = useState(null);
+  const [eventList, setEventList] = useState(null);
+  const [placeList, setPlaceList] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [pageNumber, setPageNumber] = useState(1);
+  const [pageNumber_Event, setPageNumber_Event] = useState(1);
+  const [pageNumber_Place, setPageNumber_Place] = useState(1);
+  const [totalNumEvent, setTotalNumEvent] = useState(null);
+  const [totalNumPlace, setTotalNumPlace] = useState(null);
 
   const [tapMenu, setTapMenu] = useState(1);
 
   const onChangeTapMenu = (menu) => {
     setTapMenu(menu);
-    setPageNumber(1);
 
     if (menu === 1) {
-      getEventList();
+      setPageNumber_Event(1);
     } else {
-      getPlaceList();
+      setPageNumber_Place(1);
     }
   };
 
-  const getEventList = () => {
-    // axios 코드 추가
-    setList(dataEventList);
-    setLoading(false);
-  };
+  const getEventList = useCallback(async () => {
+    const url = "/api/admin/cultural-event/list";
 
-  const getPlaceList = () => {
-    // axios 코드 추가
-    setList(dataPlaceList);
-    setLoading(false);
+    try {
+      const response = await axios.get(url, {
+        params: {
+          sort_type: "desc",
+          sort_column: "create_date",
+          page: pageNumber_Event,
+          count: count,
+          from_date: "20210101",
+          to_date: "20221231",
+        },
+      });
+
+      if (response.status === 200) {
+        setEventList(response.data.list);
+        setTotalNumEvent(response.data.total_count);
+        setLoading(false);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }, [pageNumber_Event]);
+
+  const getPlaceList = useCallback(async () => {
+    const url = "/api/admin/cultural-space/list";
+
+    try {
+      const response = await axios.get(url, {
+        params: {
+          sort_type: "desc",
+          sort_column: "create_date",
+          page: pageNumber_Place,
+          count: count,
+        },
+      });
+
+      if (response.status === 200) {
+        setPlaceList(response.data.list);
+        setTotalNumPlace(response.data.total_count);
+        setLoading(false);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }, [pageNumber_Place]);
+
+  const getPageNumber = (pickNumber) => {
+    if (tapMenu === 1) {
+      setPageNumber_Event(pickNumber);
+    } else {
+      setPageNumber_Place(pickNumber);
+    }
   };
 
   useEffect(() => {
     getEventList();
-  }, []);
+    getPlaceList();
+  }, [getEventList, getPlaceList]);
 
   if (loading) {
     return <p>loading..</p>;
   }
 
-  if (!list) {
+  if (!eventList || !placeList || !totalNumEvent || !totalNumPlace) {
     return <p>fail to loading data</p>;
   }
 
@@ -177,7 +115,7 @@ const TaskRequest = () => {
                 }
                 onClick={() => onChangeTapMenu(1)}
               >
-                <span className="h2 mb-0 mr-3">3</span>
+                <span className="h2 mb-0 mr-3">{totalNumEvent}</span>
                 <span className="flex d-flex flex-column">
                   <strong>문화행사</strong>
                   <small className="text-50">신규 등록 요청</small>
@@ -193,7 +131,7 @@ const TaskRequest = () => {
                 }
                 onClick={() => onChangeTapMenu(2)}
               >
-                <span className="h2 mb-0 mr-3">2</span>
+                <span className="h2 mb-0 mr-3">{totalNumPlace}</span>
                 <span className="flex d-flex flex-column">
                   <strong>문화공간</strong>
                   <small className="text-50">신규 등록 요청</small>
@@ -206,22 +144,27 @@ const TaskRequest = () => {
           {
             1: (
               <ModifiableEventList
-                list={list}
-                pageNumber={pageNumber}
+                list={eventList}
+                pageNumber={pageNumber_Event}
                 count={count}
               />
             ),
             2: (
               <ModifiablePlaceList
-                list={list}
-                pageNumber={pageNumber}
+                list={placeList}
+                pageNumber={pageNumber_Place}
                 count={count}
               />
             ),
           }[tapMenu]
         }
 
-        <Paging />
+        <Paging
+          pageNumber={tapMenu === 1 ? pageNumber_Event : pageNumber_Place}
+          getPageNumber={getPageNumber}
+          totalNum={tapMenu === 1 ? totalNumEvent : totalNumPlace}
+          count={count}
+        />
       </div>
     </div>
   );
