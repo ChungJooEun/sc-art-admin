@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import ReactQuill from "react-quill";
 import CustomToolbar from "./CustomToolbar";
 
-const Editor = () => {
+const Editor = React.memo(({ more_information, getDetail }) => {
   const moduels = {
     toolbar: {
       container: "#toolbar-container",
@@ -28,11 +28,15 @@ const Editor = () => {
     "background",
   ];
 
-  const [text, setText] = useState("");
+  const [text, setText] = useState(more_information);
 
   const onChangeEditor = (e) => {
-    setText(e.target.value);
+    setText(e);
   };
+
+  useEffect(() => {
+    getDetail(text);
+  }, [getDetail, text]);
 
   return (
     <div className="flex" style={{ maxWidth: "100%" }}>
@@ -53,6 +57,6 @@ const Editor = () => {
       />
     </div>
   );
-};
+});
 
 export default Editor;

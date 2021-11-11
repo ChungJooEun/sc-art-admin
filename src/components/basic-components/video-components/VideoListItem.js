@@ -1,20 +1,32 @@
-import React from "react";
+import React, { useRef } from "react";
+import YouTube from "react-youtube";
 
-const VideoListItem = () => {
+const opts = {
+  height: "100%",
+  width: "100%",
+};
+
+const VideoListItem = ({ vId }) => {
+  const title = useRef();
+
+  const onReady = (e) => {
+    console.log(e.target.playerInfo.videoData.title);
+    title.current.innerText = e.target.playerInfo.videoData.title;
+  };
+
   return (
     <div className="col-lg-4 card-group-row__col">
       <div className="card card-group-row__card p-16pt">
-        <a className="d-block mb-16pt">
-          <img
-            src="../assets/images/stories/256_rsz_jared-rice-388260-unsplash.jpg"
-            alt=""
-            className="card-img card-img-cover"
-          />
-        </a>
+        <YouTube
+          className="card-img card-img-cover"
+          videoId={vId}
+          opts={opts}
+          onReady={onReady}
+        />
         <div className="d-flex">
           <div className="d-flex flex-column flex">
             <a className="mb-8pt">
-              <strong>영상 제목입니다.</strong>
+              <strong ref={title}></strong>
             </a>
           </div>
           <div className="d-flex align-items-center">

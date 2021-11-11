@@ -75,9 +75,9 @@ const CheckableEventListItem = ({ eventInfo, no, isModal }) => {
         {addDot(eventInfo.close_date)}
       </td>
       <td className="js-lists-values-employer-name small">
-        {eventInfo.writer}
+        {eventInfo.creator}
       </td>
-      <td className="js-lists-values-status small">{eventInfo.state}</td>
+      <td className="js-lists-values-status small">{eventInfo.state_name}</td>
     </tr>
   );
 };

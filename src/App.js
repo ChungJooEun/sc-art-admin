@@ -30,19 +30,19 @@ import AddAdminView from "./components/admin/AddAdminView";
 import AddBoardView from "./components/community/AddBoardView";
 
 const addPostOptions = [
-  { value: 1, name: "임시저장" },
-  { value: 2, name: "게시" },
-  { value: 3, name: "비공개" },
+  { value: "TEMP_SAVE", name: "임시저장" },
+  { value: "POST", name: "게시" },
+  // { value: 3, name: "비공개" },
 ];
 
 const detailViewPostOptions = [
-  { value: 0, name: "임시저장" },
-  { value: 1, name: "게시" },
+  { value: "TEMP_SAVE", name: "임시저장" },
+  { value: "POST", name: "게시" },
 ];
 
 const waitingPostOptions = [
-  { value: 1, name: "대기중" },
-  { value: 2, name: "게시" },
+  { value: "TEMP_SAVE", name: "대기중" },
+  { value: "POST", name: "게시" },
   { value: 3, name: "기각" },
 ];
 
@@ -130,16 +130,31 @@ const App = () => {
       </Route>
       {/* 문화행사 관리 > 등록 신청 리스트 */}
       <Route path="/event/event-application-list">
-        <ApplicationList tableTitle="문화행사" Table={ModifiableEventList} />
+        <ApplicationList
+          tableTitle="문화행사"
+          Table={ModifiableEventList}
+          type="event"
+        />
       </Route>
       {/* 문화행사 관리 > 문화행사 상세조회 */}
       <Route path="/event/event-detail">
         <EventDetailView options={detailViewPostOptions} isApproved={true} />
       </Route>
       {/* 문화행사 관리 > 등록신청 문화행사 상세조회 */}
-      <Route path="/event/event-application-detail">
-        <EventDetailView options={waitingPostOptions} isApproved={false} />
-      </Route>
+      <Route
+        path="/event/event-application-detail/:id"
+        component={(props) => (
+          <EventDetailView
+            options={waitingPostOptions}
+            isApproved={false}
+            {...props}
+          />
+        )}
+      />
+
+      {/* <Route path="/event-application-detail/form">
+        <EventInfoForm />
+      </Route> */}
 
       {/* 문화공간 관리 > 문화공간 */}
       <Route path="/place/place-manage">
@@ -178,7 +193,11 @@ const App = () => {
 
       {/* 문화공간 관리 > 등록 신청 리스트 */}
       <Route path="/place/place-application-list">
-        <ApplicationList tableTitle="문화공간" Table={ModifiablePlaceList} />
+        <ApplicationList
+          tableTitle="문화공간"
+          Table={ModifiablePlaceList}
+          type="space"
+        />
       </Route>
 
       {/* 문화공간 관리 > 문화공간 상세조회 */}

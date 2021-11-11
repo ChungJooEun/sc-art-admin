@@ -1,6 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 
-const ImageForm = () => {
+const ImageForm = ({ imgUrl, getImgUrl }) => {
+  const [imgBase64, setImgBase64] = useState([]);
+
+  const onChangeImgFile = (e) => {
+    const imgFileAry = e.target.files;
+
+    setImgBase64([]);
+    getImgUrl(imgFileAry);
+
+    for (let i = 0; i < imgFileAry.length; i++) {
+      if (imgFileAry[i]) {
+        let reader = new FileReader();
+
+        // 1. 파일 읽어서 버퍼에 저장
+        reader.readAsDataURL(imgFileAry[i]);
+
+        // 파일 상태 업데이트
+        reader.onloadend = () => {
+          // 읽기 완료시, 아래 코드 실행
+          const base64 = reader.result;
+
+          if (base64) {
+            var base64Sub = base64.toString();
+
+            // 파일 base64 상태 업데이트
+            setImgBase64((imgBase64) => [...imgBase64, base64Sub]);
+          }
+        };
+      }
+    }
+  };
+
   return (
     <div className="col-lg-4">
       <div className="card mb-lg-0">
@@ -8,7 +39,11 @@ const ImageForm = () => {
           <div className="list-group-item p-16pt">
             <a className="d-block mb-16pt">
               <img
-                src="../assets/images/stories/256_rsz_jared-rice-388260-unsplash.jpg"
+                src={
+                  imgBase64.length === 0
+                    ? "../assets/images/stories/256_rsz_jared-rice-388260-unsplash.jpg"
+                    : imgBase64[0]
+                }
                 alt=""
                 className="card-img card-img-cover"
               />
@@ -22,9 +57,10 @@ const ImageForm = () => {
               <div className="col-md-10">
                 <input
                   type="file"
+                  accept="image/*"
                   className=""
                   id="customFileUploadMultiple"
-                  multiple=""
+                  onChange={(e) => onChangeImgFile(e)}
                 />
                 <label className="" for="customFileUploadMultiple"></label>
               </div>

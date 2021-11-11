@@ -1,6 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 
-const VideoAddForm = () => {
+const VideoAddForm = ({ getVideo }) => {
+  const [url, setUrl] = useState("");
+
+  const getUrl = () => {
+    getVideo(url);
+    setUrl("");
+  };
+
+  const onChangeUrl = (e) => {
+    setUrl(e.target.value);
+  };
+
   return (
     <div
       role="group"
@@ -21,10 +32,18 @@ const VideoAddForm = () => {
             type="url"
             placeholder="http://"
             className="form-control"
+            value={url}
+            onChange={(e) => {
+              onChangeUrl(e);
+            }}
           />
         </div>
         <form className="d-none d-md-flex">
-          <button type="submit" className="btn btn-primary">
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={() => getUrl()}
+          >
             추가{" "}
           </button>
         </form>

@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 import GlobalBar from "../basic-components/GlobalBar";
 import SideMenuBar from "../basic-components/SideMenuBar";
@@ -24,7 +25,10 @@ const pagePathList = [
   },
 ];
 
-const EventDetailView = ({ options, isApproved }) => {
+const EventDetailView = ({ options, isApproved, match }) => {
+  const [eventDetail, setEventDetail] = useState(null);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const srcList = [
       "/assets/vendor/jquery.min.js",
@@ -58,12 +62,41 @@ const EventDetailView = ({ options, isApproved }) => {
       document.body.appendChild(script);
     }
 
+    const getEventDetail = async () => {
+      const { id } = match.params;
+      const url = `/api/admin/cultural-event/detail/${id}`;
+
+      try {
+        const response = await axios.get(url);
+
+        if (response.status === 200) {
+          setEventDetail(response.data);
+          setLoading(false);
+
+          console.log(response.data);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    getEventDetail();
+
     return () => {
       for (let i = 0; i < scriptList.length; i++) {
         document.body.removeChild(scriptList[i]);
       }
     };
-  });
+  }, [match.params]);
+
+  if (loading) {
+    return <p>로딩중..</p>;
+  }
+
+  if (!eventDetail) {
+    return <p>fail to loading data</p>;
+  }
+
   return (
     <>
       <div className="preloader">
@@ -92,8 +125,8 @@ const EventDetailView = ({ options, isApproved }) => {
           <div className="container-fluid page__container">
             <div className="page-section">
               <div className="row">
-                <ImageForm />
-                <EventInfoForm />
+                <ImageForm imgUrl={eventDetail.resources} />
+                <EventInfoForm eventInfo={eventDetail} />
               </div>
 
               <Curation />

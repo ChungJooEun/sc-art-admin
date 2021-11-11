@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-
+import React, { useEffect, useState, useCallback } from "react";
+import axios from "axios";
 import GlobalBar from "../basic-components/GlobalBar";
 import PageTitle from "../basic-components/PageTitle";
 import Paging from "../basic-components/Paging";
@@ -12,143 +12,72 @@ const pagePathList = [
   },
 ];
 
-const dataEventList = [
-  {
-    id: 1,
-    name: "행사이름 1",
-    event_type_name: "전시",
-    address: "주소 1",
-    price: 12000, // 누락
-    open_date: "2021-11-09", // 사용안함
-    close_date: "2021-11-19",
-    create_date: "2021-11-08",
-    writer: "관리자1", // 누락
-    state: "대기중", // 누락
-  },
-  {
-    id: 2,
-    name: "행사이름 2",
-    event_type_name: "공연",
-    address: "주소 2",
-    price: 0, // 누락
-    open_date: "2021-11-09", // 사용안함
-    close_date: "2021-11-19",
-    create_date: "2021-11-08",
-    writer: "관리자1", // 누락
-    state: "대기중", // 누락
-  },
-  {
-    id: 3,
-    name: "행사이름 3",
-    event_type_name: "기타",
-    address: "주소 3",
-    price: 12000, // 누락
-    open_date: "2021-11-09", // 사용안함
-    close_date: "2021-11-19",
-    create_date: "2021-11-08",
-    writer: "관리자1", // 누락
-    state: "대기중", // 누락
-  },
-  {
-    id: 4,
-    name: "행사이름 4",
-    event_type_name: "전시",
-    address: "주소 4",
-    price: 12000, // 누락
-    open_date: "2021-11-09", // 사용안함
-    close_date: "2021-11-19",
-    create_date: "2021-11-08",
-    writer: "관리자1", // 누락
-    state: "대기중", // 누락
-  },
-  {
-    id: 5,
-    name: "행사이름 5",
-    event_type_name: "기타",
-    address: "주소 5",
-    price: 0, // 누락
-    open_date: "2021-11-09", // 사용안함
-    close_date: "2021-11-19",
-    create_date: "2021-11-08",
-    writer: "관리자5", // 누락
-    state: "대기중", // 누락
-  },
-];
-
-const dataPlaceList = [
-  {
-    id: 1,
-    name: "공간이름 1",
-    space_type_name: "공연장",
-    address: "주소 1",
-    create_date: "2021-11-08",
-    writer: "관리자1", // 누락
-    state: "대기중", // 누락
-  },
-  {
-    id: 2,
-    name: "공간이름 2",
-    space_type_name: "연습실",
-    address: "주소 2",
-    create_date: "2021-11-08",
-    writer: "관리자2", // 누락
-    state: "기각", // 누락
-  },
-  {
-    id: 3,
-    name: "공간이름 3",
-    space_type_name: "연습실",
-    address: "주소 3",
-    create_date: "2021-11-08",
-    writer: "관리자2", // 누락
-    state: "기각", // 누락
-  },
-  {
-    id: 4,
-    name: "공간이름 4",
-    space_type_name: "악기상점",
-    address: "주소 4",
-    create_date: "2021-11-08",
-    writer: "관리자2", // 누락
-    state: "게시", // 누락
-  },
-  {
-    id: 5,
-    name: "공간이름 5",
-    space_type_name: "갤러리",
-    address: "주소 4",
-    create_date: "2021-11-08",
-    writer: "관리자5", // 누락
-    state: "기각", // 누락
-  },
-];
-
 const count = 5;
 
-const ApplicationList = ({ tableTitle, Table }) => {
+const ApplicationList = ({ tableTitle, Table, type }) => {
   const [list, setList] = useState(null);
+  const [totalNumber, setTotalNumber] = useState(null);
   const [loading, setLoading] = useState(true);
   const [pageNumber, setPageNumber] = useState(1);
 
-  const getEventList = () => {
-    // axios 코드 추가
-    setList(dataEventList);
-    setLoading(false);
+  const getEventList = useCallback(async () => {
+    const url = "/api/admin/cultural-event/list";
+
+    try {
+      const response = await axios.get(url, {
+        params: {
+          sort_type: "desc",
+          sort_column: "create_date",
+          page: pageNumber,
+          count: count,
+          from_date: "20210101",
+          to_date: "20221231",
+        },
+      });
+
+      if (response.status === 200) {
+        setList(response.data.list);
+        setTotalNumber(response.data.total_count);
+        setLoading(false);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }, [pageNumber]);
+
+  const getPageNumber = (pickNumber) => {
+    setPageNumber(pickNumber);
   };
 
-  const getPlaceList = () => {
-    // axios 코드 추가
-    setList(dataPlaceList);
-    setLoading(false);
-  };
+  const getPlaceList = useCallback(async () => {
+    const url = "/api/admin/cultural-space/list";
+
+    try {
+      const response = await axios.get(url, {
+        params: {
+          sort_type: "desc",
+          sort_column: "create_date",
+          page: pageNumber,
+          count: count,
+        },
+      });
+
+      if (response.status === 200) {
+        setList(response.data.list);
+        setTotalNumber(response.data.total_count);
+        setLoading(false);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }, [pageNumber]);
 
   useEffect(() => {
-    if (window.location.href.includes("event")) {
+    if (type === "event") {
       getEventList();
     } else {
       getPlaceList();
     }
-
     const srcList = [
       "/assets/vendor/jquery.min.js",
       "/assets/vendor/popper.min.js",
@@ -186,7 +115,7 @@ const ApplicationList = ({ tableTitle, Table }) => {
         document.body.removeChild(scriptList[i]);
       }
     };
-  }, []);
+  }, [getEventList, getPlaceList, type]);
 
   if (loading) {
     return <p>loading..</p>;
@@ -221,11 +150,18 @@ const ApplicationList = ({ tableTitle, Table }) => {
           <div className="container-fluid page__container">
             <div className="page-section">
               <div className="page-separator">
-                <div className="page-separator__text">{tableTitle}(12)</div>
+                <div className="page-separator__text">
+                  {tableTitle}({totalNumber})
+                </div>
               </div>
               <div className="card dashboard-area-tabs mb-32pt">
                 <Table list={list} pageNumber={pageNumber} count={count} />
-                <Paging />
+                <Paging
+                  pageNumber={pageNumber}
+                  getPageNumber={getPageNumber}
+                  totalNum={totalNumber}
+                  count={count}
+                />
               </div>
             </div>
           </div>

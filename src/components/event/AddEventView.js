@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useCallback } from "react";
+import axios from "axios";
 
 import GlobalBar from "../basic-components/GlobalBar";
 import SideMenuBar from "../basic-components/SideMenuBar";
@@ -23,7 +24,165 @@ const pagePathList = [
   },
 ];
 
+const convertDateFormat = (str) => {
+  const date = new Date(str);
+
+  return "" + date.getFullYear() + (date.getMonth() + 1) + date.getDate();
+};
+
 const AddEventView = ({ options }) => {
+  const [formInfo, setFormInfo] = useState({
+    name: "",
+    location: "",
+    address1: "",
+    address2: "",
+    open_date: convertDateFormat(new Date()),
+    close_date: convertDateFormat(new Date()),
+    age: "",
+    homepage: "",
+    phone: "",
+    price: "",
+    open_time: "9:00",
+    close_time: "21:00",
+    resources: null,
+    festival_id: "",
+    state: "TEMP_SAVE",
+  });
+  const getFormInfo = useCallback((result) => {
+    setFormInfo(result);
+  }, []);
+
+  const [curationInfo, setCurationInfo] = useState({
+    event_type: "EXHIBITION",
+    event_field: [],
+    event_theme: [],
+    festival_id: "",
+  });
+  const getCurationInfo = useCallback((info) => {
+    setCurationInfo(info);
+  }, []);
+
+  const [detail, setDetail] = useState("");
+  const getDetail = useCallback((result) => {
+    setDetail(result);
+  }, []);
+
+  const [vId, setVid] = useState(1);
+  const [videos, setVideos] = useState([]);
+  const getVideo = useCallback(
+    (url) => {
+      setVideos(
+        videos.concat({
+          vId: vId,
+          url: url,
+        })
+      );
+
+      setVid(vId + 1);
+    },
+    [vId, videos]
+  );
+
+  const getVideoId = (url) => {
+    let videoId;
+
+    if (url.indexOf("watch?v=") === 24) {
+      videoId = url.slice(32, 43);
+    } else {
+      videoId = url.slice(17, 28);
+    }
+
+    return videoId;
+  };
+
+  const getImgUrl = useCallback(
+    (imgFile) => {
+      setFormInfo({
+        ...formInfo,
+        resources: imgFile,
+      });
+    },
+    [formInfo]
+  );
+
+  const postEvent = async (eventData) => {
+    const url = "/api/admin/cultural-event/regist";
+
+    try {
+      const response = await axios.post(url, eventData, {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      });
+
+      console.log(response.status);
+      if (response.status === 200) {
+        console.log(response.data);
+        // window.location.href = "/event/event-manage";
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const onSubmitEvent = (formState) => {
+    let formData = new FormData();
+
+    if (formInfo.resources) {
+      formData.append(
+        "file",
+        formInfo.resources[0],
+        formInfo.resources[0].name
+      );
+    }
+
+    formData.append("name", formInfo.name);
+    formData.append("location", formInfo.location);
+    formData.append("address1", formInfo.adderss1);
+    formData.append("address2", formInfo.address2);
+    formData.append("open_date", formInfo.open_date);
+    formData.append("close_date", formInfo.close_date);
+    formData.append("age", formInfo.age);
+    formData.append("homepage", formInfo.homepage);
+    formData.append("phone", formInfo.phone);
+    formData.append("price", formInfo.price);
+    formData.append("open_time", formInfo.open_time);
+    formData.append("close_time", formInfo.close_time);
+    formData.append("festival_id", formInfo.festival_id);
+    formData.append("state", formState);
+    formData.append("more_information", detail);
+    formData.append("userid", "dowon.lee");
+
+    var vAry;
+    var temp;
+
+    // curation
+    vAry = new Array();
+    for (let i = 0; i < curationInfo.event_field.length; i++) {
+      vAry.push(curationInfo.event_field[i]);
+    }
+    formData.append("event_field", vAry);
+
+    vAry = new Array();
+    for (let i = 0; i < curationInfo.event_theme.length; i++) {
+      vAry.push(curationInfo.event_theme[i]);
+    }
+    formData.append("event_theme", vAry);
+
+    formData.append("event_type", curationInfo.event_type);
+
+    // youtube
+    vAry = new Array();
+    for (let i = 0; i < videos.length; i++) {
+      temp = new Object();
+      temp.url = videos[i].url;
+      vAry.push(temp);
+    }
+    formData.append("videos", vAry);
+
+    postEvent(formData);
+  };
+
   useEffect(() => {
     const srcList = [
       "/assets/vendor/jquery.min.js",
@@ -37,9 +196,6 @@ const AddEventView = ({ options }) => {
       "/assets/js/settings.js",
       "/assets/vendor/moment.min.js",
       "/assets/vendor/moment-range.js",
-      "/assets/vendor/Chart.min.js",
-      "/assets/js/chartjs.js",
-      "/assets/js/chartjs-rounded-bar.js",
       "/assets/js/page.projects.js",
       "/assets/js/page.analytics-2-dashboard.js",
       "/assets/vendor/list.min.js",
@@ -63,6 +219,7 @@ const AddEventView = ({ options }) => {
       }
     };
   });
+
   return (
     <>
       <div className="preloader">
@@ -90,18 +247,21 @@ const AddEventView = ({ options }) => {
           <div className="container-fluid page__container">
             <div className="page-section">
               <div className="row">
-                <ImageForm />
-                <EventInfoForm />
+                <ImageForm imgUrl={formInfo.resources} getImgUrl={getImgUrl} />
+                <EventInfoForm eventInfo={formInfo} getFormInfo={getFormInfo} />
               </div>
 
-              <Curation />
+              <Curation
+                curationInfo={curationInfo}
+                getCurationInfo={getCurationInfo}
+              />
 
               <div className="page-section">
                 <div className="page-separator">
                   <div className="page-separator__text">상세정보</div>
                 </div>
 
-                <Editor />
+                <Editor more_information={detail} getDetail={getDetail} />
               </div>
 
               <div className="page-section">
@@ -109,18 +269,22 @@ const AddEventView = ({ options }) => {
                   <div className="page-separator__text">관련 영상 업로드</div>
                 </div>
                 <div className="list-group-item">
-                  <VideoAddForm />
+                  <VideoAddForm getVideo={getVideo} />
                 </div>
                 <div className="row card-group-row">
-                  <VideoListItem />
-                  <VideoListItem />
-                  <VideoListItem />
+                  {videos.map((video) => (
+                    <VideoListItem vId={getVideoId(video.url)} key={video.id} />
+                  ))}
                 </div>
               </div>
 
               <div className="detail_under_menu ">
                 <div className="card">
-                  <PostSaveBtn options={options} />
+                  <PostSaveBtn
+                    options={options}
+                    onSubmitEvent={onSubmitEvent}
+                    state={formInfo.state}
+                  />
                 </div>
               </div>
             </div>
