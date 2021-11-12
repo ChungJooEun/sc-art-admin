@@ -28,6 +28,7 @@ import AdminManageView from "./components/admin/AdminManageView";
 import AdminDetailView from "./components/admin/AdminDetailView";
 import AddAdminView from "./components/admin/AddAdminView";
 import AddBoardView from "./components/community/AddBoardView";
+import EditorTest from "./components/basic-components/editor-components/EditorTest";
 
 const addPostOptions = [
   { value: "TEMP_SAVE", name: "임시저장" },
@@ -137,9 +138,18 @@ const App = () => {
         />
       </Route>
       {/* 문화행사 관리 > 문화행사 상세조회 */}
-      <Route path="/event/event-detail">
-        <EventDetailView options={detailViewPostOptions} isApproved={true} />
-      </Route>
+
+      <Route
+        path="/event/event-detail/:id"
+        component={(props) => (
+          <EventDetailView
+            options={detailViewPostOptions}
+            isApproved={true}
+            {...props}
+          />
+        )}
+      />
+
       {/* 문화행사 관리 > 등록신청 문화행사 상세조회 */}
       <Route
         path="/event/event-application-detail/:id"
@@ -304,6 +314,10 @@ const App = () => {
       {/* 로그인 */}
       <Route path="/common/login">
         <LoginView />
+      </Route>
+
+      <Route path="/editor">
+        <EditorTest />
       </Route>
 
       <Route component={() => <h2>Page Not Found</h2>} />

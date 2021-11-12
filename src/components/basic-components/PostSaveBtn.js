@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const PostSaveBtn = ({ options, onSubmitEvent, state }) => {
+const PostSaveBtn = React.memo(({ options, onSubmitEvent, state }) => {
   const getOptions = () => {
     let optionAry = [
       <option selected value={options[0].value}>
@@ -66,6 +66,6 @@ const PostSaveBtn = ({ options, onSubmitEvent, state }) => {
       </div>
     </div>
   );
-};
+});
 
 export default PostSaveBtn;

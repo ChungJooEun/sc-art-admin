@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const VideoAddForm = ({ getVideo }) => {
+const VideoAddForm = React.memo(({ getVideo }) => {
   const [url, setUrl] = useState("");
 
   const getUrl = () => {
@@ -50,6 +50,6 @@ const VideoAddForm = ({ getVideo }) => {
       </div>
     </div>
   );
-};
+});
 
 export default VideoAddForm;

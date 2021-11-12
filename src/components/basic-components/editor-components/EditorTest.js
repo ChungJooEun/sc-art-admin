@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import ReactQuill from "react-quill";
 import CustomToolbar from "./CustomToolbar";
 
-const Editor = React.memo(({ more_information, getDetail }) => {
+const EditorTest = ({ more_information, getDetail }) => {
   const moduels = {
     toolbar: {
       container: "#toolbar-container",
@@ -28,18 +28,6 @@ const Editor = React.memo(({ more_information, getDetail }) => {
     "background",
   ];
 
-  const [text, setText] = useState(more_information);
-
-  const onChangeEditor = (e) => {
-    setText(e);
-
-    console.log(typeof e);
-  };
-
-  useEffect(() => {
-    getDetail(text);
-  }, [getDetail, text]);
-
   return (
     <div className="flex" style={{ maxWidth: "100%" }}>
       <CustomToolbar />
@@ -47,8 +35,8 @@ const Editor = React.memo(({ more_information, getDetail }) => {
         theme="snow"
         modules={moduels}
         formats={formats}
-        value={text === undefined ? " " : text}
-        onChange={(e) => onChangeEditor(e)}
+        value="<p>아이고</p>"
+        // onChange={(e) => onChangeEditor(e)}
         placeholder="상세소개..."
         formula={true}
         syntax={true}
@@ -59,6 +47,6 @@ const Editor = React.memo(({ more_information, getDetail }) => {
       />
     </div>
   );
-});
+};
 
-export default Editor;
+export default EditorTest;

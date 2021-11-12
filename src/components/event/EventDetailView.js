@@ -68,7 +68,7 @@ const EventDetailView = ({ options, isApproved, match }) => {
   }, []);
 
   const [vId, setVid] = useState(null);
-  const [videos, setVideos] = useState(null);
+  const [videos, setVideos] = useState([]);
   const getVideo = useCallback(
     (url) => {
       setVideos(
@@ -113,7 +113,7 @@ const EventDetailView = ({ options, isApproved, match }) => {
     }
   };
 
-  const onSubmitEvent = (formState) => {
+  const onSubmitEvent = useCallback((formState) => {
     let formData = new FormData();
 
     if (formInfo.resources) {
@@ -169,7 +169,33 @@ const EventDetailView = ({ options, isApproved, match }) => {
     formData.append("videos", vAry);
 
     postEvent(formData);
-  };
+  }, []);
+
+  const parseUrl = useCallback(
+    (string) => {
+      let ary = string.split('"');
+      let id = 1;
+
+      for (let i = 0; i < ary.length; i++) {
+        if (ary[i].includes("/images/")) {
+          setFormInfo({
+            ...formInfo,
+            resources: ary[i],
+          });
+        } else if (ary[i].includes("youtube")) {
+          setVideos(
+            videos.concat({
+              vId: id++,
+              url: ary[i],
+            })
+          );
+        }
+      }
+
+      setVid(id);
+    },
+    [formInfo, videos]
+  );
 
   useEffect(() => {
     const srcList = [
@@ -209,35 +235,25 @@ const EventDetailView = ({ options, isApproved, match }) => {
       const url = `/api/admin/cultural-event/detail/${id}`;
 
       try {
-        const response = await axios.get(url);
+        const customAxios = axios.create({});
+        const response = await customAxios.get(url);
 
         if (response.status === 200) {
           setCurationInfo(response.data);
-          setDetail(response.data.more_information);
+          setDetail(response.data);
           setFormInfo(response.data);
           setTime({
             open_time: response.data.open_time,
             close_time: response.data.close_time,
           });
 
-          // const videos = JSON.parse(response.data.resources);
+          parseUrl(response.data.resources);
 
-          // console.log(response.data.resources);
-
-          // setVid(response.data.videos.length);
-
-          // let ary = [];
-          // for (let i = 0; i < response.data.videos.length; i++) {
-          //   ary.concat({
-          //     vId: i,
-          //     url: response.data.videos[i].url,
-          //   });
-          // }
-          setVideos([]);
+          // setVideos([]);
 
           setLoading(false);
 
-          console.log(typeof response.data.more_information);
+          console.log("====== 성공 ======");
         }
       } catch (e) {
         console.log(e);
@@ -251,7 +267,7 @@ const EventDetailView = ({ options, isApproved, match }) => {
         document.body.removeChild(scriptList[i]);
       }
     };
-  }, []);
+  }, [match.params, parseUrl]);
 
   if (loading) {
     return <p>로딩중..</p>;
@@ -260,9 +276,9 @@ const EventDetailView = ({ options, isApproved, match }) => {
   if (!formInfo || !curationInfo || !videos) {
     console.log(formInfo);
     console.log(curationInfo);
-    console.log(detail);
+    // console.log(detail);
     console.log(videos);
-
+    console.log(typeof formInfo.more_information);
     return <p>fail to loading data</p>;
   }
 
@@ -312,7 +328,10 @@ const EventDetailView = ({ options, isApproved, match }) => {
                   <div className="page-separator__text">상세정보</div>
                 </div>
 
-                <Editor mor_information="dk" getDetail={getDetail} />
+                <Editor
+                  mor_information={formInfo.more_information}
+                  getDetail={getDetail}
+                />
               </div>
 
               <div className="page-section">

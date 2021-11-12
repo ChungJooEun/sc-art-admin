@@ -1,6 +1,6 @@
-import Rect from "react";
+import React from "react";
 
-const CheckableScEventListItem = () => {
+const CheckableScEventListItem = ({ scInfo }) => {
   return (
     <tr className="selected">
       <td className="pr-0">

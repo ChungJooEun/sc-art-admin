@@ -1,6 +1,6 @@
 import React from "react";
 
-const RejectSection = ({ reason }) => {
+const RejectSection = React.memo(({ reason }) => {
   return (
     <>
       <div className="list-group-item">
@@ -46,6 +46,6 @@ const RejectSection = ({ reason }) => {
       </div>
     </>
   );
-};
+});
 
 export default RejectSection;

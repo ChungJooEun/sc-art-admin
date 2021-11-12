@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const ImageForm = ({ imgUrl, getImgUrl }) => {
+const ImageForm = React.memo(({ imgUrl, getImgUrl }) => {
   const [imgBase64, setImgBase64] = useState([]);
 
   const onChangeImgFile = (e) => {
@@ -70,6 +70,6 @@ const ImageForm = ({ imgUrl, getImgUrl }) => {
       </div>
     </div>
   );
-};
+});
 
 export default ImageForm;

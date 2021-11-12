@@ -3,7 +3,7 @@ import React from "react";
 const SearchBar = () => {
   return (
     <>
-      <div class="flex"></div>
+      <div className="flex"></div>
       <div
         className="navbar navbar-expand x-0 pl-lg-16pt navbar-light bg-body"
         id="default-navbar"
@@ -22,7 +22,9 @@ const SearchBar = () => {
         <div>
           <div className="search-form search-form--dark">
             <select id="custom-select" className="form-control custom-select">
-              <option selected="">행사명</option>
+              <option selected value="0">
+                행사명
+              </option>
               <option value="1">작성자</option>
               <option value="2">위치</option>
               <option value="3">축제명</option>

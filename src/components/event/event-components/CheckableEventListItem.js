@@ -45,9 +45,7 @@ const CheckableEventListItem = ({ eventInfo, no, isModal }) => {
               <p className="mb-0 txt_line_table_title">
                 <a
                   onClick={() =>
-                    history.push(
-                      `/event/event-application-detail/${eventInfo.id}`
-                    )
+                    history.push(`/event/event-detail/${eventInfo.id}`)
                   }
                 >
                   <strong className="js-lists-values-cultural-event">

@@ -157,25 +157,29 @@ const AddEventView = ({ options }) => {
     var vAry;
     var temp;
 
-    // curation
-    vAry = new Array();
     for (let i = 0; i < curationInfo.event_field.length; i++) {
-      vAry.push(curationInfo.event_field[i]);
+      // vAry.push(curationInfo.event_field[i]);
+      formData.append("event_field", curationInfo.event_field[i]);
     }
-    formData.append("event_field", vAry);
 
-    vAry = new Array();
     for (let i = 0; i < curationInfo.event_theme.length; i++) {
-      vAry.push(curationInfo.event_theme[i]);
+      formData.append("event_theme", curationInfo.event_theme[i]);
+      // vAry.push(curationInfo.event_theme[i]);
     }
-    formData.append("event_theme", vAry);
 
     formData.append("event_type", curationInfo.event_type);
 
     // youtube
+    var obj;
+    // var ary = [];
     for (let i = 0; i < videos.length; i++) {
-      formData.append("videos", JSON.stringify({ url: videos[i].url }));
+      obj = new Object();
+      obj.url = videos[i].url;
+      formData.append("videos", JSON.stringify(obj));
+      // ary.push(obj);
     }
+    // formData.append("videos", JSON.stringify(obj));
+    // formData.append("videos", JSON.stringify(ary));
 
     postEvent(formData);
   };

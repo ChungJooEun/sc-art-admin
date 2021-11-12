@@ -50,8 +50,10 @@ const themeOptions = [
   { value: "WINTER", label: "겨울" },
 ];
 
-const Curation = ({ curationInfo, getCurationInfo }) => {
+const Curation = React.memo(({ curationInfo, getCurationInfo }) => {
   const getDefaultOptions_field = (fields) => {
+    console.log(fields);
+
     const defaultOptions = [];
 
     if (fields === undefined) {
@@ -208,6 +210,6 @@ const Curation = ({ curationInfo, getCurationInfo }) => {
       </div>
     </div>
   );
-};
+});
 
 export default Curation;

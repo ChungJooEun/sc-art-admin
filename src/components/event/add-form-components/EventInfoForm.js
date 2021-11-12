@@ -16,7 +16,11 @@ const convertDateFormat = (str) => {
 };
 
 const convertToDate = (str) => {
-  return new Date(str.slice(0, 4), parseInt(str.slice(4, 6)) - 1, str.slice(6));
+  console.log(str);
+
+  return new Date();
+
+  // return new Date(str.slice(0, 4), parseInt(str.slice(4, 6)) - 1, str.slice(6));
 };
 
 const convertTimeFormat = (str) => {
@@ -32,7 +36,7 @@ const convertTimeFormat = (str) => {
   return result;
 };
 
-const EventInfoForm = ({ eventInfo, getFormInfo, initTime }) => {
+const EventInfoForm = React.memo(({ eventInfo, getFormInfo, initTime }) => {
   const [showInputBox, setShowInputBox] = useState(false);
   const toggleInputBox = () => {
     setShowInputBox(!showInputBox);
@@ -414,7 +418,7 @@ const EventInfoForm = ({ eventInfo, getFormInfo, initTime }) => {
                   placeholder="12"
                   data-mask="#.##0,00"
                   data-mask-reverse="true"
-                  autocomplete="off"
+                  autoComplete="off"
                   value={formInfo.age}
                   onChange={(e) => onChangeAge(e)}
                   ref={ageInput}
@@ -461,7 +465,7 @@ const EventInfoForm = ({ eventInfo, getFormInfo, initTime }) => {
                   placeholder="www.site.com"
                   data-mask="#.##0,00"
                   data-mask-reverse="true"
-                  autocomplete="off"
+                  autoComplete="off"
                   value={formInfo.homepage}
                   onChange={(e) => onChangeHomPage(e)}
                 />
@@ -485,7 +489,7 @@ const EventInfoForm = ({ eventInfo, getFormInfo, initTime }) => {
                   placeholder="www.site.com"
                   data-mask="#.##0,00"
                   data-mask-reverse="true"
-                  autocomplete="off"
+                  autoComplete="off"
                 />
               </div>
             </div>
@@ -506,7 +510,7 @@ const EventInfoForm = ({ eventInfo, getFormInfo, initTime }) => {
                   className="form-control"
                   placeholder="000 0000 0000"
                   data-mask="(000) 000-0000"
-                  autocomplete="off"
+                  autoComplete="off"
                   maxLength="14"
                   value={formInfo.phone}
                   onChange={(e) => onChangePhone(e)}
@@ -580,6 +584,6 @@ const EventInfoForm = ({ eventInfo, getFormInfo, initTime }) => {
       </div>
     </>
   );
-};
+});
 
 export default EventInfoForm;

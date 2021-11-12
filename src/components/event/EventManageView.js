@@ -34,8 +34,8 @@ const EventManageView = () => {
           sort_column: "create_date",
           page: pageNumber,
           count: count,
-          from_date: "20210101",
-          to_date: "20221231",
+          from_date: "20200101",
+          to_date: "20302110",
         },
       });
 
