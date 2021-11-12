@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 
 const replaceString = (string) => {
   return string.replace(/-/gi, ".");
@@ -16,6 +17,8 @@ const addDot = (string) => {
 };
 
 const CheckableEventListItem = ({ eventInfo, no, isModal }) => {
+  const history = useHistory();
+
   return (
     <tr className="selected">
       <td className="pr-0">
@@ -26,7 +29,7 @@ const CheckableEventListItem = ({ eventInfo, no, isModal }) => {
             checked=""
             id="customCheck1_1"
           />
-          <label className="custom-control-label" for="customCheck1_1">
+          <label className="custom-control-label" htmlFor="customCheck1_1">
             <span className="text-hide">Check</span>
           </label>
         </div>
@@ -41,7 +44,11 @@ const CheckableEventListItem = ({ eventInfo, no, isModal }) => {
             <div className="d-flex flex-column">
               <p className="mb-0 txt_line_table_title">
                 <a
-                  onClick={() => (window.location.href = "/event/event-detail")}
+                  onClick={() =>
+                    history.push(
+                      `/event/event-application-detail/${eventInfo.id}`
+                    )
+                  }
                 >
                   <strong className="js-lists-values-cultural-event">
                     {eventInfo.name}
@@ -69,7 +76,7 @@ const CheckableEventListItem = ({ eventInfo, no, isModal }) => {
         {eventInfo.price === 0 ? "무료" : `${eventInfo.price}원`}
       </td>
       <td className="js-lists-values-registration-date small">
-        {replaceString(eventInfo.create_date.slice(0, 10))}
+        {addDot(replaceString(eventInfo.create_date.slice(0, 10)))}
       </td>
       <td className="js-lists-values-deadline small">
         {addDot(eventInfo.close_date)}

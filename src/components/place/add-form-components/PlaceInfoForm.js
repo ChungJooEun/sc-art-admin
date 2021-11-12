@@ -102,7 +102,7 @@ const PlaceInfoForm = ({ placeInfo, getFormInfo, initTime }) => {
               <div className="form-row align-items-center">
                 <label
                   id="label-question"
-                  for="question"
+                  htmlFor="question"
                   className="col-md-2 col-form-label form-label"
                 >
                   장소
@@ -129,7 +129,7 @@ const PlaceInfoForm = ({ placeInfo, getFormInfo, initTime }) => {
               <div className="form-row align-items-center">
                 <label
                   id="label-question"
-                  for="question"
+                  htmlFor="question"
                   className="col-md-2 col-form-label form-label"
                 >
                   주소
@@ -163,7 +163,7 @@ const PlaceInfoForm = ({ placeInfo, getFormInfo, initTime }) => {
               <div className="form-row align-items-center">
                 <label
                   id="label-question"
-                  for="question"
+                  htmlFor="question"
                   className="col-md-2 col-form-label form-label"
                 >
                   상세 주소
@@ -185,7 +185,7 @@ const PlaceInfoForm = ({ placeInfo, getFormInfo, initTime }) => {
             <div className="form-group row align-items-center mb-0">
               <label
                 id="label-question"
-                for="question"
+                htmlFor="question"
                 className="col-md-2 col-form-label form-label"
               >
                 영업시간
@@ -223,7 +223,7 @@ const PlaceInfoForm = ({ placeInfo, getFormInfo, initTime }) => {
             <div className="form-group row align-items-center mb-0">
               <label
                 id="label-question"
-                for="question"
+                htmlFor="question"
                 className="col-md-2 col-form-label form-label"
               >
                 홈페이지
@@ -247,7 +247,7 @@ const PlaceInfoForm = ({ placeInfo, getFormInfo, initTime }) => {
             <div className="form-group row align-items-center mb-0">
               <label
                 id="label-question"
-                for="question"
+                htmlFor="question"
                 className="col-md-2 col-form-label form-label"
               >
                 전화번호
@@ -276,7 +276,7 @@ const PlaceInfoForm = ({ placeInfo, getFormInfo, initTime }) => {
               <div className="form-row align-items-center">
                 <label
                   id="label-question"
-                  for="question"
+                  htmlFor="question"
                   className="col-md-2 col-form-label form-label"
                 >
                   휴무일

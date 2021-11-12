@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/airbnb.css";
 
@@ -209,7 +209,7 @@ const EventInfoForm = ({ eventInfo, getFormInfo, initTime }) => {
               <div className="form-row align-items-center">
                 <label
                   id="label-question"
-                  for="question"
+                  htmlFor="question"
                   className="col-md-2 col-form-label form-label"
                 >
                   제목
@@ -236,7 +236,7 @@ const EventInfoForm = ({ eventInfo, getFormInfo, initTime }) => {
               <div className="form-row align-items-center">
                 <label
                   id="label-question"
-                  for="question"
+                  htmlFor="question"
                   className="col-md-2 col-form-label form-label"
                 >
                   장소
@@ -286,7 +286,7 @@ const EventInfoForm = ({ eventInfo, getFormInfo, initTime }) => {
               <div className="form-row align-items-center">
                 <label
                   id="label-question"
-                  for="question"
+                  htmlFor="question"
                   className="col-md-2 col-form-label form-label"
                 >
                   주소
@@ -320,7 +320,7 @@ const EventInfoForm = ({ eventInfo, getFormInfo, initTime }) => {
               <div className="form-row align-items-center">
                 <label
                   id="label-question"
-                  for="question"
+                  htmlFor="question"
                   className="col-md-2 col-form-label form-label"
                 >
                   상세주소
@@ -342,7 +342,7 @@ const EventInfoForm = ({ eventInfo, getFormInfo, initTime }) => {
             <div className="form-group row align-items-center mb-0">
               <label
                 id="label-question"
-                for="question"
+                htmlFor="question"
                 className="col-md-2 col-form-label form-label"
               >
                 기간
@@ -361,7 +361,7 @@ const EventInfoForm = ({ eventInfo, getFormInfo, initTime }) => {
             <div className="form-group row align-items-center mb-0">
               <label
                 id="label-question"
-                for="question"
+                htmlFor="question"
                 className="col-md-2 col-form-label form-label"
               >
                 시간
@@ -401,7 +401,7 @@ const EventInfoForm = ({ eventInfo, getFormInfo, initTime }) => {
             <div className="form-group row align-items-center mb-0">
               <label
                 id="label-question"
-                for="question"
+                htmlFor="question"
                 className="col-md-2 col-form-label form-label"
               >
                 권장연령
@@ -434,7 +434,7 @@ const EventInfoForm = ({ eventInfo, getFormInfo, initTime }) => {
                       onChange={onChangeAllSpectators}
                     />
                     <label
-                      for="radioStacked-1"
+                      htmlFor="radioStacked-1"
                       className="custom-control-label"
                     >
                       전체관람가
@@ -448,7 +448,7 @@ const EventInfoForm = ({ eventInfo, getFormInfo, initTime }) => {
             <div className="form-group row align-items-center mb-0">
               <label
                 id="label-question"
-                for="question"
+                htmlFor="question"
                 className="col-md-2 col-form-label form-label"
               >
                 홈페이지
@@ -472,7 +472,7 @@ const EventInfoForm = ({ eventInfo, getFormInfo, initTime }) => {
             <div className="form-group row align-items-center mb-0">
               <label
                 id="label-question"
-                for="question"
+                htmlFor="question"
                 className="col-md-2 col-form-label form-label"
               >
                 예매 사이트
@@ -494,7 +494,7 @@ const EventInfoForm = ({ eventInfo, getFormInfo, initTime }) => {
             <div className="form-group row align-items-center mb-0">
               <label
                 id="label-question"
-                for="question"
+                htmlFor="question"
                 className="col-md-2 col-form-label form-label"
               >
                 전화번호
@@ -507,7 +507,7 @@ const EventInfoForm = ({ eventInfo, getFormInfo, initTime }) => {
                   placeholder="000 0000 0000"
                   data-mask="(000) 000-0000"
                   autocomplete="off"
-                  maxlength="14"
+                  maxLength="14"
                   value={formInfo.phone}
                   onChange={(e) => onChangePhone(e)}
                 />
@@ -523,7 +523,7 @@ const EventInfoForm = ({ eventInfo, getFormInfo, initTime }) => {
               <div className="form-row">
                 <label
                   id="label-question"
-                  for="question"
+                  htmlFor="question"
                   className="col-md-2 col-form-label form-label"
                 >
                   가격
@@ -539,7 +539,7 @@ const EventInfoForm = ({ eventInfo, getFormInfo, initTime }) => {
                         onChange={(e) => onChangeCheckbox_free(e)}
                       />
                       <label
-                        for="radioStacked1"
+                        htmlFor="radioStacked1"
                         className="custom-control-label"
                       >
                         무료
@@ -554,7 +554,7 @@ const EventInfoForm = ({ eventInfo, getFormInfo, initTime }) => {
                         onChange={(e) => onChangeCheckbox_pay(e)}
                       />
                       <label
-                        for="radioStacked2"
+                        htmlFor="radioStacked2"
                         className="custom-control-label"
                       >
                         유료

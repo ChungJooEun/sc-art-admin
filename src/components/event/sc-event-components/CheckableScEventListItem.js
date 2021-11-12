@@ -11,7 +11,7 @@ const CheckableScEventListItem = () => {
             checked=""
             id="customCheck1_1"
           />
-          <label className="custom-control-label" for="customCheck1_1">
+          <label className="custom-control-label" htmlFor="customCheck1_1">
             <span className="text-hide">Check</span>
           </label>
         </div>

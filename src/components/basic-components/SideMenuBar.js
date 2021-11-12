@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const SideMenuBar = () => {
+const SideMenuBar = React.memo(() => {
   return (
     <div
       className="mdk-drawer js-mdk-drawer"
@@ -353,6 +353,6 @@ const SideMenuBar = () => {
       </div>
     </div>
   );
-};
+});
 
 export default SideMenuBar;

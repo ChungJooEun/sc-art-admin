@@ -31,7 +31,7 @@ const BannerListItem = () => {
             <div className="form-row align-items-center">
               <label
                 id="label-question"
-                for="question"
+                htmlFor="question"
                 className="col-md-7 col-form-label form-label"
               >
                 링크주소

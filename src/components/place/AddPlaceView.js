@@ -100,7 +100,7 @@ const AddPlaceView = ({ options }) => {
     try {
       const response = await axios.post(url, placeData, {
         headers: {
-          "content-type": "application/json",
+          "content-type": "multipart/form-data",
         },
       });
 
@@ -117,12 +117,8 @@ const AddPlaceView = ({ options }) => {
   const onSubmitEvent = (formState) => {
     let formData = new FormData();
 
-    if (formInfo.resources) {
-      formData.append(
-        "file",
-        formInfo.resources[0],
-        formInfo.resources[0].name
-      );
+    if (formInfo.resources !== null) {
+      formData.append("files", formInfo.resources[0]);
     }
 
     formData.append("name", formInfo.name);
@@ -208,7 +204,7 @@ const AddPlaceView = ({ options }) => {
               </div>
               <div className="page-section">
                 <div className="form-group">
-                  <label className="form-label" for="select01">
+                  <label className="form-label" htmlFor="select01">
                     종류
                   </label>
                   <select

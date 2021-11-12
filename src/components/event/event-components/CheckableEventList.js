@@ -17,7 +17,10 @@ const CheckableEventList = ({ list, pageNumber, count, isModal }) => {
                 data-target="#staff"
                 id="customCheckAllstaff"
               />
-              <label className="custom-control-label" for="customCheckAllstaff">
+              <label
+                className="custom-control-label"
+                htmlFor="customCheckAllstaff"
+              >
                 <span className="text-hide">Toggle all</span>
               </label>
             </div>

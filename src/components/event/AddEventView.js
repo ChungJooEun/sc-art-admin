@@ -134,11 +134,7 @@ const AddEventView = ({ options }) => {
     let formData = new FormData();
 
     if (formInfo.resources) {
-      formData.append(
-        "file",
-        formInfo.resources[0],
-        formInfo.resources[0].name
-      );
+      formData.append("file", formInfo.resources[0]);
     }
 
     formData.append("name", formInfo.name);

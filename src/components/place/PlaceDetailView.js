@@ -91,7 +91,7 @@ const PlaceDetailView = ({ options, isApproved }) => {
 
               <div className="page-section">
                 <div className="form-group">
-                  <label className="form-label" for="select01">
+                  <label className="form-label" htmlFor="select01">
                     종류
                   </label>
                   <select

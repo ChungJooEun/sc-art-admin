@@ -1,7 +1,14 @@
 import React from "react";
 
-const replaceString = (string) => {
-  return string.replace(/-/gi, ".");
+const addDot = (string) => {
+  let result = "";
+  return result.concat(
+    string.slice(0, 4),
+    ".",
+    string.slice(4, 6),
+    ".",
+    string.slice(6)
+  );
 };
 
 const ModifiablePlaceListItem = ({ placeInfo, no }) => {
@@ -38,10 +45,10 @@ const ModifiablePlaceListItem = ({ placeInfo, no }) => {
       </td>
       <td className="js-lists-values-place small">{placeInfo.address1}</td>
       <td className="js-lists-values-registration-date small">
-        {replaceString(placeInfo.create_date)}
+        {addDot(placeInfo.create_date)}
       </td>
       <td className="js-lists-values-employer-name small">
-        {placeInfo.writer}
+        {placeInfo.userid}
       </td>
       <td className="js-lists-values-status small">
         <select

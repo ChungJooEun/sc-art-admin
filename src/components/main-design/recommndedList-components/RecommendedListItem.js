@@ -26,7 +26,7 @@ const RecommendedListItem = () => {
             >
               <label
                 id="label-question"
-                for="question"
+                htmlFor="question"
                 className="col-md-3 col-form-label form-label"
               >
                 순서

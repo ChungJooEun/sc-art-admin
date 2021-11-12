@@ -46,6 +46,7 @@ const EventDetailView = ({ options, isApproved, match }) => {
   };
 
   const [formInfo, setFormInfo] = useState(null);
+  const [time, setTime] = useState(null);
   const getFormInfo = useCallback(
     (result) => {
       setFormInfo({
@@ -183,9 +184,9 @@ const EventDetailView = ({ options, isApproved, match }) => {
       "/assets/js/settings.js",
       "/assets/vendor/moment.min.js",
       "/assets/vendor/moment-range.js",
-      "/assets/vendor/Chart.min.js",
-      "/assets/js/chartjs.js",
-      "/assets/js/chartjs-rounded-bar.js",
+      // "/assets/vendor/Chart.min.js",
+      // "/assets/js/chartjs.js",
+      // "/assets/js/chartjs-rounded-bar.js",
       "/assets/js/page.projects.js",
       "/assets/js/page.analytics-2-dashboard.js",
       "/assets/vendor/list.min.js",
@@ -214,19 +215,29 @@ const EventDetailView = ({ options, isApproved, match }) => {
           setCurationInfo(response.data);
           setDetail(response.data.more_information);
           setFormInfo(response.data);
+          setTime({
+            open_time: response.data.open_time,
+            close_time: response.data.close_time,
+          });
 
-          setVid(response.data.videos.length);
+          // const videos = JSON.parse(response.data.resources);
 
-          let ary = [];
-          for (let i = 0; i < response.data.videos.length; i++) {
-            ary.concat({
-              vId: i,
-              url: response.data.videos[i].url,
-            });
-          }
-          setVideos(ary);
+          // console.log(response.data.resources);
+
+          // setVid(response.data.videos.length);
+
+          // let ary = [];
+          // for (let i = 0; i < response.data.videos.length; i++) {
+          //   ary.concat({
+          //     vId: i,
+          //     url: response.data.videos[i].url,
+          //   });
+          // }
+          setVideos([]);
 
           setLoading(false);
+
+          console.log(typeof response.data.more_information);
         }
       } catch (e) {
         console.log(e);
@@ -240,13 +251,18 @@ const EventDetailView = ({ options, isApproved, match }) => {
         document.body.removeChild(scriptList[i]);
       }
     };
-  }, [match.params]);
+  }, []);
 
   if (loading) {
     return <p>로딩중..</p>;
   }
 
-  if (!formInfo || !curationInfo || !detail || !videos) {
+  if (!formInfo || !curationInfo || !videos) {
+    console.log(formInfo);
+    console.log(curationInfo);
+    console.log(detail);
+    console.log(videos);
+
     return <p>fail to loading data</p>;
   }
 
@@ -278,11 +294,12 @@ const EventDetailView = ({ options, isApproved, match }) => {
           <div className="container-fluid page__container">
             <div className="page-section">
               <div className="row">
-                <ImageForm
-                  imgUrl={formInfo.resources.image[0].url}
-                  getImgUrl={getImgUrl}
+                <ImageForm imgUrl={formInfo.resources} getImgUrl={getImgUrl} />
+                <EventInfoForm
+                  eventInfo={formInfo}
+                  getFormInfo={getFormInfo}
+                  initTime={time}
                 />
-                <EventInfoForm eventInfo={formInfo} getFormInfo={getFormInfo} />
               </div>
 
               <Curation
@@ -295,7 +312,7 @@ const EventDetailView = ({ options, isApproved, match }) => {
                   <div className="page-separator__text">상세정보</div>
                 </div>
 
-                <Editor mor_information={detail} getDetail={getDetail} />
+                <Editor mor_information="dk" getDetail={getDetail} />
               </div>
 
               <div className="page-section">
@@ -306,7 +323,7 @@ const EventDetailView = ({ options, isApproved, match }) => {
                   <VideoAddForm getVideo={getVideo} />
                 </div>
                 <div className="row card-group-row">
-                  {videos.videos.map((video) => (
+                  {videos.map((video) => (
                     <VideoListItem vId={getVideoId(video.url)} key={video.id} />
                   ))}
                 </div>

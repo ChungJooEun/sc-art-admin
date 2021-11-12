@@ -41,7 +41,7 @@ const ImageForm = ({ imgUrl, getImgUrl }) => {
               <img
                 src={
                   imgBase64.length === 0
-                    ? "../assets/images/stories/256_rsz_jared-rice-388260-unsplash.jpg"
+                    ? `${process.env.PUBLIC_URL}/assets/images/stories/256_rsz_jared-rice-388260-unsplash.jpg`
                     : imgBase64[0]
                 }
                 alt=""

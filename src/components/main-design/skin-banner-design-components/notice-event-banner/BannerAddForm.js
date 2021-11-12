@@ -13,7 +13,7 @@ const BannerAddForm = () => {
             <div className="form-row align-items-center">
               <label
                 id="label-question"
-                for="question"
+                htmlFor="question"
                 className="col-md-2 col-form-label form-label"
               >
                 배너 이미지
@@ -25,7 +25,7 @@ const BannerAddForm = () => {
                   id="customFileUploadMultiple"
                   multiple
                 />
-                <label className="" for="customFileUploadMultiple"></label>
+                <label className="" htmlFor="customFileUploadMultiple"></label>
               </div>
             </div>
           </div>
@@ -34,7 +34,7 @@ const BannerAddForm = () => {
           <div className="form-group row align-items-center mb-0">
             <label
               id="label-question"
-              for="question"
+              htmlFor="question"
               className="col-md-2 col-form-label form-label"
             >
               링크주소

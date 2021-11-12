@@ -166,7 +166,7 @@ const Curation = ({ curationInfo, getCurationInfo }) => {
         />
       </div>
       <div className="form-group">
-        <label className="form-label" for="select02">
+        <label className="form-label" htmlFor="select02">
           분야
         </label>
         <Select
@@ -180,7 +180,7 @@ const Curation = ({ curationInfo, getCurationInfo }) => {
         />
       </div>
       <div className="form-group">
-        <label className="form-label" for="select03">
+        <label className="form-label" htmlFor="select03">
           테마
         </label>
         <Select
@@ -194,7 +194,7 @@ const Curation = ({ curationInfo, getCurationInfo }) => {
         />
       </div>
       <div className="form-group">
-        <label className="form-label" for="select04">
+        <label className="form-label" htmlFor="select04">
           서초구 축제
         </label>
         <Select

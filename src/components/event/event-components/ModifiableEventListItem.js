@@ -1,5 +1,5 @@
 import React from "react";
-
+import { useHistory } from "react-router-dom";
 // const replaceString = (string) => {
 //   return string.replace(/-/gi, ".");
 // };
@@ -16,6 +16,8 @@ const addDot = (string) => {
 };
 
 const ModifiableEventListItem = ({ eventInfo, no }) => {
+  const history = useHistory();
+
   return (
     <tr>
       <td className="js-lists-values-place small">{no}</td>
@@ -28,7 +30,9 @@ const ModifiableEventListItem = ({ eventInfo, no }) => {
             <div className="d-flex flex-column">
               <a
                 onClick={() =>
-                  (window.location.href = `/event/event-application-detail/${eventInfo.id}`)
+                  history.push(
+                    `/event/event-application-detail/${eventInfo.id}`
+                  )
                 }
                 className="mb-0 txt_line_table_title"
               >

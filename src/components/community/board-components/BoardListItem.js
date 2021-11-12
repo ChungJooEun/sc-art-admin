@@ -22,7 +22,7 @@ const BoardListItem = () => {
             className="custom-control-input js-check-selected-row"
             id="customCheck1_2"
           />
-          <label className="custom-control-label" for="customCheck1_2">
+          <label className="custom-control-label" htmlFor="customCheck1_2">
             <span className="text-hide">Check</span>
           </label>
         </div>

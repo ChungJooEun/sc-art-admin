@@ -34,7 +34,7 @@ const MainBanner = () => {
             <div className="form-row align-items-center">
               <label
                 id="label-question"
-                for="question"
+                htmlFor="question"
                 className="col-md-2 col-form-label form-label"
               >
                 이미지
@@ -46,7 +46,7 @@ const MainBanner = () => {
                   id="customFileUploadMultiple"
                   multiple
                 />
-                <label className="" for="customFileUploadMultiple"></label>
+                <label className="" htmlFor="customFileUploadMultiple"></label>
               </div>
             </div>
           </div>

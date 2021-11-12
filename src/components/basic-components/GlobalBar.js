@@ -1,6 +1,6 @@
 import React from "react";
 
-const GlobalBar = () => {
+const GlobalBar = React.memo(() => {
   return (
     <div
       className="navbar navbar-expand navbar-shadow px-0 pl-lg-16pt navbar-light bg-body"
@@ -55,6 +55,6 @@ const GlobalBar = () => {
       </div>
     </div>
   );
-};
+});
 
 export default GlobalBar;
