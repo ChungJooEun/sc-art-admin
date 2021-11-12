@@ -48,8 +48,13 @@ const AddEventView = ({ options }) => {
     festival_id: "",
     state: "TEMP_SAVE",
   });
-  const getFormInfo = useCallback((result) => {
+  const [time, setTime] = useState({
+    open_time: "9:00",
+    close_time: "21:00",
+  });
+  const getFormInfo = useCallback((result, time) => {
     setFormInfo(result);
+    setTime(time);
   }, []);
 
   const [curationInfo, setCurationInfo] = useState({
@@ -138,7 +143,7 @@ const AddEventView = ({ options }) => {
 
     formData.append("name", formInfo.name);
     formData.append("location", formInfo.location);
-    formData.append("address1", formInfo.adderss1);
+    formData.append("address1", formInfo.address1);
     formData.append("address2", formInfo.address2);
     formData.append("open_date", formInfo.open_date);
     formData.append("close_date", formInfo.close_date);
@@ -172,13 +177,9 @@ const AddEventView = ({ options }) => {
     formData.append("event_type", curationInfo.event_type);
 
     // youtube
-    vAry = new Array();
     for (let i = 0; i < videos.length; i++) {
-      temp = new Object();
-      temp.url = videos[i].url;
-      vAry.push(temp);
+      formData.append("videos", JSON.stringify({ url: videos[i].url }));
     }
-    formData.append("videos", vAry);
 
     postEvent(formData);
   };
@@ -248,7 +249,11 @@ const AddEventView = ({ options }) => {
             <div className="page-section">
               <div className="row">
                 <ImageForm imgUrl={formInfo.resources} getImgUrl={getImgUrl} />
-                <EventInfoForm eventInfo={formInfo} getFormInfo={getFormInfo} />
+                <EventInfoForm
+                  eventInfo={formInfo}
+                  getFormInfo={getFormInfo}
+                  initTime={time}
+                />
               </div>
 
               <Curation

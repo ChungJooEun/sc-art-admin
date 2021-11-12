@@ -32,7 +32,7 @@ const convertTimeFormat = (str) => {
   return result;
 };
 
-const EventInfoForm = ({ eventInfo, getFormInfo }) => {
+const EventInfoForm = ({ eventInfo, getFormInfo, initTime }) => {
   const [showInputBox, setShowInputBox] = useState(false);
   const toggleInputBox = () => {
     setShowInputBox(!showInputBox);
@@ -44,6 +44,7 @@ const EventInfoForm = ({ eventInfo, getFormInfo }) => {
   };
 
   const [formInfo, setFormInfo] = useState(eventInfo);
+  const [time, setTime] = useState(initTime);
 
   const [period, setPeriod] = useState([
     {
@@ -92,15 +93,15 @@ const EventInfoForm = ({ eventInfo, getFormInfo }) => {
   };
 
   const onChangeOpenTime = (e) => {
-    setFormInfo({
-      ...formInfo,
+    setTime({
+      ...time,
       open_time: convertTimeFormat(e),
     });
   };
 
   const onChangeCloseTime = (e) => {
-    setFormInfo({
-      ...formInfo,
+    setTime({
+      ...time,
       close_time: convertTimeFormat(e),
     });
   };
@@ -184,8 +185,8 @@ const EventInfoForm = ({ eventInfo, getFormInfo }) => {
   };
 
   useEffect(() => {
-    getFormInfo(formInfo);
-  }, [formInfo, getFormInfo]);
+    getFormInfo(formInfo, time);
+  }, [formInfo, time, getFormInfo]);
 
   return (
     <>
@@ -375,7 +376,7 @@ const EventInfoForm = ({ eventInfo, getFormInfo }) => {
                   data-toggle="flatpickr"
                   id="flatpickrSample05"
                   type="text"
-                  value={formInfo.open_time}
+                  value={time.open_time}
                   onChange={(e) => onChangeOpenTime(e)}
                 />
               </div>
@@ -390,7 +391,7 @@ const EventInfoForm = ({ eventInfo, getFormInfo }) => {
                   data-toggle="flatpickr"
                   id="flatpickrSample05"
                   type="text"
-                  value={formInfo.close_time}
+                  value={time.close_time}
                   onChange={(e) => onChangeCloseTime(e)}
                 />
               </div>
