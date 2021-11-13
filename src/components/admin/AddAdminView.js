@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import GlobalBar from "../basic-components/GlobalBar";
 import PageTitle from "../basic-components/PageTitle";
 import SideMenuBar from "../basic-components/SideMenuBar";
-import AdminInfoForm from "./admin-components/AdminInfoForm";
 
 const pagePathList = [
   {
@@ -15,6 +15,44 @@ const pagePathList = [
 
 const AddAdminView = () => {
   const history = useHistory();
+
+  const [adminInfo, setAdminInfo] = useState({
+    id: "",
+    password: "",
+    admin_group: "",
+    phone: "",
+    memo: "",
+  });
+
+  const onChangeInfo = (e) => {
+    setAdminInfo({
+      ...adminInfo,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const registAdmin = async () => {
+    const url = "/api/admin/regist";
+    const config = { headers: { "Content-Type": "application/json" } };
+
+    var data = new Object();
+
+    data.id = adminInfo.id;
+    data.password = adminInfo.password;
+    data.admin_group = adminInfo.admin_group;
+    data.phone = adminInfo.phone;
+    data.memo = adminInfo.memo;
+    data.update_uid = window.sessionStorage.getItem("userid");
+
+    try {
+      const res = await axios.post(url, data, config);
+
+      if (res.status === 201) {
+        console.log(res.data);
+        history.push("/admin/admin-manage");
+      }
+    } catch (e) {}
+  };
 
   useEffect(() => {
     const srcList = [
@@ -72,7 +110,151 @@ const AddAdminView = () => {
                 <div className="page-separator">
                   <div className="page-separator__text">관리자 등록하기</div>
                 </div>
-                <AdminInfoForm />
+                <div className="list-group">
+                  <div className="list-group-item">
+                    <div
+                      role="group"
+                      aria-labelledby="label-question"
+                      className="m-0 form-group"
+                    >
+                      <div className="form-row align-items-center">
+                        <label
+                          id="label-question"
+                          htmlFor="question"
+                          className="col-md-2 col-form-label form-label"
+                        >
+                          *관리자 ID
+                        </label>
+                        <div className="col-md-10">
+                          <input
+                            id="title"
+                            type="text"
+                            placeholder=""
+                            className="form-control"
+                            name="id"
+                            onChange={onChangeInfo}
+                            value={adminInfo.id}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="list-group-item">
+                    <div
+                      role="group"
+                      aria-labelledby="label-question"
+                      className="m-0 form-group"
+                    >
+                      <div className="form-row align-items-center">
+                        <label
+                          id="label-question"
+                          htmlFor="question"
+                          className="col-md-2 col-form-label form-label"
+                        >
+                          *비밀번호
+                        </label>
+                        <div className="col-md-10">
+                          <input
+                            id="title"
+                            type="text"
+                            placeholder=""
+                            className="form-control"
+                            name="password"
+                            onChange={onChangeInfo}
+                            value={adminInfo.password}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="list-group-item">
+                    <div
+                      role="group"
+                      aria-labelledby="label-question"
+                      className="m-0 form-group"
+                    >
+                      <div className="form-row align-items-center">
+                        <label
+                          id="label-question"
+                          htmlFor="question"
+                          className="col-md-2 col-form-label form-label"
+                        >
+                          *그룹명
+                        </label>
+                        <div className="col-md-10">
+                          <select
+                            id="custom-select"
+                            className="form-control custom-select"
+                            defaultValue="NORMAL"
+                            name="admin_group"
+                            onChange={onChangeInfo}
+                            value={adminInfo.admin_group}
+                          >
+                            <option value="NORMAL">일반 관리자</option>
+                            <option value="COLLABORATOR">협업사 관리자</option>
+                            <option value="SUPER">슈퍼 관리자</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="list-group-item">
+                    <div
+                      role="group"
+                      aria-labelledby="label-question"
+                      className="m-0 form-group"
+                    >
+                      <div className="form-row align-items-center">
+                        <label
+                          id="label-question"
+                          htmlFor="question"
+                          className="col-md-2 col-form-label form-label"
+                        >
+                          연락처
+                        </label>
+                        <div className="col-md-10">
+                          <input
+                            id="title"
+                            type="tel"
+                            placeholder="000-0000-0000"
+                            className="form-control"
+                            name="phone"
+                            value={adminInfo.phone}
+                            onChange={onChangeInfo}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="list-group-item">
+                    <div
+                      role="group"
+                      aria-labelledby="label-question"
+                      className="m-0 form-group"
+                    >
+                      <div className="form-row">
+                        <label
+                          id="label-question"
+                          htmlFor="question"
+                          className="col-md-2 col-form-label form-label"
+                        >
+                          메모
+                        </label>
+                        <div className="col-md-10">
+                          <textarea
+                            id="question"
+                            placeholder="메모..."
+                            rows="4"
+                            className="form-control"
+                            name="memo"
+                            value={adminInfo.memo}
+                            onChange={onChangeInfo}
+                          ></textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <button
                   className="btn btn btn-secondary ml-16pt"
                   onClick={() => history.push("/admin/admin-manage")}
@@ -85,6 +267,7 @@ const AddAdminView = () => {
                   data-swal-title="완료!"
                   data-swal-text="새로운 관리자가 등록되었습니다!"
                   data-swal-type="success"
+                  onClick={registAdmin}
                 >
                   저장
                 </button>
