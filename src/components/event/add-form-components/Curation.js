@@ -212,4 +212,4 @@ const Curation = React.memo(({ curationInfo, getCurationInfo }) => {
   );
 });
 
-export default Curation;
+export default React.memo(Curation);

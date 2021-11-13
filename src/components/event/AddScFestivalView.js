@@ -165,6 +165,16 @@ const AddScFestivalView = () => {
     setPageNumber(curNumber);
   };
 
+  const drawScheduleList = () => {
+    const { startDate, endDate } = period[0];
+
+    console.log(startDate);
+
+    let ary = [];
+
+    return ary;
+  };
+
   useEffect(() => {
     const srcList = [
       `${process.env.PUBLIC_URL}/assets/vendor/jquery.min.js`,
@@ -523,31 +533,14 @@ const AddScFestivalView = () => {
               </div>
             </div>
           </div>
+
+          {/* 스케줄 확인 */}
           <div className="page-section section-sc-fe">
             <div className="page-separator">
               <div className="page-separator__text">스케줄 확인</div>
             </div>
             <div className="row card-group-row mb-lg-8pt">
-              <div className="col-md-6 card-group-row__col">
-                <div className="card card-group-row__card">
-                  <ScheduleList />
-                </div>
-              </div>
-              <div className="col-md-6 card-group-row__col">
-                <div className="card card-group-row__card">
-                  <ScheduleList />
-                </div>
-              </div>
-              <div className="col-md-6 card-group-row__col">
-                <div className="card card-group-row__card">
-                  <ScheduleList />
-                </div>
-              </div>
-              <div className="col-md-6 card-group-row__col">
-                <div className="card card-group-row__card">
-                  <ScheduleList />
-                </div>
-              </div>
+              {drawScheduleList()}
             </div>
           </div>
           <div className="detail_under_menu ">
@@ -566,10 +559,11 @@ const AddScFestivalView = () => {
                       <select
                         id="custom-select"
                         className="form-control custom-select"
+                        defaultValue={0}
                       >
-                        <option selected="">임시저장</option>
-                        <option value="1">게시</option>
-                        <option value="2">비공개</option>
+                        <option value={0}>임시저장</option>
+                        <option value={1}>게시</option>
+                        <option value={2}>비공개</option>
                       </select>
                     </div>
                     <div className="flex"></div>

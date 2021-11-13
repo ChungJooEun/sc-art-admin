@@ -52,4 +52,4 @@ const VideoAddForm = React.memo(({ getVideo }) => {
   );
 });
 
-export default VideoAddForm;
+export default React.memo(VideoAddForm);

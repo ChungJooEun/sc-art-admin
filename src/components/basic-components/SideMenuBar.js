@@ -355,4 +355,4 @@ const SideMenuBar = React.memo(() => {
   );
 });
 
-export default SideMenuBar;
+export default React.memo(SideMenuBar);

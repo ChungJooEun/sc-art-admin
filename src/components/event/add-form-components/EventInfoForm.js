@@ -586,4 +586,4 @@ const EventInfoForm = React.memo(({ eventInfo, getFormInfo, initTime }) => {
   );
 });
 
-export default EventInfoForm;
+export default React.memo(EventInfoForm);

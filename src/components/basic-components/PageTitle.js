@@ -25,4 +25,4 @@ const PageTitle = React.memo(({ pageTitle, pagePathList, showSearchBar }) => {
   );
 });
 
-export default PageTitle;
+export default React.memo(PageTitle);

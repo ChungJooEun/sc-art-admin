@@ -48,4 +48,4 @@ const RejectSection = React.memo(({ reason }) => {
   );
 });
 
-export default RejectSection;
+export default React.memo(RejectSection);

@@ -57,4 +57,4 @@ const GlobalBar = React.memo(() => {
   );
 });
 
-export default GlobalBar;
+export default React.memo(GlobalBar);

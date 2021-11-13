@@ -72,4 +72,4 @@ const ImageForm = React.memo(({ imgUrl, getImgUrl }) => {
   );
 });
 
-export default ImageForm;
+export default React.memo(ImageForm);

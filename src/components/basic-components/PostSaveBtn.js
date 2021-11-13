@@ -68,4 +68,4 @@ const PostSaveBtn = React.memo(({ options, onSubmitEvent, state }) => {
   );
 });
 
-export default PostSaveBtn;
+export default React.memo(PostSaveBtn);

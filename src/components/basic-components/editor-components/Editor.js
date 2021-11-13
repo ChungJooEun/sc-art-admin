@@ -61,4 +61,4 @@ const Editor = React.memo(({ more_information, getDetail }) => {
   );
 });
 
-export default Editor;
+export default React.memo(Editor);
