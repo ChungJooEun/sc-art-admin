@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 
 const addDot = (string) => {
   let result = "";
@@ -12,6 +13,8 @@ const addDot = (string) => {
 };
 
 const ModifiablePlaceListItem = ({ placeInfo, no }) => {
+  const history = useHistory();
+
   return (
     <tr>
       <td className="js-lists-values-place small">{no}</td>
@@ -25,7 +28,7 @@ const ModifiablePlaceListItem = ({ placeInfo, no }) => {
               <p className="mb-0 txt_line_table_title">
                 <a
                   onClick={() =>
-                    (window.location.href = "/place/place-application-detail")
+                    history.push("/place/place-application-detail")
                   }
                 >
                   <strong className="js-lists-values-cultural-event">

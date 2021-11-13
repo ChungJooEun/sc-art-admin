@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 import GlobalBar from "../basic-components/GlobalBar";
 import Paging from "../basic-components/Paging";
@@ -21,6 +22,8 @@ const pagePathList = [
 const count = 5;
 
 const PlaceListView = ({ pageTitle, type }) => {
+  const history = useHistory();
+
   const [placeList, setPlaceList] = useState(null);
   const [totalNumber, setTotalNumber] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -140,7 +143,7 @@ const PlaceListView = ({ pageTitle, type }) => {
                   <button
                     type="button"
                     className="btn btn-accent"
-                    onClick={() => (window.location.href = "add-place")}
+                    onClick={() => history.push("/place/add-place")}
                   >
                     새로운 공간 등록하기 +{" "}
                   </button>

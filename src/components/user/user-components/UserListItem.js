@@ -1,6 +1,8 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 
 const UserListItem = () => {
+  const history = useHistory();
   return (
     <tr>
       <td className="js-lists-values-place small">1</td>
@@ -12,7 +14,7 @@ const UserListItem = () => {
           <div className="media-body">
             <div className="d-flex flex-column">
               <p className="mb-0">
-                <a onClick={() => (window.location.href = "/user/user-detail")}>
+                <a onClick={() => history.push("/user/user-detail")}>
                   <strong className="js-lists-values-cultural-userid">
                     아이디
                   </strong>

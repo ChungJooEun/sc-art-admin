@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 import SideMenuBar from "../basic-components/SideMenuBar";
 import GlobalBar from "../basic-components/GlobalBar";
@@ -19,6 +20,8 @@ const pagePathList = [
 const count = 5;
 
 const EventManageView = () => {
+  const history = useHistory();
+
   const [eventList, setEventList] = useState(null);
   const [totalNumber, setTotalNumber] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -136,7 +139,7 @@ const EventManageView = () => {
                   <button
                     type="button"
                     className="btn btn-block btn-accent btn-lg"
-                    onClick={() => (window.location.href = "/event/add-event")}
+                    onClick={() => history.push("/event/add-event")}
                   >
                     + 새로운 행사 등록
                   </button>
@@ -144,7 +147,7 @@ const EventManageView = () => {
                     type="button"
                     className="btn btn-block btn-primary btn-lg"
                     onClick={() =>
-                      (window.location.href = "/event/event-application-list")
+                      history.push("/event/event-application-list")
                     }
                   >
                     + 문화행사 등록 요청 관리
@@ -152,7 +155,7 @@ const EventManageView = () => {
                   <button
                     type="button"
                     className="btn btn-block btn-primary btn-lg"
-                    onClick={() => (window.location.href = "seocho-festival")}
+                    onClick={() => history.push("/event/seocho-festival")}
                   >
                     + 서초구 축제 관리
                   </button>
@@ -171,9 +174,7 @@ const EventManageView = () => {
                       <button
                         type="button"
                         className="btn btn-block btn-lg btn-big  gradient-1"
-                        onClick={() =>
-                          (window.location.href = "event-list-all")
-                        }
+                        onClick={() => history.push("/event/event-list-all")}
                       >
                         전체행사
                       </button>
@@ -182,9 +183,7 @@ const EventManageView = () => {
                       <button
                         type="button"
                         className="btn btn-block btn-lg btn-big gradient-1"
-                        onClick={() =>
-                          (window.location.href = "/event/exhibit-list")
-                        }
+                        onClick={() => history.push("/event/exhibit-list")}
                       >
                         전시
                       </button>
@@ -197,9 +196,7 @@ const EventManageView = () => {
                       <button
                         type="button"
                         className="btn btn-block btn-lg btn-big gradient-1"
-                        onClick={() =>
-                          (window.location.href = "/event/festival-list")
-                        }
+                        onClick={() => history.push("/event/festival-list")}
                       >
                         공연
                       </button>
@@ -208,9 +205,7 @@ const EventManageView = () => {
                       <button
                         type="button"
                         className="btn btn-block btn-lg btn-big gradient-1"
-                        onClick={() =>
-                          (window.location.href = "/event/event-others-list")
-                        }
+                        onClick={() => history.push("/event/event-others-list")}
                       >
                         기타
                       </button>
@@ -245,7 +240,7 @@ const EventManageView = () => {
                   <button
                     type="button"
                     className="btn btn-accent"
-                    onClick={() => (window.location.href = "/event/add-event")}
+                    onClick={() => history.push("/event/add-event")}
                   >
                     새로운 행사 등록하기 +{" "}
                   </button>

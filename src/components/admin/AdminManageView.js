@@ -1,4 +1,6 @@
 import React, { useEffect } from "react";
+import { useHistory } from "react-router-dom";
+
 import GlobalBar from "../basic-components/GlobalBar";
 import PageTitle from "../basic-components/PageTitle";
 import Paging from "../basic-components/Paging";
@@ -13,6 +15,8 @@ const pagePathList = [
 ];
 
 const AdminManageView = () => {
+  const history = useHistory();
+
   useEffect(() => {
     const srcList = [
       `${process.env.PUBLIC_URL}/assets/vendor/jquery.min.js`,
@@ -24,17 +28,17 @@ const AdminManageView = () => {
       `${process.env.PUBLIC_URL}/assets/js/app.js`,
       `${process.env.PUBLIC_URL}/assets/js/hljs.js`,
       `${process.env.PUBLIC_URL}/assets/js/settings.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/moment.min.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/moment-range.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/Chart.min.js`,
-      `${process.env.PUBLIC_URL}/assets/js/chartjs.js`,
-      `${process.env.PUBLIC_URL}/assets/js/chartjs-rounded-bar.js`,
-      `${process.env.PUBLIC_URL}/assets/js/page.projects.js`,
-      `${process.env.PUBLIC_URL}/assets/js/page.analytics-2-dashboard.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/list.min.js`,
-      `${process.env.PUBLIC_URL}/assets/js/list.js`,
-      `${process.env.PUBLIC_URL}/assets/js/toggle-check-all.js`,
-      `${process.env.PUBLIC_URL}/assets/js/check-selected-row.js`,
+      // `${process.env.PUBLIC_URL}/assets/vendor/moment.min.js`,
+      // `${process.env.PUBLIC_URL}/assets/vendor/moment-range.js`,
+      // `${process.env.PUBLIC_URL}/assets/vendor/Chart.min.js`,
+      // `${process.env.PUBLIC_URL}/assets/js/chartjs.js`,
+      // `${process.env.PUBLIC_URL}/assets/js/chartjs-rounded-bar.js`,
+      // `${process.env.PUBLIC_URL}/assets/js/page.projects.js`,
+      // `${process.env.PUBLIC_URL}/assets/js/page.analytics-2-dashboard.js`,
+      // `${process.env.PUBLIC_URL}/assets/vendor/list.min.js`,
+      // `${process.env.PUBLIC_URL}/assets/js/list.js`,
+      // `${process.env.PUBLIC_URL}/assets/js/toggle-check-all.js`,
+      // `${process.env.PUBLIC_URL}/assets/js/check-selected-row.js`,
       `${process.env.PUBLIC_URL}/assets/js/app-settings.js`,
     ];
     let scriptList = [];
@@ -87,9 +91,7 @@ const AdminManageView = () => {
                   <button
                     type="button"
                     className="btn btn-accent"
-                    onClick={() =>
-                      (window.location.href = "/admin/add-admin-account")
-                    }
+                    onClick={() => history.push("/admin/add-admin-account")}
                   >
                     새로운 관리자 등록하기 +{" "}
                   </button>

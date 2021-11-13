@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 import SideMenuBar from "../basic-components/SideMenuBar";
 import PageTitle from "../basic-components/PageTitle";
@@ -18,6 +19,8 @@ const pagePathList = [
 const count = 5;
 
 const EventListView = ({ pageTitle, type }) => {
+  const history = useHistory();
+
   const [eventList, setEventList] = useState(null);
   const [totalNumber, setTotalNumber] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -146,7 +149,7 @@ const EventListView = ({ pageTitle, type }) => {
                   <button
                     type="button"
                     className="btn btn-accent"
-                    onClick={() => (window.location.href = "/event/add-event")}
+                    onClick={() => history.push("/event/add-event")}
                   >
                     새로운 행사 등록하기 +{" "}
                   </button>

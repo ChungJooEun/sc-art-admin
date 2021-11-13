@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 import GlobalBar from "../basic-components/GlobalBar";
 import PageTitle from "../basic-components/PageTitle";
@@ -18,6 +19,8 @@ const pagePathList = [
 const count = 5;
 
 const PlaceManageView = () => {
+  const history = useHistory();
+
   const [placeList, setPlaceList] = useState(null);
   const [totalNumber, setTotalNumber] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -132,7 +135,7 @@ const PlaceManageView = () => {
                   <button
                     type="button"
                     className="btn btn-block btn-accent btn-lg"
-                    onClick={() => (window.location.href = "add-place")}
+                    onClick={() => history.push("/place/add-place")}
                   >
                     + 새로운 문화공간 등록
                   </button>
@@ -140,7 +143,7 @@ const PlaceManageView = () => {
                     type="button"
                     className="btn btn-block btn-primary btn-lg"
                     onClick={() =>
-                      (window.location.href = "place-application-list")
+                      history.push("/place/place-application-list")
                     }
                   >
                     + 문화공간 등록 요청 관리
@@ -160,9 +163,7 @@ const PlaceManageView = () => {
                       <button
                         type="button"
                         className="btn btn-block btn-lg btn-big gradient-3"
-                        onClick={() =>
-                          (window.location.href = "place-list-all")
-                        }
+                        onClick={() => history.push("/place/place-manage")}
                       >
                         전체공간
                       </button>
@@ -171,9 +172,7 @@ const PlaceManageView = () => {
                       <button
                         type="button"
                         className="btn btn-block btn-lg btn-big gradient-3"
-                        onClick={() =>
-                          (window.location.href = "/place/concert-hall-list")
-                        }
+                        onClick={() => history.push("/place/concert-hall-list")}
                       >
                         공연장
                       </button>
@@ -182,9 +181,7 @@ const PlaceManageView = () => {
                       <button
                         type="button"
                         className="btn btn-block btn-lg btn-big gradient-3"
-                        onClick={() =>
-                          (window.location.href = "/place/practice-list")
-                        }
+                        onClick={() => history.push("/place/practice-list")}
                       >
                         연습실
                       </button>
@@ -194,8 +191,7 @@ const PlaceManageView = () => {
                         type="button"
                         className="btn btn-block btn-lg btn-big gradient-3"
                         onClick={() =>
-                          (window.location.href =
-                            "/place/musical-instrument-shop")
+                          history.push("/place/musical-instrument-shop")
                         }
                       >
                         악기상점
@@ -209,9 +205,7 @@ const PlaceManageView = () => {
                       <button
                         type="button"
                         className="btn btn-block btn-lg btn-big gradient-3"
-                        onClick={() =>
-                          (window.location.href = "/place/gallery-list")
-                        }
+                        onClick={() => history.push("/place/gallery-list")}
                       >
                         갤러리
                       </button>
@@ -235,7 +229,7 @@ const PlaceManageView = () => {
                         type="button"
                         className="btn btn-block btn-lg btn-big gradient-4"
                         onClick={() =>
-                          (window.location.href = "/place/scplace-art-center")
+                          history.push("/place/scplace-art-center")
                         }
                       >
                         서리풀 청년아트 센터
@@ -246,7 +240,7 @@ const PlaceManageView = () => {
                         type="button"
                         className="btn btn-block btn-lg btn-big gradient-4"
                         onClick={() =>
-                          (window.location.href = "/place/scplace-art-gallery")
+                          history.push("/place/scplace-art-gallery")
                         }
                       >
                         서리풀 청년아트 갤러리
@@ -289,7 +283,7 @@ const PlaceManageView = () => {
                   <button
                     type="button"
                     className="btn btn-accent"
-                    onClick={() => (window.location.href = "/place/add-place")}
+                    onClick={() => history.push("/place/add-place")}
                   >
                     새로운 공간 등록하기 +{" "}
                   </button>

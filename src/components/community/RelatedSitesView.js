@@ -1,4 +1,6 @@
 import React, { useEffect } from "react";
+import { useHistory } from "react-router-dom";
+
 import GlobalBar from "../basic-components/GlobalBar";
 import PageTitle from "../basic-components/PageTitle";
 import SideMenuBar from "../basic-components/SideMenuBar";
@@ -51,6 +53,8 @@ const RelatedSitesView = () => {
       }
     };
   });
+
+  const history = useHistory();
   return (
     <>
       {/* <div className="preloader">
@@ -83,8 +87,7 @@ const RelatedSitesView = () => {
                     type="button"
                     className="btn btn-block btn-accent btn-lg"
                     onClick={() =>
-                      (window.location.href =
-                        "/related-sites/add-related-sites")
+                      history.push("/related-sites/add-related-sites")
                     }
                   >
                     + 문화 파트너스 추가

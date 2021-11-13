@@ -1,6 +1,9 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 
 const BoardListItem = () => {
+  const history = useHistory();
+
   const getDetailUrl = () => {
     const curUrl = window.location.href;
 
@@ -36,7 +39,7 @@ const BoardListItem = () => {
           <div className="media-body">
             <div className="d-flex flex-column">
               <p className="mb-0 txt_line_table_title">
-                <a onClick={() => (window.location.href = getDetailUrl())}>
+                <a onClick={() => history.push(getDetailUrl())}>
                   <strong className="js-lists-values-cultural-seocho-festival-name">
                     공지사항
                   </strong>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 import SideMenuBar from "../basic-components/SideMenuBar";
 import GlobalBar from "../basic-components/GlobalBar";
@@ -24,6 +25,8 @@ const pagePathList = [
 ];
 
 const AddPlaceView = ({ options }) => {
+  const history = useHistory();
+
   const [formInfo, setFormInfo] = useState({
     name: "",
     location: "",
@@ -107,7 +110,7 @@ const AddPlaceView = ({ options }) => {
       console.log(response.status);
       if (response.status === 200) {
         console.log(response.data);
-        // window.location.href = "/event/event-manage";
+        // history.push("/event/event-manage");
       }
     } catch (e) {
       console.log(e);

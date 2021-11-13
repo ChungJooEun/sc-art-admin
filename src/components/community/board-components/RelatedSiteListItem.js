@@ -1,6 +1,8 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 
 const RelatedSiteListItem = () => {
+  const history = useHistory();
   return (
     <li
       style={{
@@ -15,9 +17,7 @@ const RelatedSiteListItem = () => {
       <button
         className="btn btn-success"
         type="button"
-        onClick={() =>
-          (window.location.href = "/related-sites/edit-related-sites")
-        }
+        onClick={() => history.push("/related-sites/edit-related-sites")}
       >
         수정하기
       </button>

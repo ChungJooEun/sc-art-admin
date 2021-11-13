@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 
 import SideMenuBar from "../basic-components/SideMenuBar";
 import PageTitle from "../basic-components/PageTitle";
@@ -56,6 +57,8 @@ const AdminDetailView = () => {
       }
     };
   });
+
+  const history = useHistory();
   return (
     <>
       {/* <div className="preloader">
@@ -85,15 +88,13 @@ const AdminDetailView = () => {
               </div>
               <button
                 className="btn btn btn-secondary ml-16pt"
-                onClick={() => (window.location.href = "/admin/admin-manage")}
+                onClick={() => history.push("/admin/admin-manage")}
               >
                 뒤로
               </button>
               <button
                 className="btn btn-success"
-                onClick={() =>
-                  (window.location.href = "/admin/admin-account-edit")
-                }
+                onClick={() => history.push("/admin/admin-account-edit")}
               >
                 수정하기
               </button>

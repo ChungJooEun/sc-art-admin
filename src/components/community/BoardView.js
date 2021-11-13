@@ -1,4 +1,6 @@
 import React, { useEffect } from "react";
+import { useHistory } from "react-router-dom";
+
 import GlobalBar from "../basic-components/GlobalBar";
 import PageTitle from "../basic-components/PageTitle";
 import Paging from "../basic-components/Paging";
@@ -12,6 +14,7 @@ const pagePathList = [
   },
 ];
 const BoardView = ({ pageTitle, addPostUrl }) => {
+  const history = useHistory();
   useEffect(() => {
     const srcList = [
       `${process.env.PUBLIC_URL}/assets/vendor/jquery.min.js`,
@@ -86,7 +89,7 @@ const BoardView = ({ pageTitle, addPostUrl }) => {
                   <button
                     type="button"
                     class="btn btn-accent"
-                    onClick={() => (window.location.href = addPostUrl)}
+                    onClick={() => history.push(addPostUrl)}
                   >
                     글쓰기{" "}
                   </button>

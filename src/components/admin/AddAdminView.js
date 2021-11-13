@@ -1,4 +1,6 @@
 import React, { useEffect } from "react";
+import { useHistory } from "react-router-dom";
+
 import GlobalBar from "../basic-components/GlobalBar";
 import PageTitle from "../basic-components/PageTitle";
 import SideMenuBar from "../basic-components/SideMenuBar";
@@ -12,6 +14,8 @@ const pagePathList = [
 ];
 
 const AddAdminView = () => {
+  const history = useHistory();
+
   useEffect(() => {
     const srcList = [
       `${process.env.PUBLIC_URL}/assets/vendor/jquery.min.js`,
@@ -53,16 +57,6 @@ const AddAdminView = () => {
   });
   return (
     <>
-      {/* <div className="preloader">
-        <div className="sk-chase">
-          <div className="sk-chase-dot"></div>
-          <div className="sk-chase-dot"></div>
-          <div className="sk-chase-dot"></div>
-          <div className="sk-chase-dot"></div>
-          <div className="sk-chase-dot"></div>
-          <div className="sk-chase-dot"></div>
-        </div>
-      </div> */}
       <div
         className="mdk-drawer-layout js-mdk-drawer-layout"
         data-push
@@ -81,7 +75,7 @@ const AddAdminView = () => {
                 <AdminInfoForm />
                 <button
                   className="btn btn btn-secondary ml-16pt"
-                  onClick={() => (window.location.href = "/admin/admin-manage")}
+                  onClick={() => history.push("/admin/admin-manage")}
                 >
                   취소
                 </button>

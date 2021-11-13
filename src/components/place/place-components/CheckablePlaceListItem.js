@@ -1,10 +1,12 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 
 const replaceString = (string) => {
   return string.replace(/-/gi, ".");
 };
 
 const CheckablePlaceListItem = ({ placeInfo, no, isModal }) => {
+  const history = useHistory();
   return (
     <tr className="selected">
       <td className="pr-0">
@@ -28,9 +30,7 @@ const CheckablePlaceListItem = ({ placeInfo, no, isModal }) => {
           <div className="media-body">
             <div className="d-flex flex-column">
               <p className="mb-0 txt_line_table_title">
-                <a
-                  onClick={() => (window.location.href = "/place/place-detail")}
-                >
+                <a onClick={() => history.push("/place/place-detail")}>
                   <strong className="js-lists-values-cultural-event">
                     {placeInfo.name}{" "}
                   </strong>

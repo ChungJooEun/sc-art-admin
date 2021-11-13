@@ -1,12 +1,15 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 
 const AdminListItem = () => {
+  const history = useHistory();
+
   return (
     <tr>
       <td className="js-lists-values-number small">3</td>
       <td>
         <a
-          onClick={() => (window.location.href = "/admin/admin-account-detail")}
+          onClick={() => history.push("/admin/admin-account-detail")}
           className="js-lists-values-a"
         >
           이름

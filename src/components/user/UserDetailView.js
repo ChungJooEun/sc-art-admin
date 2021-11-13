@@ -1,4 +1,6 @@
 import React, { useEffect } from "react";
+import { useHistory } from "react-router-dom";
+
 import GlobalBar from "../basic-components/GlobalBar";
 import PageTitle from "../basic-components/PageTitle";
 import Paging from "../basic-components/Paging";
@@ -9,7 +11,6 @@ import PlaceList from "../place/place-components/PlaceList";
 
 import UserInfo from "./user-detail-components/UserInfo";
 import UserReviewList from "./user-detail-components/UserReviewList";
-import UserReviewListItem from "./user-detail-components/UserReviewListItem";
 
 const pagePathList = [
   {
@@ -23,6 +24,7 @@ const pagePathList = [
 ];
 
 const UserDetailView = () => {
+  const history = useHistory();
   useEffect(() => {
     const srcList = [
       `${process.env.PUBLIC_URL}/assets/vendor/jquery.min.js`,
@@ -102,9 +104,7 @@ const UserDetailView = () => {
               </button>
               <button
                 className="btn btn-success"
-                onClick={() =>
-                  (window.location.href = "/user/user-detail-edit")
-                }
+                onClick={() => history.push("/user/user-detail-edit")}
               >
                 수정하기
               </button>
