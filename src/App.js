@@ -327,9 +327,10 @@ const App = () => {
         </Route>
 
         {/* 로그인 */}
-        <Route path="/common/login">
-          <LoginView />
-        </Route>
+        <Route
+          path="/common/login"
+          component={(props) => <LoginView {...props} />}
+        />
 
         <Route path="/editor">
           <EditorTest />

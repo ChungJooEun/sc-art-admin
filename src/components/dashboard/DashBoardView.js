@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 
 import GlobalBar from "../basic-components/GlobalBar";
 import PageTitle from "../basic-components/PageTitle";
@@ -15,7 +16,21 @@ const pagePathList = [
 ];
 
 const DashBoardView = () => {
+  const history = useHistory();
   useEffect(() => {
+    let userId = window.sessionStorage.getItem("userid");
+    let token = window.sessionStorage.getItem("token");
+
+    if (!userId || userId === undefined) {
+      history.push("/common/login");
+    }
+
+    if (!token || token === undefined) {
+      history.push("/common/login");
+    }
+
+    console.log("user id : " + userId + "\ntoken : " + token);
+
     const srcList = [
       `${process.env.PUBLIC_URL}/assets/vendor/jquery.min.js`,
       `${process.env.PUBLIC_URL}/assets/vendor/popper.min.js`,

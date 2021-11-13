@@ -1,6 +1,46 @@
 import React, { useState } from "react";
+import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 const LoginView = () => {
+  const [loginInfo, setLoginInfo] = useState({
+    id: "",
+    password: "",
+  });
+
+  const onChangeLoginInfo = (e) => {
+    setLoginInfo({
+      ...loginInfo,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const history = useHistory();
+  const requestLogin = async () => {
+    var data = new Object();
+
+    data.id = loginInfo.id;
+    data.password = loginInfo.password;
+
+    const url = "/login";
+    const config = { headers: { "Content-Type": "application/json" } };
+    try {
+      const response = await axios.post(url, data, config);
+
+      console.log(response);
+      if (response.status === 200) {
+        console.log("login success!");
+        window.sessionStorage.setItem("token", response.headers.token);
+        window.sessionStorage.setItem("userid", response.headers.userid);
+
+        history.push("/dashboard");
+      } else {
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <div
       className="mdk-drawer-layout js-mdk-drawer-layout"
@@ -11,10 +51,7 @@ const LoginView = () => {
         <div className="container-fluid page__container">
           <div className=" pt-32pt pt-sm-64pt pb-32pt">
             <div className="container-fluid page__container">
-              <form
-                action="../dashboard/index.html"
-                className="col-md-5 p-0 mx-auto"
-              >
+              <div className="col-md-5 p-0 mx-auto">
                 <div className="form-group text-center">
                   <img src="" />
                 </div>
@@ -22,31 +59,39 @@ const LoginView = () => {
                   <h2>서초 문화포털 관리자 로그인</h2>
                 </div>
                 <div className="form-group">
-                  <label className="form-label" for="email">
+                  <label className="form-label" htmlFor="email">
                     아이디:
                   </label>
                   <input
-                    id="email"
                     type="text"
+                    name="id"
                     className="form-control"
-                    placeholder=""
+                    placeholder="아이디"
+                    onChange={(e) => onChangeLoginInfo(e)}
                   />
                 </div>
                 <div className="form-group">
-                  <label className="form-label" for="password">
+                  <label className="form-label" htmlFor="password">
                     비밀번호:
                   </label>
                   <input
                     id="password"
+                    name="password"
                     type="password"
                     className="form-control"
-                    placeholder=""
+                    placeholder="비밀번호"
+                    onChange={(e) => onChangeLoginInfo(e)}
                   />
                 </div>
                 <div className="text-center">
-                  <button className="btn btn-accent">Login</button>
+                  <button
+                    className="btn btn-accent"
+                    onClick={() => requestLogin()}
+                  >
+                    Login
+                  </button>
                 </div>
-              </form>
+              </div>
             </div>
           </div>
         </div>
