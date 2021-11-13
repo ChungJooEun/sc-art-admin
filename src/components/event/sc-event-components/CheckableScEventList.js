@@ -1,7 +1,9 @@
 import React from "react";
 import CheckableScEventListItem from "./CheckableScEventListItem";
 
-const CheckableScEventList = ({ list }) => {
+const CheckableScEventList = ({ list, pageNumber, count }) => {
+  let no = (pageNumber - 1) * count + 1;
+
   return (
     <table className="table mb-0 thead-border-top-0 table-nowrap">
       <thead>
@@ -81,7 +83,7 @@ const CheckableScEventList = ({ list }) => {
       </thead>
       <tbody className="list" id="staff">
         {list.map((scInfo) => (
-          <CheckableScEventListItem scInfo={scInfo} key={scInfo.id} />
+          <CheckableScEventListItem scInfo={scInfo} no={no++} key={scInfo.id} />
         ))}
       </tbody>
     </table>

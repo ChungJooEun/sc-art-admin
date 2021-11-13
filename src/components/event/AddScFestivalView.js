@@ -1,18 +1,22 @@
 import React, { useState, useEffect, useCallback } from "react";
-import GlobalBar from "../basic-components/GlobalBar";
-import PageTitle from "../basic-components/PageTitle";
-import SideMenuBar from "../basic-components/SideMenuBar";
-import ScModal from "./sc-event-components/ScModal";
-import Editor from "../basic-components/editor-components/Editor";
+import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 import { DateRange } from "react-date-range";
 import * as locales from "react-date-range/dist/locale";
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
 
-import ScheduleList from "./sc-event-components/ScheduleList";
+import GlobalBar from "../basic-components/GlobalBar";
+import PageTitle from "../basic-components/PageTitle";
+import SideMenuBar from "../basic-components/SideMenuBar";
+import ScModal from "./sc-event-components/ScModal";
+import Editor from "../basic-components/editor-components/Editor";
+
+// import ScheduleList from "./sc-event-components/ScheduleList";
 import CheckableEventList from "./event-components/CheckableEventList";
 import Paging from "../basic-components/Paging";
+import PostSaveBtn from "../basic-components/PostSaveBtn";
 
 const pagePathList = [
   {
@@ -30,14 +34,22 @@ const pagePathList = [
   },
 ];
 
-const convertToDate = (str) => {
-  //   console.log(str);
+// const convertToDate = (str) => {
+//   //   console.log(str);
+//   //   return new Date();
+//   return new Date(str.slice(0, 4), parseInt(str.slice(4, 6)) - 1, str.slice(6));
+// };
 
-  //   return new Date();
-  return new Date(str.slice(0, 4), parseInt(str.slice(4, 6)) - 1, str.slice(6));
+const convertDateFormat = (date) => {
+  return "" + date.getFullYear() + (date.getMonth() + 1) + date.getDate();
 };
-
 const count = 5;
+
+const addPostOptions = [
+  { value: "TEMP_SAVE", name: "임시 저장" },
+  { value: "POST", name: "게시" },
+  { value: "CLOSED", name: "비공개" },
+];
 
 const AddScFestivalView = () => {
   const [bannerImg, setBannerImg] = useState(null);
@@ -93,22 +105,22 @@ const AddScFestivalView = () => {
     setDescription(e.target.value);
   };
 
-  const [showSchedule, setShowSchedule] = useState(true);
-  const onChangeShowSchedule = (e) => {
-    setShowSchedule(!showSchedule);
-  };
+  // const [showSchedule, setShowSchedule] = useState(true);
+  // const onChangeShowSchedule = (e) => {
+  //   setShowSchedule(!showSchedule);
+  // };
 
-  const [schedulePeriod, setSchedulePeriod] = useState([
-    {
-      startDate: new Date(),
-      endDate: new Date(),
-      key: "selection",
-    },
-  ]);
-  const onChangeSchedulePeriod = (item) => {
-    let itemAry = [item.selection];
-    setSchedulePeriod(itemAry);
-  };
+  // const [schedulePeriod, setSchedulePeriod] = useState([
+  //   {
+  //     startDate: new Date(),
+  //     endDate: new Date(),
+  //     key: "selection",
+  //   },
+  // ]);
+  // const onChangeSchedulePeriod = (item) => {
+  //   let itemAry = [item.selection];
+  //   setSchedulePeriod(itemAry);
+  // };
 
   const [moreInformation, setMoreInformation] = useState("");
   const getmoreInformation = useCallback((result) => {
@@ -165,14 +177,71 @@ const AddScFestivalView = () => {
     setPageNumber(curNumber);
   };
 
-  const drawScheduleList = () => {
-    const { startDate, endDate } = period[0];
+  // const drawScheduleList = () => {
+  //   const { startDate, endDate } = period[0];
+  //   console.log(startDate);
+  //   let ary = [];
+  //   return ary;
+  // };
 
-    console.log(startDate);
+  // 게시
+  const history = useHistory();
+  const postScEvent = async (data) => {
+    const url = "/api/admin/seochogu-festival/regist";
+    const config = {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    };
 
-    let ary = [];
+    try {
+      const response = await axios.post(url, data, config);
 
-    return ary;
+      if (response.status === 200) {
+        console.log(response.data);
+        history.push("/event/seocho-festival");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const onSubmitPost = (state) => {
+    const data = new FormData();
+
+    // 배너 이미지
+    console.log(bannerImg);
+    if (bannerImg) data.append("file", bannerImg[0]);
+
+    // 제목
+    data.append("name", title);
+
+    // 시작일, 마감일
+    data.append("open_date", convertDateFormat(period[0].startDate));
+    data.append("close_date", convertDateFormat(period[0].endDate));
+
+    // 설명
+    data.append("description", description);
+
+    data.append("is_schedule_displayed", 0);
+    data.append("is_posted", 1);
+    data.append("last_event_added", "20211113");
+
+    // 상세정보
+    data.append("more_information", moreInformation);
+
+    // 관련 행사
+    for (let i = 0; i < eventList.length; i++) {
+      data.append("related_event_list", eventList[i].id);
+    }
+
+    // 상태
+    data.append("state", state);
+
+    //
+    data.append("userid", "admin");
+
+    // postScEvent(data);
   };
 
   useEffect(() => {
@@ -340,7 +409,7 @@ const AddScFestivalView = () => {
                       direction="horizontal"
                       locale={locales["ko"]}
                       weekStartsOn={1}
-                      months={1}
+                      months={2}
                       monthDisplayFormat="yyyy년 MM월"
                       dateDisplayFormat="yyyy년 MM월 dd일"
                     />
@@ -376,7 +445,7 @@ const AddScFestivalView = () => {
                 </div>
               </div>
               {/* 스케줄 옵션 */}
-              <div className="list-group-item">
+              {/* <div className="list-group-item">
                 <div
                   role="group"
                   aria-labelledby="label-question"
@@ -391,61 +460,61 @@ const AddScFestivalView = () => {
                       스케줄 옵션
                     </label>
                     <div className="col-md-10">
-                      <div className="custom-controls-stacked row">
-                        {/* 라디오 버튼  */}
-                        <div className="custom-control custom-radio col-lg-3">
-                          <input
-                            id="radioStacked1"
-                            name="radio-stacked"
-                            type="radio"
-                            className="custom-control-input"
-                            checked
-                            onChange={(e) => onChangeShowSchedule(e)}
-                          />
-                          <label
-                            htmlFor="radioStacked1"
-                            className="custom-control-label"
-                          >
-                            스케줄 리스트 보여주기
-                          </label>
-                        </div>
-                        {/* 라디오 버튼  */}
-                        <div className="custom-control custom-radio col-lg-2">
-                          <input
-                            id="radioStacked2"
-                            name="radio-stacked"
-                            type="radio"
-                            className="custom-control-input"
-                            onChange={(e) => onChangeShowSchedule(e)}
-                          />
-                          <label
-                            htmlFor="radioStacked2"
-                            className="custom-control-label"
-                          >
-                            숨기기
-                          </label>
-                        </div>
-                        {/* 스케줄 기간 설정 */}
-                        <label>기간 설정</label>
-                        <div className="col-md-3">
-                          <DateRange
-                            editableDateInputs={true}
-                            onChange={(item) => onChangeSchedulePeriod(item)}
-                            moveRangeOnFirstSelection={false}
-                            ranges={schedulePeriod}
-                            direction="horizontal"
-                            locale={locales["ko"]}
-                            weekStartsOn={1}
-                            months={1}
-                            monthDisplayFormat="yyyy년 MM월"
-                            dateDisplayFormat="yyyy년 MM월 dd일"
-                          />
-                        </div>
-                      </div>
-                    </div>
+                      <div className="custom-controls-stacked row"> */}
+              {/* 라디오 버튼  */}
+              {/* <div className="custom-control custom-radio col-lg-3">
+                    <input
+                      id="radioStacked1"
+                      name="radio-stacked"
+                      type="radio"
+                      className="custom-control-input"
+                      checked
+                      onChange={(e) => onChangeShowSchedule(e)}
+                    />
+                    <label
+                      htmlFor="radioStacked1"
+                      className="custom-control-label"
+                    >
+                      스케줄 리스트 보여주기
+                    </label>
                   </div>
+                  라디오 버튼  */}
+              {/* <div className="custom-control custom-radio col-lg-2">
+                    <input
+                      id="radioStacked2"
+                      name="radio-stacked"
+                      type="radio"
+                      className="custom-control-input"
+                      onChange={(e) => onChangeShowSchedule(e)}
+                    />
+                    <label
+                      htmlFor="radioStacked2"
+                      className="custom-control-label"
+                    >
+                      숨기기
+                    </label>
+                  </div> */}
+              {/* 스케줄 기간 설정 */}
+              {/* <label>기간 설정</label>
+                  <div className="col-md-3">
+                    <DateRange
+                      editableDateInputs={true}
+                      onChange={(item) => onChangeSchedulePeriod(item)}
+                      moveRangeOnFirstSelection={false}
+                      ranges={schedulePeriod}
+                      direction="horizontal"
+                      locale={locales["ko"]}
+                      weekStartsOn={1}
+                      months={1}
+                      monthDisplayFormat="yyyy년 MM월"
+                      dateDisplayFormat="yyyy년 MM월 dd일"
+                    />
+                  </div> */}
+              {/* </div>
+                    </div> */}
+              {/* </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
 
@@ -535,59 +604,20 @@ const AddScFestivalView = () => {
           </div>
 
           {/* 스케줄 확인 */}
-          <div className="page-section section-sc-fe">
+          {/* <div className="page-section section-sc-fe">
             <div className="page-separator">
               <div className="page-separator__text">스케줄 확인</div>
             </div>
             <div className="row card-group-row mb-lg-8pt">
               {drawScheduleList()}
             </div>
-          </div>
+          </div> */}
           <div className="detail_under_menu ">
             <div className="card">
-              <div className="list-group-item">
-                <div
-                  role="group"
-                  aria-labelledby="label-question"
-                  className="m-0 form-group"
-                >
-                  <div className="form-row align-items-center">
-                    <label className="col-md-1 col-form-label form-label">
-                      상태
-                    </label>
-                    <div className="col-md-8">
-                      <select
-                        id="custom-select"
-                        className="form-control custom-select"
-                        defaultValue={0}
-                      >
-                        <option value={0}>임시저장</option>
-                        <option value={1}>게시</option>
-                        <option value={2}>비공개</option>
-                      </select>
-                    </div>
-                    <div className="flex"></div>
-                    <div className="col-auto d-flex flex-column">
-                      <button
-                        type="submit"
-                        className="btn btn-outline-secondary"
-                      >
-                        삭제
-                      </button>
-                    </div>
-                    <div className="col-auto d-flex flex-column">
-                      <button type="submit" className="btn btn-secondary">
-                        취소
-                      </button>
-                    </div>
-                    <div className="col-auto d-flex flex-column">
-                      <button type="submit" className="btn btn-primary">
-                        확인
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <PostSaveBtn
+                options={addPostOptions}
+                onSubmitEvent={onSubmitPost}
+              />
             </div>
           </div>
         </div>

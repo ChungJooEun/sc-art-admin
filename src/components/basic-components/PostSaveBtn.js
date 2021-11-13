@@ -36,7 +36,7 @@ const PostSaveBtn = React.memo(({ options, onSubmitEvent, state }) => {
             <select
               id="custom-select"
               className="form-control custom-select"
-              value={formState}
+              defaultValue={formState}
               onChange={(e) => onChangeState(e)}
             >
               {getOptions()}

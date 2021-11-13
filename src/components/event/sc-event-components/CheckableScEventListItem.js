@@ -1,6 +1,43 @@
 import React from "react";
 
-const CheckableScEventListItem = ({ scInfo }) => {
+const addDot = (string) => {
+  if (string === null) {
+    return "";
+  }
+
+  let result = "";
+  return result.concat(
+    string.slice(0, 4),
+    ".",
+    string.slice(4, 6),
+    ".",
+    string.slice(6)
+  );
+};
+
+const CheckableScEventListItem = ({ scInfo, no }) => {
+  const getState = () => {
+    const today = new Date();
+    const startDate = new Date(
+      scInfo.open_date.slice(0, 4),
+      parseInt(scInfo.open_date.slice(4, 6)) - 1,
+      scInfo.open_date.slice(6)
+    );
+    const endDate = new Date(
+      scInfo.close_date.slice(0, 4),
+      parseInt(scInfo.close_date.slice(4, 6)) - 1,
+      scInfo.close_date.slice(6)
+    );
+
+    if (today < startDate) {
+      return "대기중";
+    } else if (startDate <= today && today <= endDate) {
+      return "진행중";
+    } else if (endDate < today) {
+      return "종료";
+    }
+  };
+
   return (
     <tr className="selected">
       <td className="pr-0">
@@ -16,7 +53,7 @@ const CheckableScEventListItem = ({ scInfo }) => {
           </label>
         </div>
       </td>
-      <td className="js-lists-values-place small">5</td>
+      <td className="js-lists-values-place small">{no}</td>
       <td className="text-aline-left">
         <div
           className="media flex-nowrap align-items-center"
@@ -27,7 +64,7 @@ const CheckableScEventListItem = ({ scInfo }) => {
               <p className="mb-0 txt_line_table_title">
                 <a href="seocho-festival-detail.html">
                   <strong className="js-lists-values-cultural-seocho-festival-name">
-                    축제이름 축제 축제이름
+                    {scInfo.name}
                   </strong>
                 </a>
               </p>
@@ -36,11 +73,15 @@ const CheckableScEventListItem = ({ scInfo }) => {
           </div>
         </div>
       </td>
-      <td className="js-lists-values-registration-date small">2021.07.12</td>
-      <td className="js-lists-values-last-update-date small">2021.07.12</td>
-      <td className="js-lists-values-employer-name small">관리자1</td>
-      <td className="js-lists-values-status small">대기 중</td>
-      <td className="js-lists-values-public small">게시</td>
+      <td className="js-lists-values-registration-date small">
+        {addDot(scInfo.create_date)}
+      </td>
+      <td className="js-lists-values-last-update-date small">
+        {addDot(scInfo.last_event_added)}
+      </td>
+      <td className="js-lists-values-employer-name small">{scInfo.creator}</td>
+      <td className="js-lists-values-status small">{getState()}</td>
+      <td className="js-lists-values-public small">{scInfo.is_posted_name}</td>
     </tr>
   );
 };
