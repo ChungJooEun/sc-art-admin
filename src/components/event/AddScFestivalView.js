@@ -127,13 +127,37 @@ const AddScFestivalView = () => {
       return;
     }
 
+    let ary = list;
     // 기존의 리스트 돌면서 해당하는 event id가 있는지 검사
     for (let i = 0; i < eventList.length; i++) {
-      for (let j = 0; j < list.length; j++) {}
+      ary = ary.filter((item) => item.id !== eventList[i].id);
     }
+    setEventList(eventList.concat(ary));
+
+    return;
+  };
+  const removeEventList = () => {
+    let ary = eventList;
+    for (let i = 0; i < checkedList.length; i++) {
+      ary = ary.filter((item) => item.id !== checkedList[i].id);
+    }
+
+    setEventList(ary);
+    setCheckedList([]);
   };
   const showEventList = () => {
     return eventList.slice((pageNumber - 1) * count, pageNumber * count);
+  };
+
+  const [checkedList, setCheckedList] = useState([]);
+  const addCheckedList = (eventInfo) => {
+    setCheckedList(checkedList.concat(eventInfo));
+  };
+  const removeNoneCheckedList = (rId) => {
+    let ary = checkedList;
+    ary = ary.filter((item) => item.id !== rId);
+
+    setCheckedList(ary);
   };
 
   const [pageNumber, setPageNumber] = useState(1);
@@ -453,6 +477,7 @@ const AddScFestivalView = () => {
                 data-swal-confirm-button-text="확인"
                 data-swal-confirm-cb="#swal-confirm-delete"
                 data-swal-close-on-confirm="false"
+                onClick={() => removeEventList()}
               >
                 제거
               </button>
@@ -486,6 +511,8 @@ const AddScFestivalView = () => {
                   list={showEventList()}
                   pageNumber={pageNumber}
                   count={count}
+                  addCheckedList={addCheckedList}
+                  removeNoneCheckedList={removeNoneCheckedList}
                 />
                 <Paging
                   pageNumber={pageNumber}
