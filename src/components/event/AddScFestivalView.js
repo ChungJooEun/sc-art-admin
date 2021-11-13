@@ -241,7 +241,7 @@ const AddScFestivalView = () => {
     //
     data.append("userid", "admin");
 
-    // postScEvent(data);
+    postScEvent(data);
   };
 
   useEffect(() => {

@@ -19,14 +19,14 @@ const CheckableScEventListItem = ({ scInfo, no }) => {
   const getState = () => {
     const today = new Date();
     const startDate = new Date(
-      scInfo.open_date.slice(0, 4),
+      parseInt(scInfo.open_date.slice(0, 4)),
       parseInt(scInfo.open_date.slice(4, 6)) - 1,
-      scInfo.open_date.slice(6)
+      parseInt(scInfo.open_date.slice(6))
     );
     const endDate = new Date(
-      scInfo.close_date.slice(0, 4),
+      parseInt(scInfo.close_date.slice(0, 4)),
       parseInt(scInfo.close_date.slice(4, 6)) - 1,
-      scInfo.close_date.slice(6)
+      parseInt(scInfo.close_date.slice(6))
     );
 
     if (today < startDate) {
