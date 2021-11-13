@@ -145,13 +145,13 @@ const AddPlaceView = ({ options }) => {
 
   useEffect(() => {
     const srcList = [
-      // "/assets/vendor/perfect-scrollbar.min.js",
-      // "/assets/vendor/dom-factory.js",
-      // "/assets/vendor/material-design-kit.js",
-      "/assets/js/app.js",
-      // "/assets/vendor/jquery.min.js",
-      // "/assets/js/hljs.js",
-      // "/assets/js/settings.js",
+      `${process.env.PUBLIC_URL}/assets/vendor/perfect-scrollbar.min.js`,
+      `${process.env.PUBLIC_URL}/assets/vendor/dom-factory.js`,
+      `${process.env.PUBLIC_URL}/assets/vendor/material-design-kit.js`,
+      `${process.env.PUBLIC_URL}/assets/js/app.js`,
+      `${process.env.PUBLIC_URL}/assets/vendor/jquery.min.js`,
+      `${process.env.PUBLIC_URL}/assets/js/hljs.js`,
+      `${process.env.PUBLIC_URL}/assets/js/settings.js`,
     ];
     let scriptList = [];
 
