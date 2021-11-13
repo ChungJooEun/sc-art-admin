@@ -29,6 +29,7 @@ import AdminDetailView from "./components/admin/AdminDetailView";
 import AddAdminView from "./components/admin/AddAdminView";
 import AddBoardView from "./components/community/AddBoardView";
 import EditorTest from "./components/basic-components/editor-components/EditorTest";
+import AddScFestivalView from "./components/event/AddScFestivalView";
 
 const addPostOptions = [
   { value: "TEMP_SAVE", name: "임시저장" },
@@ -161,6 +162,15 @@ const App = () => {
           />
         )}
       />
+
+      <Route
+        path="/event/add-seocho-festival"
+        component={(props) => <AddScFestivalView {...props} />}
+      />
+
+      <Route path="/sc-modal">
+        <AddScFestivalView />
+      </Route>
 
       {/* <Route path="/event-application-detail/form">
         <EventInfoForm />

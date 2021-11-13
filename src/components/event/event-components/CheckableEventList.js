@@ -1,9 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 
 import CheckableEventListItem from "../event-components/CheckableEventListItem";
 
-const CheckableEventList = ({ list, pageNumber, count, isModal }) => {
+const CheckableEventList = ({
+  list,
+  pageNumber,
+  count,
+  isModal,
+  addCheckedList,
+  removeNoneCheckedList,
+}) => {
   let no = (pageNumber - 1) * count + 1;
+
+  const addCheckedItem = (eventInfo) => {
+    addCheckedList(eventInfo);
+  };
+
+  const removeCheckedItem = (rId) => {
+    removeNoneCheckedList(rId);
+  };
 
   return (
     <table className="table mb-0 thead-border-top-0 table-nowrap">
@@ -107,6 +122,8 @@ const CheckableEventList = ({ list, pageNumber, count, isModal }) => {
             key={eventInfo.id}
             no={no++}
             isModal={isModal}
+            addCheckedItem={addCheckedItem}
+            removeCheckedItem={removeCheckedItem}
           />
         ))}
       </tbody>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import { useHistory } from "react-router-dom";
 
 const replaceString = (string) => {
@@ -16,20 +16,43 @@ const addDot = (string) => {
   );
 };
 
-const CheckableEventListItem = ({ eventInfo, no, isModal }) => {
+const CheckableEventListItem = ({
+  eventInfo,
+  no,
+  isModal,
+  addCheckedItem,
+  removeCheckedItem,
+}) => {
   const history = useHistory();
+  const [checked, setChecked] = useState(false);
 
+  const checkBox = useRef();
+
+  const onChangeCheckBox = () => {
+    if (checked === false) {
+      setChecked(!checked);
+      checkBox.current.checked = true;
+      addCheckedItem(eventInfo);
+    } else {
+      setChecked(!checked);
+      checkBox.current.checked = false;
+      removeCheckedItem(eventInfo.id);
+    }
+  };
   return (
-    <tr className="selected">
+    <tr className={checked ? "selected" : ""}>
       <td className="pr-0">
         <div className="custom-control custom-checkbox">
           <input
             type="checkbox"
             className="custom-control-input js-check-selected-row"
-            checked=""
-            id="customCheck1_1"
+            ref={checkBox}
           />
-          <label className="custom-control-label" htmlFor="customCheck1_1">
+          <label
+            className="custom-control-label"
+            htmlFor="customCheck1_1"
+            onClick={() => onChangeCheckBox()}
+          >
             <span className="text-hide">Check</span>
           </label>
         </div>
