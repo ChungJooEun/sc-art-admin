@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import EventInfoContext from "../../../context/eventInfo";
+
 import Select from "react-select";
 
 const categoryOptions = [
@@ -45,19 +47,28 @@ const themeOptions = [
   { value: "SPRING", label: "봄" },
   { value: "SUMMER", label: "여름" },
   { value: "SUNNY", label: "화창함" },
-  { value: "TRANDITIONAL_ART", label: "전통예술" },
+  { value: "TRADITIONAL_ART", label: "전통예술" },
   { value: "UNIQUE", label: "이색적인" },
   { value: "WINTER", label: "겨울" },
 ];
 
-const Curation = React.memo(({ curationInfo, getCurationInfo }) => {
-  const getDefaultOptions_field = (fields) => {
-    console.log(fields);
+const Curation = React.memo(() => {
+  const { state, actions } = useContext(EventInfoContext);
 
+  const getDefaultOptions_field = (fields) => {
     const defaultOptions = [];
 
     if (fields === undefined) {
       return [];
+    }
+
+    if (fields === String) {
+      for (let j = 0; j < fieldOptions.length; j++) {
+        if (fields === fieldOptions[j].value) {
+          defaultOptions.push(fieldOptions[j]);
+          return defaultOptions;
+        }
+      }
     }
 
     for (let i = 0; i < fields.length; i++) {
@@ -76,6 +87,15 @@ const Curation = React.memo(({ curationInfo, getCurationInfo }) => {
 
     if (themes === undefined) {
       return [];
+    }
+
+    if (themes === String) {
+      for (let j = 0; j < themeOptions.length; j++) {
+        if (themes === themeOptions[j].value) {
+          defaultOptions.push(themeOptions[j]);
+          break;
+        }
+      }
     }
 
     for (let i = 0; i < themes.length; i++) {
@@ -106,11 +126,9 @@ const Curation = React.memo(({ curationInfo, getCurationInfo }) => {
     return defaultOptions;
   };
 
-  const [formInfo, setFormInfo] = useState(curationInfo);
-
   const onChangeCategory = (e) => {
-    setFormInfo({
-      ...formInfo,
+    actions.setCurationInfo({
+      ...state.curationInfo,
       event_type: e.value,
     });
   };
@@ -122,8 +140,8 @@ const Curation = React.memo(({ curationInfo, getCurationInfo }) => {
       ary.push(e[i].value);
     }
 
-    setFormInfo({
-      ...formInfo,
+    actions.setCurationInfo({
+      ...state.curationInfo,
       event_field: ary,
     });
   };
@@ -135,22 +153,18 @@ const Curation = React.memo(({ curationInfo, getCurationInfo }) => {
       ary.push(e[i].value);
     }
 
-    setFormInfo({
-      ...formInfo,
+    actions.setCurationInfo({
+      ...state.curationInfo,
       event_theme: ary,
     });
   };
 
   const onChangeScFestival = (e) => {
-    setFormInfo({
-      ...setFormInfo,
+    actions.setCurationInfo({
+      ...state.curationInfo,
       festival_id: e.value,
     });
   };
-
-  useEffect(() => {
-    getCurationInfo(formInfo);
-  }, [formInfo, getCurationInfo]);
 
   return (
     <div className="page-section">
@@ -160,7 +174,9 @@ const Curation = React.memo(({ curationInfo, getCurationInfo }) => {
         </label>
         <Select
           options={categoryOptions}
-          defaultValue={getDefaultOptions_category(formInfo.event_type)}
+          defaultValue={getDefaultOptions_category(
+            state.curationInfo.event_type
+          )}
           closeMenuOnSelect={false}
           id="select01"
           placeholder="종류 선택"
@@ -173,7 +189,7 @@ const Curation = React.memo(({ curationInfo, getCurationInfo }) => {
         </label>
         <Select
           options={fieldOptions}
-          defaultValue={getDefaultOptions_field(formInfo.event_field)}
+          defaultValue={getDefaultOptions_field(state.curationInfo.event_field)}
           closeMenuOnSelect={false}
           id="select02"
           isMulti
@@ -187,7 +203,7 @@ const Curation = React.memo(({ curationInfo, getCurationInfo }) => {
         </label>
         <Select
           options={themeOptions}
-          defaultValue={getDefaultOptions_theme(formInfo.event_theme)}
+          defaultValue={getDefaultOptions_theme(state.curationInfo.event_theme)}
           closeMenuOnSelect={false}
           id="select03"
           isMulti
@@ -201,7 +217,10 @@ const Curation = React.memo(({ curationInfo, getCurationInfo }) => {
         </label>
         <Select
           options={{ value: "", label: "" }}
-          defaultValue={{ value: "", label: "" }}
+          defaultValue={{
+            value: state.curationInfo.festival_id,
+            label: "서초구 축제",
+          }}
           closeMenuOnSelect={false}
           id="select04"
           placeholder="서초구 축제 선택"

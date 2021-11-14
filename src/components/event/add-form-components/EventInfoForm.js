@@ -1,4 +1,12 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  useContext,
+} from "react";
+import EventInfoContext from "../../../context/eventInfo";
+
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/airbnb.css";
 
@@ -8,24 +16,6 @@ import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
 
 import PostCodeModal from "../../basic-components/PostCodeModal";
-
-const convertDateFormat = (str) => {
-  const date = new Date(str);
-
-  return "" + date.getFullYear() + (date.getMonth() + 1) + date.getDate();
-};
-
-const convertToDate = (str) => {
-  console.log(str);
-
-  // return new Date();
-
-  return new Date(
-    parseInt(str.slice(0, 4)),
-    parseInt(str.slice(4, 6)) - 1,
-    parseInt(str.slice(6))
-  );
-};
 
 const convertTimeFormat = (str) => {
   const date = new Date(str);
@@ -40,7 +30,15 @@ const convertTimeFormat = (str) => {
   return result;
 };
 
-const EventInfoForm = ({ eventInfo, getFormInfo, initTime }) => {
+const convertDateFormat = (str) => {
+  const date = new Date(str);
+
+  return "" + date.getFullYear() + (date.getMonth() + 1) + date.getDate();
+};
+
+const EventInfoForm = React.memo(() => {
+  const { actions, state } = useContext(EventInfoContext);
+
   const [showInputBox, setShowInputBox] = useState(false);
   const toggleInputBox = () => {
     setShowInputBox(!showInputBox);
@@ -51,73 +49,73 @@ const EventInfoForm = ({ eventInfo, getFormInfo, initTime }) => {
     setShowPostCodeModal(!showPostCodeModal);
   };
 
-  const [formInfo, setFormInfo] = useState(eventInfo);
-  const [time, setTime] = useState(initTime);
+  // const [formInfo, setFormInfo] = useState(eventInfo);
+  // const [time, setTime] = useState(initTime);
 
   const [period, setPeriod] = useState([
     {
-      startDate: convertToDate(eventInfo.open_date),
-      endDate: convertToDate(eventInfo.close_date),
+      startDate: state.formInfo.open_date,
+      endDate: state.formInfo.close_date,
       key: "selection",
     },
   ]);
 
   const getAddress = (address) => {
-    setFormInfo({
-      ...formInfo,
+    actions.setFormInfo({
+      ...state.formInfo,
       address1: address,
     });
   };
 
   const onChangeTitle = (e) => {
-    setFormInfo({
-      ...formInfo,
+    actions.setFormInfo({
+      ...state.formInfo,
       name: e.target.value,
     });
   };
 
   const onChangeLocation = (e) => {
-    setFormInfo({
-      ...formInfo,
+    actions.setFormInfo({
+      ...state.formInfo,
       location: e.target.value,
     });
   };
 
   const onChangeAddress2 = (e) => {
-    setFormInfo({
-      ...formInfo,
+    actions.setFormInfo({
+      ...state.formInfo,
       address2: e.target.value,
     });
   };
 
   const onChangePeriod = (item) => {
-    // let itemAry = [item.selection];
-    console.log(item);
+    let itemAry = [item.selection];
+
     setPeriod(item);
-    // setFormInfo({
-    //   ...formInfo,
-    //   open_date: convertDateFormat(itemAry[0].startDate),
-    //   close_date: convertDateFormat(itemAry[0].endDate),
-    // });
+    actions.setCurationInfosetFormInfo({
+      ...state.formInfo,
+      open_date: convertDateFormat(itemAry[0].startDate),
+      close_date: convertDateFormat(itemAry[0].endDate),
+    });
   };
 
   const onChangeOpenTime = (e) => {
-    setTime({
-      ...time,
+    actions.setFormInfo({
+      ...state.formInfo,
       open_time: convertTimeFormat(e),
     });
   };
 
   const onChangeCloseTime = (e) => {
-    setTime({
-      ...time,
+    actions.setFormInfo({
+      ...state.formInfo,
       close_time: convertTimeFormat(e),
     });
   };
 
   const onChangeAge = (e) => {
-    setFormInfo({
-      ...formInfo,
+    actions.setFormInfo({
+      ...state.formInfo,
       age: parseInt(e.target.value),
     });
   };
@@ -131,31 +129,31 @@ const EventInfoForm = ({ eventInfo, getFormInfo, initTime }) => {
       ageInput.current.disabled = false;
       ageInput.current.placeholder = "권장연령";
 
-      setFormInfo({
-        ...formInfo,
+      actions.setFormInfo({
+        ...state.formInfo,
         age: "",
       });
     } else {
       ageInput.current.disabled = true;
       ageInput.current.placeholder = "전체관람가";
 
-      setFormInfo({
-        ...formInfo,
+      actions.setFormInfo({
+        ...state.formInfo,
         age: 0,
       });
     }
   };
 
   const onChangeHomPage = (e) => {
-    setFormInfo({
-      ...formInfo,
+    actions.setFormInfo({
+      ...state.formInfo,
       homepage: e.target.value,
     });
   };
 
   const onChangePhone = (e) => {
-    setFormInfo({
-      ...formInfo,
+    actions.setFormInfo({
+      ...state.formInfo,
       phone: e.target.value,
     });
   };
@@ -168,8 +166,8 @@ const EventInfoForm = ({ eventInfo, getFormInfo, initTime }) => {
       priceInput.current.placeholder = "무료";
     }
 
-    setFormInfo({
-      ...formInfo,
+    actions.setFormInfo({
+      ...state.formInfo,
       price: 0,
     });
   };
@@ -180,22 +178,18 @@ const EventInfoForm = ({ eventInfo, getFormInfo, initTime }) => {
       priceInput.current.placeholder = "가격";
     }
 
-    setFormInfo({
-      ...formInfo,
+    actions.setFormInfo({
+      ...state.formInfo,
       price: "",
     });
   };
 
   const onChangePrice = (e) => {
-    setFormInfo({
-      ...formInfo,
+    actions.setFormInfo({
+      ...state.formInfo,
       price: parseInt(e.target.value),
     });
   };
-
-  // useEffect(() => {
-  //   // getFormInfo(formInfo, time);
-  // }, [formInfo, time, getFormInfo]);
 
   return (
     <>
@@ -229,7 +223,7 @@ const EventInfoForm = ({ eventInfo, getFormInfo, initTime }) => {
                     type="text"
                     placeholder="제목을 입력하세요"
                     className="form-control"
-                    value={formInfo.name}
+                    value={state.formInfo.name}
                     onChange={(e) => onChangeTitle(e)}
                   />
                 </div>
@@ -257,7 +251,7 @@ const EventInfoForm = ({ eventInfo, getFormInfo, initTime }) => {
                       type="text"
                       placeholder="장소"
                       className="form-control"
-                      value={formInfo.location}
+                      value={state.formInfo.location}
                       onChange={(e) => onChangeLocation(e)}
                     />
                   </div>
@@ -269,7 +263,7 @@ const EventInfoForm = ({ eventInfo, getFormInfo, initTime }) => {
                       className="form-control"
                       onChange={(e) => onChangeLocation(e)}
                     >
-                      <option selected>{formInfo.location}</option>
+                      <option selected>{state.formInfo.location}</option>
                       <option>장소2</option>
                       <option>장소3</option>
                     </select>
@@ -306,7 +300,7 @@ const EventInfoForm = ({ eventInfo, getFormInfo, initTime }) => {
                     type="text"
                     placeholder="주소"
                     className="form-control"
-                    value={formInfo.address1}
+                    value={state.formInfo.address1}
                     disabled
                   />
                 </div>
@@ -340,7 +334,7 @@ const EventInfoForm = ({ eventInfo, getFormInfo, initTime }) => {
                     type="text"
                     placeholder="상세 주소"
                     className="form-control"
-                    value={formInfo.address2}
+                    value={state.formInfo.address2}
                     onChange={(e) => onChangeAddress2(e)}
                   />
                 </div>
@@ -385,7 +379,7 @@ const EventInfoForm = ({ eventInfo, getFormInfo, initTime }) => {
                   data-toggle="flatpickr"
                   id="flatpickrSample05"
                   type="text"
-                  value={time.open_time}
+                  value={state.formInfo.open_time}
                   onChange={(e) => onChangeOpenTime(e)}
                 />
               </div>
@@ -400,7 +394,7 @@ const EventInfoForm = ({ eventInfo, getFormInfo, initTime }) => {
                   data-toggle="flatpickr"
                   id="flatpickrSample05"
                   type="text"
-                  value={time.close_time}
+                  value={state.formInfo.close_time}
                   onChange={(e) => onChangeCloseTime(e)}
                 />
               </div>
@@ -424,7 +418,7 @@ const EventInfoForm = ({ eventInfo, getFormInfo, initTime }) => {
                   data-mask="#.##0,00"
                   data-mask-reverse="true"
                   autoComplete="off"
-                  value={formInfo.age}
+                  value={state.formInfo.age}
                   onChange={(e) => onChangeAge(e)}
                   ref={ageInput}
                 />
@@ -471,7 +465,7 @@ const EventInfoForm = ({ eventInfo, getFormInfo, initTime }) => {
                   data-mask="#.##0,00"
                   data-mask-reverse="true"
                   autoComplete="off"
-                  value={formInfo.homepage}
+                  value={state.formInfo.homepage}
                   onChange={(e) => onChangeHomPage(e)}
                 />
               </div>
@@ -517,7 +511,7 @@ const EventInfoForm = ({ eventInfo, getFormInfo, initTime }) => {
                   data-mask="(000) 000-0000"
                   autoComplete="off"
                   maxLength="14"
-                  value={formInfo.phone}
+                  value={state.formInfo.phone}
                   onChange={(e) => onChangePhone(e)}
                 />
               </div>
@@ -574,7 +568,7 @@ const EventInfoForm = ({ eventInfo, getFormInfo, initTime }) => {
                         id=""
                         type="price"
                         className="form-control"
-                        value={formInfo.price}
+                        value={state.formInfo.price}
                         ref={priceInput}
                         onChange={(e) => onChangePrice(e)}
                       />
@@ -589,6 +583,6 @@ const EventInfoForm = ({ eventInfo, getFormInfo, initTime }) => {
       </div>
     </>
   );
-};
+});
 
 export default EventInfoForm;

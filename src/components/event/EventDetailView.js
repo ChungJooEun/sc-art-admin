@@ -1,6 +1,7 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useContext } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import EventInfoContext from "../../context/eventInfo";
 
 import GlobalBar from "../basic-components/GlobalBar";
 import SideMenuBar from "../basic-components/SideMenuBar";
@@ -25,74 +26,88 @@ const pagePathList = [
     pageName: "문화행사 관리",
   },
 ];
-const convertDateFormat = (str) => {
-  const date = new Date(str);
+// const convertDateFormat = (str) => {
+//   const date = new Date(str);
 
-  return "" + date.getFullYear() + (date.getMonth() + 1) + date.getDate();
+//   return "" + date.getFullYear() + (date.getMonth() + 1) + date.getDate();
+// };
+
+const convertToDate = (str) => {
+  if (str === null || str === undefined) {
+    return new Date();
+  }
+
+  return new Date(
+    parseInt(str.slice(0, 4)),
+    parseInt(str.slice(4, 6)) - 1,
+    parseInt(str.slice(6))
+  );
 };
 
 const EventDetailView = ({ options, isApproved, match }) => {
+  const { actions, state } = useContext(EventInfoContext);
+
   const [loading, setLoading] = useState(true);
 
-  const getVideoId = (url) => {
-    let videoId;
+  // const getVideoId = (url) => {
+  //   let videoId;
 
-    if (url.indexOf("watch?v=") === 24) {
-      videoId = url.slice(32, 43);
-    } else {
-      videoId = url.slice(17, 28);
-    }
+  //   if (url.indexOf("watch?v=") === 24) {
+  //     videoId = url.slice(32, 43);
+  //   } else {
+  //     videoId = url.slice(17, 28);
+  //   }
 
-    return videoId;
-  };
+  //   return videoId;
+  // };
 
-  const [formInfo, setFormInfo] = useState(null);
-  const [time, setTime] = useState(null);
-  const getFormInfo = useCallback(
-    (result) => {
-      setFormInfo({
-        ...formInfo,
-        result,
-      });
-    },
-    [formInfo]
-  );
+  // const [formInfo, setFormInfo] = useState(null);
+  // const [time, setTime] = useState(null);
+  // const getFormInfo = useCallback(
+  //   (result) => {
+  //     setFormInfo({
+  //       ...formInfo,
+  //       result,
+  //     });
+  //   },
+  //   [formInfo]
+  // );
 
-  const [curationInfo, setCurationInfo] = useState(null);
-  const getCurationInfo = useCallback((info) => {
-    setCurationInfo(info);
-  }, []);
+  // const [curationInfo, setCurationInfo] = useState(null);
+  // const getCurationInfo = useCallback((info) => {
+  //   setCurationInfo(info);
+  // }, []);
 
-  const [detail, setDetail] = useState("");
-  const getDetail = useCallback((result) => {
-    setDetail(result);
-  }, []);
+  // const [detail, setDetail] = useState("");
+  // const getDetail = useCallback((result) => {
+  //   setDetail(result);
+  // }, []);
 
-  const [vId, setVid] = useState(null);
-  const [videos, setVideos] = useState([]);
-  const getVideo = useCallback(
-    (url) => {
-      setVideos(
-        videos.concat({
-          vId: vId,
-          url: url,
-        })
-      );
+  // const [vId, setVid] = useState(null);
+  // const [videos, setVideos] = useState([]);
+  // const getVideo = useCallback(
+  //   (url) => {
+  //     setVideos(
+  //       videos.concat({
+  //         vId: vId,
+  //         url: url,
+  //       })
+  //     );
 
-      setVid(vId + 1);
-    },
-    [vId, videos]
-  );
+  //     setVid(vId + 1);
+  //   },
+  //   [vId, videos]
+  // );
 
-  const getImgUrl = useCallback(
-    (imgFile) => {
-      setFormInfo({
-        ...formInfo,
-        resources: imgFile,
-      });
-    },
-    [formInfo]
-  );
+  // const getImgUrl = useCallback(
+  //   (imgFile) => {
+  //     setFormInfo({
+  //       ...formInfo,
+  //       resources: imgFile,
+  //     });
+  //   },
+  //   [formInfo]
+  // );
 
   const history = useHistory();
 
@@ -119,54 +134,50 @@ const EventDetailView = ({ options, isApproved, match }) => {
   const onSubmitEvent = useCallback((formState) => {
     let formData = new FormData();
 
-    if (formInfo.resources) {
-      formData.append(
-        "file",
-        formInfo.resources[0],
-        formInfo.resources[0].name
-      );
+    if (state.formInfo.resources) {
+      formData.append("file", state.formInfo.resources[0]);
     }
 
-    formData.append("name", formInfo.name);
-    formData.append("location", formInfo.location);
-    formData.append("address1", formInfo.adderss1);
-    formData.append("address2", formInfo.address2);
-    formData.append("open_date", formInfo.open_date);
-    formData.append("close_date", formInfo.close_date);
-    formData.append("age", formInfo.age);
-    formData.append("homepage", formInfo.homepage);
-    formData.append("phone", formInfo.phone);
-    formData.append("price", formInfo.price);
-    formData.append("open_time", formInfo.open_time);
-    formData.append("close_time", formInfo.close_time);
-    formData.append("festival_id", formInfo.festival_id);
+    formData.append("name", state.formInfo.name);
+    formData.append("location", state.formInfo.location);
+    formData.append("address1", state.formInfo.adderss1);
+    formData.append("address2", state.formInfo.address2);
+    formData.append("open_date", state.formInfo.open_date);
+    formData.append("close_date", state.formInfo.close_date);
+    formData.append("age", state.formInfo.age);
+    formData.append("homepage", state.formInfo.homepage);
+    formData.append("phone", state.formInfo.phone);
+    formData.append("price", state.formInfo.price);
+    formData.append("open_time", state.formInfo.open_time);
+    formData.append("close_time", state.formInfo.close_time);
+    formData.append("festival_id", state.formInfo.festival_id);
     formData.append("state", formState);
-    formData.append("more_information", detail);
-    formData.append("userid", "dowon.lee");
+    formData.append("more_information", state.detail);
+    formData.append("userid", window.sessionStorage.getItem("userid"));
 
     var vAry;
     var temp;
 
     // curation
     vAry = new Array();
-    for (let i = 0; i < curationInfo.event_field.length; i++) {
-      vAry.push(curationInfo.event_field[i]);
+    for (let i = 0; i < state.curationInfo.event_field.length; i++) {
+      vAry.push(state.curationInfo.event_field[i]);
     }
     formData.append("event_field", vAry);
 
     vAry = new Array();
-    for (let i = 0; i < curationInfo.event_theme.length; i++) {
-      vAry.push(curationInfo.event_theme[i]);
+    for (let i = 0; i < state.curationInfo.event_theme.length; i++) {
+      vAry.push(state.curationInfo.event_theme[i]);
     }
     formData.append("event_theme", vAry);
 
-    formData.append("event_type", curationInfo.event_type);
+    formData.append("event_type", state.curationInfo.event_type);
 
     // youtube
     vAry = new Array();
-    for (let i = 0; i < videos.length; i++) {
+    for (let i = 0; i < state.videos.length; i++) {
       temp = new Object();
-      temp.url = videos[i].url;
+      temp.url = state.videos[i].url;
       vAry.push(temp);
     }
     formData.append("videos", vAry);
@@ -174,31 +185,31 @@ const EventDetailView = ({ options, isApproved, match }) => {
     postEvent(formData);
   }, []);
 
-  const parseUrl = useCallback(
-    (string) => {
-      let ary = string.split('"');
-      let id = 1;
+  // const parseUrl = useCallback(
+  //   (string) => {
+  //     let ary = string.split('"');
+  //     let id = 1;
 
-      for (let i = 0; i < ary.length; i++) {
-        if (ary[i].includes("/images/")) {
-          setFormInfo({
-            ...formInfo,
-            resources: ary[i],
-          });
-        } else if (ary[i].includes("youtube")) {
-          setVideos(
-            videos.concat({
-              vId: id++,
-              url: ary[i],
-            })
-          );
-        }
-      }
+  //     for (let i = 0; i < ary.length; i++) {
+  //       if (ary[i].includes("/images/")) {
+  //         setFormInfo({
+  //           ...formInfo,
+  //           resources: ary[i],
+  //         });
+  //       } else if (ary[i].includes("youtube")) {
+  //         setVideos(
+  //           videos.concat({
+  //             vId: id++,
+  //             url: ary[i],
+  //           })
+  //         );
+  //       }
+  //     }
 
-      setVid(id);
-    },
-    [formInfo, videos]
-  );
+  //     setVid(id);
+  //   },
+  //   [formInfo, videos]
+  // );
 
   useEffect(() => {
     const srcList = [
@@ -238,15 +249,41 @@ const EventDetailView = ({ options, isApproved, match }) => {
         const response = await axios.get(url);
 
         if (response.status === 200) {
-          setCurationInfo(response.data);
-          setDetail(response.data);
-          setFormInfo(response.data);
-          setTime({
-            open_time: response.data.open_time,
-            close_time: response.data.close_time,
+          // 이미지
+          if (response.data.resources !== null) {
+            actions.setImgFile(response.data.resources);
+          }
+
+          // 큐레이션 정보
+          actions.setCurationInfo({
+            event_type: response.data.event_type,
+            event_theme: response.data.event_theme,
+            event_field: response.data.event_field,
+            festival_id: response.data.festival_id,
           });
 
-          parseUrl(response.data.resources);
+          // 상세조회
+          actions.setDetail(response.data.more_information);
+
+          // form 정보 조회
+          actions.setFormInfo({
+            name: response.data.name,
+            location: response.data.location,
+            address1: response.data.address1,
+            address2: response.data.address2,
+            open_date: convertToDate(response.data.open_date),
+            close_date: convertToDate(response.data.close_date),
+            open_time: response.data.open_time,
+            close_time: response.data.close_time,
+            age: response.data.age,
+            homepage: response.data.homepage,
+            reservsite: "",
+            phone: response.data.phone,
+            price: response.data.price,
+            state: response.data.state,
+          });
+
+          // parseUrl(response.data.resources);
 
           setLoading(false);
 
@@ -270,12 +307,7 @@ const EventDetailView = ({ options, isApproved, match }) => {
     return <p>로딩중..</p>;
   }
 
-  if (!formInfo || !curationInfo || !videos) {
-    console.log(formInfo);
-    console.log(curationInfo);
-    // console.log(detail);
-    console.log(videos);
-    console.log(typeof formInfo.more_information);
+  if (!state.formInfo || !state.curationInfo || !state.videos) {
     return <p>fail to loading data</p>;
   }
 
@@ -297,28 +329,18 @@ const EventDetailView = ({ options, isApproved, match }) => {
           <div className="container-fluid page__container">
             <div className="page-section">
               <div className="row">
-                <ImageForm imgUrl={formInfo.resources} getImgUrl={getImgUrl} />
-                <EventInfoForm
-                  eventInfo={formInfo}
-                  getFormInfo={getFormInfo}
-                  initTime={time}
-                />
+                <ImageForm />
+                <EventInfoForm />
               </div>
 
-              <Curation
-                curationInfo={curationInfo}
-                getCurationInfo={getCurationInfo}
-              />
+              <Curation />
 
               <div className="page-section">
                 <div className="page-separator">
                   <div className="page-separator__text">상세정보</div>
                 </div>
 
-                <Editor
-                  mor_information={formInfo.more_information}
-                  getDetail={getDetail}
-                />
+                <Editor />
               </div>
 
               <div className="page-section">
@@ -326,11 +348,11 @@ const EventDetailView = ({ options, isApproved, match }) => {
                   <div className="page-separator__text">관련 영상 업로드</div>
                 </div>
                 <div className="list-group-item">
-                  <VideoAddForm getVideo={getVideo} />
+                  <VideoAddForm />
                 </div>
                 <div className="row card-group-row">
-                  {videos.map((video) => (
-                    <VideoListItem vId={getVideoId(video.url)} key={video.id} />
+                  {state.videos.map((video) => (
+                    <VideoListItem vId={video.url} key={state.vId} />
                   ))}
                 </div>
               </div>
@@ -340,7 +362,7 @@ const EventDetailView = ({ options, isApproved, match }) => {
                   <PostSaveBtn
                     options={options}
                     onSubmitEvent={onSubmitEvent}
-                    state={formInfo.state}
+                    state={state.formInfo.state}
                   />
                   {isApproved ? "" : <RejectSection />}
                 </div>

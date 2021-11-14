@@ -54,6 +54,7 @@ const EventInfoProvider = ({ children }) => {
     reservsite: "",
     phone: "",
     price: "",
+    state: "",
   });
   const [curationInfo, setCurationInfo] = useState({
     event_type: "",
@@ -62,7 +63,11 @@ const EventInfoProvider = ({ children }) => {
     festival_id: "",
   });
   const [detail, setDetail] = useState("");
-  const [videos, setVideos] = useState([]);
+  const [videos, setVideos] = useState([
+    {
+      id: "",
+    },
+  ]);
   const [vId, setVId] = useState(1);
 
   const value = {

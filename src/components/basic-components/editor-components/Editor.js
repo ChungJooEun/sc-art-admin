@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import EventInfoContext from "../../../context/eventInfo";
 import ReactQuill from "react-quill";
 import CustomToolbar from "./CustomToolbar";
@@ -28,17 +28,10 @@ const Editor = () => {
     "background",
   ];
 
-  const [text, setText] = useState("");
-
-  // const {actions, state} = useContext(EventInfoContext);
-
+  const { actions, state } = useContext(EventInfoContext);
   const onChangeEditor = (e) => {
-    setText(e);
+    actions.setDetail(e);
   };
-
-  // useEffect(() => {
-  //   getDetail(text);
-  // }, [getDetail, text]);
 
   return (
     <div className="flex" style={{ maxWidth: "100%" }}>
@@ -47,7 +40,7 @@ const Editor = () => {
         theme="snow"
         modules={moduels}
         formats={formats}
-        value={text === undefined ? " " : text}
+        value={state.detail === undefined ? " " : state.detail}
         onChange={(e) => onChangeEditor(e)}
         placeholder="상세소개..."
         formula={true}
