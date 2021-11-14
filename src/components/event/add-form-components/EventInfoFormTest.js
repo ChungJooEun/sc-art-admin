@@ -112,11 +112,15 @@ const EventInfoFormTest = ({ formInfo, getFormInfo }) => {
     getFormInfo("price", parseInt(e.target.value));
   };
 
+  const getAddress = (address) => {
+    getFormInfo("address1", address);
+  };
+
   return (
     <>
       {showPostCodeModal ? (
         <PostCodeModal
-          getAddress={(data) => getFormInfo("address1", data)}
+          getAddress={getAddress}
           closeModal={togglePostCodeModal}
         />
       ) : (

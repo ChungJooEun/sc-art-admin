@@ -557,7 +557,7 @@ const AddEventView = ({ options }) => {
 
     formData.append("name", formInfo.name);
     formData.append("location", formInfo.location);
-    formData.append("address1", formInfo.adderss1);
+    formData.append("address1", formInfo.address1);
     formData.append("address2", formInfo.address2);
     formData.append("open_date", formInfo.open_date);
     formData.append("close_date", formInfo.close_date);
