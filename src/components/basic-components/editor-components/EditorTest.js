@@ -28,6 +28,11 @@ const EditorTest = ({ more_information, getDetail }) => {
     "background",
   ];
 
+  // const [text, setText] = useState(more_information);
+  const onChangeEditor = (e) => {
+    getDetail(e);
+  };
+
   return (
     <div className="flex" style={{ maxWidth: "100%" }}>
       <CustomToolbar />
@@ -35,9 +40,9 @@ const EditorTest = ({ more_information, getDetail }) => {
         theme="snow"
         modules={moduels}
         formats={formats}
-        value="<p>아이고</p>"
-        // onChange={(e) => onChangeEditor(e)}
-        placeholder="상세소개..."
+        value={more_information}
+        onChange={(e) => onChangeEditor(e)}
+        placeholder="상세소개 "
         formula={true}
         syntax={true}
         style={{
