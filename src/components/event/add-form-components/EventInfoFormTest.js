@@ -27,15 +27,10 @@ const convertTimeFormat = (str) => {
   return result;
 };
 
-const convertDateFormat = (str) => {
-  const date = new Date(str);
-
-  return "" + date.getFullYear() + (date.getMonth() + 1) + date.getDate();
-};
-
 const EventInfoFormTest = ({
   formInfo,
   getFormInfo,
+  getPeriod,
   open_time,
   close_time,
   getTimeInfo,
@@ -62,8 +57,7 @@ const EventInfoFormTest = ({
       endDate: item["selection"].endDate,
       key: item["selection"].key,
     });
-    getFormInfo("open_date", item["selection"].startDate);
-    getFormInfo("close_date", item["selection"].endDate);
+    getPeriod(item["selection"].startDate, item["selection"].endDate);
   };
 
   const onChangeOpenTime = (e) => {

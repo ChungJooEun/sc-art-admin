@@ -404,10 +404,23 @@ const convertToDate = (str) => {
   );
 };
 
-const convertDateFormat = (str) => {
-  const date = new Date(str);
+const convertDateFormat = (dateString) => {
+  const date = new Date(dateString);
 
-  return "" + date.getFullYear() + (date.getMonth() + 1) + date.getDate();
+  let str = "" + date.getFullYear();
+
+  if (date.getMonth() < 9) {
+    str += "0" + (date.getMonth() + 1);
+  } else {
+    str += date.getMonth() + 1;
+  }
+
+  if (date.getDate() < 10) {
+    str += "0" + date.getDate();
+  } else {
+    str += date.getDate();
+  }
+  return str;
 };
 
 const EventDetailView = ({ options, isApproved, match }) => {
@@ -543,6 +556,14 @@ const EventDetailView = ({ options, isApproved, match }) => {
     setFormInfo({
       ...formInfo,
       [dataName]: data,
+    });
+  };
+
+  const getPeriod = (date1, date2) => {
+    setFormInfo({
+      ...formInfo,
+      open_date: date1,
+      close_date: date2,
     });
   };
 
@@ -692,6 +713,7 @@ const EventDetailView = ({ options, isApproved, match }) => {
                 <EventInfoFormTest
                   formInfo={formInfo}
                   getFormInfo={getFormInfo}
+                  getPeriod={getPeriod}
                   open_time={openTime}
                   close_time={closeTime}
                   getTimeInfo={getTimeInfo}
