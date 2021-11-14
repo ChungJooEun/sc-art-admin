@@ -485,6 +485,12 @@ const convertToDate = (str) => {
   );
 };
 
+const convertDateFormat = (str) => {
+  const date = new Date(str);
+
+  return "" + date.getFullYear() + (date.getMonth() + 1) + date.getDate();
+};
+
 const AddEventView = ({ options }) => {
   const [formInfo, setFormInfo] = useState({
     name: "",
@@ -500,10 +506,6 @@ const AddEventView = ({ options }) => {
     price: "",
     state: "TEMP_SAVE",
   });
-  // const [time, setTime] = useState({
-  //   open_time: "10:00",
-  //   close_time: "22:00",
-  // });
   const [openTime, setOpenTime] = useState("10:00");
   const [closeTime, setCloseTime] = useState("22:00");
   const [imgFile, setImgFile] = useState(null);
@@ -563,8 +565,8 @@ const AddEventView = ({ options }) => {
     formData.append("location", formInfo.location);
     formData.append("address1", formInfo.address1);
     formData.append("address2", formInfo.address2);
-    formData.append("open_date", formInfo.open_date);
-    formData.append("close_date", formInfo.close_date);
+    formData.append("open_date", convertDateFormat(formInfo.open_date));
+    formData.append("close_date", convertDateFormat(formInfo.close_date));
     formData.append("age", formInfo.age);
     formData.append("homepage", formInfo.homepage);
     formData.append("phone", formInfo.phone);

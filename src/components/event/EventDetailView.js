@@ -404,6 +404,12 @@ const convertToDate = (str) => {
   );
 };
 
+const convertDateFormat = (str) => {
+  const date = new Date(str);
+
+  return "" + date.getFullYear() + (date.getMonth() + 1) + date.getDate();
+};
+
 const EventDetailView = ({ options, isApproved, match }) => {
   const [formInfo, setFormInfo] = useState(null);
   const [openTime, setOpenTime] = useState("10:00");
@@ -460,8 +466,8 @@ const EventDetailView = ({ options, isApproved, match }) => {
     formData.append("location", formInfo.location);
     formData.append("address1", formInfo.adderss1);
     formData.append("address2", formInfo.address2);
-    formData.append("open_date", formInfo.open_date);
-    formData.append("close_date", formInfo.close_date);
+    formData.append("open_date", convertDateFormat(formInfo.open_date));
+    formData.append("close_date", convertDateFormat(formInfo.close_date));
     formData.append("age", formInfo.age);
     formData.append("homepage", formInfo.homepage);
     formData.append("phone", formInfo.phone);
