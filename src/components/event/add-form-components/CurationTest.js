@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 import Select from "react-select";
 
@@ -60,18 +61,21 @@ const CurationTest = ({ curationInfo, getCurationInfo }) => {
     }
 
     if (typeof fields === "string") {
-      for (let j = 0; j < fieldOptions.length; j++) {
-        if (fields === fieldOptions[j].value) {
-          defaultOptions.push(fieldOptions[j]);
-          return defaultOptions;
+      const ary = fields.split(",");
+
+      for (let i = 0; i < ary.length; i++) {
+        for (let j = 0; j < fieldOptions.length; j++) {
+          if (ary[i] === fieldOptions[j].value) {
+            defaultOptions.push(fieldOptions[j]);
+          }
         }
       }
-    }
-
-    for (let i = 0; i < fields.length; i++) {
-      for (let j = 0; j < fieldOptions.length; j++) {
-        if (fields[i] === fieldOptions[j].value) {
-          defaultOptions.push(fieldOptions[j]);
+    } else {
+      for (let i = 0; i < fields.length; i++) {
+        for (let j = 0; j < fieldOptions.length; j++) {
+          if (fields[i] === fieldOptions[j].value) {
+            defaultOptions.push(fieldOptions[j]);
+          }
         }
       }
     }
@@ -87,18 +91,21 @@ const CurationTest = ({ curationInfo, getCurationInfo }) => {
     }
 
     if (typeof themes === "string") {
-      for (let j = 0; j < themeOptions.length; j++) {
-        if (themes === themeOptions[j].value) {
-          defaultOptions.push(themeOptions[j]);
-          break;
+      const ary = themes.split(",");
+
+      for (let i = 0; i < ary.length; i++) {
+        for (let j = 0; j < themeOptions.length; j++) {
+          if (ary[i] === themeOptions[j].value) {
+            defaultOptions.push(themeOptions[j]);
+          }
         }
       }
-    }
-
-    for (let i = 0; i < themes.length; i++) {
-      for (let j = 0; j < themeOptions.length; j++) {
-        if (themes[i] === themeOptions[j].value) {
-          defaultOptions.push(themeOptions[j]);
+    } else {
+      for (let i = 0; i < themes.length; i++) {
+        for (let j = 0; j < themeOptions.length; j++) {
+          if (themes[i] === themeOptions[j].value) {
+            defaultOptions.push(themeOptions[j]);
+          }
         }
       }
     }
@@ -143,16 +150,52 @@ const CurationTest = ({ curationInfo, getCurationInfo }) => {
     getCurationInfo("event_theme", ary);
   };
 
+  const [festivalOptions, setFestivalOptions] = useState(null);
+
+  useEffect(() => {
+    const getFesivalInfo = async () => {
+      const url = `/api/admin/seochogu-festival/list`;
+
+      try {
+        const response = await axios.get(url, {
+          params: {
+            sort_type: "desc",
+            sort_column: "create_date",
+            page: 1,
+            count: 10000,
+            from_date: "20000101",
+            to_date: "20221231",
+          },
+        });
+
+        if (response.status === 200) {
+          let options = [];
+
+          for (let i = 0; i < response.data.list.length; i++) {
+            options.push({
+              value: response.data.list[i].id,
+              label: response.data.list[i].name,
+            });
+          }
+          setFestivalOptions(options);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    getFesivalInfo();
+  }, []);
+
   return (
     <div className="page-section">
       <div className="form-group">
-        <label className="form-label" for="select01">
+        <label className="form-label" htmlFor="select01">
           종류
         </label>
         <Select
           options={categoryOptions}
           defaultValue={getDefaultOptions_category(curationInfo.event_type)}
-          closeMenuOnSelect={false}
+          closeMenuOnSelect={true}
           id="select01"
           placeholder="종류 선택"
           onChange={(e) => getCurationInfo("event_type", e.value)}
@@ -191,12 +234,12 @@ const CurationTest = ({ curationInfo, getCurationInfo }) => {
           서초구 축제
         </label>
         <Select
-          options={{ value: "", label: "" }}
+          options={festivalOptions}
           defaultValue={{
             value: curationInfo.festival_id,
-            label: "서초구 축제",
+            label: curationInfo.festival_name,
           }}
-          closeMenuOnSelect={false}
+          closeMenuOnSelect={true}
           id="select04"
           placeholder="서초구 축제 선택"
           onChange={(e) => getCurationInfo("festival_id", e.value)}

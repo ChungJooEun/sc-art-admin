@@ -11,7 +11,7 @@ import GlobalBar from "../basic-components/GlobalBar";
 import PageTitle from "../basic-components/PageTitle";
 import SideMenuBar from "../basic-components/SideMenuBar";
 import ScModal from "./sc-event-components/ScModal";
-import Editor from "../basic-components/editor-components/Editor";
+import EditorTest from "../basic-components/editor-components/EditorTest";
 
 // import ScheduleList from "./sc-event-components/ScheduleList";
 import CheckableEventList from "./event-components/CheckableEventList";
@@ -523,7 +523,7 @@ const AddScFestivalView = () => {
             <div className="page-separator">
               <div className="page-separator__text">상세정보</div>
             </div>
-            <Editor
+            <EditorTest
               getDetail={getmoreInformation}
               more_information={moreInformation}
             />

@@ -10,7 +10,6 @@ const VideoListItem = ({ vId }) => {
   const title = useRef();
 
   const onReady = (e) => {
-    console.log(e.target.playerInfo.videoData.title);
     title.current.innerText = e.target.playerInfo.videoData.title;
   };
 

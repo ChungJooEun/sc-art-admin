@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const ImageFormTest = React.memo(({ imgSrc, getImgFile }) => {
+const ImageFormTest = ({ imgSrc, getImgFile }) => {
   const [imgBase64, setImgBase64] = useState([]);
 
   const onChangeImgFile = (e) => {
@@ -36,7 +36,7 @@ const ImageFormTest = React.memo(({ imgSrc, getImgFile }) => {
     if (imgBase64.length === 1) {
       return imgBase64[0];
     } else if (imgSrc) {
-      return imgSrc;
+      return `http://localhost:3000${imgSrc}`;
     } else {
       return "/assets/images/stories/256_rsz_jared-rice-388260-unsplash.jpg";
     }
@@ -57,7 +57,7 @@ const ImageFormTest = React.memo(({ imgSrc, getImgFile }) => {
             <div className="form-row align-items-center">
               <label
                 id="label-question"
-                for="question"
+                htmlFor="question"
                 className="col-md-2 col-form-label form-label"
               ></label>
               <div className="col-md-10">
@@ -68,7 +68,7 @@ const ImageFormTest = React.memo(({ imgSrc, getImgFile }) => {
                   id="customFileUploadMultiple"
                   onChange={(e) => onChangeImgFile(e)}
                 />
-                <label className="" for="customFileUploadMultiple"></label>
+                <label className="" htmlFor="customFileUploadMultiple"></label>
               </div>
             </div>
           </div>
@@ -76,6 +76,6 @@ const ImageFormTest = React.memo(({ imgSrc, getImgFile }) => {
       </div>
     </div>
   );
-});
+};
 
-export default React.memo(ImageFormTest);
+export default ImageFormTest;

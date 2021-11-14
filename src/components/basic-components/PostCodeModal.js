@@ -8,7 +8,10 @@ const PostCodeModal = ({ getAddress, closeModal }) => {
   };
 
   return (
-    <div className="modal" style={{ display: "block", background: "#fff" }}>
+    <div
+      className="modal"
+      style={{ display: "block", background: "#fff", zIndex: "1000" }}
+    >
       <div
         className="modal_content"
         style={{
