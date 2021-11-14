@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef } from "react";
 
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/airbnb.css";
@@ -33,7 +33,13 @@ const convertDateFormat = (str) => {
   return "" + date.getFullYear() + (date.getMonth() + 1) + date.getDate();
 };
 
-const EventInfoFormTest = ({ formInfo, getFormInfo, time, getTimeInfo }) => {
+const EventInfoFormTest = ({
+  formInfo,
+  getFormInfo,
+  open_time,
+  close_time,
+  getTimeInfo,
+}) => {
   const [showInputBox, setShowInputBox] = useState(false);
   const toggleInputBox = () => {
     setShowInputBox(!showInputBox);
@@ -61,6 +67,7 @@ const EventInfoFormTest = ({ formInfo, getFormInfo, time, getTimeInfo }) => {
   };
 
   const onChangeOpenTime = (e) => {
+    console.log(e);
     getTimeInfo("open_time", convertTimeFormat(e));
   };
 
@@ -304,10 +311,11 @@ const EventInfoFormTest = ({ formInfo, getFormInfo, time, getTimeInfo }) => {
                   data-no-calendar="true"
                   data-alt-format="H:i"
                   data-date-format="H:i"
-                  data-toggle="flatpickr"
-                  id="flatpickrSample05"
+                  // data-toggle="flatpickr"
+                  // id="flatpickrSample05"
                   type="text"
-                  value={time.open_time}
+                  defaultValue={open_time}
+                  value={open_time}
                   onChange={(e) => onChangeOpenTime(e)}
                 />
               </div>
@@ -319,10 +327,11 @@ const EventInfoFormTest = ({ formInfo, getFormInfo, time, getTimeInfo }) => {
                   data-no-calendar="true"
                   data-alt-format="H:i"
                   data-date-format="H:i"
-                  data-toggle="flatpickr"
-                  id="flatpickrSample05"
+                  // data-toggle="flatpickr"
+                  // id="flatpickrSample05"
                   type="text"
-                  value={time.close_time}
+                  defaultValue={close_time}
+                  value={close_time}
                   onChange={(e) => onChangeCloseTime(e)}
                 />
               </div>

@@ -406,16 +406,13 @@ const convertToDate = (str) => {
 
 const EventDetailView = ({ options, isApproved, match }) => {
   const [formInfo, setFormInfo] = useState(null);
+  const [openTime, setOpenTime] = useState("10:00");
+  const [closeTime, setCloseTime] = useState("22:00");
   const [imgFile, setImgFile] = useState(null);
   const [curationInfo, setCurationInfo] = useState(null);
   const [detail, setDetail] = useState(null);
   const [videos, setVideos] = useState([]);
   const [vId, setVId] = useState(1);
-  const [time, setTime] = useState({
-    open_time: "10:00",
-    close_time: "22:00",
-  });
-
   const [loading, setLoading] = useState(true);
 
   const getVideoId = (url) => {
@@ -452,7 +449,7 @@ const EventDetailView = ({ options, isApproved, match }) => {
     }
   };
 
-  const onSubmitEvent = useCallback((formState) => {
+  const onSubmitEvent = (formState) => {
     let formData = new FormData();
 
     if (imgFile) {
@@ -469,8 +466,8 @@ const EventDetailView = ({ options, isApproved, match }) => {
     formData.append("homepage", formInfo.homepage);
     formData.append("phone", formInfo.phone);
     formData.append("price", formInfo.price);
-    formData.append("open_time", time.open_time);
-    formData.append("close_time", time.close_time);
+    formData.append("open_time", openTime);
+    formData.append("close_time", closeTime);
     formData.append("festival_id", formInfo.festival_id);
     formData.append("state", formState);
     formData.append("more_information", detail);
@@ -504,7 +501,7 @@ const EventDetailView = ({ options, isApproved, match }) => {
     formData.append("videos", vAry);
 
     postEvent(formData);
-  });
+  };
 
   // const parseUrl = useCallback(
   //   (string) => {
@@ -559,10 +556,11 @@ const EventDetailView = ({ options, isApproved, match }) => {
     setVId(vId + 1);
   };
   const getTimeInfo = (name, data) => {
-    setTime({
-      ...time,
-      [name]: data,
-    });
+    if (name === "open_time") {
+      setOpenTime(data);
+    } else {
+      setCloseTime(data);
+    }
   };
 
   useEffect(() => {
@@ -635,10 +633,8 @@ const EventDetailView = ({ options, isApproved, match }) => {
             state: response.data.state,
           });
 
-          setTime({
-            open_time: response.data.open_time,
-            close_time: response.data.close_time,
-          });
+          setOpenTime(response.data.open_time);
+          setCloseTime(response.data.close_time);
 
           // parseUrl(response.data.resources);
 
@@ -690,7 +686,8 @@ const EventDetailView = ({ options, isApproved, match }) => {
                 <EventInfoFormTest
                   formInfo={formInfo}
                   getFormInfo={getFormInfo}
-                  time={time}
+                  open_time={openTime}
+                  close_time={closeTime}
                   getTimeInfo={getTimeInfo}
                 />
               </div>
