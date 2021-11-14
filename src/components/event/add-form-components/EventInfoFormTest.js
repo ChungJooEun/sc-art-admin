@@ -33,7 +33,7 @@ const convertDateFormat = (str) => {
   return "" + date.getFullYear() + (date.getMonth() + 1) + date.getDate();
 };
 
-const EventInfoFormTest = ({ formInfo, getFormInfo }) => {
+const EventInfoFormTest = ({ formInfo, getFormInfo, time, getTimeInfo }) => {
   const [showInputBox, setShowInputBox] = useState(false);
   const toggleInputBox = () => {
     setShowInputBox(!showInputBox);
@@ -61,11 +61,11 @@ const EventInfoFormTest = ({ formInfo, getFormInfo }) => {
   };
 
   const onChangeOpenTime = (e) => {
-    getFormInfo("open_time", convertTimeFormat(e));
+    getTimeInfo("open_time", convertTimeFormat(e));
   };
 
   const onChangeCloseTime = (e) => {
-    getFormInfo("close_time", convertTimeFormat(e));
+    getTimeInfo("close_time", convertTimeFormat(e));
   };
 
   const onChangeAge = (e) => {
@@ -305,9 +305,9 @@ const EventInfoFormTest = ({ formInfo, getFormInfo }) => {
                   data-alt-format="H:i"
                   data-date-format="H:i"
                   data-toggle="flatpickr"
-                  // id="flatpickrSample05"
+                  id="flatpickrSample05"
                   type="text"
-                  value={formInfo.open_time}
+                  value={time.open_time}
                   onChange={(e) => onChangeOpenTime(e)}
                 />
               </div>
@@ -320,9 +320,9 @@ const EventInfoFormTest = ({ formInfo, getFormInfo }) => {
                   data-alt-format="H:i"
                   data-date-format="H:i"
                   data-toggle="flatpickr"
-                  // id="flatpickrSample05"
+                  id="flatpickrSample05"
                   type="text"
-                  value={formInfo.close_time}
+                  value={time.close_time}
                   onChange={(e) => onChangeCloseTime(e)}
                 />
               </div>

@@ -493,14 +493,16 @@ const AddEventView = ({ options }) => {
     address2: "",
     open_date: new Date(),
     close_date: new Date(),
-    open_time: "10:00",
-    close_time: "22:00",
     age: "",
     homepage: "",
     reservsite: "",
     phone: "",
     price: "",
     state: "TEMP_SAVE",
+  });
+  const [time, setTime] = useState({
+    open_time: "10:00",
+    close_time: "22:00",
   });
   const [imgFile, setImgFile] = useState(null);
   const [curationInfo, setCurationInfo] = useState({
@@ -565,8 +567,8 @@ const AddEventView = ({ options }) => {
     formData.append("homepage", formInfo.homepage);
     formData.append("phone", formInfo.phone);
     formData.append("price", formInfo.price);
-    formData.append("open_time", formInfo.open_time);
-    formData.append("close_time", formInfo.close_time);
+    formData.append("open_time", time.open_time);
+    formData.append("close_time", time.close_time);
     formData.append("festival_id", formInfo.festival_id);
     formData.append("state", formState);
     formData.append("more_information", detail);
@@ -656,6 +658,13 @@ const AddEventView = ({ options }) => {
     setVId(vId + 1);
   };
 
+  const getTimeInfo = (name, data) => {
+    setTime({
+      ...time,
+      [name]: data,
+    });
+  };
+
   useEffect(() => {
     const srcList = [
       `${process.env.PUBLIC_URL}/assets/vendor/jquery.min.js`,
@@ -729,6 +738,8 @@ const AddEventView = ({ options }) => {
                 <EventInfoFormTest
                   formInfo={formInfo}
                   getFormInfo={getFormInfo}
+                  time={time}
+                  getTimeInfo={getTimeInfo}
                 />
               </div>
 

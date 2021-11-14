@@ -411,6 +411,10 @@ const EventDetailView = ({ options, isApproved, match }) => {
   const [detail, setDetail] = useState(null);
   const [videos, setVideos] = useState([]);
   const [vId, setVId] = useState(1);
+  const [time, setTime] = useState({
+    open_time: "10:00",
+    close_time: "22:00",
+  });
 
   const [loading, setLoading] = useState(true);
 
@@ -465,8 +469,8 @@ const EventDetailView = ({ options, isApproved, match }) => {
     formData.append("homepage", formInfo.homepage);
     formData.append("phone", formInfo.phone);
     formData.append("price", formInfo.price);
-    formData.append("open_time", formInfo.open_time);
-    formData.append("close_time", formInfo.close_time);
+    formData.append("open_time", time.open_time);
+    formData.append("close_time", time.close_time);
     formData.append("festival_id", formInfo.festival_id);
     formData.append("state", formState);
     formData.append("more_information", detail);
@@ -500,7 +504,7 @@ const EventDetailView = ({ options, isApproved, match }) => {
     formData.append("videos", vAry);
 
     postEvent(formData);
-  }, []);
+  });
 
   // const parseUrl = useCallback(
   //   (string) => {
@@ -553,6 +557,12 @@ const EventDetailView = ({ options, isApproved, match }) => {
   const getVideoInfo = (url) => {
     setVideos(videos.concat({ url: url, vId: vId }));
     setVId(vId + 1);
+  };
+  const getTimeInfo = (name, data) => {
+    setTime({
+      ...time,
+      [name]: data,
+    });
   };
 
   useEffect(() => {
@@ -617,14 +627,17 @@ const EventDetailView = ({ options, isApproved, match }) => {
             address2: response.data.address2,
             open_date: convertToDate(response.data.open_date),
             close_date: convertToDate(response.data.close_date),
-            open_time: response.data.open_time,
-            close_time: response.data.close_time,
             age: response.data.age,
             homepage: response.data.homepage,
             reservsite: "",
             phone: response.data.phone,
             price: response.data.price,
             state: response.data.state,
+          });
+
+          setTime({
+            open_time: response.data.open_time,
+            close_time: response.data.close_time,
           });
 
           // parseUrl(response.data.resources);
@@ -677,6 +690,8 @@ const EventDetailView = ({ options, isApproved, match }) => {
                 <EventInfoFormTest
                   formInfo={formInfo}
                   getFormInfo={getFormInfo}
+                  time={time}
+                  getTimeInfo={getTimeInfo}
                 />
               </div>
 
