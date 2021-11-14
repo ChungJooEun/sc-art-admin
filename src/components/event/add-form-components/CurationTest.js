@@ -55,7 +55,6 @@ const CurationTest = ({ curationInfo, getCurationInfo }) => {
   const getDefaultOptions_field = (fields) => {
     const defaultOptions = [];
 
-    console.log(typeof fields);
     if (fields === undefined) {
       return [];
     }

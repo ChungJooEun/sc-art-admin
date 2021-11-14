@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Editor from "../basic-components/editor-components/Editor";
+import EditorTest from "../basic-components/editor-components/EditorTest";
 import GlobalBar from "../basic-components/GlobalBar";
 import PageTitle from "../basic-components/PageTitle";
 import PostSaveBtn from "../basic-components/PostSaveBtn";
@@ -66,48 +66,36 @@ const ScPlaceView = ({ pageTitle }) => {
     };
   });
   return (
-    <>
-      {/* <div className="preloader">
-        <div className="sk-chase">
-          <div className="sk-chase-dot"></div>
-          <div className="sk-chase-dot"></div>
-          <div className="sk-chase-dot"></div>
-          <div className="sk-chase-dot"></div>
-          <div className="sk-chase-dot"></div>
-          <div className="sk-chase-dot"></div>
-        </div>
-      </div> */}
-      <div
-        className="mdk-drawer-layout js-mdk-drawer-layout"
-        data-push
-        data-responsive-width="992px"
-      >
-        <div className="mdk-drawer-layout__content page-content">
-          <GlobalBar />
-          <PageTitle pageTitle={pageTitle} pagePathList={pagePathList} />
+    <div
+      className="mdk-drawer-layout js-mdk-drawer-layout"
+      data-push
+      data-responsive-width="992px"
+    >
+      <div className="mdk-drawer-layout__content page-content">
+        <GlobalBar />
+        <PageTitle pageTitle={pageTitle} pagePathList={pagePathList} />
 
+        <div className="container-fluid page__container">
           <div className="container-fluid page__container">
-            <div className="container-fluid page__container">
-              <div className="page-section">
-                <div className="page-separator">
-                  <div className="page-separator__text">상세정보</div>
-                </div>
-
-                <Editor />
+            <div className="page-section">
+              <div className="page-separator">
+                <div className="page-separator__text">상세정보</div>
               </div>
-              <div className="page-section">
-                <div className="detail_under_menu ">
-                  <div className="card">
-                    <PostSaveBtn options={options} />
-                  </div>
+
+              <EditorTest />
+            </div>
+            <div className="page-section">
+              <div className="detail_under_menu ">
+                <div className="card">
+                  <PostSaveBtn options={options} />
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <SideMenuBar />
       </div>
-    </>
+      <SideMenuBar />
+    </div>
   );
 };
 export default ScPlaceView;

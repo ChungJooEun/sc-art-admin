@@ -1,11 +1,4 @@
-import React, {
-  useState,
-  useRef,
-  useEffect,
-  useCallback,
-  useContext,
-} from "react";
-import EventInfoContext from "../../../context/eventInfo";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/airbnb.css";
@@ -40,9 +33,7 @@ const convertDateFormat = (str) => {
   return "" + date.getFullYear() + (date.getMonth() + 1) + date.getDate();
 };
 
-const EventInfoForm = () => {
-  const { actions, state } = useContext(EventInfoContext);
-
+const EventInfoFormTest = ({ formInfo, getFormInfo }) => {
   const [showInputBox, setShowInputBox] = useState(false);
   const toggleInputBox = () => {
     setShowInputBox(!showInputBox);
@@ -54,38 +45,10 @@ const EventInfoForm = () => {
   };
 
   const [period, setPeriod] = useState({
-    startDate: state.formInfo.open_date,
-    endDate: state.formInfo.close_date,
+    startDate: formInfo.open_date,
+    endDate: formInfo.close_date,
     key: "selection",
   });
-
-  const getAddress = (address) => {
-    actions.setFormInfo({
-      ...state.formInfo,
-      address1: address,
-    });
-  };
-
-  const onChangeTitle = (e) => {
-    actions.setFormInfo({
-      ...state.formInfo,
-      name: e.target.value,
-    });
-  };
-
-  const onChangeLocation = (e) => {
-    actions.setFormInfo({
-      ...state.formInfo,
-      location: e.target.value,
-    });
-  };
-
-  const onChangeAddress2 = (e) => {
-    actions.setFormInfo({
-      ...state.formInfo,
-      address2: e.target.value,
-    });
-  };
 
   const onChangePeriod = (item) => {
     setPeriod({
@@ -93,32 +56,20 @@ const EventInfoForm = () => {
       endDate: item["selection"].endDate,
       key: item["selection"].key,
     });
-    actions.setFormInfo({
-      ...state.formInfo,
-      open_date: item["selection"].startDate,
-      close_date: item["selection"].endDate,
-    });
+    getFormInfo("open_date", item["selection"].startDate);
+    getFormInfo("close_date", item["selection"].endDate);
   };
 
   const onChangeOpenTime = (e) => {
-    actions.setFormInfo({
-      ...state.formInfo,
-      open_time: convertTimeFormat(e),
-    });
+    getFormInfo("open_time", convertTimeFormat(e));
   };
 
   const onChangeCloseTime = (e) => {
-    actions.setFormInfo({
-      ...state.formInfo,
-      close_time: convertTimeFormat(e),
-    });
+    getFormInfo("close_time", convertTimeFormat(e));
   };
 
   const onChangeAge = (e) => {
-    actions.setFormInfo({
-      ...state.formInfo,
-      age: parseInt(e.target.value),
-    });
+    getFormInfo("age", parseInt(e.target.value));
   };
 
   const [allSpectators, setAllSpectators] = useState(false);
@@ -130,33 +81,12 @@ const EventInfoForm = () => {
       ageInput.current.disabled = false;
       ageInput.current.placeholder = "권장연령";
 
-      actions.setFormInfo({
-        ...state.formInfo,
-        age: "",
-      });
+      getFormInfo("age", "");
     } else {
       ageInput.current.disabled = true;
       ageInput.current.placeholder = "전체관람가";
-
-      actions.setFormInfo({
-        ...state.formInfo,
-        age: 0,
-      });
+      getFormInfo("age", 0);
     }
-  };
-
-  const onChangeHomPage = (e) => {
-    actions.setFormInfo({
-      ...state.formInfo,
-      homepage: e.target.value,
-    });
-  };
-
-  const onChangePhone = (e) => {
-    actions.setFormInfo({
-      ...state.formInfo,
-      phone: e.target.value,
-    });
   };
 
   const priceInput = useRef();
@@ -166,11 +96,7 @@ const EventInfoForm = () => {
       priceInput.current.disabled = true;
       priceInput.current.placeholder = "무료";
     }
-
-    actions.setFormInfo({
-      ...state.formInfo,
-      price: 0,
-    });
+    getFormInfo("price", 0);
   };
 
   const onChangeCheckbox_pay = (e) => {
@@ -179,24 +105,18 @@ const EventInfoForm = () => {
       priceInput.current.placeholder = "가격";
     }
 
-    actions.setFormInfo({
-      ...state.formInfo,
-      price: "",
-    });
+    getFormInfo("price", "");
   };
 
   const onChangePrice = (e) => {
-    actions.setFormInfo({
-      ...state.formInfo,
-      price: parseInt(e.target.value),
-    });
+    getFormInfo("price", parseInt(e.target.value));
   };
 
   return (
     <>
       {showPostCodeModal ? (
         <PostCodeModal
-          getAddress={getAddress}
+          getAddress={(data) => getFormInfo("address1", data)}
           closeModal={togglePostCodeModal}
         />
       ) : (
@@ -224,8 +144,8 @@ const EventInfoForm = () => {
                     type="text"
                     placeholder="제목을 입력하세요"
                     className="form-control"
-                    value={state.formInfo.name}
-                    onChange={(e) => onChangeTitle(e)}
+                    value={formInfo.name}
+                    onChange={(e) => getFormInfo("name", e.target.value)}
                   />
                 </div>
               </div>
@@ -252,8 +172,8 @@ const EventInfoForm = () => {
                       type="text"
                       placeholder="장소"
                       className="form-control"
-                      value={state.formInfo.location}
-                      onChange={(e) => onChangeLocation(e)}
+                      value={formInfo.location}
+                      onChange={(e) => getFormInfo("location", e.target.value)}
                     />
                   </div>
                 ) : (
@@ -262,11 +182,14 @@ const EventInfoForm = () => {
                       id="select01"
                       data-toggle="select"
                       className="form-control"
-                      onChange={(e) => onChangeLocation(e)}
+                      onChange={(e) => getFormInfo("location", e.target.value)}
+                      defaultValue={formInfo.location}
                     >
-                      <option selected>{state.formInfo.location}</option>
-                      <option>장소2</option>
-                      <option>장소3</option>
+                      <option value={formInfo.location}>
+                        {formInfo.location}
+                      </option>
+                      <option value="location2">장소2</option>
+                      <option value="location3">장소3</option>
                     </select>
                   </div>
                 )}
@@ -301,7 +224,7 @@ const EventInfoForm = () => {
                     type="text"
                     placeholder="주소"
                     className="form-control"
-                    value={state.formInfo.address1}
+                    value={formInfo.address1}
                     disabled
                   />
                 </div>
@@ -335,8 +258,8 @@ const EventInfoForm = () => {
                     type="text"
                     placeholder="상세 주소"
                     className="form-control"
-                    value={state.formInfo.address2}
-                    onChange={(e) => onChangeAddress2(e)}
+                    value={formInfo.address2}
+                    onChange={(e) => getFormInfo("address2", e.target.value)}
                   />
                 </div>
               </div>
@@ -380,7 +303,7 @@ const EventInfoForm = () => {
                   data-toggle="flatpickr"
                   // id="flatpickrSample05"
                   type="text"
-                  value={state.formInfo.open_time}
+                  value={formInfo.open_time}
                   onChange={(e) => onChangeOpenTime(e)}
                 />
               </div>
@@ -395,7 +318,7 @@ const EventInfoForm = () => {
                   data-toggle="flatpickr"
                   // id="flatpickrSample05"
                   type="text"
-                  value={state.formInfo.close_time}
+                  value={formInfo.close_time}
                   onChange={(e) => onChangeCloseTime(e)}
                 />
               </div>
@@ -419,7 +342,7 @@ const EventInfoForm = () => {
                   data-mask="#.##0,00"
                   data-mask-reverse="true"
                   autoComplete="off"
-                  value={state.formInfo.age}
+                  value={formInfo.age}
                   onChange={(e) => onChangeAge(e)}
                   ref={ageInput}
                 />
@@ -466,8 +389,8 @@ const EventInfoForm = () => {
                   data-mask="#.##0,00"
                   data-mask-reverse="true"
                   autoComplete="off"
-                  value={state.formInfo.homepage}
-                  onChange={(e) => onChangeHomPage(e)}
+                  value={formInfo.homepage}
+                  onChange={(e) => getFormInfo("homepage", e.target.value)}
                 />
               </div>
             </div>
@@ -512,8 +435,8 @@ const EventInfoForm = () => {
                   data-mask="(000) 000-0000"
                   autoComplete="off"
                   maxLength="14"
-                  value={state.formInfo.phone}
-                  onChange={(e) => onChangePhone(e)}
+                  value={formInfo.phone}
+                  onChange={(e) => getFormInfo("phone", e.target.value)}
                 />
               </div>
             </div>
@@ -569,7 +492,7 @@ const EventInfoForm = () => {
                         id=""
                         type="price"
                         className="form-control"
-                        value={state.formInfo.price}
+                        value={formInfo.price}
                         ref={priceInput}
                         onChange={(e) => onChangePrice(e)}
                       />
@@ -586,4 +509,4 @@ const EventInfoForm = () => {
   );
 };
 
-export default EventInfoForm;
+export default EventInfoFormTest;

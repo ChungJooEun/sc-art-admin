@@ -1,6 +1,6 @@
 import React, { createContext, useState } from "react";
 
-const EventInfoContext = createContext({
+const AddEventInfoContext = createContext({
   state: {
     imgFile: null,
     formInfo: {
@@ -39,7 +39,7 @@ const EventInfoContext = createContext({
   },
 });
 
-const EventInfoProvider = ({ children }) => {
+const AddEventInfoProvider = ({ children }) => {
   const [imgFile, setImgFile] = useState(null);
   const [formInfo, setFormInfo] = useState({
     name: "",
@@ -80,14 +80,14 @@ const EventInfoProvider = ({ children }) => {
   };
 
   return (
-    <EventInfoContext.Provider value={value}>
+    <AddEventInfoContext.Provider value={value}>
       {children}
-    </EventInfoContext.Provider>
+    </AddEventInfoContext.Provider>
   );
 };
 
-const { Consumer: EventInfoConsumer } = EventInfoContext;
+const { Consumer: AddEventInfoConsumer } = AddEventInfoContext;
 
-export { EventInfoProvider, EventInfoConsumer };
+export { AddEventInfoProvider, AddEventInfoConsumer };
 
-export default EventInfoContext;
+export default AddEventInfoContext;

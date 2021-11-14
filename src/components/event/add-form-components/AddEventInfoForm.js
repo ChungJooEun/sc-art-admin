@@ -5,7 +5,7 @@ import React, {
   useCallback,
   useContext,
 } from "react";
-import EventInfoContext from "../../../context/eventInfo";
+import AddEventInfoContext from "../../../context/addEventInfo";
 
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/airbnb.css";
@@ -40,8 +40,8 @@ const convertDateFormat = (str) => {
   return "" + date.getFullYear() + (date.getMonth() + 1) + date.getDate();
 };
 
-const EventInfoForm = () => {
-  const { actions, state } = useContext(EventInfoContext);
+const AddEventInfoForm = () => {
+  const { actions, state } = useContext(AddEventInfoContext);
 
   const [showInputBox, setShowInputBox] = useState(false);
   const toggleInputBox = () => {
@@ -586,4 +586,4 @@ const EventInfoForm = () => {
   );
 };
 
-export default EventInfoForm;
+export default AddEventInfoForm;
