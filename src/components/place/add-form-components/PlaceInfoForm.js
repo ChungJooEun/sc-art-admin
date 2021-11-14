@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/airbnb.css";
-
-import PostCodeModal from "../../basic-components/PostCodeModal";
 
 const convertTimeFormat = (str) => {
   const date = new Date(str);
@@ -18,281 +16,230 @@ const convertTimeFormat = (str) => {
   return result;
 };
 
-const PlaceInfoForm = ({ placeInfo, getFormInfo, initTime }) => {
-  const [showPostCodeModal, setShowPostCodeModal] = useState(false);
-  const togglePostCodeModal = () => {
-    setShowPostCodeModal(!showPostCodeModal);
-  };
-
-  const [formInfo, setFormInfo] = useState(placeInfo);
-  const [time, setTime] = useState(initTime);
-
-  const getAddress = (address) => {
-    setFormInfo({
-      ...formInfo,
-      address1: address,
-    });
-  };
-
-  const onChangeLocation = (e) => {
-    setFormInfo({
-      ...formInfo,
-      location: e.target.value,
-      name: e.target.value,
-    });
-  };
-
-  const onChangeAddress2 = (e) => {
-    setFormInfo({
-      ...formInfo,
-      address2: e.target.value,
-    });
-  };
-
+const PlaceInfoForm = ({
+  formInfo,
+  getFormInfo,
+  open_time,
+  close_time,
+  getTimeInfo,
+  togglePostCodeModal,
+}) => {
   const onChangeOpenTime = (e) => {
-    setTime({
-      ...time,
-      open_time: convertTimeFormat(e),
-    });
+    console.log(e);
+    getTimeInfo("open_time", convertTimeFormat(e));
   };
 
   const onChangeCloseTime = (e) => {
-    setTime({
-      ...time,
-      close_time: convertTimeFormat(e),
-    });
+    getTimeInfo("close_time", convertTimeFormat(e));
   };
-
-  const onChangeHomPage = (e) => {
-    setFormInfo({
-      ...formInfo,
-      homepage: e.target.value,
-    });
-  };
-
-  const onChangePhone = (e) => {
-    setFormInfo({
-      ...formInfo,
-      phone: e.target.value,
-    });
-  };
-
-  useEffect(() => {
-    getFormInfo(formInfo, time);
-  }, [formInfo, time, getFormInfo]);
 
   return (
-    <>
-      {showPostCodeModal ? (
-        <PostCodeModal
-          getAddress={getAddress}
-          closeModal={togglePostCodeModal}
-        />
-      ) : (
-        ""
-      )}
-      <div className="col-lg-8">
-        <div className="list-group">
-          <div className="list-group-item">
-            <div
-              role="group"
-              aria-labelledby="label-question"
-              className="m-0 form-group"
-            >
-              <div className="form-row align-items-center">
-                <label
-                  id="label-question"
-                  htmlFor="question"
-                  className="col-md-2 col-form-label form-label"
-                >
-                  장소
-                </label>
-                <div className="col-md-10">
-                  <input
-                    id="title"
-                    type="text"
-                    placeholder="장소"
-                    className="form-control"
-                    value={formInfo.name}
-                    onChange={(e) => onChangeLocation(e)}
-                  />
-                </div>
+    <div className="col-lg-8">
+      <div className="list-group">
+        <div className="list-group-item">
+          <div
+            role="group"
+            aria-labelledby="label-question"
+            className="m-0 form-group"
+          >
+            <div className="form-row align-items-center">
+              <label
+                id="label-question"
+                htmlFor="question"
+                className="col-md-2 col-form-label form-label"
+              >
+                장소
+              </label>
+              <div className="col-md-10">
+                <input
+                  id="title"
+                  type="text"
+                  placeholder="장소"
+                  className="form-control"
+                  value={formInfo.name}
+                  onChange={(e) => getFormInfo("name", e.target.value)}
+                />
               </div>
             </div>
           </div>
-          <div className="list-group-item">
-            <div
-              role="group"
-              aria-labelledby="label-question"
-              className="m-0 form-group"
-            >
-              <div className="form-row align-items-center">
-                <label
-                  id="label-question"
-                  htmlFor="question"
-                  className="col-md-2 col-form-label form-label"
-                >
-                  주소
-                </label>
-                <div className="col-md-8">
-                  <input
-                    id="title"
-                    type="text"
-                    placeholder="주소"
-                    className="form-control"
-                    value={formInfo.address1}
-                    disabled
-                  />
-                </div>
+        </div>
+        <div className="list-group-item">
+          <div
+            role="group"
+            aria-labelledby="label-question"
+            className="m-0 form-group"
+          >
+            <div className="form-row align-items-center">
+              <label
+                id="label-question"
+                htmlFor="question"
+                className="col-md-2 col-form-label form-label"
+              >
+                주소
+              </label>
+              <div className="col-md-8">
+                <input
+                  id="title"
+                  type="text"
+                  placeholder="주소"
+                  className="form-control"
+                  value={formInfo.address1}
+                  disabled
+                />
+              </div>
 
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={() => togglePostCodeModal()}
-                >
-                  주소 검색
-                </button>
-              </div>
-            </div>
-            <br />
-            <div
-              role="group"
-              aria-labelledby="label-question"
-              className="m-0 form-group"
-            >
-              <div className="form-row align-items-center">
-                <label
-                  id="label-question"
-                  htmlFor="question"
-                  className="col-md-2 col-form-label form-label"
-                >
-                  상세 주소
-                </label>
-                <div className="col-md-10">
-                  <input
-                    id="title"
-                    type="text"
-                    placeholder="상세 주소"
-                    className="form-control"
-                    value={formInfo.address2}
-                    onChange={(e) => onChangeAddress2(e)}
-                  />
-                </div>
-              </div>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() => togglePostCodeModal()}
+              >
+                주소 검색
+              </button>
             </div>
           </div>
-          <div className="list-group-item">
-            <div className="form-group row align-items-center mb-0">
+          <br />
+          <div
+            role="group"
+            aria-labelledby="label-question"
+            className="m-0 form-group"
+          >
+            <div className="form-row align-items-center">
               <label
                 id="label-question"
                 htmlFor="question"
                 className="col-md-2 col-form-label form-label"
               >
-                영업시간
-              </label>
-              <div className="col-md-3">
-                <Flatpickr
-                  className="form-control"
-                  data-enable-time
-                  data-no-calendar
-                  data-alt-format="H:i"
-                  data-date-format="H:i"
-                  type="text"
-                  value={time.open_time}
-                  onChange={([date]) => onChangeOpenTime(date)}
-                />
-              </div>
-              -
-              <div className="col-md-3">
-                <Flatpickr
-                  className="form-control"
-                  data-enable-time="true"
-                  data-no-calendar="true"
-                  data-alt-format="H:i"
-                  data-date-format="H:i"
-                  // data-toggle="flatpickr"
-                  id="flatpickrSample05"
-                  type="text"
-                  value={time.close_time}
-                  onChange={([date]) => onChangeCloseTime(date)}
-                />
-              </div>
-            </div>
-          </div>
-          <div className="list-group-item">
-            <div className="form-group row align-items-center mb-0">
-              <label
-                id="label-question"
-                htmlFor="question"
-                className="col-md-2 col-form-label form-label"
-              >
-                홈페이지
+                상세 주소
               </label>
               <div className="col-md-10">
                 <input
-                  id="maskSample01"
-                  type="url"
+                  id="title"
+                  type="text"
+                  placeholder="상세 주소"
                   className="form-control"
-                  placeholder="www.site.com"
-                  data-mask="#.##0,00"
-                  data-mask-reverse="true"
-                  autocomplete="off"
-                  value={formInfo.homepage}
-                  onChange={(e) => onChangeHomPage(e)}
+                  value={formInfo.address2}
+                  onChange={(e) => getFormInfo("address2", e.target.value)}
                 />
               </div>
             </div>
           </div>
-          <div className="list-group-item">
-            <div className="form-group row align-items-center mb-0">
+        </div>
+        <div className="list-group-item">
+          <div className="form-group row align-items-center mb-0">
+            <label
+              id="label-question"
+              htmlFor="question"
+              className="col-md-2 col-form-label form-label"
+            >
+              영업시간
+            </label>
+            <div className="col-md-3">
+              <Flatpickr
+                className="form-control"
+                data-enable-time
+                data-no-calendar
+                data-alt-format="H:i"
+                data-date-format="H:i"
+                type="text"
+                defaultValue={open_time}
+                value={open_time}
+                onChange={(e) => onChangeOpenTime(e)}
+              />
+            </div>
+            -
+            <div className="col-md-3">
+              <Flatpickr
+                className="form-control"
+                data-enable-time="true"
+                data-no-calendar="true"
+                data-alt-format="H:i"
+                data-date-format="H:i"
+                // data-toggle="flatpickr"
+                id="flatpickrSample05"
+                type="text"
+                defaultValue={close_time}
+                value={close_time}
+                onChange={(e) => onChangeCloseTime(e)}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="list-group-item">
+          <div className="form-group row align-items-center mb-0">
+            <label
+              id="label-question"
+              htmlFor="question"
+              className="col-md-2 col-form-label form-label"
+            >
+              홈페이지
+            </label>
+            <div className="col-md-10">
+              <input
+                id="maskSample01"
+                type="url"
+                className="form-control"
+                placeholder="www.site.com"
+                data-mask="#.##0,00"
+                data-mask-reverse="true"
+                autocomplete="off"
+                value={formInfo.homepage}
+                onChange={(e) => getFormInfo("homepage", e.target.value)}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="list-group-item">
+          <div className="form-group row align-items-center mb-0">
+            <label
+              id="label-question"
+              htmlFor="question"
+              className="col-md-2 col-form-label form-label"
+            >
+              전화번호
+            </label>
+            <div className="col-md-10">
+              <input
+                id="maskSample02"
+                type="text"
+                className="form-control"
+                placeholder="000 0000 0000"
+                data-mask="(000) 000-0000"
+                autocomplete="off"
+                maxlength="14"
+                value={formInfo.phone}
+                onChange={(e) => getFormInfo("phone", e.target.value)}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="list-group-item">
+          <div
+            role="group"
+            aria-labelledby="label-question"
+            className="m-0 form-group"
+          >
+            <div className="form-row align-items-center">
               <label
                 id="label-question"
                 htmlFor="question"
                 className="col-md-2 col-form-label form-label"
               >
-                전화번호
+                휴무일
               </label>
               <div className="col-md-10">
                 <input
-                  id="maskSample02"
+                  id="title"
                   type="text"
+                  placeholder="휴무일"
                   className="form-control"
-                  placeholder="000 0000 0000"
-                  data-mask="(000) 000-0000"
-                  autocomplete="off"
-                  maxlength="14"
-                  value={formInfo.phone}
-                  onChange={(e) => onChangePhone(e)}
+                  value={formInfo.holiday}
+                  onChange={(e) => getFormInfo("holiday", e.target.value)}
                 />
               </div>
             </div>
           </div>
-          <div className="list-group-item">
-            <div
-              role="group"
-              aria-labelledby="label-question"
-              className="m-0 form-group"
-            >
-              <div className="form-row align-items-center">
-                <label
-                  id="label-question"
-                  htmlFor="question"
-                  className="col-md-2 col-form-label form-label"
-                >
-                  휴무일
-                </label>
-                <div className="col-md-10">
-                  <input
-                    id="title"
-                    type="text"
-                    placeholder="휴무일"
-                    className="form-control"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          {/* <div className="list-group-item">
+        </div>
+        {/* <div className="list-group-item">
           <div
             role="group"
             aria-labelledby="label-question"
@@ -340,9 +287,8 @@ const PlaceInfoForm = ({ placeInfo, getFormInfo, initTime }) => {
             </div>
           </div>
         </div> */}
-        </div>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Route, Switch } from "react-router-dom";
 import LoginView from "./components/common/LoginView";
 import AddRelatedSiteView from "./components/community/AddRelatedSiteView";
@@ -233,9 +233,16 @@ const App = () => {
         </Route>
 
         {/* 문화공간 관리 > 문화공간 상세조회 */}
-        <Route path="/place/place-detail">
-          <PlaceDetailView options={detailViewPostOptions} isApproved={true} />
-        </Route>
+        <Route
+          path="/place/place-detail/:id"
+          component={(props) => (
+            <PlaceDetailView
+              options={detailViewPostOptions}
+              isApproved={true}
+              {...props}
+            />
+          )}
+        />
         {/* 문화공간 관리 > 등록 신청한 문화공간 상세조회 */}
         <Route path="/place/place-application-detail">
           <PlaceDetailView options={waitingPostOptions} isApproved={false} />

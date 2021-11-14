@@ -30,7 +30,11 @@ const CheckablePlaceListItem = ({ placeInfo, no, isModal }) => {
           <div className="media-body">
             <div className="d-flex flex-column">
               <p className="mb-0 txt_line_table_title">
-                <a onClick={() => history.push("/place/place-detail")}>
+                <a
+                  onClick={() =>
+                    history.push(`/place/place-detail/${placeInfo.id}`)
+                  }
+                >
                   <strong className="js-lists-values-cultural-event">
                     {placeInfo.name}{" "}
                   </strong>
