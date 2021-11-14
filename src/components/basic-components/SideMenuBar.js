@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import MenuContext from "../../context/menu";
 
-const SideMenuBar = () => {
+const SideMenuBar = React.memo(() => {
   const { actions, state } = useContext(MenuContext);
 
   const onSelectMenu = (topM, subM) => {
@@ -666,6 +666,6 @@ const SideMenuBar = () => {
       </div>
     </div>
   );
-};
+});
 
-export default SideMenuBar;
+export default React.memo(SideMenuBar);

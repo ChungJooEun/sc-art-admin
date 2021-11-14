@@ -55,85 +55,73 @@ const BoardView = ({ pageTitle, addPostUrl }) => {
     };
   });
   return (
-    <>
-      <div class="preloader">
-        <div class="sk-chase">
-          <div class="sk-chase-dot"></div>
-          <div class="sk-chase-dot"></div>
-          <div class="sk-chase-dot"></div>
-          <div class="sk-chase-dot"></div>
-          <div class="sk-chase-dot"></div>
-          <div class="sk-chase-dot"></div>
-        </div>
-      </div>
-      <div
-        class="mdk-drawer-layout js-mdk-drawer-layout"
-        data-push
-        data-responsive-width="992px"
-      >
-        <div class="mdk-drawer-layout__content page-content">
-          <GlobalBar />
-          <PageTitle pageTitle={pageTitle} pagePathList={pagePathList} />
+    <div
+      class="mdk-drawer-layout js-mdk-drawer-layout"
+      data-push
+      data-responsive-width="992px"
+    >
+      <div class="mdk-drawer-layout__content page-content">
+        <GlobalBar />
+        <PageTitle pageTitle={pageTitle} pagePathList={pagePathList} />
 
-          <div class="container-fluid page__container">
-            <div class="page-section">
-              <div class="page-separator">
-                <div class="page-separator__text">{pageTitle}(20)</div>
-              </div>
-              <div
-                class="navbar navbar-expand x-0 navbar-light bg-body"
-                id="default-navbar"
-                data-primary=""
-              >
-                <form class="d-none d-md-flex">
-                  <button
-                    type="button"
-                    class="btn btn-accent"
-                    onClick={() => history.push(addPostUrl)}
-                  >
-                    글쓰기{" "}
-                  </button>
-                </form>
-                <div class="flex"></div>
+        <div class="container-fluid page__container">
+          <div class="page-section">
+            <div class="page-separator">
+              <div class="page-separator__text">{pageTitle}(20)</div>
+            </div>
+            <div
+              class="navbar navbar-expand x-0 navbar-light bg-body"
+              id="default-navbar"
+              data-primary=""
+            >
+              <form class="d-none d-md-flex">
                 <button
-                  class="btn btn-warning ml-16pt"
-                  data-toggle="swal"
-                  data-swal-title="정말 삭제 하시겠습니까??"
-                  data-swal-text="이 동작은 다시 되돌릴 수 없습니다."
-                  data-swal-type="warning"
-                  data-swal-show-cancel-button="true"
-                  data-swal-confirm-button-text="확인"
-                  data-swal-confirm-cb="#swal-confirm-delete"
-                  data-swal-close-on-confirm="false"
+                  type="button"
+                  class="btn btn-accent"
+                  onClick={() => history.push(addPostUrl)}
                 >
-                  삭제
+                  글쓰기{" "}
                 </button>
-                <div
-                  id="swal-confirm-delete"
-                  class="d-none"
-                  data-swal-type="success"
-                  data-swal-title="삭제완료"
-                  data-swal-text="삭제 완료되었습니다."
-                ></div>
+              </form>
+              <div class="flex"></div>
+              <button
+                class="btn btn-warning ml-16pt"
+                data-toggle="swal"
+                data-swal-title="정말 삭제 하시겠습니까??"
+                data-swal-text="이 동작은 다시 되돌릴 수 없습니다."
+                data-swal-type="warning"
+                data-swal-show-cancel-button="true"
+                data-swal-confirm-button-text="확인"
+                data-swal-confirm-cb="#swal-confirm-delete"
+                data-swal-close-on-confirm="false"
+              >
+                삭제
+              </button>
+              <div
+                id="swal-confirm-delete"
+                class="d-none"
+                data-swal-type="success"
+                data-swal-title="삭제완료"
+                data-swal-text="삭제 완료되었습니다."
+              ></div>
+            </div>
+            <div class="card dashboard-area-tabs mb-32pt">
+              <div
+                class="table-responsive"
+                data-toggle="lists"
+                data-lists-sort-by="js-lists-values-date"
+                data-lists-sort-desc="true"
+                data-lists-values='["js-lists-values-lead", "js-lists-values-project", "js-lists-values-status", "js-lists-values-budget", "js-lists-values-date"]'
+              >
+                <BoardList />
               </div>
-              <div class="card dashboard-area-tabs mb-32pt">
-                <div
-                  class="table-responsive"
-                  data-toggle="lists"
-                  data-lists-sort-by="js-lists-values-date"
-                  data-lists-sort-desc="true"
-                  data-lists-values='["js-lists-values-lead", "js-lists-values-project", "js-lists-values-status", "js-lists-values-budget", "js-lists-values-date"]'
-                >
-                  <BoardList />
-                </div>
-                <Paging />
-              </div>
+              <Paging />
             </div>
           </div>
         </div>
-        <SideMenuBar />
       </div>
-    </>
+      <SideMenuBar />
+    </div>
   );
 };
 export default BoardView;

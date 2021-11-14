@@ -18,9 +18,13 @@ const convertDateFormat = (str) => {
 const convertToDate = (str) => {
   console.log(str);
 
-  return new Date();
+  // return new Date();
 
-  // return new Date(str.slice(0, 4), parseInt(str.slice(4, 6)) - 1, str.slice(6));
+  return new Date(
+    parseInt(str.slice(0, 4)),
+    parseInt(str.slice(4, 6)) - 1,
+    parseInt(str.slice(6))
+  );
 };
 
 const convertTimeFormat = (str) => {
@@ -36,7 +40,7 @@ const convertTimeFormat = (str) => {
   return result;
 };
 
-const EventInfoForm = React.memo(({ eventInfo, getFormInfo, initTime }) => {
+const EventInfoForm = ({ eventInfo, getFormInfo, initTime }) => {
   const [showInputBox, setShowInputBox] = useState(false);
   const toggleInputBox = () => {
     setShowInputBox(!showInputBox);
@@ -87,13 +91,14 @@ const EventInfoForm = React.memo(({ eventInfo, getFormInfo, initTime }) => {
   };
 
   const onChangePeriod = (item) => {
-    let itemAry = [item.selection];
-    setPeriod(itemAry);
-    setFormInfo({
-      ...formInfo,
-      open_date: convertDateFormat(itemAry[0].startDate),
-      close_date: convertDateFormat(itemAry[0].endDate),
-    });
+    // let itemAry = [item.selection];
+    console.log(item);
+    setPeriod(item);
+    // setFormInfo({
+    //   ...formInfo,
+    //   open_date: convertDateFormat(itemAry[0].startDate),
+    //   close_date: convertDateFormat(itemAry[0].endDate),
+    // });
   };
 
   const onChangeOpenTime = (e) => {
@@ -188,9 +193,9 @@ const EventInfoForm = React.memo(({ eventInfo, getFormInfo, initTime }) => {
     });
   };
 
-  useEffect(() => {
-    getFormInfo(formInfo, time);
-  }, [formInfo, time, getFormInfo]);
+  // useEffect(() => {
+  //   // getFormInfo(formInfo, time);
+  // }, [formInfo, time, getFormInfo]);
 
   return (
     <>
@@ -353,7 +358,7 @@ const EventInfoForm = React.memo(({ eventInfo, getFormInfo, initTime }) => {
               </label>
               <DateRange
                 editableDateInputs={true}
-                onChange={(item) => onChangePeriod(item)}
+                onChange={([item]) => onChangePeriod([item.selection])}
                 moveRangeOnFirstSelection={false}
                 ranges={period}
                 direction="horizontal"
@@ -584,6 +589,6 @@ const EventInfoForm = React.memo(({ eventInfo, getFormInfo, initTime }) => {
       </div>
     </>
   );
-});
+};
 
-export default React.memo(EventInfoForm);
+export default EventInfoForm;

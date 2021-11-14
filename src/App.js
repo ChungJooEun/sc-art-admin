@@ -31,6 +31,7 @@ import AddBoardView from "./components/community/AddBoardView";
 import EditorTest from "./components/basic-components/editor-components/EditorTest";
 import AddScFestivalView from "./components/event/AddScFestivalView";
 import { MenuProvier } from "./context/menu";
+import { EventInfoProvider } from "./context/eventInfo";
 
 const addPostOptions = [
   { value: "TEMP_SAVE", name: "임시저장" },
@@ -82,9 +83,18 @@ const newsBoardPagePathList = [
   },
 ];
 
+const AppProvider = ({ contexts, children }) =>
+  contexts.reduce(
+    (prev, context) =>
+      React.createElement(context, {
+        children: prev,
+      }),
+    children
+  );
+
 const App = () => {
   return (
-    <MenuProvier>
+    <AppProvider contexts={[MenuProvier, EventInfoProvider]}>
       <Switch>
         {/* 대시보드 */}
         <Route path="/" exact={true}>
@@ -338,7 +348,7 @@ const App = () => {
 
         <Route component={() => <h2>Page Not Found</h2>} />
       </Switch>
-    </MenuProvier>
+    </AppProvider>
   );
 };
 

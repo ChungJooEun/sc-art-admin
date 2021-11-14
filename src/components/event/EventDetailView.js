@@ -235,8 +235,7 @@ const EventDetailView = ({ options, isApproved, match }) => {
       const url = `/api/admin/cultural-event/detail/${id}`;
 
       try {
-        const customAxios = axios.create({});
-        const response = await customAxios.get(url);
+        const response = await axios.get(url);
 
         if (response.status === 200) {
           setCurationInfo(response.data);
@@ -248,8 +247,6 @@ const EventDetailView = ({ options, isApproved, match }) => {
           });
 
           parseUrl(response.data.resources);
-
-          // setVideos([]);
 
           setLoading(false);
 
@@ -267,7 +264,7 @@ const EventDetailView = ({ options, isApproved, match }) => {
         document.body.removeChild(scriptList[i]);
       }
     };
-  }, [match.params, parseUrl]);
+  }, [match.params]);
 
   if (loading) {
     return <p>로딩중..</p>;
@@ -284,16 +281,6 @@ const EventDetailView = ({ options, isApproved, match }) => {
 
   return (
     <>
-      {/* <div className="preloader">
-        <div className="sk-chase">
-          <div className="sk-chase-dot"></div>
-          <div className="sk-chase-dot"></div>
-          <div className="sk-chase-dot"></div>
-          <div className="sk-chase-dot"></div>
-          <div className="sk-chase-dot"></div>
-          <div className="sk-chase-dot"></div>
-        </div>
-      </div> */}
       <div
         className="mdk-drawer-layout js-mdk-drawer-layout"
         data-push

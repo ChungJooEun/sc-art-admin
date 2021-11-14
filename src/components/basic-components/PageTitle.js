@@ -11,7 +11,7 @@ const PageTitle = React.memo(({ pageTitle, pagePathList, showSearchBar }) => {
             <h2 className="mb-0">{pageTitle}</h2>
             <ol className="breadcrumb p-0 m-0">
               {pagePathList.map((pathListItem) => (
-                <li className="breadcrumb-item">
+                <li className="breadcrumb-item" key={pathListItem.url}>
                   <Link to={pathListItem.pageUrl}>{pathListItem.pageName}</Link>
                 </li>
               ))}

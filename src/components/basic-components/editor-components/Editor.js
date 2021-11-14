@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-
+import React, { useState, useEffect, useContext } from "react";
+import EventInfoContext from "../../../context/eventInfo";
 import ReactQuill from "react-quill";
 import CustomToolbar from "./CustomToolbar";
 
-const Editor = React.memo(({ more_information, getDetail }) => {
+const Editor = () => {
   const moduels = {
     toolbar: {
       container: "#toolbar-container",
@@ -28,17 +28,17 @@ const Editor = React.memo(({ more_information, getDetail }) => {
     "background",
   ];
 
-  const [text, setText] = useState(more_information);
+  const [text, setText] = useState("");
+
+  // const {actions, state} = useContext(EventInfoContext);
 
   const onChangeEditor = (e) => {
     setText(e);
-
-    console.log(typeof e);
   };
 
-  useEffect(() => {
-    getDetail(text);
-  }, [getDetail, text]);
+  // useEffect(() => {
+  //   getDetail(text);
+  // }, [getDetail, text]);
 
   return (
     <div className="flex" style={{ maxWidth: "100%" }}>
@@ -59,6 +59,6 @@ const Editor = React.memo(({ more_information, getDetail }) => {
       />
     </div>
   );
-});
+};
 
-export default React.memo(Editor);
+export default Editor;
