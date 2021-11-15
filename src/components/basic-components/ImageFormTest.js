@@ -36,7 +36,7 @@ const ImageFormTest = ({ imgSrc, getImgFile }) => {
     if (imgBase64.length === 1) {
       return imgBase64[0];
     } else if (imgSrc) {
-      return `http://localhost:3000${imgSrc}`;
+      return `http://118.67.154.118:3000${imgSrc}`;
     } else {
       return "/assets/images/stories/256_rsz_jared-rice-388260-unsplash.jpg";
     }

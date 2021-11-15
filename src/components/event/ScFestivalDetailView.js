@@ -235,7 +235,7 @@ const ScFestivalDetailView = ({ match }) => {
     if (imgBase64.length === 1) {
       return imgBase64[0];
     } else if (bannerImg) {
-      return `http://localhost:3000${bannerImg}`;
+      return `http://118.67.154.118:3000${bannerImg}`;
     } else {
       return "/assets/images/256_rsz_thomas-russell-751613-unsplash.jpg";
     }
