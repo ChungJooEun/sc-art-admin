@@ -8,13 +8,12 @@ import ModifiablePlaceList from "../../place/place-components/ModifiablePlaceLis
 const count = 5;
 
 const TaskRequest = () => {
-  const [eventList, setEventList] = useState(null);
-  const [placeList, setPlaceList] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [eventList, setEventList] = useState([]);
+  const [placeList, setPlaceList] = useState([]);
   const [pageNumber_Event, setPageNumber_Event] = useState(1);
   const [pageNumber_Place, setPageNumber_Place] = useState(1);
-  const [totalNumEvent, setTotalNumEvent] = useState(null);
-  const [totalNumPlace, setTotalNumPlace] = useState(null);
+  const [totalNumEvent, setTotalNumEvent] = useState(0);
+  const [totalNumPlace, setTotalNumPlace] = useState(0);
 
   const [tapMenu, setTapMenu] = useState(1);
 
@@ -32,6 +31,7 @@ const TaskRequest = () => {
 
   const getEventList = useCallback(async () => {
     const url = "http://118.67.154.118:3000/api/admin/cultural-event/list";
+    // const url = "/api/admin/cultural-event/list";
 
     try {
       const response = await axios.get(url, {
@@ -40,6 +40,8 @@ const TaskRequest = () => {
           sort_column: "create_date",
           page: pageNumber_Event,
           count: count,
+          search_type: "STATE",
+          search_word: "WAIT",
           from_date: "20210101",
           to_date: "20221231",
         },
@@ -48,7 +50,6 @@ const TaskRequest = () => {
       if (response.status === 200) {
         setEventList(response.data.list);
         setTotalNumEvent(response.data.total_count);
-        setLoading(false);
       }
     } catch (e) {
       console.log(e);
@@ -57,6 +58,7 @@ const TaskRequest = () => {
 
   const getPlaceList = useCallback(async () => {
     const url = "http://118.67.154.118:3000/api/admin/cultural-space/list";
+    // const url = "/api/admin/cultural-space/list";
 
     try {
       const response = await axios.get(url, {
@@ -65,13 +67,14 @@ const TaskRequest = () => {
           sort_column: "create_date",
           page: pageNumber_Place,
           count: count,
+          search_type: "STATE",
+          search_word: "WAIT",
         },
       });
 
       if (response.status === 200) {
         setPlaceList(response.data.list);
         setTotalNumPlace(response.data.total_count);
-        setLoading(false);
       }
     } catch (e) {
       console.log(e);
@@ -89,13 +92,14 @@ const TaskRequest = () => {
   useEffect(() => {
     getEventList();
     getPlaceList();
-  }, [getEventList, getPlaceList]);
+  }, []);
 
-  if (loading) {
-    return <p>loading..</p>;
-  }
-
-  if (!eventList || !placeList || !totalNumEvent || !totalNumPlace) {
+  if (
+    eventList === null &&
+    placeList === null &&
+    totalNumEvent === null &&
+    totalNumPlace === null
+  ) {
     return <p>fail to loading data</p>;
   }
 
