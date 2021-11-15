@@ -316,9 +316,9 @@ const EventDetailView = ({ options, isApproved, match }) => {
     };
   }, []);
 
-  if (loading) {
-    return <p>로딩중..</p>;
-  }
+  // if (loading) {
+  //   return <p>로딩중..</p>;
+  // }
 
   if (!formInfo || !curationInfo || !detail) {
     return <p>fail to loading data</p>;

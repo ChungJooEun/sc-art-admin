@@ -244,9 +244,9 @@ const PlaceDetailView = ({ options, isApproved, match }) => {
     };
   }, [match.params]);
 
-  if (loading) {
-    return <p>로딩중..</p>;
-  }
+  // if (loading) {
+  //   return <p>로딩중..</p>;
+  // }
 
   if (!formInfo || !detail) {
     return <p>fail to loading data</p>;
