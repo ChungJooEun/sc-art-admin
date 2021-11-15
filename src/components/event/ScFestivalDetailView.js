@@ -237,7 +237,7 @@ const ScFestivalDetailView = ({ match }) => {
     } else if (bannerImg) {
       return `http://localhost:3000${bannerImg}`;
     } else {
-      return "/assets/images/stories/256_rsz_jared-rice-388260-unsplash.jpg";
+      return "/assets/images/256_rsz_thomas-russell-751613-unsplash.jpg";
     }
   };
 
