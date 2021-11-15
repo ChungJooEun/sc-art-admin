@@ -2,7 +2,7 @@ import React from "react";
 import ModifiableEventListItem from "./ModifiableEventListItem";
 
 const ModifiableEventList = ({ list, pageNumber, count }) => {
-  let no = pageNumber * count;
+  let no = (pageNumber - 1) * count + 1;
 
   return (
     <div
@@ -23,74 +23,42 @@ const ModifiableEventList = ({ list, pageNumber, count }) => {
           <tr>
             <th style={{ width: "12px" }}>no.</th>
             <th style={{ width: "150px" }}>
-              <a
-                href="javascript:void(0)"
-                className="sort"
-                data-sort="js-lists-values-cultural-event"
-              >
+              <a className="sort" data-sort="js-lists-values-cultural-event">
                 행사명
               </a>
             </th>
             <th style={{ width: "48px" }}>
-              <a
-                href="javascript:void(0)"
-                className="sort"
-                data-sort="js-lists-values-tag"
-              >
+              <a className="sort" data-sort="js-lists-values-tag">
                 종류
               </a>
             </th>
             <th style={{ width: "80px" }}>
-              <a
-                href="javascript:void(0)"
-                className="sort"
-                data-sort="js-lists-values-place"
-              >
+              <a className="sort" data-sort="js-lists-values-place">
                 위치
               </a>
             </th>
             <th style={{ width: "48px" }}>
-              <a
-                href="javascript:void(0)"
-                className="sort"
-                data-sort="js-lists-values-price"
-              >
+              <a className="sort" data-sort="js-lists-values-price">
                 비용
               </a>
             </th>
             <th style={{ width: "64px" }}>
-              <a
-                href="javascript:void(0)"
-                className="sort"
-                data-sort="js-lists-values-registration-date"
-              >
+              <a className="sort" data-sort="js-lists-values-registration-date">
                 등록일
               </a>
             </th>
             <th style={{ width: "64px" }}>
-              <a
-                href="javascript:void(0)"
-                className="sort"
-                data-sort="js-lists-values-deadline"
-              >
+              <a className="sort" data-sort="js-lists-values-deadline">
                 마감일
               </a>
             </th>
             <th style={{ width: "64px" }}>
-              <a
-                href="javascript:void(0)"
-                className="sort"
-                data-sort="js-lists-values-employee-name"
-              >
+              <a className="sort" data-sort="js-lists-values-employee-name">
                 작성자
               </a>
             </th>
             <th style={{ width: "120px" }}>
-              <a
-                href="javascript:void(0)"
-                className="sort"
-                data-sort="js-lists-values-staus"
-              >
+              <a className="sort" data-sort="js-lists-values-staus">
                 상태
               </a>
             </th>
@@ -101,7 +69,7 @@ const ModifiableEventList = ({ list, pageNumber, count }) => {
             <ModifiableEventListItem
               eventInfo={eventInfo}
               key={eventInfo.id}
-              no={no--}
+              no={no++}
             />
           ))}
         </tbody>
