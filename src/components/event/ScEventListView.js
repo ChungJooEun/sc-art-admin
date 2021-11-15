@@ -18,14 +18,77 @@ const pagePathList = [
 
 const count = 5;
 
+const convertDateFormat = (dateString) => {
+  const date = new Date(dateString);
+
+  let str = "" + date.getFullYear();
+
+  if (date.getMonth() < 9) {
+    str += "0" + (date.getMonth() + 1);
+  } else {
+    str += date.getMonth() + 1;
+  }
+
+  if (date.getDate() < 10) {
+    str += "0" + date.getDate();
+  } else {
+    str += date.getDate();
+  }
+  return str;
+};
+
 const ScEventListView = () => {
-  const [scList, setScList] = useState(null);
-  const [totalNumber, setTotalNumber] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [scList, setScList] = useState([]);
+  const [totalNumber, setTotalNumber] = useState(0);
   const [pageNumber, setPageNumber] = useState(1);
+  const [searchInfo, setSearchInfo] = useState({
+    search_type: "",
+    search_word: "",
+  });
+
+  const getSearchInfo = (dataName, data) => {
+    setSearchInfo({
+      ...searchInfo,
+      [dataName]: data,
+    });
+  };
+  const searching = (dateRange) => {
+    console.log(dateRange);
+
+    if (dateRange.length === 1) {
+      let date = convertDateFormat(dateRange[0]);
+      getList(date, date);
+    } else {
+      getList(convertDateFormat(dateRange[0]), convertDateFormat(dateRange[1]));
+    }
+  };
 
   const getPageNumber = (pickNumber) => {
     setPageNumber(pickNumber);
+  };
+  const getList = async (startDate, endDate) => {
+    const url = `http://118.67.154.118:3000/api/admin/seochogu-festival/list`;
+    // const url = `/api/admin/seochogu-festival/list`;
+
+    try {
+      const response = await axios.get(url, {
+        params: {
+          sort_type: "desc",
+          sort_column: "create_date",
+          page: pageNumber,
+          count: count,
+          from_date: startDate,
+          to_date: endDate,
+        },
+      });
+
+      if (response.status === 200) {
+        setScList(response.data.list);
+        setTotalNumber(response.data.total_count);
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const history = useHistory();
@@ -41,13 +104,8 @@ const ScEventListView = () => {
       `${process.env.PUBLIC_URL}/assets/js/app.js`,
       `${process.env.PUBLIC_URL}/assets/js/hljs.js`,
       `${process.env.PUBLIC_URL}/assets/js/settings.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/moment.min.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/moment-range.js`,
       `${process.env.PUBLIC_URL}/assets/vendor/Chart.min.js`,
-      `${process.env.PUBLIC_URL}/assets/js/chartjs.js`,
-      `${process.env.PUBLIC_URL}/assets/js/chartjs-rounded-bar.js`,
       `${process.env.PUBLIC_URL}/assets/js/page.projects.js`,
-      `${process.env.PUBLIC_URL}/assets/js/page.analytics-2-dashboard.js`,
       `${process.env.PUBLIC_URL}/assets/vendor/list.min.js`,
       `${process.env.PUBLIC_URL}/assets/js/list.js`,
       `${process.env.PUBLIC_URL}/assets/js/toggle-check-all.js`,
@@ -63,32 +121,7 @@ const ScEventListView = () => {
       document.body.appendChild(script);
     }
 
-    const getList = async () => {
-      const url = `http://118.67.154.118:3000/api/admin/seochogu-festival/list`;
-
-      try {
-        const response = await axios.get(url, {
-          params: {
-            sort_type: "desc",
-            sort_column: "create_date",
-            page: pageNumber,
-            count: count,
-            from_date: "20000101",
-            to_date: "20221231",
-          },
-        });
-
-        if (response.status === 200) {
-          setScList(response.data.list);
-          setTotalNumber(response.data.total_count);
-          setLoading(false);
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    };
-
-    getList();
+    getList("20210101", "20501231");
 
     return () => {
       for (let i = 0; i < scriptList.length; i++) {
@@ -97,11 +130,7 @@ const ScEventListView = () => {
     };
   }, [pageNumber]);
 
-  if (loading) {
-    return <p>로딩중..</p>;
-  }
-
-  if (!scList) {
+  if (scList === null) {
     return <p>fail to loading data</p>;
   }
 
@@ -118,6 +147,9 @@ const ScEventListView = () => {
           pagePathList={pagePathList}
           pageTitle="서초 축제"
           showSearchBar={true}
+          searchInfo={searchInfo}
+          getSearchInfo={getSearchInfo}
+          searching={searching}
         />
 
         <div className="container-fluid page__container">
