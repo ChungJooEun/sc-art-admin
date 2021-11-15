@@ -46,7 +46,7 @@ const convertDateFormat = (date) => {
 const count = 5;
 
 const addPostOptions = [
-  { value: "TEMP_SAVE", name: "임시 저장" },
+  { value: "TEMP_SAVE", name: "임시저장" },
   { value: "POST", name: "게시" },
   { value: "CLOSED", name: "비공개" },
 ];
@@ -188,6 +188,7 @@ const AddScFestivalView = () => {
   const history = useHistory();
   const postScEvent = async (data) => {
     const url = "http://118.67.154.118:3000/api/admin/seochogu-festival/regist";
+    // const url = "/api/admin/seochogu-festival/regist";
     const config = {
       headers: {
         "content-type": "multipart/form-data",

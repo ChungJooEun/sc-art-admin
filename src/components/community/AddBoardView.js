@@ -8,8 +8,9 @@ import SideMenuBar from "../basic-components/SideMenuBar";
 import BoardInfo from "./add-board-components/BoardInfo";
 
 const options = [
-  { value: 0, name: "임시 저장" },
-  { value: 1, name: "게시" },
+  { value: "TEMP_SAVE", name: "임시저장" },
+  { value: "POST", name: "게시" },
+  { value: "CLOSED", name: "비공개" },
 ];
 const AddBoardView = ({ pagePathList }) => {
   useEffect(() => {

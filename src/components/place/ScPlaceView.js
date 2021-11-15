@@ -19,14 +19,9 @@ const pagePathList = [
   },
 ];
 const options = [
-  {
-    value: "TEMP_SAVE",
-    name: "임시저장",
-  },
-  {
-    value: "POST",
-    name: "게시",
-  },
+  { value: "TEMP_SAVE", name: "임시저장" },
+  { value: "POST", name: "게시" },
+  { value: "CLOSED", name: "비공개" },
 ];
 const ScPlaceView = ({ pageTitle }) => {
   const history = useHistory();
@@ -40,6 +35,7 @@ const ScPlaceView = ({ pageTitle }) => {
 
   const postScPlace = async (placeData) => {
     const url = "http://118.67.154.118:3000/api/admin/seoripul-space/regist";
+    // const url = "/api/admin/seoripul-space/regist";
 
     try {
       const response = await axios.post(url, placeData, {
@@ -104,6 +100,7 @@ const ScPlaceView = ({ pageTitle }) => {
 
     const getScplaceInfo = async () => {
       const url = "http://118.67.154.118:3000/api/admin/seoripul-space/list";
+      // const url = "/api/admin/seoripul-space/list";
 
       const res = await axios.get(url);
 

@@ -37,18 +37,19 @@ import ScFestivalDetailView from "./components/event/ScFestivalDetailView";
 const addPostOptions = [
   { value: "TEMP_SAVE", name: "임시저장" },
   { value: "POST", name: "게시" },
-  // { value: 3, name: "비공개" },
+  { value: "CLOSED", name: "비공개" },
 ];
 
 const detailViewPostOptions = [
   { value: "TEMP_SAVE", name: "임시저장" },
   { value: "POST", name: "게시" },
+  { value: "CLOSED", name: "비공개" },
 ];
 
 const waitingPostOptions = [
-  { value: "TEMP_SAVE", name: "대기중" },
+  { value: "WAIT", name: "대기중" },
   { value: "POST", name: "게시" },
-  { value: 3, name: "기각" },
+  { value: "REJECT", name: "기각" },
 ];
 
 const noticeBoardPagePathList = [
