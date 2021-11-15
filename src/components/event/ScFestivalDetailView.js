@@ -34,14 +34,20 @@ const pagePathList = [
   },
 ];
 
-// const convertToDate = (str) => {
-//   //   console.log(str);
-//   //   return new Date();
-//   return new Date(str.slice(0, 4), parseInt(str.slice(4, 6)) - 1, str.slice(6));
-// };
-
 const convertDateFormat = (date) => {
   return "" + date.getFullYear() + (date.getMonth() + 1) + date.getDate();
+};
+
+const convertToDate = (str) => {
+  if (str === null || str === undefined) {
+    return new Date();
+  }
+
+  return new Date(
+    parseInt(str.slice(0, 4)),
+    parseInt(str.slice(4, 6)) - 1,
+    parseInt(str.slice(6))
+  );
 };
 const count = 5;
 
@@ -51,9 +57,7 @@ const addPostOptions = [
   { value: "CLOSED", name: "비공개" },
 ];
 
-const AddScFestivalView = () => {
-  const [bannerImg, setBannerImg] = useState(null);
-  const [imgBase64, setImgBase64] = useState([]);
+const ScFestivalDetailView = ({ match }) => {
   const onChangeImgFile = (e) => {
     const imgFileAry = e.target.files;
 
@@ -82,47 +86,22 @@ const AddScFestivalView = () => {
       }
     }
   };
-
-  const [title, setTitle] = useState("");
   const onChangeTitle = (e) => {
     setTitle(e.target.value);
   };
 
-  const [period, setPeriod] = useState([
-    {
-      startDate: new Date(),
-      endDate: new Date(),
-      key: "selection",
-    },
-  ]);
   const onChangePeriod = (item) => {
-    let itemAry = [item.selection];
-    setPeriod(itemAry);
+    setPeriod({
+      startDate: item["selection"].startDate,
+      endDate: item["selection"].endDate,
+      key: item["selection"].key,
+    });
   };
 
-  const [description, setDescription] = useState("");
   const getDescription = (e) => {
     setDescription(e.target.value);
   };
 
-  // const [showSchedule, setShowSchedule] = useState(true);
-  // const onChangeShowSchedule = (e) => {
-  //   setShowSchedule(!showSchedule);
-  // };
-
-  // const [schedulePeriod, setSchedulePeriod] = useState([
-  //   {
-  //     startDate: new Date(),
-  //     endDate: new Date(),
-  //     key: "selection",
-  //   },
-  // ]);
-  // const onChangeSchedulePeriod = (item) => {
-  //   let itemAry = [item.selection];
-  //   setSchedulePeriod(itemAry);
-  // };
-
-  const [moreInformation, setMoreInformation] = useState("");
   const getmoreInformation = useCallback((result) => {
     setMoreInformation(result);
   }, []);
@@ -132,7 +111,6 @@ const AddScFestivalView = () => {
     setShowModal(!showModal);
   };
 
-  const [eventList, setEventList] = useState([]);
   const getEventList = (list) => {
     if (eventList.length === 0) {
       setEventList(list);
@@ -177,13 +155,19 @@ const AddScFestivalView = () => {
     setPageNumber(curNumber);
   };
 
-  // const drawScheduleList = () => {
-  //   const { startDate, endDate } = period[0];
-  //   console.log(startDate);
-  //   let ary = [];
-  //   return ary;
-  // };
-
+  const [id, setId] = useState(null);
+  const [bannerImg, setBannerImg] = useState(null);
+  const [imgBase64, setImgBase64] = useState([]);
+  const [title, setTitle] = useState("");
+  const [period, setPeriod] = useState({
+    startDate: "",
+    endDate: "",
+    key: "selection",
+  });
+  const [description, setDescription] = useState("");
+  const [moreInformation, setMoreInformation] = useState("");
+  const [eventList, setEventList] = useState([]);
+  const [postState, setPostState] = useState("");
   // 게시
   const history = useHistory();
   const postScEvent = async (data) => {
@@ -213,12 +197,15 @@ const AddScFestivalView = () => {
     console.log(bannerImg);
     if (bannerImg) data.append("file", bannerImg[0]);
 
+    // id
+    if (id !== null) data.append("id", id);
+
     // 제목
     data.append("name", title);
 
     // 시작일, 마감일
-    data.append("open_date", convertDateFormat(period[0].startDate));
-    data.append("close_date", convertDateFormat(period[0].endDate));
+    data.append("open_date", convertDateFormat(period["selection"].startDate));
+    data.append("close_date", convertDateFormat(period["selection"].endDate));
 
     // 설명
     data.append("description", description);
@@ -239,9 +226,19 @@ const AddScFestivalView = () => {
     data.append("state", state);
 
     //
-    data.append("userid", window.sessionStorage.getItem("userid"));
+    data.append("userid", "admin");
 
     postScEvent(data);
+  };
+
+  const getImgSrc = () => {
+    if (imgBase64.length === 1) {
+      return imgBase64[0];
+    } else if (bannerImg) {
+      return `http://localhost:3000${bannerImg}`;
+    } else {
+      return "/assets/images/stories/256_rsz_jared-rice-388260-unsplash.jpg";
+    }
   };
 
   useEffect(() => {
@@ -277,12 +274,62 @@ const AddScFestivalView = () => {
       document.body.appendChild(script);
     }
 
+    const getScFestivalInfo = async () => {
+      const { id } = match.params;
+      const url = `/api/admin/seochogu-festival/detail/${id}`;
+
+      const res = await axios.get(url);
+
+      if (res.status === 200) {
+        console.log(res.data);
+
+        if (res.data.resources) {
+          // 배너 이미지
+          let ary = JSON.stringify(res.data.resources).split('"');
+          for (let i = 0; i < ary.length; i++) {
+            if (ary[i].includes("/images/")) {
+              setBannerImg(ary[i]);
+            }
+          }
+        }
+
+        // id
+        setId(res.data.id);
+
+        // 제목
+        setTitle(res.data.name);
+
+        // 기간
+        setPeriod({
+          startDate: convertToDate(res.data.open_date),
+          endDate: convertToDate(res.data.close_date),
+          key: "selection",
+        });
+
+        // 설명
+        setDescription(res.data.description);
+
+        // 상세정보
+        setMoreInformation(res.data.more_information);
+
+        console.log(typeof res.data.related_event_list2);
+
+        // 관련행사
+        setEventList(res.data.related_event_list2);
+      }
+
+      if (res.data.state === undefined) {
+        setPostState("");
+      } else setPostState(res.data.state);
+    };
+
+    getScFestivalInfo();
     return () => {
       for (let i = 0; i < scriptList.length; i++) {
         document.body.removeChild(scriptList[i]);
       }
     };
-  });
+  }, []);
 
   return (
     <div
@@ -317,11 +364,7 @@ const AddScFestivalView = () => {
                   <div className="form-row">
                     <div className="flex" style={{ maxWidth: "100%" }}>
                       <img
-                        src={
-                          imgBase64.length === 0
-                            ? `${process.env.PUBLIC_URL}/assets/images/256_rsz_thomas-russell-751613-unsplash.jpg`
-                            : imgBase64[0]
-                        }
+                        src={getImgSrc()}
                         className="avatar-img rounded"
                         alt=""
                         data-dz-thumbnail
@@ -405,7 +448,7 @@ const AddScFestivalView = () => {
                       editableDateInputs={true}
                       onChange={(item) => onChangePeriod(item)}
                       moveRangeOnFirstSelection={false}
-                      ranges={period}
+                      ranges={[period]}
                       direction="horizontal"
                       locale={locales["ko"]}
                       weekStartsOn={1}
@@ -444,77 +487,6 @@ const AddScFestivalView = () => {
                   </div>
                 </div>
               </div>
-              {/* 스케줄 옵션 */}
-              {/* <div className="list-group-item">
-                <div
-                  role="group"
-                  aria-labelledby="label-question"
-                  className="m-0 form-group align-items-center"
-                >
-                  <div className="form-row">
-                    <label
-                      id="label-question"
-                      htmlFor="question"
-                      className="col-md-2 col-form-label form-label"
-                    >
-                      스케줄 옵션
-                    </label>
-                    <div className="col-md-10">
-                      <div className="custom-controls-stacked row"> */}
-              {/* 라디오 버튼  */}
-              {/* <div className="custom-control custom-radio col-lg-3">
-                    <input
-                      id="radioStacked1"
-                      name="radio-stacked"
-                      type="radio"
-                      className="custom-control-input"
-                      checked
-                      onChange={(e) => onChangeShowSchedule(e)}
-                    />
-                    <label
-                      htmlFor="radioStacked1"
-                      className="custom-control-label"
-                    >
-                      스케줄 리스트 보여주기
-                    </label>
-                  </div>
-                  라디오 버튼  */}
-              {/* <div className="custom-control custom-radio col-lg-2">
-                    <input
-                      id="radioStacked2"
-                      name="radio-stacked"
-                      type="radio"
-                      className="custom-control-input"
-                      onChange={(e) => onChangeShowSchedule(e)}
-                    />
-                    <label
-                      htmlFor="radioStacked2"
-                      className="custom-control-label"
-                    >
-                      숨기기
-                    </label>
-                  </div> */}
-              {/* 스케줄 기간 설정 */}
-              {/* <label>기간 설정</label>
-                  <div className="col-md-3">
-                    <DateRange
-                      editableDateInputs={true}
-                      onChange={(item) => onChangeSchedulePeriod(item)}
-                      moveRangeOnFirstSelection={false}
-                      ranges={schedulePeriod}
-                      direction="horizontal"
-                      locale={locales["ko"]}
-                      weekStartsOn={1}
-                      months={1}
-                      monthDisplayFormat="yyyy년 MM월"
-                      dateDisplayFormat="yyyy년 MM월 dd일"
-                    />
-                  </div> */}
-              {/* </div>
-                    </div> */}
-              {/* </div>
-                </div>
-              </div> */}
             </div>
           </div>
 
@@ -617,6 +589,7 @@ const AddScFestivalView = () => {
               <PostSaveBtn
                 options={addPostOptions}
                 onSubmitEvent={onSubmitPost}
+                state={postState}
               />
             </div>
           </div>
@@ -627,4 +600,4 @@ const AddScFestivalView = () => {
   );
 };
 
-export default AddScFestivalView;
+export default ScFestivalDetailView;

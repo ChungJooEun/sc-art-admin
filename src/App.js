@@ -32,6 +32,7 @@ import EditorTest from "./components/basic-components/editor-components/EditorTe
 import AddScFestivalView from "./components/event/AddScFestivalView";
 import { MenuProvier } from "./context/menu";
 import { EventInfoProvider } from "./context/eventInfo";
+import ScFestivalDetailView from "./components/event/ScFestivalDetailView";
 
 const addPostOptions = [
   { value: "TEMP_SAVE", name: "임시저장" },
@@ -98,7 +99,7 @@ const App = () => {
       <Switch>
         {/* 대시보드 */}
         <Route path="/" exact={true}>
-          <DashBoardView /> {/* 추후에 login page로 변경 */}
+          <LoginView /> {/* 추후에 login page로 변경 */}
         </Route>
         <Route path="/dashboard">
           <DashBoardView />
@@ -178,6 +179,11 @@ const App = () => {
         <Route
           path="/event/add-seocho-festival"
           component={(props) => <AddScFestivalView {...props} />}
+        />
+
+        <Route
+          path="/event/seocho-festival-detail/:id"
+          component={(props) => <ScFestivalDetailView {...props} />}
         />
 
         <Route path="/sc-modal">

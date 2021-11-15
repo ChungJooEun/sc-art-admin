@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 
 const addDot = (string) => {
   if (string === null) {
@@ -16,6 +17,8 @@ const addDot = (string) => {
 };
 
 const CheckableScEventListItem = ({ scInfo, no }) => {
+  const history = useHistory();
+
   const getState = () => {
     const today = new Date();
     const startDate = new Date(
@@ -62,7 +65,11 @@ const CheckableScEventListItem = ({ scInfo, no }) => {
           <div className="media-body">
             <div className="d-flex flex-column">
               <p className="mb-0 txt_line_table_title">
-                <a href="seocho-festival-detail.html">
+                <a
+                  onClick={() =>
+                    history.push(`/event/seocho-festival-detail/${scInfo.id}`)
+                  }
+                >
                   <strong className="js-lists-values-cultural-seocho-festival-name">
                     {scInfo.name}
                   </strong>
