@@ -11,11 +11,7 @@ import * as locales from "react-date-range/dist/locale";
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
 
-import PostCodeModal from "../../basic-components/PostCodeModal";
-
 const convertTimeFormat = (str) => {
-  // console.log(str);
-
   const date = new Date(str);
   let result = date.getHours() + ":";
 
@@ -24,8 +20,6 @@ const convertTimeFormat = (str) => {
   } else {
     result += date.getMinutes();
   }
-
-  // console.log(result);
 
   return result;
 };
@@ -73,7 +67,9 @@ const EventInfoFormTest = React.memo(
       getFormInfo("age", parseInt(e.target.value));
     };
 
-    const [allSpectators, setAllSpectators] = useState(false);
+    const [allSpectators, setAllSpectators] = useState(
+      formInfo.age === 0 ? true : false
+    );
     const ageInput = useRef();
     const onChangeAllSpectators = () => {
       setAllSpectators(!allSpectators);
@@ -118,6 +114,7 @@ const EventInfoFormTest = React.memo(
     useEffect(() => {
       const getPlaceList = async () => {
         const url = `http://118.67.154.118:3000/api/admin/cultural-space/list`;
+        // const url = `/api/admin/cultural-space/list`;
 
         try {
           const response = await axios.get(url, {
@@ -364,11 +361,9 @@ const EventInfoFormTest = React.memo(
                 <div className="col-md-5">
                   <input
                     id="maskSample01"
-                    type="text"
+                    type="number"
                     className="form-control"
                     placeholder="12"
-                    data-mask="#.##0,00"
-                    data-mask-reverse="true"
                     autoComplete="off"
                     value={formInfo.age}
                     onChange={(e) => onChangeAge(e)}
@@ -383,7 +378,7 @@ const EventInfoFormTest = React.memo(
                     <div className="custom-control custom-radio">
                       <input
                         id="radioStacked-1"
-                        // name="radio-stacked2"
+                        checked={formInfo.age === 0 ? true : false}
                         type="checkbox"
                         className="custom-control-input"
                         onChange={() => onChangeAllSpectators()}
@@ -490,6 +485,7 @@ const EventInfoFormTest = React.memo(
                           id="radioStacked1"
                           name="radio-stacked"
                           type="radio"
+                          checked={formInfo.price === 0 ? true : false}
                           className="custom-control-input"
                           onChange={(e) => onChangeCheckbox_free(e)}
                         />
@@ -505,6 +501,7 @@ const EventInfoFormTest = React.memo(
                           id="radioStacked2"
                           name="radio-stacked"
                           type="radio"
+                          checked={formInfo.price > 0 ? true : false}
                           className="custom-control-input"
                           onChange={(e) => onChangeCheckbox_pay(e)}
                         />
@@ -518,7 +515,7 @@ const EventInfoFormTest = React.memo(
                       <div className="col-md-3">
                         <input
                           id=""
-                          type="price"
+                          type="number"
                           className="form-control"
                           value={formInfo.price}
                           ref={priceInput}
