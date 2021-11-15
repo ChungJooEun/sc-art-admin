@@ -32,7 +32,7 @@ const AddAdminView = () => {
   };
 
   const registAdmin = async () => {
-    const url = "/api/admin/regist";
+    const url = "http://118.67.154.134:9000/api/admin/regist";
     const config = { headers: { "Content-Type": "application/json" } };
 
     var data = new Object();

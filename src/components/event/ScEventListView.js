@@ -64,7 +64,7 @@ const ScEventListView = () => {
     }
 
     const getList = async () => {
-      const url = `/api/admin/seochogu-festival/list`;
+      const url = `http://118.67.146.216:3000/api/admin/seochogu-festival/list`;
 
       try {
         const response = await axios.get(url, {

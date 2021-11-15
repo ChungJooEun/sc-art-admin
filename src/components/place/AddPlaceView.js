@@ -105,7 +105,7 @@ const AddPlaceView = ({ options }) => {
   };
 
   const postPlace = async (placeData) => {
-    const url = "/api/admin/cultural-space/regist";
+    const url = "http://118.67.146.216:3000/api/admin/cultural-space/regist";
 
     try {
       const response = await axios.post(url, placeData, {

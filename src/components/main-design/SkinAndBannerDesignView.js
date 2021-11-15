@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import GlobalBar from "../basic-components/GlobalBar";
 import PageTitle from "../basic-components/PageTitle";
@@ -20,6 +20,19 @@ const pagePathList = [
 ];
 
 const SkinAndBannerDesignView = () => {
+  // 메인 베너
+  const [mainBanner, setMainBanner] = useState(null);
+  // 공지사항/이벤트 배너
+  const [noticeAndEventBanner, setNoticeAndEventBanner] = useState([]);
+  // 서리풀 청년 아트 개럴리
+  const [artGalleryVideos, setArtGalleryVideos] = useState([]);
+  // 서리풀 악끼거리
+  const [instrumentStreetVideos, setInstrumentStreetVideos] = useState([]);
+  // 서초 금요 음악회
+  const [fridayConcertVideos, setFridayConcertVideos] = useState([]);
+  // 서초 실내악 축제
+  const [chamverMusicVideos, setChamverMusicVidoes] = useState([]);
+
   useEffect(() => {
     const srcList = [
       `${process.env.PUBLIC_URL}/assets/vendor/jquery.min.js`,

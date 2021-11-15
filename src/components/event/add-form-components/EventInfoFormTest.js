@@ -117,7 +117,7 @@ const EventInfoFormTest = React.memo(
 
     useEffect(() => {
       const getPlaceList = async () => {
-        const url = `/api/admin/cultural-space/list`;
+        const url = `http://118.67.146.216:3000/api/admin/cultural-space/list`;
 
         try {
           const response = await axios.get(url, {

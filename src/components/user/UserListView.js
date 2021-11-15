@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import Paging from "../basic-components/Paging";
 import GlobalBar from "../basic-components/GlobalBar";
@@ -14,6 +14,11 @@ const pagePathList = [
 ];
 
 const UserListView = () => {
+  const [userList, setUserList] = useState(null);
+  const [totalNumber, setTotalNumber] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [pageNumber, setPageNumber] = useState(1);
+
   useEffect(() => {
     const srcList = [
       `${process.env.PUBLIC_URL}/assets/vendor/jquery.min.js`,

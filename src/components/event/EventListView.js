@@ -27,7 +27,7 @@ const EventListView = ({ pageTitle, type }) => {
   const [pageNumber, setPageNumber] = useState(1);
 
   const getEventList = useCallback(async () => {
-    const url = `/api/admin/cultural-event/list/${type}`;
+    const url = `http://118.67.146.216:3000/api/admin/cultural-event/list/${type}`;
 
     try {
       const response = await axios.get(url, {
