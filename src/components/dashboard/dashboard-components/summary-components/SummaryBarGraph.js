@@ -1,6 +1,19 @@
 import React from "react";
+import { Bar } from "react-chartjs-2";
 
-const SummaryBarGraph = ({ graphTitle }) => {
+const barGraphOptions = {
+  scales: {
+    y: {
+      ticks: {
+        beginAtZero: true,
+        stepSize: 50,
+      },
+    },
+  },
+  // maintainAspectRatio: false,
+};
+
+const SummaryBarGraph = ({ graphTitle, data }) => {
   return (
     <div className="col-md-6 card-group-row__col">
       <div className="card card-group-row__card">
@@ -22,24 +35,7 @@ const SummaryBarGraph = ({ graphTitle }) => {
           </div>
         </div>
         <div className="card-body">
-          <div
-            id="legend"
-            className="chart-legend mt-0 mb-24pt justify-content-start"
-          ></div>
-          <div className="chart" style={{ height: "182px" }}>
-            <canvas
-              id="earningsChart"
-              className="chart-canvas js-update-chart-bar"
-              data-chart-legend="#legend"
-              data-chart-line-background-color="primary,gray"
-              data-chart-prefix="$"
-              data-chart-suffix="k"
-            >
-              <span style={{ fontSize: "1rem" }}>
-                <strong>Views</strong> area chart goes here.
-              </span>
-            </canvas>
-          </div>
+          <Bar data={data} options={barGraphOptions} />
         </div>
       </div>
     </div>
