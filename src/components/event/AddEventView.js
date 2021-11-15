@@ -74,7 +74,7 @@ const AddEventView = ({ options }) => {
   const [videos, setVideos] = useState([]);
   const [vId, setVId] = useState(1);
 
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
 
   const getVideoId = (url) => {
     let videoId;
@@ -91,7 +91,8 @@ const AddEventView = ({ options }) => {
   const history = useHistory();
 
   const postEvent = async (eventData) => {
-    const url = "http://118.67.154.118:3000/api/admin/cultural-event/regist";
+    // const url = "http://118.67.154.118:3000/api/admin/cultural-event/regist";
+    const url = "/api/admin/cultural-event/regist";
 
     try {
       const response = await axios.post(url, eventData, {
@@ -134,7 +135,6 @@ const AddEventView = ({ options }) => {
     formData.append("userid", window.sessionStorage.getItem("userid"));
 
     var vAry;
-    var temp;
 
     // curation
     vAry = new Array();
@@ -151,44 +151,12 @@ const AddEventView = ({ options }) => {
 
     formData.append("event_type", curationInfo.event_type);
 
-    // youtube
-    // vAry = new Array();
     for (let i = 0; i < videos.length; i++) {
-      // temp = new Object();
-      // temp.url = videos[i].url;
-      // vAry.push(temp);
       formData.append("videos", JSON.stringify({ url: videos[i].url }));
     }
-    // formData.append("videos", vAry);
 
     postEvent(formData);
   };
-
-  // const parseUrl = useCallback(
-  //   (string) => {
-  //     let ary = string.split('"');
-  //     let id = 1;
-
-  //     for (let i = 0; i < ary.length; i++) {
-  //       if (ary[i].includes("/images/")) {
-  //         setFormInfo({
-  //           ...formInfo,
-  //           resources: ary[i],
-  //         });
-  //       } else if (ary[i].includes("youtube")) {
-  //         setVideos(
-  //           videos.concat({
-  //             vId: id++,
-  //             url: ary[i],
-  //           })
-  //         );
-  //       }
-  //     }
-
-  //     setVid(id);
-  //   },
-  //   [formInfo, videos]
-  // );
 
   const getDetail = (e) => {
     setDetail(e);
@@ -253,12 +221,8 @@ const AddEventView = ({ options }) => {
       `${process.env.PUBLIC_URL}/assets/js/app.js`,
       `${process.env.PUBLIC_URL}/assets/js/hljs.js`,
       `${process.env.PUBLIC_URL}/assets/js/settings.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/moment.min.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/moment-range.js`,
       `${process.env.PUBLIC_URL}/assets/js/page.projects.js`,
       `${process.env.PUBLIC_URL}/assets/js/page.analytics-2-dashboard.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/list.min.js`,
-      `${process.env.PUBLIC_URL}/assets/js/list.js`,
       `${process.env.PUBLIC_URL}/assets/js/toggle-check-all.js`,
       `${process.env.PUBLIC_URL}/assets/js/check-selected-row.js`,
       `${process.env.PUBLIC_URL}/assets/js/app-settings.js`,
@@ -272,9 +236,7 @@ const AddEventView = ({ options }) => {
       document.body.appendChild(script);
     }
 
-    // parseUrl(response.data.resources);
-
-    setLoading(false);
+    // setLoading(false);
 
     console.log("======폼 init 성공======");
 
@@ -284,10 +246,6 @@ const AddEventView = ({ options }) => {
       }
     };
   }, []);
-
-  if (loading) {
-    return <p>로딩중..</p>;
-  }
 
   return (
     <>
