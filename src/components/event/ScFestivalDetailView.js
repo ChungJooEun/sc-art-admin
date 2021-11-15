@@ -171,7 +171,7 @@ const ScFestivalDetailView = ({ match }) => {
   // 게시
   const history = useHistory();
   const postScEvent = async (data) => {
-    const url = "http://118.67.146.216:3000/api/admin/seochogu-festival/regist";
+    const url = "http://118.67.154.118:3000/api/admin/seochogu-festival/regist";
     const config = {
       headers: {
         "content-type": "multipart/form-data",
@@ -276,7 +276,7 @@ const ScFestivalDetailView = ({ match }) => {
 
     const getScFestivalInfo = async () => {
       const { id } = match.params;
-      const url = `http://118.67.146.216:3000/api/admin/seochogu-festival/detail/${id}`;
+      const url = `http://118.67.154.118:3000/api/admin/seochogu-festival/detail/${id}`;
 
       const res = await axios.get(url);
 

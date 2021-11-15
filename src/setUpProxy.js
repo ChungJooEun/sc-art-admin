@@ -47,10 +47,10 @@ module.exports = function (app) {
   app.use(
     "/api/admin",
     createProxyMiddleware({
-      target: "http://118.67.146.216:3000",
+      target: "http://118.67.154.118:3000",
       changeOrigin: true,
       router: {
-        "/api/admin": "http://118.67.146.216:3000",
+        "/api/admin": "http://118.67.154.118:3000",
       },
     })
   );

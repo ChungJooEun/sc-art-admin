@@ -91,7 +91,7 @@ const AddEventView = ({ options }) => {
   const history = useHistory();
 
   const postEvent = async (eventData) => {
-    const url = "http://118.67.146.216:3000/api/admin/cultural-event/regist";
+    const url = "http://118.67.154.118:3000/api/admin/cultural-event/regist";
 
     try {
       const response = await axios.post(url, eventData, {

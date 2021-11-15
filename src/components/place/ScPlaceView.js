@@ -39,7 +39,7 @@ const ScPlaceView = ({ pageTitle }) => {
   };
 
   const postScPlace = async (placeData) => {
-    const url = "http://118.67.146.216:3000/api/admin/seoripul-space/regist";
+    const url = "http://118.67.154.118:3000/api/admin/seoripul-space/regist";
 
     try {
       const response = await axios.post(url, placeData, {
@@ -103,7 +103,7 @@ const ScPlaceView = ({ pageTitle }) => {
     }
 
     const getScplaceInfo = async () => {
-      const url = "http://118.67.146.216:3000/api/admin/seoripul-space/list";
+      const url = "http://118.67.154.118:3000/api/admin/seoripul-space/list";
 
       const res = await axios.get(url);
 
