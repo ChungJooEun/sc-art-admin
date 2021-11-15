@@ -172,6 +172,8 @@ const ScFestivalDetailView = ({ match }) => {
   const history = useHistory();
   const postScEvent = async (data) => {
     const url = "http://118.67.154.118:3000/api/admin/seochogu-festival/regist";
+    // const url = "/api/admin/seochogu-festival/regist";
+
     const config = {
       headers: {
         "content-type": "multipart/form-data",
@@ -236,6 +238,7 @@ const ScFestivalDetailView = ({ match }) => {
       return imgBase64[0];
     } else if (bannerImg) {
       return `http://118.67.154.118:3000${bannerImg}`;
+      // return `http://localhost:3000${bannerImg}`;
     } else {
       return "/assets/images/256_rsz_thomas-russell-751613-unsplash.jpg";
     }
@@ -252,11 +255,6 @@ const ScFestivalDetailView = ({ match }) => {
       `${process.env.PUBLIC_URL}/assets/js/app.js`,
       `${process.env.PUBLIC_URL}/assets/js/hljs.js`,
       `${process.env.PUBLIC_URL}/assets/js/settings.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/moment.min.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/moment-range.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/Chart.min.js`,
-      `${process.env.PUBLIC_URL}/assets/js/chartjs.js`,
-      `${process.env.PUBLIC_URL}/assets/js/chartjs-rounded-bar.js`,
       `${process.env.PUBLIC_URL}/assets/js/page.projects.js`,
       `${process.env.PUBLIC_URL}/assets/js/page.analytics-2-dashboard.js`,
       `${process.env.PUBLIC_URL}/assets/vendor/list.min.js`,
@@ -277,6 +275,7 @@ const ScFestivalDetailView = ({ match }) => {
     const getScFestivalInfo = async () => {
       const { id } = match.params;
       const url = `http://118.67.154.118:3000/api/admin/seochogu-festival/detail/${id}`;
+      // const url = `/api/admin/seochogu-festival/detail/${id}`;
 
       const res = await axios.get(url);
 

@@ -48,6 +48,7 @@ module.exports = function (app) {
     "/api/admin",
     createProxyMiddleware({
       target: "http://118.67.154.118:3000",
+      // target: "http://localhost:3000",
       changeOrigin: true,
       router: {
         "/api/admin": "http://118.67.154.118:3000",

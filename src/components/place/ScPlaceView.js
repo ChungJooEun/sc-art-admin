@@ -25,7 +25,7 @@ const options = [
 ];
 const ScPlaceView = ({ pageTitle }) => {
   const history = useHistory();
-
+  const [id, setId] = useState(null);
   const [name, setName] = useState(null);
   const [postState, setPostState] = useState(null);
   const [detail, setDetail] = useState(null);
@@ -57,6 +57,7 @@ const ScPlaceView = ({ pageTitle }) => {
   const onSubmitEvent = (formState) => {
     let formData = new FormData();
 
+    if (id !== null) formData.append(id, id);
     formData.append("name", name);
     formData.append("state", formState);
     formData.append("more_information", detail);
@@ -99,19 +100,20 @@ const ScPlaceView = ({ pageTitle }) => {
     }
 
     const getScplaceInfo = async () => {
-      const url = "http://118.67.154.118:3000/api/admin/seoripul-space/list";
-      // const url = "/api/admin/seoripul-space/list";
+      //const url = "http://118.67.154.118:3000/api/admin/seoripul-space/list";
+      const url = "/api/admin/seoripul-space/list";
 
       const res = await axios.get(url);
 
       if (res.status === 200) {
         let findData = false;
 
-        for (let i = 0; i < res.data.list.length; i++) {
+        for (let i = res.data.list.length - 1; -1 < i; i--) {
           if (res.data.list[i].name === pageTitle) {
             setName(res.data.list[i].name);
             setPostState(res.data.list[i].state);
             setDetail(res.data.list[i].more_information);
+            setId(res.data.id);
             findData = true;
             break;
           }

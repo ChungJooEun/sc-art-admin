@@ -66,7 +66,6 @@ const EventDetailView = ({ options, isApproved, match }) => {
   const [detail, setDetail] = useState(null);
   const [videos, setVideos] = useState([]);
   const [vId, setVId] = useState(1);
-  const [loading, setLoading] = useState(true);
 
   const getVideoId = (url) => {
     let videoId;
@@ -84,6 +83,7 @@ const EventDetailView = ({ options, isApproved, match }) => {
 
   const postEvent = async (eventData) => {
     const url = "http://118.67.154.118:3000/api/admin/cultural-event/regist";
+    // const url = "/api/admin/cultural-event/regist";
 
     try {
       const response = await axios.post(url, eventData, {
@@ -220,8 +220,6 @@ const EventDetailView = ({ options, isApproved, match }) => {
       `${process.env.PUBLIC_URL}/assets/js/app.js`,
       `${process.env.PUBLIC_URL}/assets/js/hljs.js`,
       `${process.env.PUBLIC_URL}/assets/js/settings.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/moment.min.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/moment-range.js`,
       `${process.env.PUBLIC_URL}/assets/js/page.projects.js`,
       `${process.env.PUBLIC_URL}/assets/js/page.analytics-2-dashboard.js`,
       `${process.env.PUBLIC_URL}/assets/vendor/list.min.js`,
@@ -242,12 +240,14 @@ const EventDetailView = ({ options, isApproved, match }) => {
     const getEventDetail = async () => {
       const { id } = match.params;
       const url = `http://118.67.154.118:3000/api/admin/cultural-event/detail/${id}`;
+      // const url = `/api/admin/cultural-event/detail/${id}`;
 
       try {
         const response = await axios.get(url);
 
         if (response.status === 200) {
           setFormInfo({
+            id: response.data.id,
             name: response.data.name,
             location: response.data.location,
             address1: response.data.address1,
@@ -274,21 +274,16 @@ const EventDetailView = ({ options, isApproved, match }) => {
           // 상세조회
           setDetail(response.data.more_information);
 
-          console.log(response.data.open_date);
-          // form 정보 조회
-
           setOpenTime(response.data.open_time);
           setCloseTime(response.data.close_time);
 
-          let ary = response.data.resources.split('"');
+          // 비디오 목록 파싱
+          let ary = response.data.videos.split('"');
           let id = 1;
 
           let vAry = [];
-
           for (let i = 0; i < ary.length; i++) {
-            if (ary[i].includes("/images/")) {
-              setImgFile(ary[i]);
-            } else if (ary[i].includes("https://www.youtube.com")) {
+            if (ary[i].includes("https://www.youtube.com")) {
               vAry.push({
                 vId: id++,
                 url: ary[i],
@@ -298,7 +293,13 @@ const EventDetailView = ({ options, isApproved, match }) => {
           setVideos(vAry);
           setVId(id);
 
-          setLoading(false);
+          // 이미지
+          ary = response.data.images.split('"');
+          for (let i = 0; i < ary.length; i++) {
+            if (ary[i].includes("/images/")) {
+              setImgFile(ary[i]);
+            }
+          }
 
           console.log("====== 성공 ======");
         }
@@ -316,11 +317,7 @@ const EventDetailView = ({ options, isApproved, match }) => {
     };
   }, []);
 
-  // if (loading) {
-  //   return <p>로딩중..</p>;
-  // }
-
-  if (!formInfo || !curationInfo || !detail) {
+  if (formInfo === null || curationInfo === null) {
     return <p>fail to loading data</p>;
   }
 

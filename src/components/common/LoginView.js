@@ -23,6 +23,7 @@ const LoginView = () => {
     data.password = loginInfo.password;
 
     const url = "http://118.67.154.134:9000/login";
+    // const url = "/login";
     const config = { headers: { "Content-Type": "application/json" } };
     try {
       const response = await axios.post(url, data, config);

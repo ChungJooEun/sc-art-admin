@@ -15,13 +15,13 @@ const pagePathList = [
 const count = 5;
 
 const ApplicationList = ({ tableTitle, Table, type }) => {
-  const [list, setList] = useState(null);
-  const [totalNumber, setTotalNumber] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [list, setList] = useState([]);
+  const [totalNumber, setTotalNumber] = useState(0);
   const [pageNumber, setPageNumber] = useState(1);
 
   const getEventList = useCallback(async () => {
     const url = "http://118.67.154.118:3000/api/admin/cultural-event/list";
+    // const url = "/api/admin/cultural-event/list";
 
     try {
       const response = await axios.get(url, {
@@ -32,13 +32,14 @@ const ApplicationList = ({ tableTitle, Table, type }) => {
           count: count,
           from_date: "20210101",
           to_date: "20221231",
+          search_type: "STATE",
+          search_word: "WAIT",
         },
       });
 
       if (response.status === 200) {
         setList(response.data.list);
         setTotalNumber(response.data.total_count);
-        setLoading(false);
       }
     } catch (e) {
       console.log(e);
@@ -51,6 +52,7 @@ const ApplicationList = ({ tableTitle, Table, type }) => {
 
   const getPlaceList = useCallback(async () => {
     const url = "http://118.67.154.118:3000/api/admin/cultural-space/list";
+    // const url = "/api/admin/cultural-space/list";
 
     try {
       const response = await axios.get(url, {
@@ -59,13 +61,14 @@ const ApplicationList = ({ tableTitle, Table, type }) => {
           sort_column: "create_date",
           page: pageNumber,
           count: count,
+          search_type: "STATE",
+          search_word: "WAIT",
         },
       });
 
       if (response.status === 200) {
         setList(response.data.list);
         setTotalNumber(response.data.total_count);
-        setLoading(false);
       }
     } catch (e) {
       console.log(e);
@@ -88,11 +91,6 @@ const ApplicationList = ({ tableTitle, Table, type }) => {
       `${process.env.PUBLIC_URL}/assets/js/app.js`,
       `${process.env.PUBLIC_URL}/assets/js/hljs.js`,
       `${process.env.PUBLIC_URL}/assets/js/settings.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/moment.min.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/moment-range.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/Chart.min.js`,
-      `${process.env.PUBLIC_URL}/assets/js/chartjs.js`,
-      `${process.env.PUBLIC_URL}/assets/js/chartjs-rounded-bar.js`,
       `${process.env.PUBLIC_URL}/assets/js/page.projects.js`,
       `${process.env.PUBLIC_URL}/assets/js/page.analytics-2-dashboard.js`,
       `${process.env.PUBLIC_URL}/assets/vendor/list.min.js`,
@@ -117,58 +115,42 @@ const ApplicationList = ({ tableTitle, Table, type }) => {
     };
   }, [getEventList, getPlaceList, type]);
 
-  if (loading) {
-    return <p>loading..</p>;
-  }
-
-  if (!list) {
+  if (list === null) {
     return <p>fail to loading data</p>;
   }
 
   return (
-    <>
-      {/* <div className="preloader">
-        <div className="sk-chase">
-          <div className="sk-chase-dot"></div>
-          <div className="sk-chase-dot"></div>
-          <div className="sk-chase-dot"></div>
-          <div className="sk-chase-dot"></div>
-          <div className="sk-chase-dot"></div>
-          <div className="sk-chase-dot"></div>
-        </div>
-      </div> */}
-      <div
-        className="mdk-drawer-layout js-mdk-drawer-layout"
-        data-push
-        data-responsive-width="992px"
-      >
-        <div className="mdk-drawer-layout__content page-content">
-          <GlobalBar />
+    <div
+      className="mdk-drawer-layout js-mdk-drawer-layout"
+      data-push
+      data-responsive-width="992px"
+    >
+      <div className="mdk-drawer-layout__content page-content">
+        <GlobalBar />
 
-          <PageTitle pageTitle="등록 신청 리스트" pagePathList={pagePathList} />
+        <PageTitle pageTitle="등록 신청 리스트" pagePathList={pagePathList} />
 
-          <div className="container-fluid page__container">
-            <div className="page-section">
-              <div className="page-separator">
-                <div className="page-separator__text">
-                  {tableTitle}({totalNumber})
-                </div>
+        <div className="container-fluid page__container">
+          <div className="page-section">
+            <div className="page-separator">
+              <div className="page-separator__text">
+                {tableTitle}({totalNumber})
               </div>
-              <div className="card dashboard-area-tabs mb-32pt">
-                <Table list={list} pageNumber={pageNumber} count={count} />
-                <Paging
-                  pageNumber={pageNumber}
-                  getPageNumber={getPageNumber}
-                  totalNum={totalNumber}
-                  count={count}
-                />
-              </div>
+            </div>
+            <div className="card dashboard-area-tabs mb-32pt">
+              <Table list={list} pageNumber={pageNumber} count={count} />
+              <Paging
+                pageNumber={pageNumber}
+                getPageNumber={getPageNumber}
+                totalNum={totalNumber}
+                count={count}
+              />
             </div>
           </div>
         </div>
-        <SideMenuBar />
       </div>
-    </>
+      <SideMenuBar />
+    </div>
   );
 };
 

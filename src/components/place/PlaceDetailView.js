@@ -44,7 +44,6 @@ const PlaceDetailView = ({ options, isApproved, match }) => {
   const [detail, setDetail] = useState("");
   const [videos, setVideos] = useState([]);
   const [vId, setVId] = useState(1);
-  const [loading, setLoading] = useState(true);
 
   const getVideoId = (url) => {
     let videoId;
@@ -97,6 +96,7 @@ const PlaceDetailView = ({ options, isApproved, match }) => {
 
   const postPlace = async (placeData) => {
     const url = "http://118.67.154.118:3000/api/admin/cultural-space/regist";
+    // const url = "/api/admin/cultural-space/regist";
 
     try {
       const response = await axios.post(url, placeData, {
@@ -121,7 +121,7 @@ const PlaceDetailView = ({ options, isApproved, match }) => {
     if (imgFile) {
       formData.append("file", imgFile[0]);
     }
-
+    formData.append("id", formInfo.id);
     formData.append("name", formInfo.name);
     formData.append("location", formInfo.name);
     formData.append("address1", formInfo.address1);
@@ -183,6 +183,7 @@ const PlaceDetailView = ({ options, isApproved, match }) => {
     const getPlaceDetail = async () => {
       const { id } = match.params;
       const url = `http://118.67.154.118:3000/api/admin/cultural-space/detail/${id}`;
+      // const url = `/api/admin/cultural-space/detail/${id}`;
 
       try {
         const response = await axios.get(url);
@@ -191,6 +192,7 @@ const PlaceDetailView = ({ options, isApproved, match }) => {
 
         if (response.status === 200) {
           setFormInfo({
+            id: response.data.id,
             name: response.data.name,
             address1: response.data.address1,
             address2: response.data.address2,
@@ -208,15 +210,13 @@ const PlaceDetailView = ({ options, isApproved, match }) => {
           setOpenTime(response.data.open_time);
           setCloseTime(response.data.close_time);
 
-          let ary = response.data.resources.split('"');
+          // 비디오 목록 파싱
+          let ary = response.data.videos.split('"');
           let id = 1;
 
           let vAry = [];
-
           for (let i = 0; i < ary.length; i++) {
-            if (ary[i].includes("/images/")) {
-              setImgFile(ary[i]);
-            } else if (ary[i].includes("https://www.youtube.com")) {
+            if (ary[i].includes("https://www.youtube.com")) {
               vAry.push({
                 vId: id++,
                 url: ary[i],
@@ -226,7 +226,13 @@ const PlaceDetailView = ({ options, isApproved, match }) => {
           setVideos(vAry);
           setVId(id);
 
-          setLoading(false);
+          // 이미지
+          ary = response.data.images.split('"');
+          for (let i = 0; i < ary.length; i++) {
+            if (ary[i].includes("/images/")) {
+              setImgFile(ary[i]);
+            }
+          }
 
           console.log("====== 성공 ======");
         }
@@ -248,7 +254,7 @@ const PlaceDetailView = ({ options, isApproved, match }) => {
   //   return <p>로딩중..</p>;
   // }
 
-  if (!formInfo || !detail) {
+  if (formInfo === null) {
     return <p>fail to loading data</p>;
   }
 
