@@ -510,12 +510,15 @@ const SideMenuBar = React.memo(() => {
                   }
                   onClick={() => onSelectMenu(4, 0)}
                 >
-                  <Link
+                  <span
                     className="sidebar-menu-button"
-                    to="/community/notice-board"
+                    onClick={() =>
+                      (window.location.href =
+                        "http://118.67.154.134:22000/community/notice-board")
+                    }
                   >
                     <span className="sidebar-menu-text">공지사항</span>
-                  </Link>
+                  </span>
                 </li>
                 <li
                   className={
@@ -525,12 +528,15 @@ const SideMenuBar = React.memo(() => {
                   }
                   onClick={() => onSelectMenu(4, 1)}
                 >
-                  <Link
+                  <span
                     className="sidebar-menu-button"
-                    to="/community/event-board"
+                    onClick={() =>
+                      (window.location.href =
+                        "http://118.67.154.134:22000/community/event-board")
+                    }
                   >
                     <span className="sidebar-menu-text">이벤트</span>
-                  </Link>
+                  </span>
                 </li>
                 <li
                   className={
@@ -540,12 +546,15 @@ const SideMenuBar = React.memo(() => {
                   }
                   onClick={() => onSelectMenu(4, 2)}
                 >
-                  <Link
+                  <span
                     className="sidebar-menu-button"
-                    to="/community/news-board"
+                    onClick={() =>
+                      (window.location.href =
+                        "http://118.67.154.134:22000/community/news-board")
+                    }
                   >
                     <span className="sidebar-menu-text">문화계 소식</span>
-                  </Link>
+                  </span>
                 </li>
                 <li
                   className={
@@ -555,12 +564,15 @@ const SideMenuBar = React.memo(() => {
                   }
                   onClick={() => onSelectMenu(4, 3)}
                 >
-                  <Link
+                  <span
                     className="sidebar-menu-button"
-                    to="/community/press-release"
+                    onClick={() =>
+                      (window.location.href =
+                        "http://118.67.154.134:22000/community/press-release")
+                    }
                   >
                     <span className="sidebar-menu-text">보도자료</span>
-                  </Link>
+                  </span>
                 </li>
               </ul>
             </li>
@@ -605,12 +617,15 @@ const SideMenuBar = React.memo(() => {
                   }
                   onClick={() => onSelectMenu(5, 0)}
                 >
-                  <Link
+                  <span
                     className="sidebar-menu-button"
-                    to="/related-sites/related-sites"
+                    onClick={() =>
+                      (window.location.href =
+                        "http://118.67.154.134:22000/related-sites/list")
+                    }
                   >
                     <span className="sidebar-menu-text">문화 파트너스</span>
-                  </Link>
+                  </span>
                 </li>
                 <li
                   className={
@@ -620,14 +635,17 @@ const SideMenuBar = React.memo(() => {
                   }
                   onClick={() => onSelectMenu(5, 1)}
                 >
-                  <Link
+                  <span
                     className="sidebar-menu-button"
-                    to="/related-sites/add-related-sites"
+                    onClick={() =>
+                      (window.location.href =
+                        "http://118.67.154.134:22000/related-sites/add")
+                    }
                   >
                     <span className="sidebar-menu-text">
                       문화 파트너스 추가
                     </span>
-                  </Link>
+                  </span>
                 </li>
               </ul>
             </li>
@@ -639,12 +657,18 @@ const SideMenuBar = React.memo(() => {
               }
               onClick={() => onSelectMenu(6, 0)}
             >
-              <Link className="sidebar-menu-button" to="/user/user-list">
+              <span
+                className="sidebar-menu-button"
+                onClick={() =>
+                  (window.location.href =
+                    "http://118.67.154.134:10000/user/list")
+                }
+              >
                 <span className="material-icons sidebar-menu-icon sidebar-menu-icon--left">
                   people
                 </span>
                 <span className="sidebar-menu-text">사용자</span>
-              </Link>
+              </span>
             </li>
             <li
               className={
@@ -654,12 +678,18 @@ const SideMenuBar = React.memo(() => {
               }
               onClick={() => onSelectMenu(7, 0)}
             >
-              <Link className="sidebar-menu-button" to="/admin/admin-manage">
+              <span
+                className="sidebar-menu-button"
+                onClick={() =>
+                  (window.location.href =
+                    "http://118.67.154.134:10000/admin/list")
+                }
+              >
                 <span className="material-icons sidebar-menu-icon sidebar-menu-icon--left">
                   assignment_ind
                 </span>
                 <span className="sidebar-menu-text">관리자 관리</span>
-              </Link>
+              </span>
             </li>
           </ul>
         </div>
