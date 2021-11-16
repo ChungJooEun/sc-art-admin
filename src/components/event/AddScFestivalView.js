@@ -34,14 +34,23 @@ const pagePathList = [
   },
 ];
 
-// const convertToDate = (str) => {
-//   //   console.log(str);
-//   //   return new Date();
-//   return new Date(str.slice(0, 4), parseInt(str.slice(4, 6)) - 1, str.slice(6));
-// };
+const convertDateFormat = (dateString) => {
+  const date = new Date(dateString);
 
-const convertDateFormat = (date) => {
-  return "" + date.getFullYear() + (date.getMonth() + 1) + date.getDate();
+  let str = "" + date.getFullYear();
+
+  if (date.getMonth() < 9) {
+    str += "0" + (date.getMonth() + 1);
+  } else {
+    str += date.getMonth() + 1;
+  }
+
+  if (date.getDate() < 10) {
+    str += "0" + date.getDate();
+  } else {
+    str += date.getDate();
+  }
+  return str;
 };
 const count = 5;
 
@@ -104,23 +113,6 @@ const AddScFestivalView = () => {
   const getDescription = (e) => {
     setDescription(e.target.value);
   };
-
-  // const [showSchedule, setShowSchedule] = useState(true);
-  // const onChangeShowSchedule = (e) => {
-  //   setShowSchedule(!showSchedule);
-  // };
-
-  // const [schedulePeriod, setSchedulePeriod] = useState([
-  //   {
-  //     startDate: new Date(),
-  //     endDate: new Date(),
-  //     key: "selection",
-  //   },
-  // ]);
-  // const onChangeSchedulePeriod = (item) => {
-  //   let itemAry = [item.selection];
-  //   setSchedulePeriod(itemAry);
-  // };
 
   const [moreInformation, setMoreInformation] = useState("");
   const getmoreInformation = useCallback((result) => {
