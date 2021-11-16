@@ -28,7 +28,9 @@ const ModifiablePlaceListItem = ({ placeInfo, no }) => {
               <p className="mb-0 txt_line_table_title">
                 <a
                   onClick={() =>
-                    history.push("/place/place-application-detail")
+                    history.push(
+                      `/place/place-application-detail/${placeInfo.id}`
+                    )
                   }
                 >
                   <strong className="js-lists-values-cultural-event">

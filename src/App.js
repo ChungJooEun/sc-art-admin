@@ -191,10 +191,6 @@ const App = () => {
           <AddScFestivalView />
         </Route>
 
-        {/* <Route path="/event-application-detail/form">
-        <EventInfoForm />
-      </Route> */}
-
         {/* 문화공간 관리 > 문화공간 */}
         <Route path="/place/place-manage">
           <PlaceManageView />
@@ -251,9 +247,16 @@ const App = () => {
           )}
         />
         {/* 문화공간 관리 > 등록 신청한 문화공간 상세조회 */}
-        <Route path="/place/place-application-detail">
-          <PlaceDetailView options={waitingPostOptions} isApproved={false} />
-        </Route>
+        <Route
+          path="/place/place-application-detail/:id"
+          component={(props) => (
+            <PlaceDetailView
+              options={waitingPostOptions}
+              isApproved={false}
+              {...props}
+            />
+          )}
+        />
 
         {/* 커뮤니티 > 공지사항 */}
         <Route path="/community/notice-board">
