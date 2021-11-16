@@ -17,24 +17,12 @@ const pagePathList = [
 ];
 
 const count = 5;
-const convertDateFormat = (dateString) => {
-  const date = new Date(dateString);
 
-  let str = "" + date.getFullYear();
-
-  if (date.getMonth() < 9) {
-    str += "0" + (date.getMonth() + 1);
-  } else {
-    str += date.getMonth() + 1;
-  }
-
-  if (date.getDate() < 10) {
-    str += "0" + date.getDate();
-  } else {
-    str += date.getDate();
-  }
-  return str;
-};
+const searchOptions = [
+  { value: "SPACE_NAME", label: "공간명" },
+  { value: "WRITER", label: "작성자" },
+  { value: "LOCATION", label: "위치" },
+];
 const PlaceManageView = () => {
   const history = useHistory();
 
@@ -42,99 +30,67 @@ const PlaceManageView = () => {
   const [totalNumber, setTotalNumber] = useState(0);
   const [pageNumber, setPageNumber] = useState(1);
   const [searchInfo, setSearchInfo] = useState({
-    search_type: "",
+    search_type: "SPACE_NAME",
     search_word: "",
   });
+  const [sortInfo, setSortInfo] = useState({
+    sort_column: "create_date",
+    sort_type: "desc",
+  });
 
-  const getSearchInfo = (dataName, data) => {
-    setSearchInfo({
-      ...searchInfo,
-      [dataName]: data,
-    });
+  const searching = (dateRange, searchInfos) => {
+    setSearchInfo(searchInfos);
+    setPageNumber(1);
   };
-  const searching = (dateRange) => {
-    console.log(dateRange);
 
-    if (dateRange.length === 1) {
-      let date = convertDateFormat(dateRange[0]);
-      getPlaceList(date, date);
+  const sorting = (columnName) => {
+    if (columnName === sortInfo.sort_column) {
+      setSortInfo({
+        ...sortInfo,
+        sort_type: sortInfo.sort_type === "desc" ? "asc" : "desc",
+      });
     } else {
-      getPlaceList(
-        convertDateFormat(dateRange[0]),
-        convertDateFormat(dateRange[1])
-      );
+      setSortInfo({
+        sort_column: columnName,
+        sort_type: "desc",
+      });
     }
   };
 
-  const getPlaceList = useCallback(
-    async (startDate, endDate) => {
-      const url = "http://118.67.154.118:3000/api/admin/cultural-space/list";
-      // const url = "/api/admin/cultural-space/list";
+  const getPlaceList = useCallback(async () => {
+    const url = "http://118.67.154.118:3000/api/admin/cultural-space/list";
+    // const url = "/api/admin/cultural-space/list";
 
-      try {
-        const response = await axios.get(url, {
-          params: {
-            sort_type: "desc",
-            sort_column: "create_date",
-            page: pageNumber,
-            count: count,
-            from_date: startDate,
-            to_date: endDate,
-            search_type: searchInfo.search_type,
-            search_word: searchInfo.search_word,
-          },
-        });
+    try {
+      const response = await axios.get(url, {
+        params: {
+          sort_type: sortInfo.sort_type,
+          sort_column: sortInfo.sort_column,
+          page: pageNumber,
+          count: count,
+          search_type: searchInfo.search_type,
+          search_word: searchInfo.search_word,
+          userid: window.sessionStorage.getItem("userid"),
+        },
+      });
 
-        if (response.status === 200) {
-          setPlaceList(response.data.list);
-          setTotalNumber(response.data.total_count);
-        }
-      } catch (e) {
-        console.log(e);
+      if (response.status === 200) {
+        setPlaceList(response.data.list);
+        setTotalNumber(response.data.total_count);
       }
-    },
-    [pageNumber, searchInfo]
-  );
+    } catch (e) {
+      console.log(e);
+    }
+  }, [pageNumber, searchInfo, sortInfo]);
 
   const getPageNumber = (pickNumber) => {
     setPageNumber(pickNumber);
+    getPlaceList(pickNumber);
   };
 
   useEffect(() => {
-    const srcList = [
-      `${process.env.PUBLIC_URL}/assets/vendor/jquery.min.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/popper.min.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/bootstrap.min.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/perfect-scrollbar.min.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/dom-factory.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/material-design-kit.js`,
-      `${process.env.PUBLIC_URL}/assets/js/app.js`,
-      `${process.env.PUBLIC_URL}/assets/js/hljs.js`,
-      `${process.env.PUBLIC_URL}/assets/js/settings.js`,
-      `${process.env.PUBLIC_URL}/assets/js/page.projects.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/list.min.js`,
-      `${process.env.PUBLIC_URL}/assets/js/list.js`,
-      `${process.env.PUBLIC_URL}/assets/js/toggle-check-all.js`,
-      `${process.env.PUBLIC_URL}/assets/js/check-selected-row.js`,
-      `${process.env.PUBLIC_URL}/assets/js/app-settings.js`,
-    ];
-    let scriptList = [];
-
-    for (let i = 0; i < srcList.length; i++) {
-      const script = document.createElement("script");
-      script.src = process.env.PUBLIC_URL + srcList[i];
-      scriptList.push(script);
-      document.body.appendChild(script);
-    }
-
     getPlaceList();
-
-    return () => {
-      for (let i = 0; i < scriptList.length; i++) {
-        document.body.removeChild(scriptList[i]);
-      }
-    };
-  }, []);
+  }, [getPlaceList]);
 
   if (placeList === null) {
     return <p>fail to loading data</p>;
@@ -287,9 +243,8 @@ const PlaceManageView = () => {
                 </div>
 
                 <SearchBar
-                  searchInfo={searchInfo}
-                  getSearchInfo={getSearchInfo}
                   searching={searching}
+                  searchOptions={searchOptions}
                 />
               </div>
             </div>
@@ -346,6 +301,7 @@ const PlaceManageView = () => {
                   list={placeList}
                   pageNumber={pageNumber}
                   count={count}
+                  sorting={sorting}
                 />
               </div>
               <Paging

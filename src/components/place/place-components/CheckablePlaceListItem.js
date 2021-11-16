@@ -30,7 +30,7 @@ const CheckablePlaceListItem = ({ placeInfo, no, isModal }) => {
           <div className="media-body">
             <div className="d-flex flex-column">
               <p className="mb-0 txt_line_table_title">
-                <a
+                <span
                   onClick={() =>
                     history.push(`/place/place-detail/${placeInfo.id}`)
                   }
@@ -38,7 +38,7 @@ const CheckablePlaceListItem = ({ placeInfo, no, isModal }) => {
                   <strong className="js-lists-values-cultural-event">
                     {placeInfo.name}{" "}
                   </strong>
-                </a>
+                </span>
               </p>
               <small className="js-lists-values-employee-email text-50"></small>
             </div>
@@ -46,7 +46,7 @@ const CheckablePlaceListItem = ({ placeInfo, no, isModal }) => {
         </div>
       </td>
       <td>
-        <a
+        <span
           className={
             isModal
               ? "js-lists-values-employer-name small"
@@ -54,7 +54,7 @@ const CheckablePlaceListItem = ({ placeInfo, no, isModal }) => {
           }
         >
           {placeInfo.space_type_name}
-        </a>
+        </span>
       </td>
       <td className="js-lists-values-place small">{placeInfo.address1}</td>
       <td className="js-lists-values-registration-date small">
@@ -70,7 +70,7 @@ const CheckablePlaceListItem = ({ placeInfo, no, isModal }) => {
             : "js-lists-values-status small"
         }
       >
-        {placeInfo.state}
+        {placeInfo.state_name}
       </td>
     </tr>
   );

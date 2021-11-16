@@ -2,7 +2,7 @@ import React from "react";
 
 import CheckablePlaceListItem from "../place-components/CheckablePlaceListItem";
 
-const CheckablePlaceList = ({ list, pageNumber, count, isModal }) => {
+const CheckablePlaceList = ({ list, pageNumber, count, isModal, sorting }) => {
   let no = (pageNumber - 1) * count + 1;
   return (
     <table className="table mb-0 thead-border-top-0 table-nowrap">
@@ -16,72 +16,51 @@ const CheckablePlaceList = ({ list, pageNumber, count, isModal }) => {
                 data-target="#staff"
                 id="customCheckAllstaff"
               />
-              <label className="custom-control-label" for="customCheckAllstaff">
+              <label
+                className="custom-control-label"
+                htmlFor="customCheckAllstaff"
+              >
                 <span className="text-hide">Toggle all</span>
               </label>
             </div>
           </th>
           <th style={{ width: "12px" }}>no.</th>
           <th style={{ width: "150px" }}>
-            <a
-              href="javascript:void(0)"
-              className="sort"
-              data-sort="js-lists-values-cultural-event"
-            >
+            <span className="sort" onClick={() => sorting("name")}>
               공간
-            </a>
+            </span>
           </th>
           <th style={{ width: "48px" }}>
-            <a
-              href="javascript:void(0)"
-              className="sort"
-              data-sort="js-lists-values-tag"
-            >
+            <span className="sort" onClick={() => sorting("space_type")}>
               종류
-            </a>
+            </span>
           </th>
           <th style={{ width: "80px" }}>
-            <a
-              href="javascript:void(0)"
-              className="sort"
-              data-sort="js-lists-values-place"
-            >
+            <span className="sort" onClick={() => sorting("address1")}>
               위치
-            </a>
+            </span>
           </th>
           <th style={{ width: "64px" }}>
-            <a
-              href="javascript:void(0)"
-              className="sort"
-              data-sort="js-lists-values-registration-date"
-            >
+            <span className="sort" onClick={() => sorting("create_date")}>
               등록일
-            </a>
+            </span>
           </th>
           <th style={{ width: "64px" }}>
-            <a
-              href="javascript:void(0)"
-              className="sort"
-              data-sort="js-lists-values-employee-name"
-            >
+            <span className="sort" onClick={() => sorting("create_uid")}>
               작성자
-            </a>
+            </span>
           </th>
           <th style={{ width: "64px" }}>
-            <a
-              href="javascript:void(0)"
-              className="sort"
-              data-sort="js-lists-values-staus"
-            >
+            <span className="sort" onClick={() => sorting("state")}>
               상태
-            </a>
+            </span>
           </th>
         </tr>
       </thead>
       <tbody className="list" id="staff">
         {list.map((placeInfo) => (
           <CheckablePlaceListItem
-            key={placeInfo.id}
+            key={placeInfo.id + no}
             placeInfo={placeInfo}
             no={no++}
             isModal={isModal}

@@ -82,7 +82,7 @@ const CheckableEventListItem = ({
         </div>
       </td>
       <td>
-        <a
+        <span
           className={
             isModal
               ? "js-lists-values-employer-name small"
@@ -90,7 +90,7 @@ const CheckableEventListItem = ({
           }
         >
           {eventInfo.event_type_name}
-        </a>
+        </span>
       </td>
       <td className="js-lists-values-place small">{eventInfo.address1}</td>
       <td className="js-lists-values-price small">
