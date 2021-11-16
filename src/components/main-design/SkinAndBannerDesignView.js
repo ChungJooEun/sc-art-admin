@@ -44,15 +44,8 @@ const SkinAndBannerDesignView = () => {
       `${process.env.PUBLIC_URL}/assets/js/app.js`,
       `${process.env.PUBLIC_URL}/assets/js/hljs.js`,
       `${process.env.PUBLIC_URL}/assets/js/settings.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/moment.min.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/moment-range.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/Chart.min.js`,
-      `${process.env.PUBLIC_URL}/assets/js/chartjs.js`,
-      `${process.env.PUBLIC_URL}/assets/js/chartjs-rounded-bar.js`,
       `${process.env.PUBLIC_URL}/assets/js/page.projects.js`,
       `${process.env.PUBLIC_URL}/assets/js/page.analytics-2-dashboard.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/list.min.js`,
-      `${process.env.PUBLIC_URL}/assets/js/list.js`,
       `${process.env.PUBLIC_URL}/assets/js/toggle-check-all.js`,
       `${process.env.PUBLIC_URL}/assets/js/check-selected-row.js`,
       `${process.env.PUBLIC_URL}/assets/js/app-settings.js`,
@@ -74,53 +67,41 @@ const SkinAndBannerDesignView = () => {
   });
 
   return (
-    <>
-      {/* <div className="preloader">
-        <div className="sk-chase">
-          <div className="sk-chase-dot"></div>
-          <div className="sk-chase-dot"></div>
-          <div className="sk-chase-dot"></div>
-          <div className="sk-chase-dot"></div>
-          <div className="sk-chase-dot"></div>
-          <div className="sk-chase-dot"></div>
-        </div>
-      </div> */}
-      <div
-        className="mdk-drawer-layout js-mdk-drawer-layout"
-        data-push
-        data-responsive-width="992px"
-      >
-        <div className="mdk-drawer-layout__content page-content">
-          <GlobalBar />
-          <PageTitle
-            pageTitle={"메인 배너/스킨 관리"}
-            pagePathList={pagePathList}
-          />
+    <div
+      className="mdk-drawer-layout js-mdk-drawer-layout"
+      data-push
+      data-responsive-width="992px"
+    >
+      <div className="mdk-drawer-layout__content page-content">
+        <GlobalBar />
+        <PageTitle
+          pageTitle={"메인 배너/스킨 관리"}
+          pagePathList={pagePathList}
+        />
 
-          <div className="container-fluid page__container">
-            <MainBanner />
-            <NoticeAndEventBanner />
+        <div className="container-fluid page__container">
+          <MainBanner />
+          <NoticeAndEventBanner />
 
-            <VideoManagement />
+          <VideoManagement />
 
-            <div className="save-button page-section">
-              <button className="btn btn btn-secondary ml-16pt">취소</button>
-              <button
-                className="btn btn-success"
-                data-toggle="swal"
-                data-swal-title="완료!"
-                data-swal-text="새로운 관리자가 등록되었습니다!"
-                data-swal-type="success"
-              >
-                저장
-              </button>
-            </div>
-            <div className="page-section"></div>
+          <div className="save-button page-section">
+            <button className="btn btn btn-secondary ml-16pt">취소</button>
+            <button
+              className="btn btn-success"
+              data-toggle="swal"
+              data-swal-title="완료!"
+              data-swal-text="새로운 관리자가 등록되었습니다!"
+              data-swal-type="success"
+            >
+              저장
+            </button>
           </div>
+          <div className="page-section"></div>
         </div>
-        <SideMenuBar />
       </div>
-    </>
+      <SideMenuBar />
+    </div>
   );
 };
 export default SkinAndBannerDesignView;
