@@ -1,7 +1,7 @@
 import React from "react";
 import CheckableScEventListItem from "./CheckableScEventListItem";
 
-const CheckableScEventList = ({ list, pageNumber, count }) => {
+const CheckableScEventList = ({ list, pageNumber, count, sorting }) => {
   let no = (pageNumber - 1) * count + 1;
 
   return (
@@ -26,58 +26,32 @@ const CheckableScEventList = ({ list, pageNumber, count }) => {
           </th>
           <th style={{ width: "12px" }}>no.</th>
           <th style={{ width: "150px" }}>
-            <a
-              href="javascript:void(0)"
-              className="sort"
-              data-sort="js-lists-values-cultural-seocho-festival-name"
-            >
+            <span className="sort" onClick={() => sorting("name")}>
               서초축제 제목
-            </a>
+            </span>
           </th>
           <th style={{ width: "64px" }}>
-            <a
-              href="javascript:void(0)"
-              className="sort"
-              data-sort="js-lists-values-registration-date"
-            >
+            <span className="sort" onClick={() => sorting("create_date")}>
               등록일
-            </a>
+            </span>
           </th>
           <th style={{ width: "64px" }}>
-            <a
-              href="javascript:void(0)"
-              className="sort"
-              data-sort="js-lists-values-last-update-date"
-            >
+            <span className="sort" onClick={() => sorting("create_date")}>
               최근 행사 추가일
-            </a>
+            </span>
           </th>
           <th style={{ width: "64px" }}>
-            <a
-              href="javascript:void(0)"
-              className="sort"
-              data-sort="js-lists-values-employee-name"
-            >
+            <span className="sort" onClick={() => sorting("create_uid")}>
               작성자
-            </a>
+            </span>
           </th>
           <th style={{ width: "64px" }}>
-            <a
-              href="javascript:void(0)"
-              className="sort"
-              data-sort="js-lists-values-staus"
-            >
-              상태
-            </a>
+            <span className="sort">상태</span>
           </th>
           <th style={{ width: "64px" }}>
-            <a
-              href="javascript:void(0)"
-              className="sort"
-              data-sort="js-lists-values-public"
-            >
+            <span className="sort" onClick={() => sorting("state")}>
               게시여부
-            </a>
+            </span>
           </th>
         </tr>
       </thead>

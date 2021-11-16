@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 
@@ -17,68 +17,69 @@ const pagePathList = [
 ];
 
 const count = 5;
-
-const convertDateFormat = (dateString) => {
-  const date = new Date(dateString);
-
-  let str = "" + date.getFullYear();
-
-  if (date.getMonth() < 9) {
-    str += "0" + (date.getMonth() + 1);
-  } else {
-    str += date.getMonth() + 1;
-  }
-
-  if (date.getDate() < 10) {
-    str += "0" + date.getDate();
-  } else {
-    str += date.getDate();
-  }
-  return str;
-};
+const searchOptions = [
+  { value: "FESTIVAL_NAME", label: "축제명" },
+  { value: "WRITER", label: "작성자" },
+  { value: "LOCATION", label: "위치" },
+];
 
 const ScEventListView = () => {
   const [scList, setScList] = useState([]);
   const [totalNumber, setTotalNumber] = useState(0);
   const [pageNumber, setPageNumber] = useState(1);
+  const [period, setPeriod] = useState({
+    from_date: "",
+    to_date: "",
+  });
   const [searchInfo, setSearchInfo] = useState({
-    search_type: "",
+    search_type: "FESTIVLA_NAME",
     search_word: "",
   });
+  const [sortInfo, setSortInfo] = useState({
+    sort_column: "create_date",
+    sort_type: "desc",
+  });
 
-  const getSearchInfo = (dataName, data) => {
-    setSearchInfo({
-      ...searchInfo,
-      [dataName]: data,
-    });
+  const searching = (dateRange, searchInfos) => {
+    setPeriod(dateRange);
+    setSearchInfo(searchInfos);
+    setPageNumber(1);
   };
-  const searching = (dateRange) => {
-    console.log(dateRange);
 
-    if (dateRange.length === 1) {
-      let date = convertDateFormat(dateRange[0]);
-      getList(date, date);
+  const sorting = (columnName) => {
+    if (columnName === sortInfo.sort_column) {
+      setSortInfo({
+        ...sortInfo,
+        sort_type: sortInfo.sort_type === "desc" ? "asc" : "desc",
+      });
     } else {
-      getList(convertDateFormat(dateRange[0]), convertDateFormat(dateRange[1]));
+      setSortInfo({
+        sort_column: columnName,
+        sort_type: "desc",
+      });
     }
   };
 
   const getPageNumber = (pickNumber) => {
     setPageNumber(pickNumber);
   };
-  const getList = async (startDate, endDate) => {
+
+  const getList = useCallback(async () => {
     const url = `http://118.67.154.118:3000/api/admin/seochogu-festival/list`;
     // const url = `/api/admin/seochogu-festival/list`;
 
     try {
       const response = await axios.get(url, {
         params: {
-          sort_type: "desc",
-          sort_column: "create_date",
+          sort_type: sortInfo.sort_type,
+          sort_column: sortInfo.sort_column,
           page: pageNumber,
           count: count,
-          from_date: startDate,
-          to_date: endDate,
+          from_date: period.from_date,
+          to_date: period.to_date,
+          search_type: searchInfo.search_type,
+          search_word: searchInfo.search_word,
+          userid: window.sessionStorage.getItem("userid"),
         },
       });
 
@@ -89,46 +90,13 @@ const ScEventListView = () => {
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [pageNumber, period, searchInfo, sortInfo]);
 
   const history = useHistory();
 
   useEffect(() => {
-    const srcList = [
-      `${process.env.PUBLIC_URL}/assets/vendor/jquery.min.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/popper.min.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/bootstrap.min.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/perfect-scrollbar.min.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/dom-factory.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/material-design-kit.js`,
-      `${process.env.PUBLIC_URL}/assets/js/app.js`,
-      `${process.env.PUBLIC_URL}/assets/js/hljs.js`,
-      `${process.env.PUBLIC_URL}/assets/js/settings.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/Chart.min.js`,
-      `${process.env.PUBLIC_URL}/assets/js/page.projects.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/list.min.js`,
-      `${process.env.PUBLIC_URL}/assets/js/list.js`,
-      `${process.env.PUBLIC_URL}/assets/js/toggle-check-all.js`,
-      `${process.env.PUBLIC_URL}/assets/js/check-selected-row.js`,
-      `${process.env.PUBLIC_URL}/assets/js/app-settings.js`,
-    ];
-    let scriptList = [];
-
-    for (let i = 0; i < srcList.length; i++) {
-      const script = document.createElement("script");
-      script.src = process.env.PUBLIC_URL + srcList[i];
-      scriptList.push(script);
-      document.body.appendChild(script);
-    }
-
-    getList("20210101", "20501231");
-
-    return () => {
-      for (let i = 0; i < scriptList.length; i++) {
-        document.body.removeChild(scriptList[i]);
-      }
-    };
-  }, [pageNumber]);
+    getList();
+  }, [getList]);
 
   if (scList === null) {
     return <p>fail to loading data</p>;
@@ -147,9 +115,8 @@ const ScEventListView = () => {
           pagePathList={pagePathList}
           pageTitle="서초 축제"
           showSearchBar={true}
-          searchInfo={searchInfo}
-          getSearchInfo={getSearchInfo}
           searching={searching}
+          searchOptions={searchOptions}
         />
 
         <div className="container-fluid page__container">
@@ -205,6 +172,7 @@ const ScEventListView = () => {
                   list={scList}
                   pageNumber={pageNumber}
                   count={count}
+                  sorting={sorting}
                 />
               </div>
               <Paging

@@ -65,7 +65,7 @@ const CheckableScEventListItem = ({ scInfo, no }) => {
           <div className="media-body">
             <div className="d-flex flex-column">
               <p className="mb-0 txt_line_table_title">
-                <a
+                <span
                   onClick={() =>
                     history.push(`/event/seocho-festival-detail/${scInfo.id}`)
                   }
@@ -73,7 +73,7 @@ const CheckableScEventListItem = ({ scInfo, no }) => {
                   <strong className="js-lists-values-cultural-seocho-festival-name">
                     {scInfo.name}
                   </strong>
-                </a>
+                </span>
               </p>
               <small className="js-lists-values-employee-email text-50"></small>
             </div>
@@ -88,7 +88,7 @@ const CheckableScEventListItem = ({ scInfo, no }) => {
       </td>
       <td className="js-lists-values-employer-name small">{scInfo.creator}</td>
       <td className="js-lists-values-status small">{getState()}</td>
-      <td className="js-lists-values-public small">{scInfo.is_posted_name}</td>
+      <td className="js-lists-values-public small">{scInfo.state_name}</td>
     </tr>
   );
 };
