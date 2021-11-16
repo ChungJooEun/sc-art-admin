@@ -18,6 +18,24 @@ const ApplicationList = ({ tableTitle, Table, type }) => {
   const [list, setList] = useState([]);
   const [totalNumber, setTotalNumber] = useState(0);
   const [pageNumber, setPageNumber] = useState(1);
+  const [sortInfo, setSortInfo] = useState({
+    sort_column: "create_date",
+    sort_type: "desc",
+  });
+
+  const sorting = (columnName) => {
+    if (columnName === sortInfo.sort_column) {
+      setSortInfo({
+        ...sortInfo,
+        sort_type: sortInfo.sort_type === "desc" ? "asc" : "desc",
+      });
+    } else {
+      setSortInfo({
+        sort_column: columnName,
+        sort_type: "desc",
+      });
+    }
+  };
 
   const getEventList = useCallback(async () => {
     const url = "http://118.67.154.118:3000/api/admin/cultural-event/list";
@@ -26,12 +44,10 @@ const ApplicationList = ({ tableTitle, Table, type }) => {
     try {
       const response = await axios.get(url, {
         params: {
-          sort_type: "desc",
-          sort_column: "create_date",
+          sort_type: sortInfo.sort_type,
+          sort_column: sortInfo.sort_column,
           page: pageNumber,
           count: count,
-          from_date: "20210101",
-          to_date: "20221231",
           search_type: "STATE",
           search_word: "WAIT",
         },
@@ -44,7 +60,7 @@ const ApplicationList = ({ tableTitle, Table, type }) => {
     } catch (e) {
       console.log(e);
     }
-  }, [pageNumber]);
+  }, [pageNumber, sortInfo]);
 
   const getPageNumber = (pickNumber) => {
     setPageNumber(pickNumber);
@@ -57,8 +73,8 @@ const ApplicationList = ({ tableTitle, Table, type }) => {
     try {
       const response = await axios.get(url, {
         params: {
-          sort_type: "desc",
-          sort_column: "create_date",
+          sort_type: sortInfo.sort_type,
+          sort_column: sortInfo.sort_column,
           page: pageNumber,
           count: count,
           search_type: "STATE",
@@ -73,7 +89,7 @@ const ApplicationList = ({ tableTitle, Table, type }) => {
     } catch (e) {
       console.log(e);
     }
-  }, [pageNumber]);
+  }, [pageNumber, sortInfo]);
 
   useEffect(() => {
     if (type === "event") {
@@ -81,38 +97,38 @@ const ApplicationList = ({ tableTitle, Table, type }) => {
     } else {
       getPlaceList();
     }
-    const srcList = [
-      `${process.env.PUBLIC_URL}/assets/vendor/jquery.min.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/popper.min.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/bootstrap.min.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/perfect-scrollbar.min.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/dom-factory.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/material-design-kit.js`,
-      `${process.env.PUBLIC_URL}/assets/js/app.js`,
-      `${process.env.PUBLIC_URL}/assets/js/hljs.js`,
-      `${process.env.PUBLIC_URL}/assets/js/settings.js`,
-      `${process.env.PUBLIC_URL}/assets/js/page.projects.js`,
-      `${process.env.PUBLIC_URL}/assets/js/page.analytics-2-dashboard.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/list.min.js`,
-      `${process.env.PUBLIC_URL}/assets/js/list.js`,
-      `${process.env.PUBLIC_URL}/assets/js/toggle-check-all.js`,
-      `${process.env.PUBLIC_URL}/assets/js/check-selected-row.js`,
-      `${process.env.PUBLIC_URL}/assets/js/app-settings.js`,
-    ];
-    let scriptList = [];
+    // const srcList = [
+    //   `${process.env.PUBLIC_URL}/assets/vendor/jquery.min.js`,
+    //   `${process.env.PUBLIC_URL}/assets/vendor/popper.min.js`,
+    //   `${process.env.PUBLIC_URL}/assets/vendor/bootstrap.min.js`,
+    //   `${process.env.PUBLIC_URL}/assets/vendor/perfect-scrollbar.min.js`,
+    //   `${process.env.PUBLIC_URL}/assets/vendor/dom-factory.js`,
+    //   `${process.env.PUBLIC_URL}/assets/vendor/material-design-kit.js`,
+    //   `${process.env.PUBLIC_URL}/assets/js/app.js`,
+    //   `${process.env.PUBLIC_URL}/assets/js/hljs.js`,
+    //   `${process.env.PUBLIC_URL}/assets/js/settings.js`,
+    //   `${process.env.PUBLIC_URL}/assets/js/page.projects.js`,
+    //   `${process.env.PUBLIC_URL}/assets/js/page.analytics-2-dashboard.js`,
+    //   `${process.env.PUBLIC_URL}/assets/vendor/list.min.js`,
+    //   `${process.env.PUBLIC_URL}/assets/js/list.js`,
+    //   `${process.env.PUBLIC_URL}/assets/js/toggle-check-all.js`,
+    //   `${process.env.PUBLIC_URL}/assets/js/check-selected-row.js`,
+    //   `${process.env.PUBLIC_URL}/assets/js/app-settings.js`,
+    // ];
+    // let scriptList = [];
 
-    for (let i = 0; i < srcList.length; i++) {
-      const script = document.createElement("script");
-      script.src = process.env.PUBLIC_URL + srcList[i];
-      scriptList.push(script);
-      document.body.appendChild(script);
-    }
+    // for (let i = 0; i < srcList.length; i++) {
+    //   const script = document.createElement("script");
+    //   script.src = process.env.PUBLIC_URL + srcList[i];
+    //   scriptList.push(script);
+    //   document.body.appendChild(script);
+    // }
 
-    return () => {
-      for (let i = 0; i < scriptList.length; i++) {
-        document.body.removeChild(scriptList[i]);
-      }
-    };
+    // return () => {
+    //   for (let i = 0; i < scriptList.length; i++) {
+    //     document.body.removeChild(scriptList[i]);
+    //   }
+    // };
   }, [getEventList, getPlaceList, type]);
 
   if (list === null) {
@@ -138,7 +154,12 @@ const ApplicationList = ({ tableTitle, Table, type }) => {
               </div>
             </div>
             <div className="card dashboard-area-tabs mb-32pt">
-              <Table list={list} pageNumber={pageNumber} count={count} />
+              <Table
+                list={list}
+                pageNumber={pageNumber}
+                count={count}
+                sorting={sorting}
+              />
               <Paging
                 pageNumber={pageNumber}
                 getPageNumber={getPageNumber}
