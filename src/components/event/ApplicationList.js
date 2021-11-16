@@ -37,6 +37,46 @@ const ApplicationList = ({ tableTitle, Table, type }) => {
     }
   };
 
+  const modifyPlaceState = async (id, state) => {
+    const url = `http://118.67.154.118:3000/api/admin/cultural-space/modify/state/${id}`;
+    // const url = `/api/admin/cultural-space/modify/state/${id}`;
+
+    var data = new Object();
+    data.userid = window.sessionStorage.getItem("userid");
+    data.state = state;
+
+    try {
+      const res = await axios.post(url, data);
+
+      if (res.status === 200) {
+        console.log("======== STATE 변경 성공 ========");
+        getPlaceList();
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const modifyEventState = async (id, state) => {
+    const url = `http://118.67.154.118:3000/api/admin/cultural-event/modify/state/${id}`;
+    // const url = `/api/admin/cultural-space/modify/state/${id}`;
+
+    var data = new Object();
+    data.userid = window.sessionStorage.getItem("userid");
+    data.state = state;
+
+    try {
+      const res = await axios.post(url, data);
+
+      if (res.status === 200) {
+        console.log("======== STATE 변경 성공 ========");
+        getEventList();
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const getEventList = useCallback(async () => {
     const url = "http://118.67.154.118:3000/api/admin/cultural-event/list";
     // const url = "/api/admin/cultural-event/list";
@@ -97,38 +137,6 @@ const ApplicationList = ({ tableTitle, Table, type }) => {
     } else {
       getPlaceList();
     }
-    // const srcList = [
-    //   `${process.env.PUBLIC_URL}/assets/vendor/jquery.min.js`,
-    //   `${process.env.PUBLIC_URL}/assets/vendor/popper.min.js`,
-    //   `${process.env.PUBLIC_URL}/assets/vendor/bootstrap.min.js`,
-    //   `${process.env.PUBLIC_URL}/assets/vendor/perfect-scrollbar.min.js`,
-    //   `${process.env.PUBLIC_URL}/assets/vendor/dom-factory.js`,
-    //   `${process.env.PUBLIC_URL}/assets/vendor/material-design-kit.js`,
-    //   `${process.env.PUBLIC_URL}/assets/js/app.js`,
-    //   `${process.env.PUBLIC_URL}/assets/js/hljs.js`,
-    //   `${process.env.PUBLIC_URL}/assets/js/settings.js`,
-    //   `${process.env.PUBLIC_URL}/assets/js/page.projects.js`,
-    //   `${process.env.PUBLIC_URL}/assets/js/page.analytics-2-dashboard.js`,
-    //   `${process.env.PUBLIC_URL}/assets/vendor/list.min.js`,
-    //   `${process.env.PUBLIC_URL}/assets/js/list.js`,
-    //   `${process.env.PUBLIC_URL}/assets/js/toggle-check-all.js`,
-    //   `${process.env.PUBLIC_URL}/assets/js/check-selected-row.js`,
-    //   `${process.env.PUBLIC_URL}/assets/js/app-settings.js`,
-    // ];
-    // let scriptList = [];
-
-    // for (let i = 0; i < srcList.length; i++) {
-    //   const script = document.createElement("script");
-    //   script.src = process.env.PUBLIC_URL + srcList[i];
-    //   scriptList.push(script);
-    //   document.body.appendChild(script);
-    // }
-
-    // return () => {
-    //   for (let i = 0; i < scriptList.length; i++) {
-    //     document.body.removeChild(scriptList[i]);
-    //   }
-    // };
   }, [getEventList, getPlaceList, type]);
 
   if (list === null) {
@@ -159,6 +167,11 @@ const ApplicationList = ({ tableTitle, Table, type }) => {
                 pageNumber={pageNumber}
                 count={count}
                 sorting={sorting}
+                modifyState={
+                  window.location.href.includes("event")
+                    ? modifyEventState
+                    : modifyPlaceState
+                }
               />
               <Paging
                 pageNumber={pageNumber}

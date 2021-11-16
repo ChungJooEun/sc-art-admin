@@ -1,7 +1,13 @@
 import React from "react";
 import ModifiableEventListItem from "./ModifiableEventListItem";
 
-const ModifiableEventList = ({ list, pageNumber, count, sorting }) => {
+const ModifiableEventList = ({
+  list,
+  pageNumber,
+  count,
+  sorting,
+  modifyState,
+}) => {
   let no = (pageNumber - 1) * count + 1;
 
   return (
@@ -70,6 +76,7 @@ const ModifiableEventList = ({ list, pageNumber, count, sorting }) => {
               eventInfo={eventInfo}
               key={eventInfo.id}
               no={no++}
+              modifyEventState={modifyState}
             />
           ))}
         </tbody>

@@ -52,6 +52,46 @@ const TaskRequest = () => {
     });
   };
 
+  const modifyPlaceState = async (id, state) => {
+    const url = `http://118.67.154.118:3000/api/admin/cultural-space/modify/state/${id}`;
+    // const url = `/api/admin/cultural-space/modify/state/${id}`;
+
+    var data = new Object();
+    data.userid = window.sessionStorage.getItem("userid");
+    data.state = state;
+
+    try {
+      const res = await axios.post(url, data);
+
+      if (res.status === 200) {
+        console.log("======== STATE 변경 성공 ========");
+        getPlaceList();
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const modifyEventState = async (id, state) => {
+    const url = `http://118.67.154.118:3000/api/admin/cultural-event/modify/state/${id}`;
+    // const url = `/api/admin/cultural-space/modify/state/${id}`;
+
+    var data = new Object();
+    data.userid = window.sessionStorage.getItem("userid");
+    data.state = state;
+
+    try {
+      const res = await axios.post(url, data);
+
+      if (res.status === 200) {
+        console.log("======== STATE 변경 성공 ========");
+        getEventList();
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const getEventList = useCallback(async () => {
     const url = "http://118.67.154.118:3000/api/admin/cultural-event/list";
     // const url = "/api/admin/cultural-event/list";
@@ -80,8 +120,8 @@ const TaskRequest = () => {
   }, [pageNumber_Event, sortInfo]);
 
   const getPlaceList = useCallback(async () => {
-    const url = "http://118.67.154.118:3000/api/admin/cultural-space/list";
-    // const url = "/api/admin/cultural-space/list";
+    // const url = "http://118.67.154.118:3000/api/admin/cultural-space/list";
+    const url = "/api/admin/cultural-space/list";
 
     try {
       const response = await axios.get(url, {
@@ -177,6 +217,7 @@ const TaskRequest = () => {
                 pageNumber={pageNumber_Event}
                 count={count}
                 sorting={sorting}
+                modifyState={modifyEventState}
               />
             ),
             2: (
@@ -185,6 +226,7 @@ const TaskRequest = () => {
                 pageNumber={pageNumber_Place}
                 count={count}
                 sorting={sorting}
+                modifyState={modifyPlaceState}
               />
             ),
           }[tapMenu]

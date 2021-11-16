@@ -1,5 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import axios from "axios";
 
 const addDot = (string) => {
   let result = "";
@@ -12,8 +13,12 @@ const addDot = (string) => {
   );
 };
 
-const ModifiablePlaceListItem = ({ placeInfo, no }) => {
+const ModifiablePlaceListItem = ({ placeInfo, no, modifyPlaceState }) => {
   const history = useHistory();
+
+  const onChangeState = (e) => {
+    modifyPlaceState(placeInfo.id, e.target.value);
+  };
 
   return (
     <tr>
@@ -61,6 +66,7 @@ const ModifiablePlaceListItem = ({ placeInfo, no }) => {
           data-toggle="select"
           className="form-control"
           defaultValue={placeInfo.state}
+          onChange={(e) => onChangeState(e)}
         >
           <option value="WAIT">대기중</option>
           <option value="POST">게시</option>

@@ -15,8 +15,12 @@ const addDot = (string) => {
   );
 };
 
-const ModifiableEventListItem = ({ eventInfo, no }) => {
+const ModifiableEventListItem = ({ eventInfo, no, modifyEventState }) => {
   const history = useHistory();
+
+  const onChangeState = (e) => {
+    modifyEventState(eventInfo.id, e.target.value);
+  };
 
   return (
     <tr>
@@ -71,6 +75,7 @@ const ModifiableEventListItem = ({ eventInfo, no }) => {
           data-toggle="select"
           className="form-control"
           defaultValue={eventInfo.state}
+          onChange={(e) => onChangeState(e)}
         >
           <option value="WAIT">대기중</option>
           <option value="POST">게시</option>

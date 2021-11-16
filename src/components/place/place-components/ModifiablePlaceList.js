@@ -1,7 +1,13 @@
 import React from "react";
 import ModifiablePlaceListItem from "./ModifiablePlaceListItem";
 
-const ModifiablePlaceList = ({ list, pageNumber, count, sorting }) => {
+const ModifiablePlaceList = ({
+  list,
+  pageNumber,
+  count,
+  sorting,
+  modifyState,
+}) => {
   let no = (pageNumber - 1) * count + 1;
   return (
     <div
@@ -53,6 +59,7 @@ const ModifiablePlaceList = ({ list, pageNumber, count, sorting }) => {
               key={placeInfo.id}
               placeInfo={placeInfo}
               no={no++}
+              modifyPlaceState={modifyState}
             />
           ))}
         </tbody>
