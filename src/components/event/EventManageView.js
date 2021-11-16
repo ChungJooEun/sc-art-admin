@@ -17,24 +17,6 @@ const pagePathList = [
   },
 ];
 const count = 5;
-const convertDateFormat = (dateString) => {
-  const date = new Date(dateString);
-
-  let str = "" + date.getFullYear();
-
-  if (date.getMonth() < 9) {
-    str += "0" + (date.getMonth() + 1);
-  } else {
-    str += date.getMonth() + 1;
-  }
-
-  if (date.getDate() < 10) {
-    str += "0" + date.getDate();
-  } else {
-    str += date.getDate();
-  }
-  return str;
-};
 
 const searchOptions = [
   { value: "EVENT_NAME", label: "행사명" },
@@ -49,157 +31,72 @@ const EventManageView = () => {
   const [totalNumber, setTotalNumber] = useState(0);
   const [pageNumber, setPageNumber] = useState(1);
   const [period, setPeriod] = useState({
-    from_date: "20200101",
-    to_date: "20501231",
+    from_date: "",
+    to_date: "",
   });
-
-  const [searchIfo, setSearchInfo] = useState({
-    search_type: "",
+  const [searchInfo, setSearchInfo] = useState({
+    search_type: "EVENT_NAME",
     search_word: "",
   });
+  const [sortInfo, setSortInfo] = useState({
+    sort_column: "create_date",
+    sort_type: "desc",
+  });
 
-  const getEventList = useCallback(
-    async (
-      startDate,
-      endDate,
-      search_type,
-      search_word,
-      sort_column,
-      sort_type
-    ) => {
-      const url = "http://118.67.154.118:3000/api/admin/cultural-event/list";
-      //const url = "/api/admin/cultural-event/list";
+  const getEventList = useCallback(async () => {
+    const url = "http://118.67.154.118:3000/api/admin/cultural-event/list";
+    //const url = "/api/admin/cultural-event/list";
 
-      try {
-        const response = await axios.get(url, {
-          params: {
-            sort_type: sort_type,
-            sort_column: sort_column,
-            page: pageNumber,
-            count: count,
-            from_date: startDate,
-            to_date: endDate,
-            search_type: search_type,
-            search_word: search_word,
-            userid: window.sessionStorage.getItem("userid"),
-          },
-        });
+    try {
+      const response = await axios.get(url, {
+        params: {
+          sort_type: sortInfo.sort_type,
+          sort_column: sortInfo.sort_column,
+          page: pageNumber,
+          count: count,
+          from_date: period.from_date,
+          to_date: period.to_date,
+          search_type: searchInfo.search_type,
+          search_word: searchInfo.search_word,
+          userid: window.sessionStorage.getItem("userid"),
+        },
+      });
 
-        if (response.status === 200) {
-          setEventList(response.data.list);
-          setTotalNumber(response.data.total_count);
-        }
-      } catch (e) {
-        console.log(e);
+      if (response.status === 200) {
+        setEventList(response.data.list);
+        setTotalNumber(response.data.total_count);
       }
-    },
-    [pageNumber]
-  );
+    } catch (e) {
+      console.log(e);
+    }
+  }, [pageNumber, period, searchInfo, sortInfo]);
 
   const getPageNumber = (pickNumber) => {
     setPageNumber(pickNumber);
   };
 
-  const searching = (dateRange, searchInfo) => {
-    setSearchInfo({
-      search_type: searchInfo.search_type,
-      search_word: searchInfo.search_word,
-    });
+  const searching = (dateRange, searchInfos) => {
+    setPeriod(dateRange);
+    setSearchInfo(searchInfos);
+    setPageNumber(1);
+  };
 
-    if (dateRange.length === 1) {
-      let date = convertDateFormat(dateRange[0]);
-      setPeriod({
-        from_date: date,
-        to_date: date,
+  const sorting = (columnName) => {
+    if (columnName === sortInfo.sort_column) {
+      setSortInfo({
+        ...sortInfo,
+        sort_type: sortInfo.sort_type === "desc" ? "asc" : "desc",
       });
-
-      getEventList(
-        date,
-        date,
-        searchInfo.search_type,
-        searchInfo.search_word,
-        "create_date",
-        "desc"
-      );
     } else {
-      setPeriod({
-        from_date: convertDateFormat(dateRange[0]),
-        to_date: convertDateFormat(dateRange[1]),
+      setSortInfo({
+        sort_column: columnName,
+        sort_type: "desc",
       });
-
-      getEventList(
-        convertDateFormat(dateRange[0]),
-        convertDateFormat(dateRange[1]),
-        searchInfo.search_type,
-        searchInfo.search_word,
-        "create_date",
-        "desc"
-      );
     }
   };
 
-  const getSortColumn = (sort_column, sort_type) => {
-    getEventList(
-      period.from_date,
-      period.to_date,
-      searchIfo.search_type,
-      searchIfo.search_word,
-      sort_column,
-      sort_type
-    );
-  };
-
   useEffect(() => {
-    // const srcList = [
-    //   // `${process.env.PUBLIC_URL}/assets/vendor/jquery.min.js`,
-    //   // `${process.env.PUBLIC_URL}/assets/vendor/popper.min.js`,
-    //   // `${process.env.PUBLIC_URL}/assets/vendor/bootstrap.min.js`,
-    //   // `${process.env.PUBLIC_URL}/assets/vendor/perfect-scrollbar.min.js`,
-    //   // `${process.env.PUBLIC_URL}/assets/vendor/dom-factory.js`,
-    //   // `${process.env.PUBLIC_URL}/assets/vendor/material-design-kit.js`,
-    //   // `${process.env.PUBLIC_URL}/assets/js/app.js`,
-    //   // `${process.env.PUBLIC_URL}/assets/js/hljs.js`,
-    //   // `${process.env.PUBLIC_URL}/assets/js/settings.js`,
-    //   // `${process.env.PUBLIC_URL}/assets/vendor/moment.min.js`,
-    //   // `${process.env.PUBLIC_URL}/assets/vendor/moment-range.js`,
-    //   // `${process.env.PUBLIC_URL}/assets/vendor/Chart.min.js`,
-    //   // `${process.env.PUBLIC_URL}/assets/js/chartjs.js`,
-    //   // `${process.env.PUBLIC_URL}/assets/js/chartjs-rounded-bar.js`,
-    //   // `${process.env.PUBLIC_URL}/assets/js/page.projects.js`,
-    //   // `${process.env.PUBLIC_URL}/assets/js/page.analytics-2-dashboard.js`,
-    //   // `${process.env.PUBLIC_URL}/assets/vendor/list.min.js`,
-    //   // `${process.env.PUBLIC_URL}/assets/js/list.js`,
-    //   // `${process.env.PUBLIC_URL}/assets/js/toggle-check-all.js`,
-    //   // `${process.env.PUBLIC_URL}/assets/js/check-selected-row.js`,
-    //   // `${process.env.PUBLIC_URL}/assets/js/app-settings.js`,
-    // ];
-    // let scriptList = [];
-
-    // for (let i = 0; i < srcList.length; i++) {
-    //   const script = document.createElement("script");
-    //   script.src = process.env.PUBLIC_URL + srcList[i];
-    //   scriptList.push(script);
-    //   document.body.appendChild(script);
-    // }
-
-    setPeriod({
-      from_date: "20200101",
-      to_date: "20501231",
-    });
-
-    setSearchInfo({
-      search_type: "",
-      search_word: "",
-    });
-
-    // list init 코드
-    getEventList("20200101", "20501231", "", "", "create_date", "desc");
-
-    // return () => {
-    //   for (let i = 0; i < scriptList.length; i++) {
-    //     document.body.removeChild(scriptList[i]);
-    //   }
-    // };
+    getEventList();
   }, [getEventList]);
 
   if (eventList === null) {
@@ -384,7 +281,7 @@ const EventManageView = () => {
                   list={eventList}
                   pageNumber={pageNumber}
                   count={count}
-                  getSortColumn={getSortColumn}
+                  sorting={sorting}
                 />
               </div>
               <Paging

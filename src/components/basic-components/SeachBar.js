@@ -3,26 +3,66 @@ import React, { useState } from "react";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/airbnb.css";
 
-const SearchBar = ({ searching, searchOptions }) => {
-  const onClickSearchButton = () => {
-    searching(dateRange, searchInfo);
-  };
+const convertDateFormat = (dateString) => {
+  const date = new Date(dateString);
 
-  const [dateRange, setDateRange] = useState([new Date(), new Date()]);
+  let str = "" + date.getFullYear();
+
+  if (date.getMonth() < 9) {
+    str += "0" + (date.getMonth() + 1);
+  } else {
+    str += date.getMonth() + 1;
+  }
+
+  if (date.getDate() < 10) {
+    str += "0" + date.getDate();
+  } else {
+    str += date.getDate();
+  }
+  return str;
+};
+
+const SearchBar = ({ searching, searchOptions }) => {
+  const [dateRange, setDateRange] = useState({
+    from_date: "",
+    to_date: "",
+  });
+
   const [searchInfo, setSearchInfo] = useState({
-    search_type: "EVENT_NAME",
+    search_type: window.location.href.includes("event")
+      ? "EVENT_NAME"
+      : "SPACE_NAME",
     search_word: "",
   });
 
-  const onChangeDateRange = (dateAry) => {
-    setDateRange(dateAry);
+  const onChangeDateRange = (dAray) => {
+    if (dAray.length === 1) {
+      setDateRange({
+        from_date: dAray[0],
+        to_date: dAray[0],
+      });
+    } else {
+      setDateRange({
+        from_date: dAray[0],
+        to_date: dAray[1],
+      });
+    }
   };
 
-  const getSearchInfo = (dataName, data) => {
+  const onChangeSearchInfo = (dataName, data) => {
     setSearchInfo({
       ...searchInfo,
       [dataName]: data,
     });
+  };
+
+  const onClickSearchButton = () => {
+    let dateInfos = {
+      from_date: convertDateFormat(dateRange.from_date),
+      to_date: convertDateFormat(dateRange.to_date),
+    };
+
+    searching(dateInfos, searchInfo);
   };
 
   return (
@@ -33,25 +73,33 @@ const SearchBar = ({ searching, searchOptions }) => {
         id="default-navbar"
         data-primary=""
       >
-        <div className="mr-16pt">
-          <Flatpickr
-            className="form-control flatpickr-input"
-            data-toggle="flatpickr"
-            options={{ mode: "range" }}
-            value={dateRange}
-            onChange={(dateAry) => onChangeDateRange(dateAry)}
-          />
-        </div>
+        {window.location.href.includes("place") ? (
+          ""
+        ) : (
+          <div className="mr-16pt">
+            <Flatpickr
+              className="form-control flatpickr-input"
+              data-toggle="flatpickr"
+              options={{ mode: "range" }}
+              onChange={(dAray) => onChangeDateRange(dAray)}
+              placeholder="시작날짜 - 종료날짜"
+            />
+          </div>
+        )}
+
         <div>
           <div className="search-form search-form--dark">
             <select
               id="custom-select"
               className="form-control custom-select"
-              defaultValue={searchInfo.search_type}
-              onChange={(e) => getSearchInfo("search_type", e.target.value)}
+              onChange={(e) =>
+                onChangeSearchInfo("search_type", e.target.value)
+              }
             >
               {searchOptions.map((option) => (
-                <option value={option.value}>{option.label}</option>
+                <option value={option.value} key={option.value}>
+                  {option.label}
+                </option>
               ))}
             </select>
             <input
@@ -60,7 +108,9 @@ const SearchBar = ({ searching, searchOptions }) => {
               placeholder="검색"
               id="searchSample03"
               value={searchInfo.search_word}
-              onChange={(e) => getSearchInfo("search_word", e.target.value)}
+              onChange={(e) =>
+                onChangeSearchInfo("search_word", e.target.value)
+              }
             />
             <button
               className="btn"

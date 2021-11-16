@@ -18,25 +18,6 @@ const pagePathList = [
 
 const count = 5;
 
-const convertDateFormat = (dateString) => {
-  const date = new Date(dateString);
-
-  let str = "" + date.getFullYear();
-
-  if (date.getMonth() < 9) {
-    str += "0" + (date.getMonth() + 1);
-  } else {
-    str += date.getMonth() + 1;
-  }
-
-  if (date.getDate() < 10) {
-    str += "0" + date.getDate();
-  } else {
-    str += date.getDate();
-  }
-  return str;
-};
-
 const searchOptions = [
   { value: "EVENT_NAME", label: "행사명" },
   { value: "WRITER", label: "작성자" },
@@ -50,95 +31,73 @@ const EventListView = ({ pageTitle, type }) => {
   const [eventList, setEventList] = useState([]);
   const [totalNumber, setTotalNumber] = useState(0);
   const [pageNumber, setPageNumber] = useState(1);
+  const [period, setPeriod] = useState({
+    from_date: "",
+    to_date: "",
+  });
+  const [searchInfo, setSearchInfo] = useState({
+    search_type: "EVENT_NAME",
+    search_word: "",
+  });
+  const [sortInfo, setSortInfo] = useState({
+    sort_column: "create_date",
+    sort_type: "desc",
+  });
 
-  const searching = (dateRange, searchInfo) => {
-    if (dateRange.length === 1) {
-      let date = convertDateFormat(dateRange[0]);
-      getEventList(date, date, searchInfo.search_type, searchInfo.search_word);
+  const searching = (dateRange, searchInfos) => {
+    setPeriod(dateRange);
+    setSearchInfo(searchInfos);
+    setPageNumber(1);
+  };
+
+  const sorting = (columnName) => {
+    if (columnName === sortInfo.sort_column) {
+      setSortInfo({
+        ...sortInfo,
+        sort_type: sortInfo.sort_type === "desc" ? "asc" : "desc",
+      });
     } else {
-      getEventList(
-        convertDateFormat(dateRange[0]),
-        convertDateFormat(dateRange[1]),
-        searchInfo.search_type,
-        searchInfo.search_word
-      );
+      setSortInfo({
+        sort_column: columnName,
+        sort_type: "desc",
+      });
     }
   };
 
-  const getEventList = useCallback(
-    async (startDate, endDate, search_type, search_word) => {
-      const url = `http://118.67.154.118:3000/api/admin/cultural-event/list/${type}`;
-      // const url = `/api/admin/cultural-event/list/${type}`;
+  const getEventList = useCallback(async () => {
+    const url = `http://118.67.154.118:3000/api/admin/cultural-event/list/${type}`;
+    // const url = `/api/admin/cultural-event/list/${type}`;
 
-      try {
-        const response = await axios.get(url, {
-          params: {
-            sort_type: "desc",
-            sort_column: "create_date",
-            page: pageNumber,
-            count: count,
-            from_date: startDate,
-            to_date: endDate,
-            search_type: search_type,
-            search_word: search_word,
-            userid: window.sessionStorage.getItem("userid"),
-          },
-        });
+    try {
+      const response = await axios.get(url, {
+        params: {
+          sort_type: sortInfo.sort_type,
+          sort_column: sortInfo.sort_column,
+          page: pageNumber,
+          count: count,
+          from_date: period.from_date,
+          to_date: period.to_date,
+          search_type: searchInfo.search_type,
+          search_word: searchInfo.search_word,
+          userid: window.sessionStorage.getItem("userid"),
+        },
+      });
 
-        if (response.status === 200) {
-          setEventList(response.data.list);
-          setTotalNumber(response.data.total_count);
-        }
-      } catch (e) {
-        console.log(e);
+      if (response.status === 200) {
+        setEventList(response.data.list);
+        setTotalNumber(response.data.total_count);
       }
-    },
-    [pageNumber, type]
-  );
+    } catch (e) {
+      console.log(e);
+    }
+  }, [pageNumber, period, searchInfo, type, sortInfo]);
 
   const getPageNumber = (pickNumber) => {
     setPageNumber(pickNumber);
   };
 
   useEffect(() => {
-    // 스크립트 추가 코드
-    const srcList = [
-      `${process.env.PUBLIC_URL}/assets/vendor/jquery.min.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/popper.min.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/bootstrap.min.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/perfect-scrollbar.min.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/dom-factory.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/material-design-kit.js`,
-      `${process.env.PUBLIC_URL}/assets/js/app.js`,
-      `${process.env.PUBLIC_URL}/assets/js/hljs.js`,
-      `${process.env.PUBLIC_URL}/assets/js/settings.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/moment.min.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/moment-range.js`,
-      `${process.env.PUBLIC_URL}/assets/js/page.projects.js`,
-      `${process.env.PUBLIC_URL}/assets/js/page.analytics-2-dashboard.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/list.min.js`,
-      `${process.env.PUBLIC_URL}/assets/js/list.js`,
-      `${process.env.PUBLIC_URL}/assets/js/toggle-check-all.js`,
-      `${process.env.PUBLIC_URL}/assets/js/check-selected-row.js`,
-      `${process.env.PUBLIC_URL}/assets/js/app-settings.js`,
-    ];
-    let scriptList = [];
-
-    for (let i = 0; i < srcList.length; i++) {
-      const script = document.createElement("script");
-      script.src = process.env.PUBLIC_URL + srcList[i];
-      scriptList.push(script);
-      document.body.appendChild(script);
-    }
-
-    // list init 코드
-    getEventList("20200101, 20500101", "", "");
-
-    return () => {
-      for (let i = 0; i < scriptList.length; i++) {
-        document.body.removeChild(scriptList[i]);
-      }
-    };
+    getEventList();
   }, [getEventList]);
 
   if (eventList === null) {
@@ -234,6 +193,7 @@ const EventListView = ({ pageTitle, type }) => {
                   list={eventList}
                   pageNumber={pageNumber}
                   count={count}
+                  sorting={sorting}
                 />
               </div>
               <Paging

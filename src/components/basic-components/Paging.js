@@ -52,14 +52,15 @@ const Paging = ({ pageNumber, getPageNumber, totalNum, count }) => {
     for (let i = start; i <= end; i++) {
       if (i <= lastPage) {
         pageAry.push(
-          <a
+          <span
             className={
               i === pageNumber ? "dropdown-item active" : "dropdown-item"
             }
             onClick={(e) => goPickPage(e)}
+            key={i}
           >
             {i}
-          </a>
+          </span>
         );
       }
     }

@@ -66,7 +66,7 @@ const CheckableEventListItem = ({
           <div className="media-body">
             <div className="d-flex flex-column">
               <p className="mb-0 txt_line_table_title">
-                <a
+                <span
                   onClick={() =>
                     history.push(`/event/event-detail/${eventInfo.id}`)
                   }
@@ -74,7 +74,7 @@ const CheckableEventListItem = ({
                   <strong className="js-lists-values-cultural-event">
                     {eventInfo.name}
                   </strong>
-                </a>
+                </span>
               </p>
               <small className="js-lists-values-employee-email text-50"></small>
             </div>
