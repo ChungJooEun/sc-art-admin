@@ -22,6 +22,8 @@ const LoginView = () => {
     data.id = loginInfo.id;
     data.password = loginInfo.password;
 
+    console.log(data);
+
     const url = "http://118.67.154.134:9000/login";
     // const url = "/login";
     const config = { headers: { "Content-Type": "application/json" } };
