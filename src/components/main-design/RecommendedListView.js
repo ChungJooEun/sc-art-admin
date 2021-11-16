@@ -71,7 +71,7 @@ const RecommendedListView = () => {
         document.body.removeChild(scriptList[i]);
       }
     };
-  });
+  }, []);
 
   return (
     <>

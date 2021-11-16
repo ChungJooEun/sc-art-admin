@@ -1,22 +1,9 @@
-import React, { useState, useContext } from "react";
-import EventInfoContext from "../../../context/eventInfo";
+import React, { useState } from "react";
 
 const VideoAddForm = React.memo(() => {
   const [url, setUrl] = useState("");
-  const { state, actions } = useContext(EventInfoContext);
 
-  const getUrl = () => {
-    actions.setVideos(
-      state.videos.concat({
-        url: url,
-        vId: state.vId,
-      })
-    );
-
-    actions.setVId(state.vId + 1);
-
-    setUrl("");
-  };
+  const getUrl = () => {};
 
   const onChangeUrl = (e) => {
     setUrl(e.target.value);

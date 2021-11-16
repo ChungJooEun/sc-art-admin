@@ -1,16 +1,12 @@
 import React, { useState, useContext } from "react";
-import EventInfoContext from "../../context/eventInfo";
 
 const ImageForm = React.memo(() => {
   const [imgBase64, setImgBase64] = useState([]);
-  const { state, actions } = useContext(EventInfoContext);
 
   const onChangeImgFile = (e) => {
     const imgFileAry = e.target.files;
 
     setImgBase64([]);
-
-    actions.setImgFile(imgFileAry);
 
     for (let i = 0; i < imgFileAry.length; i++) {
       if (imgFileAry[i]) {
