@@ -105,8 +105,7 @@ const TaskRequest = () => {
           count: count,
           search_type: "STATE",
           search_word: "WAIT",
-          from_date: "20210101",
-          to_date: "20221231",
+          userid: window.sessionStorage.getItem("userid"),
         },
       });
 
@@ -120,8 +119,8 @@ const TaskRequest = () => {
   }, [pageNumber_Event, sortInfo]);
 
   const getPlaceList = useCallback(async () => {
-    // const url = "http://118.67.154.118:3000/api/admin/cultural-space/list";
-    const url = "/api/admin/cultural-space/list";
+    const url = "http://118.67.154.118:3000/api/admin/cultural-space/list";
+    // const url = "/api/admin/cultural-space/list";
 
     try {
       const response = await axios.get(url, {
@@ -132,6 +131,7 @@ const TaskRequest = () => {
           count: count,
           search_type: "STATE",
           search_word: "WAIT",
+          userid: window.sessionStorage.getItem("userid"),
         },
       });
 

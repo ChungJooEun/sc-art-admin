@@ -157,7 +157,7 @@ const EventManageView = () => {
                     <button
                       type="button"
                       className="btn btn-block btn-lg btn-big  gradient-1"
-                      onClick={() => history.push("/event/event-list-all")}
+                      // onClick={() => history.push("/event/event-list-all")}
                     >
                       전체행사
                     </button>
