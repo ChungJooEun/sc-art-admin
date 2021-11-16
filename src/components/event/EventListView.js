@@ -37,39 +37,36 @@ const convertDateFormat = (dateString) => {
   return str;
 };
 
+const searchOptions = [
+  { value: "EVENT_NAME", label: "행사명" },
+  { value: "WRITER", label: "작성자" },
+  { value: "LOCATION", label: "위치" },
+  { value: "FESTIVAL_NAME", label: "축제명" },
+];
+
 const EventListView = ({ pageTitle, type }) => {
   const history = useHistory();
 
   const [eventList, setEventList] = useState([]);
   const [totalNumber, setTotalNumber] = useState(0);
   const [pageNumber, setPageNumber] = useState(1);
-  const [searchInfo, setSearchInfo] = useState({
-    search_type: "",
-    search_word: "",
-  });
 
-  const getSearchInfo = (dataName, data) => {
-    setSearchInfo({
-      ...searchInfo,
-      [dataName]: data,
-    });
-  };
-  const searching = (dateRange) => {
-    console.log(dateRange);
-
+  const searching = (dateRange, searchInfo) => {
     if (dateRange.length === 1) {
       let date = convertDateFormat(dateRange[0]);
-      getEventList(date, date);
+      getEventList(date, date, searchInfo.search_type, searchInfo.search_word);
     } else {
       getEventList(
         convertDateFormat(dateRange[0]),
-        convertDateFormat(dateRange[1])
+        convertDateFormat(dateRange[1]),
+        searchInfo.search_type,
+        searchInfo.search_word
       );
     }
   };
 
   const getEventList = useCallback(
-    async (startDate, endDate) => {
+    async (startDate, endDate, search_type, search_word) => {
       const url = `http://118.67.154.118:3000/api/admin/cultural-event/list/${type}`;
       // const url = `/api/admin/cultural-event/list/${type}`;
 
@@ -82,8 +79,9 @@ const EventListView = ({ pageTitle, type }) => {
             count: count,
             from_date: startDate,
             to_date: endDate,
-            search_type: searchInfo.search_type,
-            search_word: searchInfo.search_word,
+            search_type: search_type,
+            search_word: search_word,
+            userid: window.sessionStorage.getItem("userid"),
           },
         });
 
@@ -114,7 +112,10 @@ const EventListView = ({ pageTitle, type }) => {
       `${process.env.PUBLIC_URL}/assets/js/app.js`,
       `${process.env.PUBLIC_URL}/assets/js/hljs.js`,
       `${process.env.PUBLIC_URL}/assets/js/settings.js`,
+      `${process.env.PUBLIC_URL}/assets/vendor/moment.min.js`,
+      `${process.env.PUBLIC_URL}/assets/vendor/moment-range.js`,
       `${process.env.PUBLIC_URL}/assets/js/page.projects.js`,
+      `${process.env.PUBLIC_URL}/assets/js/page.analytics-2-dashboard.js`,
       `${process.env.PUBLIC_URL}/assets/vendor/list.min.js`,
       `${process.env.PUBLIC_URL}/assets/js/list.js`,
       `${process.env.PUBLIC_URL}/assets/js/toggle-check-all.js`,
@@ -131,14 +132,7 @@ const EventListView = ({ pageTitle, type }) => {
     }
 
     // list init 코드
-    getEventList("20200101, 20500101");
-    setSearchInfo(
-      {
-        search_type: "EVENT_NAME",
-        search_word: "",
-      },
-      []
-    );
+    getEventList("20200101, 20500101", "", "");
 
     return () => {
       for (let i = 0; i < scriptList.length; i++) {
@@ -146,6 +140,10 @@ const EventListView = ({ pageTitle, type }) => {
       }
     };
   }, [getEventList]);
+
+  if (eventList === null) {
+    return <p>fail to loading data</p>;
+  }
 
   return (
     <div
@@ -160,9 +158,8 @@ const EventListView = ({ pageTitle, type }) => {
           pageTitle={pageTitle}
           pagePathList={pagePathList}
           showSearchBar={true}
-          searchInfo={searchInfo}
-          getSearchInfo={getSearchInfo}
           searching={searching}
+          searchOptions={searchOptions}
         />
 
         <div className="container-fluid page__container">

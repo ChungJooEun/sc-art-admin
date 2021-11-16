@@ -3,15 +3,26 @@ import React, { useState } from "react";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/airbnb.css";
 
-const SearchBar = ({ searchInfo, getSearchInfo, searching }) => {
+const SearchBar = ({ searching, searchOptions }) => {
   const onClickSearchButton = () => {
-    searching(dateRange);
+    searching(dateRange, searchInfo);
   };
 
   const [dateRange, setDateRange] = useState([new Date(), new Date()]);
+  const [searchInfo, setSearchInfo] = useState({
+    search_type: "EVENT_NAME",
+    search_word: "",
+  });
 
   const onChangeDateRange = (dateAry) => {
     setDateRange(dateAry);
+  };
+
+  const getSearchInfo = (dataName, data) => {
+    setSearchInfo({
+      ...searchInfo,
+      [dataName]: data,
+    });
   };
 
   return (
@@ -39,10 +50,9 @@ const SearchBar = ({ searchInfo, getSearchInfo, searching }) => {
               defaultValue={searchInfo.search_type}
               onChange={(e) => getSearchInfo("search_type", e.target.value)}
             >
-              <option value="EVENT_NAME">행사명</option>
-              <option value="WRITER">작성자</option>
-              <option value="LOCATION">위치</option>
-              <option value="FESTIVAL_NAME">축제명</option>
+              {searchOptions.map((option) => (
+                <option value={option.value}>{option.label}</option>
+              ))}
             </select>
             <input
               type="text"
