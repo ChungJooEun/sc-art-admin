@@ -54,7 +54,7 @@ const count = 5;
 const addPostOptions = [
   { value: "TEMP_SAVE", name: "임시 저장" },
   { value: "POST", name: "게시" },
-  { value: "CLOSED", name: "비공개" },
+  { value: "PRIVATE", name: "비공개" },
 ];
 
 const ScFestivalDetailView = ({ match }) => {

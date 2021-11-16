@@ -10,7 +10,7 @@ import BoardInfo from "./add-board-components/BoardInfo";
 const options = [
   { value: "TEMP_SAVE", name: "임시저장" },
   { value: "POST", name: "게시" },
-  { value: "CLOSED", name: "비공개" },
+  { value: "PRIVATE", name: "비공개" },
 ];
 const AddBoardView = ({ pagePathList }) => {
   useEffect(() => {

@@ -31,19 +31,18 @@ import AddBoardView from "./components/community/AddBoardView";
 import EditorTest from "./components/basic-components/editor-components/EditorTest";
 import AddScFestivalView from "./components/event/AddScFestivalView";
 import { MenuProvier } from "./context/menu";
-import { EventInfoProvider } from "./context/eventInfo";
 import ScFestivalDetailView from "./components/event/ScFestivalDetailView";
 
 const addPostOptions = [
   { value: "TEMP_SAVE", name: "임시저장" },
   { value: "POST", name: "게시" },
-  { value: "CLOSED", name: "비공개" },
+  { value: "PRIVATE", name: "비공개" },
 ];
 
 const detailViewPostOptions = [
   { value: "TEMP_SAVE", name: "임시저장" },
   { value: "POST", name: "게시" },
-  { value: "CLOSED", name: "비공개" },
+  { value: "PRIVATE", name: "비공개" },
 ];
 
 const waitingPostOptions = [
@@ -96,7 +95,7 @@ const AppProvider = ({ contexts, children }) =>
 
 const App = () => {
   return (
-    <AppProvider contexts={[MenuProvier, EventInfoProvider]}>
+    <AppProvider contexts={[MenuProvier]}>
       <Switch>
         {/* 대시보드 */}
         <Route path="/" exact={true}>
