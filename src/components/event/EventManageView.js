@@ -63,6 +63,8 @@ const EventManageView = () => {
       });
 
       if (response.status === 200) {
+        console.log(response);
+
         setEventList(response.data.list);
         setTotalNumber(response.data.total_count);
       }
@@ -96,6 +98,8 @@ const EventManageView = () => {
   };
 
   useEffect(() => {
+    console.log(window.sessionStorage.getItem("userid"));
+
     getEventList();
   }, [getEventList]);
 
