@@ -27,7 +27,7 @@ const CheckablePlaceList = ({ list, pageNumber, count, isModal, sorting }) => {
           <th style={{ width: "12px" }}>no.</th>
           <th style={{ width: "150px" }}>
             <span className="sort" onClick={() => sorting("name")}>
-              공간
+              공간명
             </span>
           </th>
           <th style={{ width: "48px" }}>

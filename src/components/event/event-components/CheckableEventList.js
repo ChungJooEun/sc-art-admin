@@ -73,11 +73,7 @@ const CheckableEventList = ({
             </span>
           </th>
           <th style={{ width: "64px" }}>
-            <span
-              onClick={() => sorting("create_uid")}
-              className="sort"
-              data-sort="js-lists-values-employee-name"
-            >
+            <span onClick={() => sorting("create_uid")} className="sort">
               작성자
             </span>
           </th>

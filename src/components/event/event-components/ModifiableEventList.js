@@ -1,7 +1,7 @@
 import React from "react";
 import ModifiableEventListItem from "./ModifiableEventListItem";
 
-const ModifiableEventList = ({ list, pageNumber, count }) => {
+const ModifiableEventList = ({ list, pageNumber, count, sorting }) => {
   let no = (pageNumber - 1) * count + 1;
 
   return (
@@ -23,44 +23,44 @@ const ModifiableEventList = ({ list, pageNumber, count }) => {
           <tr>
             <th style={{ width: "12px" }}>no.</th>
             <th style={{ width: "150px" }}>
-              <a className="sort" data-sort="js-lists-values-cultural-event">
+              <span onClick={() => sorting("name")} className="sort">
                 행사명
-              </a>
+              </span>
             </th>
             <th style={{ width: "48px" }}>
-              <a className="sort" data-sort="js-lists-values-tag">
+              <span onClick={() => sorting("event_type")} className="sort">
                 종류
-              </a>
+              </span>
             </th>
             <th style={{ width: "80px" }}>
-              <a className="sort" data-sort="js-lists-values-place">
+              <span onClick={() => sorting("address1")} className="sort">
                 위치
-              </a>
+              </span>
             </th>
             <th style={{ width: "48px" }}>
-              <a className="sort" data-sort="js-lists-values-price">
+              <span onClick={() => sorting("price")} className="sort">
                 비용
-              </a>
+              </span>
             </th>
             <th style={{ width: "64px" }}>
-              <a className="sort" data-sort="js-lists-values-registration-date">
+              <span onClick={() => sorting("create_date")} className="sort">
                 등록일
-              </a>
+              </span>
             </th>
             <th style={{ width: "64px" }}>
-              <a className="sort" data-sort="js-lists-values-deadline">
+              <span onClick={() => sorting("close_date")} className="sort">
                 마감일
-              </a>
+              </span>
             </th>
             <th style={{ width: "64px" }}>
-              <a className="sort" data-sort="js-lists-values-employee-name">
+              <span onClick={() => sorting("create_uid")} className="sort">
                 작성자
-              </a>
+              </span>
             </th>
             <th style={{ width: "120px" }}>
-              <a className="sort" data-sort="js-lists-values-staus">
+              <span onClick={() => sorting("state")} className="sort">
                 상태
-              </a>
+              </span>
             </th>
           </tr>
         </thead>

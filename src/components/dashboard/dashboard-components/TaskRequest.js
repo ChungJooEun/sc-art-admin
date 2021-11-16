@@ -16,6 +16,24 @@ const TaskRequest = () => {
   const [totalNumPlace, setTotalNumPlace] = useState(0);
 
   const [tapMenu, setTapMenu] = useState(1);
+  const [sortInfo, setSortInfo] = useState({
+    sort_column: "create_date",
+    sort_type: "desc",
+  });
+
+  const sorting = (columnName) => {
+    if (columnName === sortInfo.sort_column) {
+      setSortInfo({
+        ...sortInfo,
+        sort_type: sortInfo.sort_type === "desc" ? "asc" : "desc",
+      });
+    } else {
+      setSortInfo({
+        sort_column: columnName,
+        sort_type: "desc",
+      });
+    }
+  };
 
   const onChangeTapMenu = (menu) => {
     setTapMenu(menu);
@@ -27,6 +45,11 @@ const TaskRequest = () => {
     } else {
       setPageNumber_Place(1);
     }
+
+    setSortInfo({
+      sort_column: "create_date",
+      sort_type: "desc",
+    });
   };
 
   const getEventList = useCallback(async () => {
@@ -36,8 +59,8 @@ const TaskRequest = () => {
     try {
       const response = await axios.get(url, {
         params: {
-          sort_type: "desc",
-          sort_column: "create_date",
+          sort_type: sortInfo.sort_type,
+          sort_column: sortInfo.sort_column,
           page: pageNumber_Event,
           count: count,
           search_type: "STATE",
@@ -54,7 +77,7 @@ const TaskRequest = () => {
     } catch (e) {
       console.log(e);
     }
-  }, [pageNumber_Event]);
+  }, [pageNumber_Event, sortInfo]);
 
   const getPlaceList = useCallback(async () => {
     const url = "http://118.67.154.118:3000/api/admin/cultural-space/list";
@@ -63,8 +86,8 @@ const TaskRequest = () => {
     try {
       const response = await axios.get(url, {
         params: {
-          sort_type: "desc",
-          sort_column: "create_date",
+          sort_type: sortInfo.sort_type,
+          sort_column: sortInfo.sort_column,
           page: pageNumber_Place,
           count: count,
           search_type: "STATE",
@@ -79,7 +102,7 @@ const TaskRequest = () => {
     } catch (e) {
       console.log(e);
     }
-  }, [pageNumber_Place]);
+  }, [pageNumber_Place, sortInfo]);
 
   const getPageNumber = (pickNumber) => {
     if (tapMenu === 1) {
@@ -95,9 +118,9 @@ const TaskRequest = () => {
   }, [getEventList, getPlaceList]);
 
   if (
-    eventList === null &&
-    placeList === null &&
-    totalNumEvent === null &&
+    eventList === null ||
+    placeList === null ||
+    totalNumEvent === null ||
     totalNumPlace === null
   ) {
     return <p>fail to loading data</p>;
@@ -153,6 +176,7 @@ const TaskRequest = () => {
                 list={eventList}
                 pageNumber={pageNumber_Event}
                 count={count}
+                sorting={sorting}
               />
             ),
             2: (
@@ -160,6 +184,7 @@ const TaskRequest = () => {
                 list={placeList}
                 pageNumber={pageNumber_Place}
                 count={count}
+                sorting={sorting}
               />
             ),
           }[tapMenu]

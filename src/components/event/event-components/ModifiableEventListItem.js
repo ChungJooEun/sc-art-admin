@@ -28,7 +28,7 @@ const ModifiableEventListItem = ({ eventInfo, no }) => {
         >
           <div className="media-body">
             <div className="d-flex flex-column">
-              <a
+              <span
                 onClick={() =>
                   history.push(
                     `/event/event-application-detail/${eventInfo.id}`
@@ -39,16 +39,16 @@ const ModifiableEventListItem = ({ eventInfo, no }) => {
                 <strong className="js-lists-values-cultural-event">
                   {eventInfo.name}
                 </strong>
-              </a>
+              </span>
               <small className="js-lists-values-employee-email text-50"></small>
             </div>
           </div>
         </div>
       </td>
       <td>
-        <a className="chip chip-outline-secondary js-lists-values-tag">
+        <span className="chip chip-outline-secondary js-lists-values-tag">
           {eventInfo.event_type_name}
-        </a>
+        </span>
       </td>
       <td className="js-lists-values-place small">{eventInfo.address1}</td>
       <td className="js-lists-values-price small">
@@ -70,11 +70,11 @@ const ModifiableEventListItem = ({ eventInfo, no }) => {
           id="select01"
           data-toggle="select"
           className="form-control"
-          value={eventInfo.state}
+          defaultValue={eventInfo.state}
         >
           <option value="WAIT">대기중</option>
           <option value="POST">게시</option>
-          <option value="TEMP_SAVE">기각</option>
+          <option value="REJECT">기각</option>
         </select>
       </td>
     </tr>
