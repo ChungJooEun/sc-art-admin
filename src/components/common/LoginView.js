@@ -33,8 +33,8 @@ const LoginView = () => {
       console.log(response);
       if (response.status === 200) {
         console.log("login success!");
-        window.sessionStorage.setItem("token", response.headers.token);
-        window.sessionStorage.setItem("userid", response.headers.userid);
+        window.localStorage.setItem("token", response.headers.token);
+        window.localStorage.setItem("userid", response.headers.userid);
 
         history.push("/dashboard");
       } else {
