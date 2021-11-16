@@ -18,8 +18,11 @@ const pagePathList = [
 const DashBoardView = () => {
   const history = useHistory();
   useEffect(() => {
-    let userId = window.localStorage.getItem("userid");
-    let token = window.localStorage.getItem("token");
+    // let userId = window.localStorage.getItem("userid");
+    // let token = window.localStorage.getItem("token");
+
+    let userId = window.sessionStorage.getItem("userid");
+    let token = window.sessionStorage.getItem("token");
 
     if (!userId || userId === undefined) {
       history.push("/common/login");

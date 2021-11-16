@@ -24,17 +24,21 @@ const LoginView = () => {
 
     console.log(data);
 
-    const url = "http://118.67.154.134:9000/login";
-    // const url = "/login";
+    // const url = "http://118.67.154.134:9000/login";
+    const url = "/login";
     const config = { headers: { "Content-Type": "application/json" } };
     try {
       const response = await axios.post(url, data, config);
 
       console.log(response);
       if (response.status === 200) {
+        console.log(response);
         console.log("login success!");
-        window.localStorage.setItem("token", response.headers.token);
-        window.localStorage.setItem("userid", response.headers.userid);
+        // window.localStorage.setItem("token", response.headers.token);
+        // window.localStorage.setItem("userid", response.headers.userid);
+
+        window.sessionStorage.setItem("token", response.headers.token);
+        window.sessionStorage.setItem("userid", response.headers.userid);
 
         history.push("/dashboard");
       } else {
