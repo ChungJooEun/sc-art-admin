@@ -92,7 +92,7 @@ const TaskRequest = () => {
   useEffect(() => {
     getEventList();
     getPlaceList();
-  }, []);
+  }, [getEventList, getPlaceList]);
 
   if (
     eventList === null &&
