@@ -2,7 +2,7 @@ import React from "react";
 import ModifiablePlaceListItem from "./ModifiablePlaceListItem";
 
 const ModifiablePlaceList = ({ list, pageNumber, count }) => {
-  let no = pageNumber * count;
+  let no = (pageNumber - 1) * count + 1;
   return (
     <div
       className="table-responsive"
@@ -76,7 +76,7 @@ const ModifiablePlaceList = ({ list, pageNumber, count }) => {
             <ModifiablePlaceListItem
               key={placeInfo.id}
               placeInfo={placeInfo}
-              no={no--}
+              no={no++}
             />
           ))}
         </tbody>
