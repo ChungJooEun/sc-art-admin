@@ -6,11 +6,27 @@ const opts = {
   width: "100%",
 };
 
-const VideoListItem = ({ vId }) => {
+const getVideoId = (url) => {
+  let videoId;
+
+  if (url.indexOf("watch?v=") === 24) {
+    videoId = url.slice(32, 43);
+  } else {
+    videoId = url.slice(17, 28);
+  }
+
+  return videoId;
+};
+
+const VideoListItem = ({ videoInfo, removeVideo }) => {
   const title = useRef();
 
   const onReady = (e) => {
     title.current.innerText = e.target.playerInfo.videoData.title;
+  };
+
+  const onClickRemoveBtn = () => {
+    removeVideo(videoInfo.vId);
   };
 
   return (
@@ -18,7 +34,7 @@ const VideoListItem = ({ vId }) => {
       <div className="card card-group-row__card p-16pt">
         <YouTube
           className="card-img card-img-cover"
-          videoId={vId}
+          videoId={getVideoId(videoInfo.url)}
           opts={opts}
           onReady={onReady}
         />
@@ -29,7 +45,11 @@ const VideoListItem = ({ vId }) => {
             </a>
           </div>
           <div className="d-flex align-items-center">
-            <button className="btn btn-secondary ml-16pt" data-toggle="swal">
+            <button
+              className="btn btn-secondary ml-16pt"
+              data-toggle="swal"
+              onClick={() => onClickRemoveBtn()}
+            >
               삭제{" "}
             </button>
           </div>

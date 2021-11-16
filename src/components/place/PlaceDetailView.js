@@ -45,18 +45,6 @@ const PlaceDetailView = ({ options, isApproved, match }) => {
   const [videos, setVideos] = useState([]);
   const [vId, setVId] = useState(1);
 
-  const getVideoId = (url) => {
-    let videoId;
-
-    if (url.indexOf("watch?v=") === 24) {
-      videoId = url.slice(32, 43);
-    } else {
-      videoId = url.slice(17, 28);
-    }
-
-    return videoId;
-  };
-
   const getFormInfo = (dataName, data) => {
     setFormInfo({
       ...formInfo,
@@ -161,6 +149,14 @@ const PlaceDetailView = ({ options, isApproved, match }) => {
     return defaultOptions;
   };
 
+  const removeVideo = (removeId) => {
+    let ary = videos;
+
+    ary = ary.filter((video) => video.vId !== removeId);
+
+    setVideos(ary);
+  };
+
   useEffect(() => {
     const srcList = [
       `${process.env.PUBLIC_URL}/assets/vendor/perfect-scrollbar.min.js`,
@@ -250,10 +246,6 @@ const PlaceDetailView = ({ options, isApproved, match }) => {
     };
   }, [match.params]);
 
-  // if (loading) {
-  //   return <p>로딩중..</p>;
-  // }
-
   if (formInfo === null) {
     return <p>fail to loading data</p>;
   }
@@ -327,7 +319,8 @@ const PlaceDetailView = ({ options, isApproved, match }) => {
                 <div className="row card-group-row">
                   {videos.map((video) => (
                     <VideoListItem
-                      vId={getVideoId(video.url)}
+                      videoInfo={video}
+                      removeVideo={removeVideo}
                       key={video.vId}
                     />
                   ))}

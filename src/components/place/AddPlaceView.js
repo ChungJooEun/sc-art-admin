@@ -55,18 +55,6 @@ const AddPlaceView = ({ options }) => {
   const [videos, setVideos] = useState([]);
   const [vId, setVId] = useState(1);
 
-  const getVideoId = (url) => {
-    let videoId;
-
-    if (url.indexOf("watch?v=") === 24) {
-      videoId = url.slice(32, 43);
-    } else {
-      videoId = url.slice(17, 28);
-    }
-
-    return videoId;
-  };
-
   const getFormInfo = (dataName, data) => {
     setFormInfo({
       ...formInfo,
@@ -171,6 +159,14 @@ const AddPlaceView = ({ options }) => {
     return defaultOptions;
   };
 
+  const removeVideo = (removeId) => {
+    let ary = videos;
+
+    ary = ary.filter((video) => video.vId !== removeId);
+
+    setVideos(ary);
+  };
+
   useEffect(() => {
     const srcList = [
       `${process.env.PUBLIC_URL}/assets/vendor/perfect-scrollbar.min.js`,
@@ -197,95 +193,89 @@ const AddPlaceView = ({ options }) => {
     };
   });
   return (
-    <>
-      <div
-        className="mdk-drawer-layout js-mdk-drawer-layout"
-        data-push
-        data-responsive-width="992px"
-      >
-        <div className="mdk-drawer-layout__content page-content">
-          <GlobalBar />
-          {showPostCodeModal ? (
-            <PostCodeModal
-              getAddress={getAddress}
-              closeModal={togglePostCodeModal}
-            />
-          ) : (
-            ""
-          )}
-          <PageTitle
-            pageTitle="문화공간 등록하기"
-            pagePathList={pagePathList}
+    <div
+      className="mdk-drawer-layout js-mdk-drawer-layout"
+      data-push
+      data-responsive-width="992px"
+    >
+      <div className="mdk-drawer-layout__content page-content">
+        <GlobalBar />
+        {showPostCodeModal ? (
+          <PostCodeModal
+            getAddress={getAddress}
+            closeModal={togglePostCodeModal}
           />
+        ) : (
+          ""
+        )}
+        <PageTitle pageTitle="문화공간 등록하기" pagePathList={pagePathList} />
 
-          <div className="container-fluid page__container">
+        <div className="container-fluid page__container">
+          <div className="page-section">
+            <div className="row">
+              <ImageFormTest imgSrc={imgFile} getImgFile={getImgFile} />
+              <PlaceInfoForm
+                formInfo={formInfo}
+                getFormInfo={getFormInfo}
+                open_time={openTime}
+                close_time={closeTime}
+                getTimeInfo={getTimeInfo}
+                togglePostCodeModal={togglePostCodeModal}
+              />
+            </div>
             <div className="page-section">
-              <div className="row">
-                <ImageFormTest imgSrc={imgFile} getImgFile={getImgFile} />
-                <PlaceInfoForm
-                  formInfo={formInfo}
-                  getFormInfo={getFormInfo}
-                  open_time={openTime}
-                  close_time={closeTime}
-                  getTimeInfo={getTimeInfo}
-                  togglePostCodeModal={togglePostCodeModal}
+              <div className="form-group">
+                <label className="form-label" htmlFor="select01">
+                  종류
+                </label>
+                <Select
+                  options={categoryOptions}
+                  defaultValue={getDefaultOptions_category(formInfo.space_type)}
+                  closeMenuOnSelect={true}
+                  id="select01"
+                  placeholder="종류 선택"
+                  onChange={(e) => getFormInfo("space_type", e.value)}
                 />
               </div>
-              <div className="page-section">
-                <div className="form-group">
-                  <label className="form-label" htmlFor="select01">
-                    종류
-                  </label>
-                  <Select
-                    options={categoryOptions}
-                    defaultValue={getDefaultOptions_category(
-                      formInfo.space_type
-                    )}
-                    closeMenuOnSelect={true}
-                    id="select01"
-                    placeholder="종류 선택"
-                    onChange={(e) => getFormInfo("space_type", e.value)}
-                  />
-                </div>
+            </div>
+            <div className="page-section">
+              <div className="page-separator">
+                <div className="page-separator__text">상세정보</div>
               </div>
-              <div className="page-section">
-                <div className="page-separator">
-                  <div className="page-separator__text">상세정보</div>
-                </div>
-                <EditorTest more_information={detail} getDetail={getDetail} />
-              </div>
+              <EditorTest more_information={detail} getDetail={getDetail} />
+            </div>
 
-              <div className="page-section">
-                <div className="page-separator">
-                  <div className="page-separator__text">관련 영상 업로드</div>
-                </div>
-                <div className="list-group-item">
-                  <VideoAddFormTest getVideoInfo={getVideoInfo} />
-                </div>
-                <div className="row card-group-row">
-                  {videos.map((video) => (
-                    <VideoListItem
-                      vId={getVideoId(video.url)}
-                      key={video.vId}
-                    />
-                  ))}
-                </div>
+            <div className="page-section">
+              <div className="page-separator">
+                <div className="page-separator__text">관련 영상 업로드</div>
               </div>
-              <div className="detail_under_menu ">
-                <div className="card">
-                  <PostSaveBtn
-                    options={options}
-                    onSubmitEvent={onSubmitEvent}
-                    state={formInfo.state}
+              <div className="list-group-item">
+                <VideoAddFormTest getVideoInfo={getVideoInfo} />
+              </div>
+              <div className="row card-group-row">
+                {videos.map((video) => (
+                  <VideoListItem
+                    videoInfo={video}
+                    removeVideo={removeVideo}
+                    key={video.vId}
                   />
-                </div>
+                ))}
+              </div>
+            </div>
+            <div className="detail_under_menu ">
+              <div className="card">
+                <PostSaveBtn
+                  options={options}
+                  onSubmitEvent={onSubmitEvent}
+                  state={formInfo.state}
+                />
               </div>
             </div>
           </div>
         </div>
-        <SideMenuBar />
       </div>
-    </>
+      <SideMenuBar />
+    </div>
   );
 };
 

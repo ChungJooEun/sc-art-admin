@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 
@@ -66,18 +66,6 @@ const EventDetailView = ({ options, isApproved, match }) => {
   const [detail, setDetail] = useState(null);
   const [videos, setVideos] = useState([]);
   const [vId, setVId] = useState(1);
-
-  const getVideoId = (url) => {
-    let videoId;
-
-    if (url.indexOf("watch?v=") === 24) {
-      videoId = url.slice(32, 43);
-    } else {
-      videoId = url.slice(17, 28);
-    }
-
-    return videoId;
-  };
 
   const history = useHistory();
 
@@ -207,6 +195,14 @@ const EventDetailView = ({ options, isApproved, match }) => {
   const [showPostCodeModal, setShowPostCodeModal] = useState(false);
   const togglePostCodeModal = () => {
     setShowPostCodeModal(!showPostCodeModal);
+  };
+
+  const removeVideo = (removeId) => {
+    let ary = videos;
+
+    ary = ary.filter((video) => video.vId !== removeId);
+
+    setVideos(ary);
   };
 
   useEffect(() => {
@@ -381,7 +377,8 @@ const EventDetailView = ({ options, isApproved, match }) => {
                 <div className="row card-group-row">
                   {videos.map((video) => (
                     <VideoListItem
-                      vId={getVideoId(video.url)}
+                      videoInfo={video}
+                      removeVideo={removeVideo}
                       key={video.vId}
                     />
                   ))}

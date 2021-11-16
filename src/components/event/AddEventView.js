@@ -74,20 +74,6 @@ const AddEventView = ({ options }) => {
   const [videos, setVideos] = useState([]);
   const [vId, setVId] = useState(1);
 
-  // const [loading, setLoading] = useState(true);
-
-  const getVideoId = (url) => {
-    let videoId;
-
-    if (url.indexOf("watch?v=") === 24) {
-      videoId = url.slice(32, 43);
-    } else {
-      videoId = url.slice(17, 28);
-    }
-
-    return videoId;
-  };
-
   const history = useHistory();
 
   const postEvent = async (eventData) => {
@@ -210,6 +196,14 @@ const AddEventView = ({ options }) => {
     setShowPostCodeModal(!showPostCodeModal);
   };
 
+  const removeVideo = (removeId) => {
+    let ary = videos;
+
+    ary = ary.filter((video) => video.vId !== removeId);
+
+    setVideos(ary);
+  };
+
   useEffect(() => {
     const srcList = [
       `${process.env.PUBLIC_URL}/assets/vendor/jquery.min.js`,
@@ -307,7 +301,8 @@ const AddEventView = ({ options }) => {
                 <div className="row card-group-row">
                   {videos.map((video) => (
                     <VideoListItem
-                      vId={getVideoId(video.url)}
+                      videoInfo={video}
+                      removeVideo={removeVideo}
                       key={video.vId}
                     />
                   ))}
