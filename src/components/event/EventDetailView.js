@@ -205,6 +205,24 @@ const EventDetailView = ({ options, isApproved, match }) => {
     setVideos(ary);
   };
 
+  const onClickRemoveBtn = () => {
+    removeEventPost();
+  };
+
+  const removeEventPost = async () => {
+    const url = `http://118.67.154.118:3000/api/admin/cultural-event/${formInfo.id}`;
+
+    try {
+      const res = await axios.delete(url);
+
+      if (res.status === 200) {
+        history.push("/event/event-manage");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     const srcList = [
       `${process.env.PUBLIC_URL}/assets/vendor/jquery.min.js`,
@@ -402,6 +420,7 @@ const EventDetailView = ({ options, isApproved, match }) => {
                     options={options}
                     onSubmitEvent={onSubmitEvent}
                     state={formInfo.state}
+                    onClickRemoveBtn={onClickRemoveBtn}
                   />
                   {isApproved ? "" : <RejectSection />}
                 </div>
