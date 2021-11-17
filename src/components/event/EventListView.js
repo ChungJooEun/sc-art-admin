@@ -65,6 +65,110 @@ const EventListView = ({ pageTitle, type }) => {
     }
   };
 
+  const [checkedList, setCheckedList] = useState([]);
+  const addCheckedList = (eventInfo) => {
+    setCheckedList(checkedList.concat(eventInfo.id));
+  };
+  const removeNoneCheckedList = (removeId) => {
+    let ary = checkedList;
+    ary = ary.filter((id) => id !== removeId);
+
+    setCheckedList(ary);
+  };
+
+  const [scList, setScList] = useState([]);
+  const [selectedScEvent, setSelectedScEvent] = useState("");
+  const onChangeScEvent = (e) => {
+    setSelectedScEvent(e.target.value);
+  };
+
+  const onClickAddBtn = () => {
+    if (selectedScEvent === "" || checkedList.length === 0) {
+      return;
+    } else {
+      const data = new FormData();
+
+      data.append("festival_id", selectedScEvent);
+
+      var ary = new Array();
+      for (let i = 0; i < checkedList.length; i++) {
+        ary.push(checkedList[i]);
+      }
+      console.log(ary);
+      data.append("related_event_list", ary);
+
+      // let idString = "";
+      // for (let i = 0; i < checkedList.length; i++) {
+      //   idString += checkedList + ",";
+      // }
+      // console.log(idString);
+      // data.append("related_event_list", JSON.stringify(idString));
+
+      data.append("userid", window.sessionStorage.getItem("userid"));
+
+      addRelatedEvent(data);
+    }
+  };
+
+  const addRelatedEvent = async (formData) => {
+    const url =
+      "http://118.67.154.118:3000/api/admin/seochogu-festival/add/related-event";
+    // const url = "/api/admin/seochogu-festival/add/related-event";
+
+    try {
+      const res = await axios.post(url, formData);
+
+      if (res.status === 200) {
+        console.log(res.data);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const onClickDeleteBtn = () => {
+    if (checkedList.length === 0) {
+      return;
+    } else {
+      console.log(" ======= 삭제 버튼 클릭 ======");
+      const data = new FormData();
+
+      var ary = new Array();
+      for (let i = 0; i < checkedList.length; i++) {
+        ary.push(checkedList[i]);
+      }
+      console.log(ary);
+      data.append("수정될key값", ary);
+
+      // let idString = "";
+      // for (let i = 0; i < checkedList.length; i++) {
+      //   idString += checkedList + ",";
+      // }
+      // console.log(idString);
+      // data.append("related_event_list", JSON.stringify(idString));
+
+      data.append("userid", window.sessionStorage.getItem("userid"));
+
+      // deleteEvents(data);
+    }
+  };
+
+  const deleteEvents = async (formData) => {
+    const url = "http://118.67.154.118:3000/api/admin/";
+
+    try {
+      const res = await axios.delete(url, formData);
+
+      if (res.status === 200) {
+        console.log(res.data);
+      }
+
+      getEventList();
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const getEventList = useCallback(async () => {
     const url = `http://118.67.154.118:3000/api/admin/cultural-event/list/${type}`;
     // const url = `/api/admin/cultural-event/list/${type}`;
@@ -122,7 +226,45 @@ const EventListView = ({ pageTitle, type }) => {
         break;
     }
 
+    const getScEventList = async () => {
+      const url = `http://118.67.154.118:3000/api/admin/seochogu-festival/list`;
+      // const url = `/api/admin/seochogu-festival/list`;
+
+      const today = new Date();
+      let fromDate = "" + today.getFullYear();
+
+      if (today.getMonth() < 9) {
+        fromDate += "0" + (today.getMonth() + 1);
+      } else {
+        fromDate += today.getMonth() + 1;
+      }
+
+      if (today.getDate() < 10) {
+        fromDate += "0" + today.getDate();
+      } else {
+        fromDate += today.getDate();
+      }
+
+      try {
+        const response = await axios.get(url, {
+          params: {
+            page: 1,
+            count: 1000,
+            from_date: fromDate,
+            userid: window.sessionStorage.getItem("userid"),
+          },
+        });
+
+        if (response.status === 200) {
+          setScList(response.data.list);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
     getEventList();
+    getScEventList();
   }, [getEventList, type]);
 
   if (eventList === null) {
@@ -183,15 +325,25 @@ const EventListView = ({ pageTitle, type }) => {
                 <select
                   id="custom-select"
                   className="form-control custom-select"
+                  placeholder="축제 선택"
+                  onChange={(e) => onChangeScEvent(e)}
                 >
-                  <option selected>서초구 축제</option>
-                  <option value="1">축제1</option>
-                  <option value="2">축제2</option>
-                  <option value="3">축제3</option>
+                  <option disabled selected>
+                    서초구 축제 선택
+                  </option>
+                  {scList.map((scInfo) => (
+                    <option value={scInfo.id} key={scInfo.id}>
+                      {scInfo.name}
+                    </option>
+                  ))}
                 </select>
               </form>
               <form className="d-none d-md-flex">
-                <button type="button" className="btn btn-primary">
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  nClick={() => onClickAddBtn()}
+                >
                   등록/이동{" "}
                 </button>
               </form>
@@ -230,6 +382,8 @@ const EventListView = ({ pageTitle, type }) => {
                   pageNumber={pageNumber}
                   count={count}
                   sorting={sorting}
+                  addCheckedList={addCheckedList}
+                  removeNoneCheckedList={removeNoneCheckedList}
                 />
               </div>
               <Paging
