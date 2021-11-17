@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const PostSaveBtn = React.memo(
-  ({ options, onSubmitEvent, state, onClickRemoveBtn }) => {
+  ({ options, onSubmitEvent, state, onClickRemoveBtn, showDelBtn }) => {
     const getOptions = () => {
       let optionAry = [
         <option selected value={options[0].value}>
@@ -44,15 +44,20 @@ const PostSaveBtn = React.memo(
               </select>
             </div>
             <div className="flex"></div>
-            <div className="col-auto d-flex flex-column">
-              <button
-                type="button"
-                className="btn btn-outline-secondary"
-                onClick={() => onClickRemoveBtn()}
-              >
-                삭제
-              </button>
-            </div>
+            {showDelBtn ? (
+              <div className="col-auto d-flex flex-column">
+                <button
+                  type="button"
+                  className="btn btn-outline-secondary"
+                  onClick={() => onClickRemoveBtn()}
+                >
+                  삭제
+                </button>
+              </div>
+            ) : (
+              ""
+            )}
+
             <div className="col-auto d-flex flex-column">
               <button type="button" className="btn btn-secondary">
                 취소
