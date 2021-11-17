@@ -343,6 +343,7 @@ const PlaceDetailView = ({ options, isApproved, match }) => {
                     options={options}
                     onSubmitEvent={onSubmitEvent}
                     state={formInfo.state}
+                    showDelBtn={true}
                   />
                   {isApproved ? "" : <RejectSection />}
                 </div>

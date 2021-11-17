@@ -421,6 +421,7 @@ const EventDetailView = ({ options, isApproved, match }) => {
                     onSubmitEvent={onSubmitEvent}
                     state={formInfo.state}
                     onClickRemoveBtn={onClickRemoveBtn}
+                    showDelBtn={true}
                   />
                   {isApproved ? "" : <RejectSection />}
                 </div>

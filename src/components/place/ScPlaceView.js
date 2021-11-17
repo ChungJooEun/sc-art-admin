@@ -176,6 +176,7 @@ const ScPlaceView = ({ pageTitle }) => {
                     options={options}
                     onSubmitEvent={onSubmitEvent}
                     state={postState}
+                    showDelBtn={true}
                   />
                 </div>
               </div>

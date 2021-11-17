@@ -200,6 +200,7 @@ const ApplicationList = ({ tableTitle, Table, type }) => {
                 getPageNumber={getPageNumber}
                 totalNum={totalNumber}
                 count={count}
+                showDelBtn={true}
               />
             </div>
           </div>
