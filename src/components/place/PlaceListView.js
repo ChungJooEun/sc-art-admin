@@ -90,6 +90,58 @@ const PlaceListView = ({ pageTitle, type }) => {
     setPageNumber(pickNumber);
   };
 
+  const [checkedList, setCheckedList] = useState([]);
+  const addCheckedList = (placeInfo) => {
+    setCheckedList(checkedList.concat(placeInfo.id));
+  };
+  const removeNoneCheckedList = (removeId) => {
+    let ary = checkedList;
+    ary = ary.filter((id) => id !== removeId);
+
+    setCheckedList(ary);
+  };
+  const onClickDeleteBtn = () => {
+    if (checkedList.length === 0) {
+      return;
+    } else {
+      console.log(" ======= 삭제 버튼 클릭 ======");
+      const data = new FormData();
+
+      var ary = new Array();
+      for (let i = 0; i < checkedList.length; i++) {
+        ary.push(checkedList[i]);
+      }
+      console.log(ary);
+      data.append("수정될key값", ary);
+
+      // let idString = "";
+      // for (let i = 0; i < checkedList.length; i++) {
+      //   idString += checkedList + ",";
+      // }
+      // console.log(idString);
+      // data.append("related_event_list", JSON.stringify(idString));
+
+      data.append("userid", window.sessionStorage.getItem("userid"));
+
+      // deleteEvents(data);
+    }
+  };
+  const deleteEvents = async (formData) => {
+    const url = "http://118.67.154.118:3000/api/admin/";
+
+    try {
+      const res = await axios.delete(url, formData);
+
+      if (res.status === 200) {
+        console.log(res.data);
+      }
+
+      getPlaceList();
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const { actions } = useContext(MenuContext);
   useEffect(() => {
     switch (type) {
@@ -187,6 +239,7 @@ const PlaceListView = ({ pageTitle, type }) => {
                 data-swal-confirm-button-text="확인"
                 data-swal-confirm-cb="#swal-confirm-delete"
                 data-swal-close-on-confirm="false"
+                onClick={() => onClickDeleteBtn()}
               >
                 삭제
               </button>
@@ -211,6 +264,8 @@ const PlaceListView = ({ pageTitle, type }) => {
                   pageNumber={pageNumber}
                   count={count}
                   sorting={sorting}
+                  addCheckedList={addCheckedList}
+                  removeNoneCheckedList={removeNoneCheckedList}
                 />
               </div>
               <Paging

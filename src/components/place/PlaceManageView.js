@@ -327,7 +327,7 @@ const PlaceManageView = () => {
               id="default-navbar"
               data-primary=""
             >
-              <form className="d-none d-md-flex">
+              <div className="d-none d-md-flex">
                 <button
                   type="button"
                   className="btn btn-accent"
@@ -335,7 +335,7 @@ const PlaceManageView = () => {
                 >
                   새로운 공간 등록하기 +{" "}
                 </button>
-              </form>
+              </div>
               <div className="flex"></div>
               <button
                 className="btn btn-warning ml-16pt"

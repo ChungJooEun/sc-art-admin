@@ -13,14 +13,6 @@ const CheckablePlaceList = ({
 }) => {
   let no = (pageNumber - 1) * count + 1;
 
-  const addCheckedItem = (placeInfo) => {
-    addCheckedList(placeInfo);
-  };
-
-  const removeCheckedItem = (rId) => {
-    removeNoneCheckedList(rId);
-  };
-
   return (
     <table className="table mb-0 thead-border-top-0 table-nowrap">
       <thead>
@@ -81,8 +73,8 @@ const CheckablePlaceList = ({
             placeInfo={placeInfo}
             no={no++}
             isModal={isModal}
-            addCheckedItem={addCheckedItem}
-            removeCheckedItem={removeCheckedItem}
+            addCheckedItem={addCheckedList}
+            removeCheckedItem={removeNoneCheckedList}
           />
         ))}
       </tbody>
