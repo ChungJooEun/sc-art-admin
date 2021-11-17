@@ -2,8 +2,25 @@ import React from "react";
 
 import CheckablePlaceListItem from "../place-components/CheckablePlaceListItem";
 
-const CheckablePlaceList = ({ list, pageNumber, count, isModal, sorting }) => {
+const CheckablePlaceList = ({
+  list,
+  pageNumber,
+  count,
+  isModal,
+  sorting,
+  addCheckedList,
+  removeNoneCheckedList,
+}) => {
   let no = (pageNumber - 1) * count + 1;
+
+  const addCheckedItem = (placeInfo) => {
+    addCheckedList(placeInfo);
+  };
+
+  const removeCheckedItem = (rId) => {
+    removeNoneCheckedList(rId);
+  };
+
   return (
     <table className="table mb-0 thead-border-top-0 table-nowrap">
       <thead>
@@ -64,6 +81,8 @@ const CheckablePlaceList = ({ list, pageNumber, count, isModal, sorting }) => {
             placeInfo={placeInfo}
             no={no++}
             isModal={isModal}
+            addCheckedItem={addCheckedItem}
+            removeCheckedItem={removeCheckedItem}
           />
         ))}
       </tbody>

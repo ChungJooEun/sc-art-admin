@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import { useHistory } from "react-router-dom";
 
-const replaceString = (string) => {
-  return string.replace(/-/gi, ".");
+const addDot = (string) => {
+  let result = "";
+  return result.concat(
+    string.slice(0, 4),
+    ".",
+    string.slice(4, 6),
+    ".",
+    string.slice(6)
+  );
 };
 
 const getStateName = (state) => {
@@ -22,18 +29,44 @@ const getStateName = (state) => {
   }
 };
 
-const CheckablePlaceListItem = ({ placeInfo, no, isModal }) => {
+const CheckablePlaceListItem = ({
+  placeInfo,
+  no,
+  isModal,
+  addCheckedItem,
+  removeCheckedItem,
+}) => {
   const history = useHistory();
+  const [checked, setChecked] = useState(false);
+
+  const checkBox = useRef();
+
+  const onChangeCheckBox = () => {
+    if (checked === false) {
+      setChecked(!checked);
+      checkBox.current.checked = true;
+      addCheckedItem(placeInfo);
+    } else {
+      setChecked(!checked);
+      checkBox.current.checked = false;
+      removeCheckedItem(placeInfo.id);
+    }
+  };
+
   return (
-    <tr className="selected">
+    <tr className={checked ? "selected" : ""}>
       <td className="pr-0">
         <div className="custom-control custom-checkbox">
           <input
             type="checkbox"
             className="custom-control-input js-check-selected-row"
-            id="customCheck1_4"
+            ref={checkBox}
           />
-          <label className="custom-control-label" for="customCheck1_4">
+          <label
+            className="custom-control-label"
+            for="customCheck1_4"
+            onClick={() => onChangeCheckBox()}
+          >
             <span className="text-hide">Check</span>
           </label>
         </div>
@@ -75,7 +108,7 @@ const CheckablePlaceListItem = ({ placeInfo, no, isModal }) => {
       </td>
       <td className="js-lists-values-place small">{placeInfo.address1}</td>
       <td className="js-lists-values-registration-date small">
-        {replaceString(placeInfo.create_date.slice(0, 10))}
+        {addDot(placeInfo.create_date.slice(0, 10))}
       </td>
       <td className="js-lists-values-employer-name small">
         {placeInfo.writer}
