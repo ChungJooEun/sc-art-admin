@@ -123,6 +123,7 @@ const EventInfoFormTest = React.memo(
               sort_column: "create_date",
               page: 1,
               count: 1000,
+              userid: window.sessionStorage.getItem("userid"),
             },
           });
 
