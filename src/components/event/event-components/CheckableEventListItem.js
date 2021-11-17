@@ -92,7 +92,7 @@ const CheckableEventListItem = ({
           {eventInfo.event_type_name}
         </span>
       </td>
-      <td className="js-lists-values-place small">{eventInfo.address1}</td>
+      <td className="js-lists-values-place small">{eventInfo.location}</td>
       <td className="js-lists-values-price small">
         {eventInfo.price === 0 ? "무료" : `${eventInfo.price}원`}
       </td>
@@ -105,7 +105,13 @@ const CheckableEventListItem = ({
       <td className="js-lists-values-employer-name small">
         {eventInfo.creator}
       </td>
-      <td className="js-lists-values-status small">{eventInfo.state_name}</td>
+      <td className="js-lists-values-status small">
+        {eventInfo.state_name === null
+          ? eventInfo.state === "PRIVATE"
+            ? "비공개"
+            : ""
+          : eventInfo.state_name}
+      </td>
     </tr>
   );
 };
