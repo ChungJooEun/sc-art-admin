@@ -5,6 +5,23 @@ const replaceString = (string) => {
   return string.replace(/-/gi, ".");
 };
 
+const getStateName = (state) => {
+  switch (state) {
+    case "WAIT":
+      return "대기중";
+    case "POST":
+      return "게시";
+    case "PRIVATE":
+      return "비공개";
+    case "TEMP_SAVE":
+      return "임시저장";
+    case "REJECT":
+      return "기각";
+    default:
+      return "비공개";
+  }
+};
+
 const CheckablePlaceListItem = ({ placeInfo, no, isModal }) => {
   const history = useHistory();
   return (
@@ -70,7 +87,7 @@ const CheckablePlaceListItem = ({ placeInfo, no, isModal }) => {
             : "js-lists-values-status small"
         }
       >
-        {placeInfo.state_name}
+        {getStateName(placeInfo.state)}
       </td>
     </tr>
   );
