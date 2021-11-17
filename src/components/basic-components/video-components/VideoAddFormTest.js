@@ -21,7 +21,7 @@ const VideoAddFormTest = ({ getVideoInfo }) => {
       <div className="form-row align-items-center">
         <label
           id="label-question"
-          for="question"
+          htmlFor="question"
           className="col-md-1 col-form-label form-label"
         >
           영상URL:{" "}

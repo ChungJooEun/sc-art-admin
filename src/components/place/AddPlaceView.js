@@ -198,7 +198,7 @@ const AddPlaceView = ({ options }) => {
         document.body.removeChild(scriptList[i]);
       }
     };
-  });
+  }, []);
   return (
     <div
       className="mdk-drawer-layout js-mdk-drawer-layout"

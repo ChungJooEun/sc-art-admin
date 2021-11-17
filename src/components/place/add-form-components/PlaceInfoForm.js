@@ -181,7 +181,7 @@ const PlaceInfoForm = ({
                 placeholder="www.site.com"
                 data-mask="#.##0,00"
                 data-mask-reverse="true"
-                autocomplete="off"
+                autoComplete="off"
                 value={formInfo.homepage}
                 onChange={(e) => getFormInfo("homepage", e.target.value)}
               />
@@ -204,8 +204,8 @@ const PlaceInfoForm = ({
                 className="form-control"
                 placeholder="000 0000 0000"
                 data-mask="(000) 000-0000"
-                autocomplete="off"
-                maxlength="14"
+                autoComplete="off"
+                maxLength="14"
                 value={formInfo.phone}
                 onChange={(e) => getFormInfo("phone", e.target.value)}
               />

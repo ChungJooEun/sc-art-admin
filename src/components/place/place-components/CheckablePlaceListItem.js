@@ -64,7 +64,7 @@ const CheckablePlaceListItem = ({
           />
           <label
             className="custom-control-label"
-            for="customCheck1_4"
+            htmlFor="customCheck1_4"
             onClick={() => onChangeCheckBox()}
           >
             <span className="text-hide">Check</span>
