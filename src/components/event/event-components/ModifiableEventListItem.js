@@ -6,13 +6,17 @@ import { useHistory } from "react-router-dom";
 
 const addDot = (string) => {
   let result = "";
-  return result.concat(
-    string.slice(0, 4),
-    ".",
-    string.slice(4, 6),
-    ".",
-    string.slice(6)
-  );
+  if (typeof string === "string") {
+    return result.concat(
+      string.slice(0, 4),
+      ".",
+      string.slice(4, 6),
+      ".",
+      string.slice(6)
+    );
+  } else {
+    return string;
+  }
 };
 
 const ModifiableEventListItem = ({ eventInfo, no, modifyEventState }) => {
