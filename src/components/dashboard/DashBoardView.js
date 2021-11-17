@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
+import MenuContext from "../../context/menu";
 
 import GlobalBar from "../basic-components/GlobalBar";
 import PageTitle from "../basic-components/PageTitle";
@@ -17,6 +18,8 @@ const pagePathList = [
 
 const DashBoardView = () => {
   const history = useHistory();
+
+  const { actions } = useContext(MenuContext);
   useEffect(() => {
     // let userId = window.localStorage.getItem("userid");
     // let token = window.localStorage.getItem("token");
@@ -28,12 +31,17 @@ const DashBoardView = () => {
       history.push("/common/login");
     }
 
-    if (!token || token === undefined) {
-      history.push("/common/login");
-    }
+    // if (!token || token === undefined) {
+    //   history.push("/common/login");
+    // }
+
+    actions.setMenu({
+      topMenu: 0,
+      subMenu: 0,
+    });
 
     // console.log("user id : " + userId + "\ntoken : " + token);
-  }, []);
+  }, [history]);
 
   return (
     <div

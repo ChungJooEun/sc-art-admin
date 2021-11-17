@@ -314,7 +314,18 @@ const EventDetailView = ({ options, isApproved, match }) => {
   }, []);
 
   if (formInfo === null || curationInfo === null) {
-    return <p>fail to loading data</p>;
+    return (
+      <div className="preloader">
+        <div className="sk-chase">
+          <div className="sk-chase-dot"></div>
+          <div className="sk-chase-dot"></div>
+          <div className="sk-chase-dot"></div>
+          <div className="sk-chase-dot"></div>
+          <div className="sk-chase-dot"></div>
+          <div className="sk-chase-dot"></div>
+        </div>
+      </div>
+    );
   }
 
   return (

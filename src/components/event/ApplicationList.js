@@ -1,5 +1,7 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useContext } from "react";
 import axios from "axios";
+import MenuContext from "../../context/menu";
+
 import GlobalBar from "../basic-components/GlobalBar";
 import PageTitle from "../basic-components/PageTitle";
 import Paging from "../basic-components/Paging";
@@ -131,16 +133,36 @@ const ApplicationList = ({ tableTitle, Table, type }) => {
     }
   }, [pageNumber, sortInfo]);
 
+  const { actions } = useContext(MenuContext);
   useEffect(() => {
     if (type === "event") {
+      actions.setMenu({
+        topMenu: 2,
+        subMenu: 6,
+      });
       getEventList();
     } else {
+      actions.setMenu({
+        topMenu: 3,
+        subMenu: 8,
+      });
       getPlaceList();
     }
   }, [getEventList, getPlaceList, type]);
 
   if (list === null) {
-    return <p>fail to loading data</p>;
+    return (
+      <div className="preloader">
+        <div className="sk-chase">
+          <div className="sk-chase-dot"></div>
+          <div className="sk-chase-dot"></div>
+          <div className="sk-chase-dot"></div>
+          <div className="sk-chase-dot"></div>
+          <div className="sk-chase-dot"></div>
+          <div className="sk-chase-dot"></div>
+        </div>
+      </div>
+    );
   }
 
   return (

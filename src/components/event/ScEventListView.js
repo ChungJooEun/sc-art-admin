@@ -1,6 +1,7 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useContext } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import MenuContext from "../../context/menu";
 
 import Paging from "../basic-components/Paging";
 import SideMenuBar from "../basic-components/SideMenuBar";
@@ -93,13 +94,29 @@ const ScEventListView = () => {
   }, [pageNumber, period, searchInfo, sortInfo]);
 
   const history = useHistory();
+  const { actions } = useContext(MenuContext);
 
   useEffect(() => {
     getList();
+    actions.setMenu({
+      topMenu: 2,
+      subMenu: 4,
+    });
   }, [getList]);
 
   if (scList === null) {
-    return <p>fail to loading data</p>;
+    return (
+      <div className="preloader">
+        <div className="sk-chase">
+          <div className="sk-chase-dot"></div>
+          <div className="sk-chase-dot"></div>
+          <div className="sk-chase-dot"></div>
+          <div className="sk-chase-dot"></div>
+          <div className="sk-chase-dot"></div>
+          <div className="sk-chase-dot"></div>
+        </div>
+      </div>
+    );
   }
 
   return (

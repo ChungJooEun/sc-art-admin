@@ -163,7 +163,7 @@ const TaskRequest = () => {
     totalNumEvent === null ||
     totalNumPlace === null
   ) {
-    return <p>fail to loading data</p>;
+    return <></>;
   }
 
   return (

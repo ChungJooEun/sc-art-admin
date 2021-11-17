@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useContext } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 
@@ -7,6 +7,7 @@ import Paging from "../basic-components/Paging";
 import PageTitle from "../basic-components/PageTitle";
 import CheckablePlaceList from "./place-components/CheckablePlaceList";
 import SideMenuBar from "../basic-components/SideMenuBar";
+import MenuContext from "../../context/menu";
 
 const pagePathList = [
   {
@@ -89,12 +90,53 @@ const PlaceListView = ({ pageTitle, type }) => {
     setPageNumber(pickNumber);
   };
 
+  const { actions } = useContext(MenuContext);
   useEffect(() => {
+    switch (type) {
+      case "hall":
+        actions.setMenu({
+          topMenu: 3,
+          subMenu: 1,
+        });
+        break;
+      case "practice":
+        actions.setMenu({
+          topMenu: 3,
+          subMenu: 2,
+        });
+        break;
+      case "instrument":
+        actions.setMenu({
+          topMenu: 3,
+          subMenu: 3,
+        });
+        break;
+      case "gallery":
+        actions.setMenu({
+          topMenu: 3,
+          subMenu: 4,
+        });
+        break;
+      default:
+        break;
+    }
+
     getPlaceList();
   }, [getPlaceList]);
 
   if (placeList === null) {
-    return <p>fail to loading data</p>;
+    return (
+      <div className="preloader">
+        <div className="sk-chase">
+          <div className="sk-chase-dot"></div>
+          <div className="sk-chase-dot"></div>
+          <div className="sk-chase-dot"></div>
+          <div className="sk-chase-dot"></div>
+          <div className="sk-chase-dot"></div>
+          <div className="sk-chase-dot"></div>
+        </div>
+      </div>
+    );
   }
 
   return (

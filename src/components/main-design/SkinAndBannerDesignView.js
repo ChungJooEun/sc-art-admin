@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import MenuContext from "../../context/menu";
 
 import GlobalBar from "../basic-components/GlobalBar";
 import PageTitle from "../basic-components/PageTitle";
@@ -33,6 +34,7 @@ const SkinAndBannerDesignView = () => {
   // 서초 실내악 축제
   const [chamverMusicVideos, setChamverMusicVidoes] = useState([]);
 
+  const { actions } = useContext(MenuContext);
   useEffect(() => {
     const srcList = [
       `${process.env.PUBLIC_URL}/assets/vendor/jquery.min.js`,
@@ -59,12 +61,17 @@ const SkinAndBannerDesignView = () => {
       document.body.appendChild(script);
     }
 
+    actions.setMenu({
+      topMenu: 1,
+      subMenu: 0,
+    });
+
     return () => {
       for (let i = 0; i < scriptList.length; i++) {
         document.body.removeChild(scriptList[i]);
       }
     };
-  });
+  }, []);
 
   return (
     <div

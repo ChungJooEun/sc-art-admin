@@ -1,6 +1,7 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useContext } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import MenuContext from "../../context/menu";
 
 import SideMenuBar from "../basic-components/SideMenuBar";
 import PageTitle from "../basic-components/PageTitle";
@@ -96,12 +97,47 @@ const EventListView = ({ pageTitle, type }) => {
     setPageNumber(pickNumber);
   };
 
+  const { actions } = useContext(MenuContext);
   useEffect(() => {
+    switch (type) {
+      case "exhibition":
+        actions.setMenu({
+          topMenu: 2,
+          subMenu: 1,
+        });
+        break;
+      case "show":
+        actions.setMenu({
+          topMenu: 2,
+          subMenu: 2,
+        });
+        break;
+      case "other":
+        actions.setMenu({
+          topMenu: 2,
+          subMenu: 3,
+        });
+        break;
+      default:
+        break;
+    }
+
     getEventList();
-  }, [getEventList]);
+  }, [getEventList, type]);
 
   if (eventList === null) {
-    return <p>fail to loading data</p>;
+    return (
+      <div className="preloader">
+        <div className="sk-chase">
+          <div className="sk-chase-dot"></div>
+          <div className="sk-chase-dot"></div>
+          <div className="sk-chase-dot"></div>
+          <div className="sk-chase-dot"></div>
+          <div className="sk-chase-dot"></div>
+          <div className="sk-chase-dot"></div>
+        </div>
+      </div>
+    );
   }
 
   return (

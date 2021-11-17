@@ -72,7 +72,7 @@ const ScModal = ({ closeModal, getEventList }) => {
   }
 
   if (!eventList || !totalNum) {
-    return <p>fail to loading data</p>;
+    return <></>;
   }
 
   return (

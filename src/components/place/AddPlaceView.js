@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import Select from "react-select";
+import MenuContext from "../../context/menu";
 
 import SideMenuBar from "../basic-components/SideMenuBar";
 import GlobalBar from "../basic-components/GlobalBar";
@@ -167,6 +168,7 @@ const AddPlaceView = ({ options }) => {
     setVideos(ary);
   };
 
+  const { actions } = useContext(MenuContext);
   useEffect(() => {
     const srcList = [
       `${process.env.PUBLIC_URL}/assets/vendor/perfect-scrollbar.min.js`,
@@ -185,6 +187,11 @@ const AddPlaceView = ({ options }) => {
       scriptList.push(script);
       document.body.appendChild(script);
     }
+
+    actions.setMenu({
+      topMenu: 3,
+      subMenu: 7,
+    });
 
     return () => {
       for (let i = 0; i < scriptList.length; i++) {

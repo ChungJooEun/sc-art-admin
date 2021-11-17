@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
+import MenuContext from "../../context/menu";
 
 import EditorTest from "../basic-components/editor-components/EditorTest";
 import GlobalBar from "../basic-components/GlobalBar";
@@ -66,6 +67,7 @@ const ScPlaceView = ({ pageTitle }) => {
     postScPlace(formData);
   };
 
+  const { actions } = useContext(MenuContext);
   useEffect(() => {
     const srcList = [
       `${process.env.PUBLIC_URL}/assets/vendor/jquery.min.js`,
@@ -126,6 +128,18 @@ const ScPlaceView = ({ pageTitle }) => {
         }
       }
     };
+
+    if (pageTitle === "서리풀 청년아트 센터") {
+      actions.setMenu({
+        topMenu: 3,
+        subMenu: 5,
+      });
+    } else {
+      actions.setMenu({
+        topMenu: 3,
+        subMenu: 6,
+      });
+    }
 
     getScplaceInfo();
 

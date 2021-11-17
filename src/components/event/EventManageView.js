@@ -1,6 +1,7 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useContext } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import MenuContext from "../../context/menu";
 
 import SideMenuBar from "../basic-components/SideMenuBar";
 import GlobalBar from "../basic-components/GlobalBar";
@@ -97,14 +98,30 @@ const EventManageView = () => {
     }
   };
 
+  const { actions } = useContext(MenuContext);
   useEffect(() => {
     console.log(window.sessionStorage.getItem("userid"));
 
+    actions.setMenu({
+      topMenu: 2,
+      subMenu: 0,
+    });
     getEventList();
   }, [getEventList]);
 
   if (eventList === null) {
-    return <p>fail to loading data</p>;
+    return (
+      <div className="preloader">
+        <div className="sk-chase">
+          <div className="sk-chase-dot"></div>
+          <div className="sk-chase-dot"></div>
+          <div className="sk-chase-dot"></div>
+          <div className="sk-chase-dot"></div>
+          <div className="sk-chase-dot"></div>
+          <div className="sk-chase-dot"></div>
+        </div>
+      </div>
+    );
   }
 
   return (

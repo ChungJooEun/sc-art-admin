@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import MenuContext from "../../context/menu";
+
 import GlobalBar from "../basic-components/GlobalBar";
 import PageTitle from "../basic-components/PageTitle";
 import SideMenuBar from "../basic-components/SideMenuBar";
@@ -28,9 +30,21 @@ const RecommendedListView = () => {
     setModalOn(!modalOn);
   };
 
+  const { actions } = useContext(MenuContext);
+
   useEffect(() => {
     if (window.location.href.includes("place")) {
       setPage("place");
+
+      actions.setMenu({
+        topMenu: 1,
+        subMenu: 2,
+      });
+    } else {
+      actions.setMenu({
+        topMenu: 1,
+        subMenu: 1,
+      });
     }
 
     const srcList = [
