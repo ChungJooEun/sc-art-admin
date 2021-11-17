@@ -245,6 +245,24 @@ const ScFestivalDetailView = ({ match }) => {
     }
   };
 
+  const onClickRemoveBtn = () => {
+    // removeEventPost();
+  };
+
+  const removeEventPost = async () => {
+    const url = `http://118.67.154.118:3000/api/admin/바꿔주기/${id}`;
+
+    try {
+      const res = await axios.delete(url);
+
+      if (res.status === 200) {
+        history.push("/event/event-manage");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const { actions } = useContext(MenuContext);
   useEffect(() => {
     // const srcList = [
@@ -596,6 +614,7 @@ const ScFestivalDetailView = ({ match }) => {
                 options={addPostOptions}
                 onSubmitEvent={onSubmitPost}
                 state={postState}
+                onClickRemoveBtn={onClickRemoveBtn}
               />
             </div>
           </div>
