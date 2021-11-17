@@ -123,12 +123,16 @@ const EventManageView = () => {
 
       data.append("festival_id", selectedScEvent);
 
-      var ary = new Array();
+      // var ary = new Array();
+      // for (let i = 0; i < checkedList.length; i++) {
+      //   ary.push(checkedList[i]);
+      // }
+      // console.log(ary);
+      // data.append("related_event_list", ary);
+
       for (let i = 0; i < checkedList.length; i++) {
-        ary.push(checkedList[i]);
+        data.append("related_event_list", checkedList[i]);
       }
-      console.log(ary);
-      data.append("related_event_list", ary);
 
       // let idString = "";
       // for (let i = 0; i < checkedList.length; i++) {
