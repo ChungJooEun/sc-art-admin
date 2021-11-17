@@ -157,6 +157,24 @@ const PlaceDetailView = ({ options, isApproved, match }) => {
     setVideos(ary);
   };
 
+  const onClickRemoveBtn = () => {
+    removeEventPost();
+  };
+
+  const removeEventPost = async () => {
+    const url = `http://118.67.154.118:3000/api/admin/cultural-space/${formInfo.id}`;
+
+    try {
+      const res = await axios.delete(url);
+
+      if (res.status === 200) {
+        history.push("/place/place-manage");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     const srcList = [
       `${process.env.PUBLIC_URL}/assets/vendor/perfect-scrollbar.min.js`,
@@ -343,6 +361,7 @@ const PlaceDetailView = ({ options, isApproved, match }) => {
                     options={options}
                     onSubmitEvent={onSubmitEvent}
                     state={formInfo.state}
+                    onClickRemoveBtn={onClickRemoveBtn}
                     showDelBtn={true}
                   />
                   {isApproved ? "" : <RejectSection />}
