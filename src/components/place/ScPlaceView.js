@@ -100,8 +100,8 @@ const ScPlaceView = ({ pageTitle }) => {
     }
 
     const getScplaceInfo = async () => {
-      //const url = "http://118.67.154.118:3000/api/admin/seoripul-space/list";
-      const url = "/api/admin/seoripul-space/list";
+      const url = "http://118.67.154.118:3000/api/admin/seoripul-space/list";
+      // const url = "/api/admin/seoripul-space/list";
 
       const res = await axios.get(url);
 
