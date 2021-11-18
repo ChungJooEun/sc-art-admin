@@ -8,7 +8,36 @@ const calcLastPage = (itemNum, onePage) => {
   }
 };
 
-const Paging = ({ pageNumber, getPageNumber, totalNum, count }) => {
+const Paging = React.memo(({ pageNumber, getPageNumber, totalNum, count }) => {
+  const lastPage = calcLastPage(totalNum, count);
+  const [showPaging, setShowPaging] = useState(false);
+
+  const toggleShowPaging = () => {
+    setShowPaging(!showPaging);
+  };
+
+  const calcFirstPage = () => {
+    if (pageNumber % count === 0) {
+      return (parseInt(pageNumber / count) - 1) * count;
+    } else {
+      return pageNumber - parseInt(pageNumber % count) + 1;
+    }
+  };
+
+  const calcEndPage = () => {
+    let endpage = (parseInt(pageNumber / count) + 1) * count;
+    if (endpage >= lastPage) {
+      return lastPage;
+    } else {
+      return endpage;
+    }
+  };
+
+  const goPickPage = (e) => {
+    getPageNumber(parseInt(e.target.innerText));
+    toggleShowPaging();
+  };
+
   const goPrevPage = () => {
     getPageNumber(pageNumber - 1);
   };
@@ -17,52 +46,21 @@ const Paging = ({ pageNumber, getPageNumber, totalNum, count }) => {
     getPageNumber(pageNumber + 1);
   };
 
-  const isEndPage = () => {
-    if (pageNumber * count >= totalNum) {
-      return true;
-    }
-    return false;
-  };
-
-  const [showPaging, setShowPaging] = useState(false);
-
-  const toggleShowPaging = () => {
-    setShowPaging(!showPaging);
-  };
-
-  const goPickPage = (e) => {
-    getPageNumber(parseInt(e.target.innerText));
-    toggleShowPaging();
-  };
-
-  const lastPage = calcLastPage(totalNum, 5);
-
   const drawPaging = () => {
     let pageAry = [];
-    let start =
-      pageNumber % 5 === 0
-        ? parseInt(pageNumber / 5) * 5 - 4
-        : parseInt(pageNumber / 5) * 5 + 1;
 
-    let end =
-      pageNumber % 5 === 0
-        ? parseInt(pageNumber / 5) * 5
-        : (parseInt(pageNumber / 5) + 1) * 5;
-
-    for (let i = start; i <= end; i++) {
-      if (i <= lastPage) {
-        pageAry.push(
-          <span
-            className={
-              i === pageNumber ? "dropdown-item active" : "dropdown-item"
-            }
-            onClick={(e) => goPickPage(e)}
-            key={i}
-          >
-            {i}
-          </span>
-        );
-      }
+    for (let i = calcFirstPage(); i <= calcEndPage(); i++) {
+      pageAry.push(
+        <span
+          className={
+            i === pageNumber ? "dropdown-item active" : "dropdown-item"
+          }
+          onClick={(e) => goPickPage(e)}
+          key={i}
+        >
+          {i}
+        </span>
+      );
     }
 
     return pageAry;
@@ -105,7 +103,11 @@ const Paging = ({ pageNumber, getPageNumber, totalNum, count }) => {
             {drawPaging()}
           </div>
         </li>
-        <li className={isEndPage() ? "page-item disabled" : "page-item"}>
+        <li
+          className={
+            pageNumber === lastPage ? "page-item disabled" : "page-item"
+          }
+        >
           <a
             className="page-link"
             aria-label="Next"
@@ -120,6 +122,6 @@ const Paging = ({ pageNumber, getPageNumber, totalNum, count }) => {
       </ul>
     </div>
   );
-};
+});
 
 export default Paging;
