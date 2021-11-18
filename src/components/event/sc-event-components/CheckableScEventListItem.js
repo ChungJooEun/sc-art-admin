@@ -16,6 +16,23 @@ const addDot = (string) => {
   );
 };
 
+const convertDateFormat = (date) => {
+  let str = "" + date.getFullYear();
+
+  if (date.getMonth() < 9) {
+    str += "0" + (date.getMonth() + 1);
+  } else {
+    str += date.getMonth() + 1;
+  }
+
+  if (date.getDate() < 10) {
+    str += "0" + date.getDate();
+  } else {
+    str += date.getDate();
+  }
+  return str;
+};
+
 const CheckableScEventListItem = ({
   scInfo,
   no,
@@ -25,23 +42,13 @@ const CheckableScEventListItem = ({
   const history = useHistory();
 
   const getState = () => {
-    const today = new Date();
-    const startDate = new Date(
-      parseInt(scInfo.open_date.slice(0, 4)),
-      parseInt(scInfo.open_date.slice(4, 6)) - 1,
-      parseInt(scInfo.open_date.slice(6))
-    );
-    const endDate = new Date(
-      parseInt(scInfo.close_date.slice(0, 4)),
-      parseInt(scInfo.close_date.slice(4, 6)) - 1,
-      parseInt(scInfo.close_date.slice(6))
-    );
+    const today = convertDateFormat(new Date());
 
-    if (today < startDate) {
+    if (today < scInfo.open_date) {
       return "대기중";
-    } else if (startDate <= today && today <= endDate) {
+    } else if (scInfo.open_date <= today && today <= scInfo.close_date) {
       return "진행중";
-    } else if (endDate < today) {
+    } else {
       return "종료";
     }
   };
