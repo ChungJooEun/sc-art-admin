@@ -39,7 +39,9 @@ const ModifiableEventListItem = ({ eventInfo, no, modifyEventState }) => {
               <p className="mb-0 txt_line_table_title">
                 <span
                   onClick={() =>
-                    history.push(`/event/event-detail/${eventInfo.id}`)
+                    history.push(
+                      `/event/event-application-detail/${eventInfo.id}`
+                    )
                   }
                 >
                   <strong className="js-lists-values-cultural-event">
