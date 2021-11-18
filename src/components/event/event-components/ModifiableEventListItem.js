@@ -36,19 +36,25 @@ const ModifiableEventListItem = ({ eventInfo, no, modifyEventState }) => {
         >
           <div className="media-body">
             <div className="d-flex flex-column">
-              <span
-                onClick={() =>
-                  history.push(
-                    `/event/event-application-detail/${eventInfo.id}`
-                  )
-                }
-                className="mb-0 txt_line_table_title"
-              >
-                <strong className="js-lists-values-cultural-event">
-                  {eventInfo.name}
-                </strong>
-              </span>
-              <small className="js-lists-values-employee-email text-50"></small>
+              <p className="mb-0 txt_line_table_title">
+                <span
+                  onClick={() =>
+                    history.push(`/event/event-detail/${eventInfo.id}`)
+                  }
+                >
+                  <strong className="js-lists-values-cultural-event">
+                    {eventInfo.name}
+                  </strong>
+                </span>
+              </p>
+
+              {eventInfo.festival_name !== null ? (
+                <smal className="js-lists-values-employee-email text-50">
+                  {eventInfo.festival_name}
+                </smal>
+              ) : (
+                ""
+              )}
             </div>
           </div>
         </div>

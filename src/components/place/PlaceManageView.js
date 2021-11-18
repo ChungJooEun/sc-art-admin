@@ -111,7 +111,7 @@ const PlaceManageView = () => {
       }
 
       data.id_list = ary;
-      data.userid= window.sessionStorage.getItem("userid"));
+      data.userid = window.sessionStorage.getItem("userid");
 
       deletePlaces(data);
     }
