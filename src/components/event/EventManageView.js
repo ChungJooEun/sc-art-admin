@@ -119,15 +119,16 @@ const EventManageView = () => {
     if (selectedScEvent === "" || checkedList.length === 0) {
       return;
     } else {
-      const data = new FormData();
+      const data = new Object();
+      let ary = new Array();
 
-      data.append("festival_id", selectedScEvent);
+      data.festival_id = selectedScEvent;
 
       for (let i = 0; i < checkedList.length; i++) {
-        data.append("related_event_list", checkedList[i]);
+        ary.push(checkedList[i]);
       }
-
-      data.append("userid", window.sessionStorage.getItem("userid"));
+      data.related_event_list = ary;
+      data.userid = window.sessionStorage.getItem("userid");
 
       addRelatedEvent(data);
     }
@@ -143,6 +144,7 @@ const EventManageView = () => {
 
       if (res.status === 200) {
         console.log(res.data);
+        getEventList();
       }
     } catch (e) {
       console.log(e);
