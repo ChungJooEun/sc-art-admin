@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
+import axios from "axios";
 import MenuContext from "../../context/menu";
 
 import GlobalBar from "../basic-components/GlobalBar";
@@ -33,6 +34,114 @@ const SkinAndBannerDesignView = () => {
   const [fridayConcertVideos, setFridayConcertVideos] = useState([]);
   // 서초 실내악 축제
   const [chamverMusicVideos, setChamverMusicVidoes] = useState([]);
+
+  const [vIdInfos, setvIdInfos] = useState({
+    artId: 0,
+    instrument: 0,
+    concert: 0,
+    chamver: 0,
+  });
+
+  // 메인 베너 이미지 가져오기
+  const getMainBannerImg = (imgFile) => {
+    setMainBanner(imgFile);
+  };
+
+  // 공지사항 / 이벤트 배너 입력 정보 가져오기
+  const getBannerInfo = (imgFile, link, imgBase64) => {
+    setNoticeAndEventBanner(
+      noticeAndEventBanner.concat({
+        link: link,
+        imgFile: imgFile,
+        imgBase64: imgBase64,
+      })
+    );
+  };
+
+  // 동영상 관리 > 추가 버튼 눌렀을 시에 해당 리스트에 저장(id도 증가)
+  const getVideoInfo = (url, type) => {
+    switch (type) {
+      case 0:
+        setArtGalleryVideos(
+          artGalleryVideos.concat({ vId: vIdInfos.artId, url: url })
+        );
+        setvIdInfos({
+          ...vIdInfos,
+          artId: vIdInfos.artId + 1,
+        });
+        break;
+      case 1:
+        setInstrumentStreetVideos(
+          instrumentStreetVideos.concat({ vId: vIdInfos.instrument, url: url })
+        );
+        setvIdInfos({
+          ...vIdInfos,
+          instrument: vIdInfos.instrument + 1,
+        });
+        break;
+      case 2:
+        setFridayConcertVideos(
+          fridayConcertVideos.concat({ vId: vIdInfos.concert, url: url })
+        );
+        setvIdInfos({
+          ...vIdInfos,
+          concert: vIdInfos.concert + 1,
+        });
+        break;
+      case 3:
+        setChamverMusicVidoes(
+          chamverMusicVideos.concat({ vId: vIdInfos.chamver, url: url })
+        );
+        setvIdInfos({
+          ...vIdInfos,
+          chamver: vIdInfos.chamver + 1,
+        });
+        break;
+      default:
+        break;
+    }
+  };
+
+  // 배열과 삭제할 id를 받아 조건으로 삭제 후 return
+  const removeAtList = (rId, list) => {
+    let ary = list;
+    ary = ary.filter((item) => item.vId !== rId);
+    return ary;
+  };
+
+  // 비디오 삭제 버튼 클릭시,
+  const getRemoveVideoInfo = (rId, type) => {
+    switch (type) {
+      case 0:
+        setArtGalleryVideos(removeAtList(rId, artGalleryVideos));
+        break;
+      case 1:
+        setInstrumentStreetVideos(removeAtList(rId, instrumentStreetVideos));
+        break;
+      case 2:
+        setFridayConcertVideos(removeAtList(rId, fridayConcertVideos));
+        break;
+      case 3:
+        setChamverMusicVidoes(removeAtList(rId, chamverMusicVideos));
+        break;
+      default:
+        break;
+    }
+  };
+
+  const saveBannerInfo = async (data) => {
+    const url = "http://118.67.154.118:3000/api/admin/main/modify";
+
+    try {
+      const res = await axios.post(url, data);
+
+      if (res.status === 200) {
+        console.log(" ==== seccess save data ====");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const { actions } = useContext(MenuContext);
   useEffect(() => {
@@ -87,10 +196,23 @@ const SkinAndBannerDesignView = () => {
         />
 
         <div className="container-fluid page__container">
-          <MainBanner />
-          <NoticeAndEventBanner />
+          <MainBanner
+            getMainBannerImg={getMainBannerImg}
+            imgFile={mainBanner}
+          />
+          <NoticeAndEventBanner
+            getBannerInfo={getBannerInfo}
+            noticeAndEventBanner={noticeAndEventBanner}
+          />
 
-          <VideoManagement />
+          <VideoManagement
+            artGalleryVideos={artGalleryVideos}
+            instrumentStreetVideos={instrumentStreetVideos}
+            fridayConcertVideos={fridayConcertVideos}
+            chamverMusicVideos={chamverMusicVideos}
+            getVideoInfo={getVideoInfo}
+            getRemoveVideoInfo={getRemoveVideoInfo}
+          />
 
           <div className="save-button page-section">
             <button className="btn btn btn-secondary ml-16pt">취소</button>

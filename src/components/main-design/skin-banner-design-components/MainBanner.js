@@ -1,6 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
 
-const MainBanner = () => {
+const MainBanner = ({ getMainBannerImg, imgFile }) => {
+  const [imgBase64, setImgBase64] = useState([]);
+
+  const onChangeImgFile = (e) => {
+    const imgFileAry = e.target.files;
+
+    setImgBase64([]);
+    getMainBannerImg(imgFileAry[0]);
+
+    for (let i = 0; i < imgFileAry.length; i++) {
+      if (imgFileAry[i]) {
+        let reader = new FileReader();
+
+        // 1. 파일 읽어서 버퍼에 저장
+        reader.readAsDataURL(imgFileAry[i]);
+
+        // 파일 상태 업데이트
+        reader.onloadend = () => {
+          // 읽기 완료시, 아래 코드 실행
+          const base64 = reader.result;
+
+          if (base64) {
+            var base64Sub = base64.toString();
+
+            // 파일 base64 상태 업데이트
+            setImgBase64((imgBase64) => [...imgBase64, base64Sub]);
+          }
+        };
+      }
+    }
+  };
+
+  const getImgSrc = () => {
+    if (imgBase64.length === 1) {
+      return imgBase64[0];
+    } else if (imgFile) {
+      return `http://118.67.154.118:3000${imgFile}`;
+      // return `http://localhost:3000${imgSrc}`;
+    } else {
+      return "/assets/images/256_rsz_thomas-russell-751613-unsplash.jpg";
+    }
+  };
+
   return (
     <div className="page-section">
       <div className="page-separator">
@@ -16,7 +58,7 @@ const MainBanner = () => {
             <div className="form-row">
               <div className="flex" style={{ maxWidth: "100%" }}>
                 <img
-                  src="../assets/images/256_rsz_thomas-russell-751613-unsplash.jpg"
+                  src={getImgSrc()}
                   className="avatar-img rounded"
                   alt=""
                   data-dz-thumbnail
@@ -42,9 +84,10 @@ const MainBanner = () => {
               <div className="col-md-10">
                 <input
                   type="file"
+                  accept="image/*"
                   className=""
                   id="customFileUploadMultiple"
-                  multiple
+                  onChange={(e) => onChangeImgFile(e)}
                 />
                 <label className="" htmlFor="customFileUploadMultiple"></label>
               </div>
