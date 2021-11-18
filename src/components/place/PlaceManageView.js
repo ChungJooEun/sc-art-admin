@@ -103,33 +103,27 @@ const PlaceManageView = () => {
     if (checkedList.length === 0) {
       return;
     } else {
-      console.log(" ======= 삭제 버튼 클릭 ======");
-      const data = new FormData();
+      const data = new Object();
+      let ary = new Array();
 
-      var ary = new Array();
       for (let i = 0; i < checkedList.length; i++) {
         ary.push(checkedList[i]);
       }
-      console.log(ary);
-      data.append("수정될key값", ary);
 
-      // let idString = "";
-      // for (let i = 0; i < checkedList.length; i++) {
-      //   idString += checkedList + ",";
-      // }
-      // console.log(idString);
-      // data.append("related_event_list", JSON.stringify(idString));
+      data.id_list = ary;
+      data.userid= window.sessionStorage.getItem("userid"));
 
-      data.append("userid", window.sessionStorage.getItem("userid"));
-
-      // deleteEvents(data);
+      deletePlaces(data);
     }
   };
-  const deleteEvents = async (formData) => {
-    const url = "http://118.67.154.118:3000/api/admin/";
+  const deletePlaces = async (formData) => {
+    const url = "http://118.67.154.118:3000/api/admin/cultural-space";
+    // const url = "/api/admin/cultural-space";
 
     try {
-      const res = await axios.delete(url, formData);
+      const res = await axios.delete(url, {
+        data: formData,
+      });
 
       if (res.status === 200) {
         console.log(res.data);
