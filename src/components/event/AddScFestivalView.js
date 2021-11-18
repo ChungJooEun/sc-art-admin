@@ -283,7 +283,7 @@ const AddScFestivalView = () => {
       topMenu: 2,
       subMenu: 4,
     });
-  });
+  }, []);
 
   return (
     <div
