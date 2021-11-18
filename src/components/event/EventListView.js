@@ -133,37 +133,28 @@ const EventListView = ({ pageTitle, type }) => {
       console.log(" ======= 삭제 버튼 클릭 ======");
       const data = new FormData();
 
-      var ary = new Array();
       for (let i = 0; i < checkedList.length; i++) {
-        ary.push(checkedList[i]);
+        data.append("id_list", checkedList[i]);
       }
-      console.log(ary);
-      data.append("수정될key값", ary);
-
-      // let idString = "";
-      // for (let i = 0; i < checkedList.length; i++) {
-      //   idString += checkedList + ",";
-      // }
-      // console.log(idString);
-      // data.append("related_event_list", JSON.stringify(idString));
 
       data.append("userid", window.sessionStorage.getItem("userid"));
 
-      // deleteEvents(data);
+      deleteEvents(data);
     }
   };
 
   const deleteEvents = async (formData) => {
-    const url = "http://118.67.154.118:3000/api/admin/";
+    const url = "http://118.67.154.118:3000/api/admin/cultural-event";
 
     try {
-      const res = await axios.delete(url, formData);
+      const res = await axios.delete(url, {
+        data: formData,
+      });
 
       if (res.status === 200) {
         console.log(res.data);
+        getEventList();
       }
-
-      getEventList();
     } catch (e) {
       console.log(e);
     }
@@ -338,7 +329,7 @@ const EventListView = ({ pageTitle, type }) => {
                   ))}
                 </select>
               </form>
-              <form className="d-none d-md-flex">
+              <div className="d-none d-md-flex">
                 <button
                   type="button"
                   className="btn btn-primary"
@@ -346,7 +337,7 @@ const EventListView = ({ pageTitle, type }) => {
                 >
                   등록/이동{" "}
                 </button>
-              </form>
+              </div>
               <button
                 className="btn btn-warning ml-16pt"
                 data-toggle="swal"
@@ -357,6 +348,7 @@ const EventListView = ({ pageTitle, type }) => {
                 data-swal-confirm-button-text="확인"
                 data-swal-confirm-cb="#swal-confirm-delete"
                 data-swal-close-on-confirm="false"
+                onClick={() => onClickDeleteBtn()}
               >
                 삭제
               </button>

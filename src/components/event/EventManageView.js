@@ -123,23 +123,9 @@ const EventManageView = () => {
 
       data.append("festival_id", selectedScEvent);
 
-      // var ary = new Array();
-      // for (let i = 0; i < checkedList.length; i++) {
-      //   ary.push(checkedList[i]);
-      // }
-      // console.log(ary);
-      // data.append("related_event_list", ary);
-
       for (let i = 0; i < checkedList.length; i++) {
         data.append("related_event_list", checkedList[i]);
       }
-
-      // let idString = "";
-      // for (let i = 0; i < checkedList.length; i++) {
-      //   idString += checkedList + ",";
-      // }
-      // console.log(idString);
-      // data.append("related_event_list", JSON.stringify(idString));
 
       data.append("userid", window.sessionStorage.getItem("userid"));
 
@@ -170,37 +156,29 @@ const EventManageView = () => {
       console.log(" ======= 삭제 버튼 클릭 ======");
       const data = new FormData();
 
-      var ary = new Array();
       for (let i = 0; i < checkedList.length; i++) {
-        ary.push(checkedList[i]);
+        data.append("id_list", checkedList[i]);
       }
-      console.log(ary);
-      data.append("수정될key값", ary);
-
-      // let idString = "";
-      // for (let i = 0; i < checkedList.length; i++) {
-      //   idString += checkedList + ",";
-      // }
-      // console.log(idString);
-      // data.append("related_event_list", JSON.stringify(idString));
 
       data.append("userid", window.sessionStorage.getItem("userid"));
 
-      // deleteEvents(data);
+      deleteEvents(data);
     }
   };
 
   const deleteEvents = async (formData) => {
-    const url = "http://118.67.154.118:3000/api/admin/";
+    const url = "http://118.67.154.118:3000/api/admin/cultural-event";
+    // const url = "/api/admin/cultural-event";
 
     try {
-      const res = await axios.delete(url, formData);
+      const res = await axios.delete(url, {
+        data: formData,
+      });
 
       if (res.status === 200) {
         console.log(res.data);
+        getEventList();
       }
-
-      getEventList();
     } catch (e) {
       console.log(e);
     }
