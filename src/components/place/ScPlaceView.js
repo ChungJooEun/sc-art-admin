@@ -26,10 +26,8 @@ const options = [
 ];
 const ScPlaceView = ({ pageTitle }) => {
   const history = useHistory();
-  const [id, setId] = useState(null);
-  const [name, setName] = useState(null);
-  const [postState, setPostState] = useState(null);
-  const [detail, setDetail] = useState(null);
+  const [postState, setPostState] = useState("");
+  const [detail, setDetail] = useState("");
   const getDetail = (e) => {
     setDetail(e);
   };
@@ -56,10 +54,11 @@ const ScPlaceView = ({ pageTitle }) => {
   };
 
   const onSubmitEvent = (formState) => {
+    console.log(formState);
+
     let formData = new FormData();
 
-    if (id !== null) formData.append(id, id);
-    formData.append("name", name);
+    formData.append("name", pageTitle);
     formData.append("state", formState);
     formData.append("more_information", detail);
     formData.append("userid", window.sessionStorage.getItem("userid"));
@@ -102,32 +101,25 @@ const ScPlaceView = ({ pageTitle }) => {
     }
 
     const getScplaceInfo = async () => {
-      const url = "http://118.67.154.118:3000/api/admin/seoripul-space/list";
-      // const url = "/api/admin/seoripul-space/list";
+      const url = `http://118.67.154.118:3000/api/admin/seoripul-space/detail/${encodeURIComponent(
+        pageTitle
+      )}`;
 
-      const res = await axios.get(url);
+      try {
+        const res = await axios.get(url);
 
-      if (res.status === 200) {
-        let findData = false;
+        if (res.status === 200) {
+          console.log(res.data);
 
-        for (let i = res.data.list.length - 1; -1 < i; i--) {
-          if (res.data.list[i].name === pageTitle) {
-            setName(res.data.list[i].name);
-            setPostState(res.data.list[i].state);
-            setDetail(res.data.list[i].more_information);
-            setId(res.data.id);
-            findData = true;
-            break;
-          }
+          setPostState(res.data.state);
+          setDetail(res.data.more_information);
         }
-
-        if (!findData) {
-          setName(pageTitle);
-          setPostState("");
-          setDetail("");
-        }
+      } catch (e) {
+        console.log(e);
       }
     };
+
+    getScplaceInfo();
 
     if (pageTitle === "서리풀 청년아트 센터") {
       actions.setMenu({
@@ -140,8 +132,6 @@ const ScPlaceView = ({ pageTitle }) => {
         subMenu: 6,
       });
     }
-
-    getScplaceInfo();
 
     return () => {
       for (let i = 0; i < scriptList.length; i++) {
@@ -176,7 +166,6 @@ const ScPlaceView = ({ pageTitle }) => {
                     options={options}
                     onSubmitEvent={onSubmitEvent}
                     state={postState}
-                    showDelBtn={true}
                   />
                 </div>
               </div>
