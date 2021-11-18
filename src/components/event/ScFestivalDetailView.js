@@ -246,17 +246,31 @@ const ScFestivalDetailView = ({ match }) => {
   };
 
   const onClickRemoveBtn = () => {
-    // removeEventPost();
+    if (id === null) {
+      return;
+    }
+
+    console.log(" ======= 삭제 버튼 클릭 ======");
+
+    const obj = new Object();
+    let ary = new Array();
+
+    ary.push(id);
+    obj.id_list = ary;
+    obj.userid = window.sessionStorage.getItem("userid");
+
+    removeEventPost(obj);
   };
 
-  const removeEventPost = async () => {
-    const url = `http://118.67.154.118:3000/api/admin/바꿔주기/${id}`;
-
+  const removeEventPost = async (formdata) => {
+    const url = "http://118.67.154.118:3000/api/admin/seochogu-festival";
+    // const url = "/api/admin/seochogu-festival";
     try {
-      const res = await axios.delete(url);
+      const res = await axios.delete(url, { data: formdata });
 
       if (res.status === 200) {
-        history.push("/event/event-manage");
+        console.log(res.dsta);
+        history.push("/event/seocho-festival");
       }
     } catch (e) {
       console.log(e);
@@ -613,6 +627,7 @@ const ScFestivalDetailView = ({ match }) => {
               <PostSaveBtn
                 options={addPostOptions}
                 onSubmitEvent={onSubmitPost}
+                showDelBtn={true}
                 state={postState}
                 onClickRemoveBtn={onClickRemoveBtn}
               />

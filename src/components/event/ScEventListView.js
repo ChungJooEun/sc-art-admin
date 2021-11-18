@@ -65,6 +65,52 @@ const ScEventListView = () => {
     setPageNumber(pickNumber);
   };
 
+  const [checkedList, setCheckedList] = useState([]);
+  const addCheckedList = (id) => {
+    setCheckedList(checkedList.concat(id));
+  };
+  const removeNoneCheckedList = (removeId) => {
+    let ary = checkedList;
+    ary = ary.filter((id) => id !== removeId);
+
+    setCheckedList(ary);
+  };
+
+  const onClickDeleteBtn = () => {
+    if (checkedList.length === 0) {
+      return;
+    } else {
+      const data = new Object();
+      let ary = new Array();
+      for (let i = 0; i < checkedList.length; i++) {
+        ary.push(checkedList[i]);
+      }
+      data.id_list = ary;
+      data.userid = window.sessionStorage.getItem("userid");
+
+      deleteEvents(data);
+    }
+  };
+
+  const deleteEvents = async (formData) => {
+    const url = "http://118.67.154.118:3000/api/admin/seochogu-festival";
+    // const url = "/api/admin/seochogu-festival";
+
+    try {
+      const res = await axios.delete(url, {
+        data: formData,
+      });
+
+      if (res.status === 200) {
+        console.log(res.data);
+      }
+
+      getList();
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const getList = useCallback(async () => {
     const url = `http://118.67.154.118:3000/api/admin/seochogu-festival/list`;
     // const url = `/api/admin/seochogu-festival/list`;
@@ -166,6 +212,7 @@ const ScEventListView = () => {
                 data-swal-confirm-button-text="확인"
                 data-swal-confirm-cb="#swal-confirm-delete"
                 data-swal-close-on-confirm="false"
+                onClick={() => onClickDeleteBtn()}
               >
                 삭제
               </button>
@@ -190,6 +237,8 @@ const ScEventListView = () => {
                   pageNumber={pageNumber}
                   count={count}
                   sorting={sorting}
+                  addCheckedList={addCheckedList}
+                  removeNoneCheckedList={removeNoneCheckedList}
                 />
               </div>
               <Paging
