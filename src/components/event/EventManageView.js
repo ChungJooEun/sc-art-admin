@@ -153,26 +153,27 @@ const EventManageView = () => {
     if (checkedList.length === 0) {
       return;
     } else {
-      console.log(" ======= 삭제 버튼 클릭 ======");
-      const data = new FormData();
+      const data = new Object();
+      let ary = new Array();
 
       for (let i = 0; i < checkedList.length; i++) {
-        data.append("id_list", checkedList[i]);
+        ary.push(checkedList[i]);
       }
 
-      data.append("userid", window.sessionStorage.getItem("userid"));
+      data.id_list = ary;
+      data.userid = window.sessionStorage.getItem("userid");
 
       deleteEvents(data);
     }
   };
 
-  const deleteEvents = async (formData) => {
+  const deleteEvents = async (data) => {
     const url = "http://118.67.154.118:3000/api/admin/cultural-event";
     // const url = "/api/admin/cultural-event";
 
     try {
       const res = await axios.delete(url, {
-        data: formData,
+        data: data,
       });
 
       if (res.status === 200) {

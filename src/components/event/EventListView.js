@@ -130,14 +130,15 @@ const EventListView = ({ pageTitle, type }) => {
     if (checkedList.length === 0) {
       return;
     } else {
-      console.log(" ======= 삭제 버튼 클릭 ======");
-      const data = new FormData();
+      const data = new Object();
+      let ary = new Array();
 
       for (let i = 0; i < checkedList.length; i++) {
-        data.append("id_list", checkedList[i]);
+        ary.push(checkedList[i]);
       }
 
-      data.append("userid", window.sessionStorage.getItem("userid"));
+      data.id_list = ary;
+      data.userid = window.sessionStorage.getItem("userid");
 
       deleteEvents(data);
     }
