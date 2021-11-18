@@ -21,9 +21,6 @@ const DashBoardView = () => {
 
   const { actions } = useContext(MenuContext);
   useEffect(() => {
-    // let userId = window.localStorage.getItem("userid");
-    // let token = window.localStorage.getItem("token");
-
     let userId = window.sessionStorage.getItem("userid");
     let token = window.sessionStorage.getItem("token");
 
@@ -31,16 +28,38 @@ const DashBoardView = () => {
       history.push("/common/login");
     }
 
-    // if (!token || token === undefined) {
-    //   history.push("/common/login");
-    // }
-
     actions.setMenu({
       topMenu: 0,
       subMenu: 0,
     });
 
-    // console.log("user id : " + userId + "\ntoken : " + token);
+    const srcList = [
+      `${process.env.PUBLIC_URL}/assets/vendor/jquery.min.js`,
+      `${process.env.PUBLIC_URL}/assets/vendor/popper.min.js`,
+      `${process.env.PUBLIC_URL}/assets/vendor/bootstrap.min.js`,
+      `${process.env.PUBLIC_URL}/assets/vendor/perfect-scrollbar.min.js`,
+      `${process.env.PUBLIC_URL}/assets/vendor/dom-factory.js`,
+      `${process.env.PUBLIC_URL}/assets/vendor/material-design-kit.js`,
+      `${process.env.PUBLIC_URL}/assets/js/app.js`,
+      `${process.env.PUBLIC_URL}/assets/js/hljs.js`,
+      `${process.env.PUBLIC_URL}/assets/js/settings.js`,
+      `${process.env.PUBLIC_URL}/assets/js/app-settings.js`,
+    ];
+    let scriptList = [];
+
+    for (let i = 0; i < srcList.length; i++) {
+      const script = document.createElement("script");
+      script.src = process.env.PUBLIC_URL + srcList[i];
+      script.async = true;
+      scriptList.push(script);
+      document.body.appendChild(script);
+    }
+
+    return () => {
+      for (let i = 0; i < scriptList.length; i++) {
+        document.body.removeChild(scriptList[i]);
+      }
+    };
   }, [history]);
 
   return (

@@ -224,33 +224,6 @@ const EventDetailView = ({ options, isApproved, match }) => {
   };
 
   useEffect(() => {
-    const srcList = [
-      `${process.env.PUBLIC_URL}/assets/vendor/jquery.min.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/popper.min.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/bootstrap.min.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/perfect-scrollbar.min.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/dom-factory.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/material-design-kit.js`,
-      `${process.env.PUBLIC_URL}/assets/js/app.js`,
-      `${process.env.PUBLIC_URL}/assets/js/hljs.js`,
-      `${process.env.PUBLIC_URL}/assets/js/settings.js`,
-      `${process.env.PUBLIC_URL}/assets/js/page.projects.js`,
-      `${process.env.PUBLIC_URL}/assets/js/page.analytics-2-dashboard.js`,
-      `${process.env.PUBLIC_URL}/assets/vendor/list.min.js`,
-      `${process.env.PUBLIC_URL}/assets/js/list.js`,
-      `${process.env.PUBLIC_URL}/assets/js/toggle-check-all.js`,
-      `${process.env.PUBLIC_URL}/assets/js/check-selected-row.js`,
-      `${process.env.PUBLIC_URL}/assets/js/app-settings.js`,
-    ];
-    let scriptList = [];
-
-    for (let i = 0; i < srcList.length; i++) {
-      const script = document.createElement("script");
-      script.src = process.env.PUBLIC_URL + srcList[i];
-      scriptList.push(script);
-      document.body.appendChild(script);
-    }
-
     const getEventDetail = async () => {
       const { id } = match.params;
       const url = `http://118.67.154.118:3000/api/admin/cultural-event/detail/${id}`;
@@ -323,6 +296,28 @@ const EventDetailView = ({ options, isApproved, match }) => {
     };
 
     getEventDetail();
+
+    const srcList = [
+      `${process.env.PUBLIC_URL}/assets/vendor/jquery.min.js`,
+      `${process.env.PUBLIC_URL}/assets/vendor/popper.min.js`,
+      `${process.env.PUBLIC_URL}/assets/vendor/bootstrap.min.js`,
+      `${process.env.PUBLIC_URL}/assets/vendor/perfect-scrollbar.min.js`,
+      `${process.env.PUBLIC_URL}/assets/vendor/dom-factory.js`,
+      `${process.env.PUBLIC_URL}/assets/vendor/material-design-kit.js`,
+      `${process.env.PUBLIC_URL}/assets/js/app.js`,
+      `${process.env.PUBLIC_URL}/assets/js/hljs.js`,
+      `${process.env.PUBLIC_URL}/assets/js/settings.js`,
+      `${process.env.PUBLIC_URL}/assets/js/app-settings.js`,
+    ];
+    let scriptList = [];
+
+    for (let i = 0; i < srcList.length; i++) {
+      const script = document.createElement("script");
+      script.src = process.env.PUBLIC_URL + srcList[i];
+      script.async = true;
+      scriptList.push(script);
+      document.body.appendChild(script);
+    }
 
     return () => {
       for (let i = 0; i < scriptList.length; i++) {

@@ -207,40 +207,38 @@ const AddEventView = ({ options }) => {
 
   const { actions } = useContext(MenuContext);
   useEffect(() => {
-    // const srcList = [
-    //   `${process.env.PUBLIC_URL}/assets/vendor/jquery.min.js`,
-    //   `${process.env.PUBLIC_URL}/assets/vendor/popper.min.js`,
-    //   `${process.env.PUBLIC_URL}/assets/vendor/bootstrap.min.js`,
-    //   `${process.env.PUBLIC_URL}/assets/vendor/perfect-scrollbar.min.js`,
-    //   `${process.env.PUBLIC_URL}/assets/vendor/dom-factory.js`,
-    //   `${process.env.PUBLIC_URL}/assets/vendor/material-design-kit.js`,
-    //   `${process.env.PUBLIC_URL}/assets/js/app.js`,
-    //   `${process.env.PUBLIC_URL}/assets/js/hljs.js`,
-    //   `${process.env.PUBLIC_URL}/assets/js/settings.js`,
-    //   `${process.env.PUBLIC_URL}/assets/js/page.projects.js`,
-    //   `${process.env.PUBLIC_URL}/assets/js/page.analytics-2-dashboard.js`,
-    //   `${process.env.PUBLIC_URL}/assets/js/toggle-check-all.js`,
-    //   `${process.env.PUBLIC_URL}/assets/js/check-selected-row.js`,
-    //   `${process.env.PUBLIC_URL}/assets/js/app-settings.js`,
-    // ];
-    // let scriptList = [];
-    // for (let i = 0; i < srcList.length; i++) {
-    //   const script = document.createElement("script");
-    //   script.src = process.env.PUBLIC_URL + srcList[i];
-    //   scriptList.push(script);
-    //   document.body.appendChild(script);
-    // }
-    // setLoading(false);
-    // return () => {
-    //   for (let i = 0; i < scriptList.length; i++) {
-    //     document.body.removeChild(scriptList[i]);
-    //   }
-    // };
-
     actions.setMenu({
       topMenu: 2,
       subMenu: 5,
     });
+
+    const srcList = [
+      `${process.env.PUBLIC_URL}/assets/vendor/jquery.min.js`,
+      `${process.env.PUBLIC_URL}/assets/vendor/popper.min.js`,
+      `${process.env.PUBLIC_URL}/assets/vendor/bootstrap.min.js`,
+      `${process.env.PUBLIC_URL}/assets/vendor/perfect-scrollbar.min.js`,
+      `${process.env.PUBLIC_URL}/assets/vendor/dom-factory.js`,
+      `${process.env.PUBLIC_URL}/assets/vendor/material-design-kit.js`,
+      `${process.env.PUBLIC_URL}/assets/js/app.js`,
+      `${process.env.PUBLIC_URL}/assets/js/hljs.js`,
+      `${process.env.PUBLIC_URL}/assets/js/settings.js`,
+      `${process.env.PUBLIC_URL}/assets/js/app-settings.js`,
+    ];
+    let scriptList = [];
+
+    for (let i = 0; i < srcList.length; i++) {
+      const script = document.createElement("script");
+      script.src = process.env.PUBLIC_URL + srcList[i];
+      script.async = true;
+      scriptList.push(script);
+      document.body.appendChild(script);
+    }
+
+    return () => {
+      for (let i = 0; i < scriptList.length; i++) {
+        document.body.removeChild(scriptList[i]);
+      }
+    };
   }, []);
 
   return (
