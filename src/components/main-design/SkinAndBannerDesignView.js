@@ -131,22 +131,93 @@ const SkinAndBannerDesignView = () => {
   };
 
   // 저장 버튼 클릭
-  const onClickSaveBtn = () => {
+  const onClickSaveMainBtn = () => {
     const data = new FormData();
 
     //     main: 메인이미지, # 메인 배경
     data.append("main", mainBanner[0]);
 
-    //     banners: [{file: 배너이미지, link: 링크주소}, …], # 공지사항/이벤트 배너
-    for (let i = 0; i < noticeAndEventBanner.length; i++) {
-      data.append(
-        "banners",
-        JSON.stringify({
-          file: noticeAndEventBanner[i].imgBase64[0],
-          link: noticeAndEventBanner[i].link,
-        })
-      );
+    //     등록자
+    data.append("userid", window.sessionStorage.getItem("userid"));
+
+    for (let key of data.keys()) {
+      console.log("key : " + key);
     }
+
+    for (let value of data.values()) {
+      console.log("value : " + value);
+    }
+
+    saveMainDesignInfo(data);
+  };
+
+  // 메인 배경 저장 api
+  const saveMainDesignInfo = async (data) => {
+    const url = "http://localhost:9200/api/main/bg";
+
+    try {
+      const res = await axios.post(url, data, {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      });
+
+      if (res.status === 200) {
+        console.log(" ==== seccess save main design data ====");
+        console.log(res.data);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  // 공지사항/이벤트 저장 버튼 클릭
+  const onClickSaveNoticeEventBtn = () => {
+    const data = new FormData();
+
+    // file: 배너이미지, link: 링크주소
+    for (let i = 0; i < noticeAndEventBanner.length; i++) {
+      data.append("file", noticeAndEventBanner[i].imgFile[0]);
+      data.append("link", noticeAndEventBanner[i].link);
+    }
+
+    //     등록자
+    data.append("userid", window.sessionStorage.getItem("userid"));
+
+    for (let key of data.keys()) {
+      console.log("key : " + key);
+    }
+
+    for (let value of data.values()) {
+      console.log("value : " + value);
+    }
+
+    saveNoticeEventInfo(data);
+  };
+
+  // 공지사항/이벤트 저장 api
+  const saveNoticeEventInfo = async (data) => {
+    const url = "http://localhost:9200/api/main/banners";
+
+    try {
+      const res = await axios.post(url, data, {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      });
+
+      if (res.status === 200) {
+        console.log(" ==== seccess save main banner data ====");
+        console.log(res.data);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  // 비디오 저장 버튼 클릭
+  const onClickSaveVideosBtn = () => {
+    const data = new FormData();
 
     //     videos1: [{url}, …], # 서리플 청년 아트 갤러리
     for (let i = 0; i < artGalleryVideos.length; i++) {
@@ -185,17 +256,18 @@ const SkinAndBannerDesignView = () => {
       console.log("value : " + value);
     }
 
-    saveMainDesignInfo(data);
+    saveVideosInfo(data);
   };
 
-  const saveMainDesignInfo = async (data) => {
-    const url = "http://localhost:9200/api/main/theme";
+  // 비디오 저장 api
+  const saveVideosInfo = async (data) => {
+    const url = "http://localhost:9200/api/main/videos";
 
     try {
       const res = await axios.post(url, data);
 
       if (res.status === 200) {
-        console.log(" ==== seccess save main design data ====");
+        console.log(" ==== seccess save main videos data ====");
         console.log(res.data);
       }
     } catch (e) {
@@ -261,10 +333,47 @@ const SkinAndBannerDesignView = () => {
             getMainBannerImg={getMainBannerImg}
             imgFile={mainBanner}
           />
+
+          <div className="save-button">
+            <button
+              className="btn btn btn-secondary ml-16pt"
+              onClick={() => history.push("/")}
+            >
+              취소
+            </button>
+            <button
+              className="btn btn-success"
+              data-toggle="swal"
+              data-swal-title="완료!"
+              data-swal-text="새로운 관리자가 등록되었습니다!"
+              data-swal-type="success"
+              onClick={() => onClickSaveMainBtn()}
+            >
+              저장
+            </button>
+          </div>
           <NoticeAndEventBanner
             getBannerInfo={getBannerInfo}
             noticeAndEventBanner={noticeAndEventBanner}
           />
+          <div className="save-button">
+            <button
+              className="btn btn btn-secondary ml-16pt"
+              onClick={() => history.push("/")}
+            >
+              취소
+            </button>
+            <button
+              className="btn btn-success"
+              data-toggle="swal"
+              data-swal-title="완료!"
+              data-swal-text="새로운 관리자가 등록되었습니다!"
+              data-swal-type="success"
+              onClick={() => onClickSaveNoticeEventBtn()}
+            >
+              저장
+            </button>
+          </div>
 
           <VideoManagement
             artGalleryVideos={artGalleryVideos}
@@ -288,7 +397,7 @@ const SkinAndBannerDesignView = () => {
               data-swal-title="완료!"
               data-swal-text="새로운 관리자가 등록되었습니다!"
               data-swal-type="success"
-              onClick={() => onClickSaveBtn()}
+              onClick={() => onClickSaveVideosBtn()}
             >
               저장
             </button>
