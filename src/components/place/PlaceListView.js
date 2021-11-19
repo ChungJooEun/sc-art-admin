@@ -91,6 +91,7 @@ const PlaceListView = ({ pageTitle, type }) => {
   };
 
   const [checkedList, setCheckedList] = useState([]);
+  const [allChecked, setAllChecked] = useState(false);
   const addCheckedList = (placeInfo) => {
     setCheckedList(checkedList.concat(placeInfo.id));
   };
@@ -100,6 +101,18 @@ const PlaceListView = ({ pageTitle, type }) => {
 
     setCheckedList(ary);
   };
+  const toggleAllChecked = (state) => {
+    if (state === true) {
+      // 전부 체크 리스트 추가
+      setCheckedList(placeList);
+      setAllChecked(true);
+    } else {
+      // 체크리스트에서 전부 삭제
+      setCheckedList([]);
+      setAllChecked(false);
+    }
+  };
+
   const onClickDeleteBtn = () => {
     if (checkedList.length === 0) {
       return;
@@ -284,6 +297,8 @@ const PlaceListView = ({ pageTitle, type }) => {
                   sorting={sorting}
                   addCheckedList={addCheckedList}
                   removeNoneCheckedList={removeNoneCheckedList}
+                  toggleAllChecked={toggleAllChecked}
+                  allChecked={allChecked}
                 />
               </div>
               <Paging

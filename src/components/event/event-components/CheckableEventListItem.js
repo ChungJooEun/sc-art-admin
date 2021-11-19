@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
 const replaceString = (string) => {
@@ -23,9 +23,10 @@ const CheckableEventListItem = ({
   addCheckedItem,
   removeCheckedItem,
   isDisable,
+  allChecked,
 }) => {
   const history = useHistory();
-  const [checked, setChecked] = useState(isDisable ? true : false);
+  const [checked, setChecked] = useState(false);
 
   const checkBox = useRef();
 
@@ -40,6 +41,16 @@ const CheckableEventListItem = ({
       removeCheckedItem(eventInfo.id);
     }
   };
+
+  useEffect(() => {
+    if (allChecked || isDisable) {
+      setChecked(true);
+      checkBox.current.checked = true;
+    } else {
+      setChecked(false);
+      checkBox.current.checked = false;
+    }
+  }, [allChecked, isDisable]);
 
   return (
     <tr className={checked ? "selected" : ""}>

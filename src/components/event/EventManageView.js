@@ -99,6 +99,8 @@ const EventManageView = () => {
   };
 
   const [checkedList, setCheckedList] = useState([]);
+  const [allChecked, setAllChecked] = useState(false);
+
   const addCheckedList = (eventInfo) => {
     setCheckedList(checkedList.concat(eventInfo.id));
   };
@@ -107,6 +109,18 @@ const EventManageView = () => {
     ary = ary.filter((id) => id !== removeId);
 
     setCheckedList(ary);
+  };
+
+  const toggleAllChecked = (state) => {
+    if (state === true) {
+      // 전부 체크 리스트 추가
+      setCheckedList(eventList);
+      setAllChecked(true);
+    } else {
+      // 체크리스트에서 전부 삭제
+      setCheckedList([]);
+      setAllChecked(false);
+    }
   };
 
   const [scList, setScList] = useState([]);
@@ -472,6 +486,8 @@ const EventManageView = () => {
                   sorting={sorting}
                   addCheckedList={addCheckedList}
                   removeNoneCheckedList={removeNoneCheckedList}
+                  toggleAllChecked={toggleAllChecked}
+                  allChecked={allChecked}
                 />
               </div>
               <Paging

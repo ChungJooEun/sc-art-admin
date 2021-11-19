@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 
 import CheckablePlaceListItem from "../place-components/CheckablePlaceListItem";
 
@@ -11,6 +11,8 @@ const CheckablePlaceList = ({
   addCheckedList,
   removeNoneCheckedList,
   disabledList,
+  toggleAllChecked,
+  allChecked,
 }) => {
   let no = (pageNumber - 1) * count + 1;
 
@@ -25,6 +27,21 @@ const CheckablePlaceList = ({
     return false;
   };
 
+  const [checked, setChecked] = useState(false);
+  const checkBox = useRef();
+
+  const onClickCheckAll = () => {
+    if (checked === false) {
+      setChecked(!checked);
+      checkBox.current.checked = true;
+      toggleAllChecked(true);
+    } else {
+      setChecked(!checked);
+      checkBox.current.checked = false;
+      toggleAllChecked(false);
+    }
+  };
+
   return (
     <table className="table mb-0 thead-border-top-0 table-nowrap">
       <thead>
@@ -34,12 +51,12 @@ const CheckablePlaceList = ({
               <input
                 type="checkbox"
                 className="custom-control-input js-toggle-check-all"
-                data-target="#staff"
-                id="customCheckAllstaff"
+                ref={checkBox}
               />
               <label
                 className="custom-control-label"
                 htmlFor="customCheckAllstaff"
+                onClick={() => onClickCheckAll()}
               >
                 <span className="text-hide">Toggle all</span>
               </label>
@@ -88,6 +105,7 @@ const CheckablePlaceList = ({
             addCheckedItem={addCheckedList}
             removeCheckedItem={removeNoneCheckedList}
             isDisable={isDisable(placeInfo.id)}
+            allChecked={allChecked}
           />
         ))}
       </tbody>

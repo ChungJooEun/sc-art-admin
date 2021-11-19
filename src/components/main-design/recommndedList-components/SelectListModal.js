@@ -85,6 +85,8 @@ const SelectListModal = ({
   };
 
   const [checkedList, setCheckedList] = useState([]);
+  const [allChecked, setAllChecked] = useState(false);
+
   const addCheckedList = (listInfo) => {
     setCheckedList(checkedList.concat(listInfo));
   };
@@ -93,6 +95,17 @@ const SelectListModal = ({
     ary = ary.filter((item) => item.id !== removeId);
 
     setCheckedList(ary);
+  };
+  const toggleAllChecked = (state) => {
+    if (state === true) {
+      // 전부 체크 리스트 추가
+      setCheckedList(list);
+      setAllChecked(true);
+    } else {
+      // 체크리스트에서 전부 삭제
+      setCheckedList([]);
+      setAllChecked(false);
+    }
   };
 
   const onClickGetBtn = () => {
@@ -171,6 +184,8 @@ const SelectListModal = ({
           addCheckedList={addCheckedList}
           removeNoneCheckedList={removeNoneCheckedList}
           disabledList={disabledList}
+          toggleAllChecked={toggleAllChecked}
+          allChecked={allChecked}
         />
         <Paging
           pageNumber={pageNumber}
