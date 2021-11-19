@@ -135,7 +135,7 @@ const SkinAndBannerDesignView = () => {
     const data = new FormData();
 
     //     main: 메인이미지, # 메인 배경
-    data.append("main", mainBanner[0]);
+    data.append("main", mainBanner[0], "mainFile");
 
     //     등록자
     data.append("userid", window.sessionStorage.getItem("userid"));
@@ -177,7 +177,11 @@ const SkinAndBannerDesignView = () => {
 
     // file: 배너이미지, link: 링크주소
     for (let i = 0; i < noticeAndEventBanner.length; i++) {
-      data.append("file", noticeAndEventBanner[i].imgFile[0]);
+      data.append(
+        "file",
+        noticeAndEventBanner[i].imgFile[0],
+        `noticeEventFile${i}`
+      );
       data.append("link", noticeAndEventBanner[i].link);
     }
 
