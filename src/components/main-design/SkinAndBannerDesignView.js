@@ -52,8 +52,8 @@ const SkinAndBannerDesignView = () => {
   const getBannerInfo = (imgFile, link, imgBase64) => {
     setNoticeAndEventBanner(
       noticeAndEventBanner.concat({
-        link: link,
         imgFile: imgFile,
+        link: link,
         imgBase64: imgBase64,
       })
     );
@@ -135,19 +135,16 @@ const SkinAndBannerDesignView = () => {
     const data = new FormData();
 
     //     main: 메인이미지, # 메인 배경
-    if (!mainBanner) {
+    if (mainBanner) {
       data.append("main", mainBanner);
     }
 
     //     banners: [{file: 배너이미지, link: 링크주소}, …], # 공지사항/이벤트 배너
     for (let i = 0; i < noticeAndEventBanner.length; i++) {
-      data.append(
-        "banners",
-        JSON.stringify({
-          file: noticeAndEventBanner[i].imgFile,
-          link: noticeAndEventBanner[i].link,
-        })
-      );
+      data.append("banners", {
+        file: noticeAndEventBanner[i].imgFile[0],
+        link: noticeAndEventBanner[i].link,
+      });
     }
 
     //     videos1: [{url}, …], # 서리플 청년 아트 갤러리
@@ -178,6 +175,14 @@ const SkinAndBannerDesignView = () => {
 
     //     등록자
     data.append("userid", window.sessionStorage.getItem("userid"));
+
+    for (let key of data.keys()) {
+      console.log("key : " + key);
+    }
+
+    for (let value of data.values()) {
+      console.log("value : " + value);
+    }
 
     saveMainDesignInfo(data);
   };
