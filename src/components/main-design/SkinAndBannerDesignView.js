@@ -141,10 +141,13 @@ const SkinAndBannerDesignView = () => {
 
     //     banners: [{file: 배너이미지, link: 링크주소}, …], # 공지사항/이벤트 배너
     for (let i = 0; i < noticeAndEventBanner.length; i++) {
-      data.append("banners", {
-        file: noticeAndEventBanner[i].imgFile[0],
-        link: noticeAndEventBanner[i].link,
-      });
+      data.append(
+        "banners",
+        JSON.stringify({
+          file: noticeAndEventBanner[i].imgBase64[0],
+          link: noticeAndEventBanner[i].link,
+        })
+      );
     }
 
     //     videos1: [{url}, …], # 서리플 청년 아트 갤러리
