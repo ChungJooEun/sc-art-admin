@@ -178,11 +178,11 @@ const SkinAndBannerDesignView = () => {
     // file: 배너이미지, link: 링크주소
     for (let i = 0; i < noticeAndEventBanner.length; i++) {
       data.append(
-        "file",
+        "files",
         noticeAndEventBanner[i].imgFile[0],
         `noticeEventFile${i}`
       );
-      data.append("link", noticeAndEventBanner[i].link);
+      data.append("links", noticeAndEventBanner[i].link);
     }
 
     //     등록자
