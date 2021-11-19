@@ -11,7 +11,7 @@ const BannerAddForm = ({ getBannerInfo }) => {
     const imgFileAry = e.target.files;
 
     setImgBase64([]);
-    setImgFile(imgFileAry[0]);
+    setImgFile(imgFileAry);
 
     for (let i = 0; i < imgFileAry.length; i++) {
       if (imgFileAry[i]) {
@@ -47,7 +47,7 @@ const BannerAddForm = ({ getBannerInfo }) => {
     setLink("");
     setImgFile(null);
     setImgBase64([]);
-    fileInput.current.value = "";
+    // fileInput.current.value = "";
   };
 
   return (
@@ -72,7 +72,7 @@ const BannerAddForm = ({ getBannerInfo }) => {
                   type="file"
                   accept="image/*"
                   className=""
-                  id="customFileUploadMultiple"
+                  // id="customFileUploadMultiple"
                   onChange={(e) => {
                     onChangeImgFile(e);
                   }}
