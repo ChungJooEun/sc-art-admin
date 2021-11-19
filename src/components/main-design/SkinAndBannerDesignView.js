@@ -23,7 +23,7 @@ const pagePathList = [
 ];
 
 const SkinAndBannerDesignView = () => {
-  // 메인 베너
+  // 메인 베너 -> base64
   const [mainBanner, setMainBanner] = useState(null);
   // 공지사항/이벤트 배너
   const [noticeAndEventBanner, setNoticeAndEventBanner] = useState([]);
@@ -44,8 +44,8 @@ const SkinAndBannerDesignView = () => {
   });
 
   // 메인 베너 이미지 가져오기
-  const getMainBannerImg = (imgFile) => {
-    setMainBanner(imgFile);
+  const getMainBannerImg = (imgBase64) => {
+    setMainBanner(imgBase64);
   };
 
   // 공지사항 / 이벤트 배너 입력 정보 가져오기
@@ -135,9 +135,7 @@ const SkinAndBannerDesignView = () => {
     const data = new FormData();
 
     //     main: 메인이미지, # 메인 배경
-    if (mainBanner) {
-      data.append("main", mainBanner);
-    }
+    data.append("main", mainBanner[0]);
 
     //     banners: [{file: 배너이미지, link: 링크주소}, …], # 공지사항/이벤트 배너
     for (let i = 0; i < noticeAndEventBanner.length; i++) {
@@ -194,11 +192,7 @@ const SkinAndBannerDesignView = () => {
     const url = "http://localhost:9200/api/main/theme";
 
     try {
-      const res = await axios.post(url, data, {
-        headers: {
-          "content-type": "multipart/form-data",
-        },
-      });
+      const res = await axios.post(url, data);
 
       if (res.status === 200) {
         console.log(" ==== seccess save main design data ====");

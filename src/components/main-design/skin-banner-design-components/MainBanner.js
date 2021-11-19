@@ -7,7 +7,6 @@ const MainBanner = ({ getMainBannerImg, imgFile }) => {
     const imgFileAry = e.target.files;
 
     setImgBase64([]);
-    getMainBannerImg(imgFileAry[0]);
 
     for (let i = 0; i < imgFileAry.length; i++) {
       if (imgFileAry[i]) {
@@ -26,6 +25,7 @@ const MainBanner = ({ getMainBannerImg, imgFile }) => {
 
             // 파일 base64 상태 업데이트
             setImgBase64((imgBase64) => [...imgBase64, base64Sub]);
+            getMainBannerImg([base64Sub]);
           }
         };
       }
