@@ -10,6 +10,7 @@ const CheckableEventList = ({
   addCheckedList,
   removeNoneCheckedList,
   sorting,
+  disabledList,
 }) => {
   let no = (pageNumber - 1) * count + 1;
 
@@ -19,6 +20,17 @@ const CheckableEventList = ({
 
   const removeCheckedItem = (rId) => {
     removeNoneCheckedList(rId);
+  };
+
+  const isDisable = (id) => {
+    if (disabledList) {
+      for (let i = 0; i < disabledList.length; i++) {
+        if (disabledList[i].id === id) {
+          return true;
+        }
+      }
+    }
+    return false;
   };
 
   return (
@@ -93,6 +105,7 @@ const CheckableEventList = ({
             isModal={isModal}
             addCheckedItem={addCheckedItem}
             removeCheckedItem={removeCheckedItem}
+            isDisable={isDisable(eventInfo.id)}
           />
         ))}
       </tbody>

@@ -10,8 +10,20 @@ const CheckablePlaceList = ({
   sorting,
   addCheckedList,
   removeNoneCheckedList,
+  disabledList,
 }) => {
   let no = (pageNumber - 1) * count + 1;
+
+  const isDisable = (id) => {
+    if (disabledList) {
+      for (let i = 0; i < disabledList.length; i++) {
+        if (disabledList[i].id === id) {
+          return true;
+        }
+      }
+    }
+    return false;
+  };
 
   return (
     <table className="table mb-0 thead-border-top-0 table-nowrap">
@@ -75,6 +87,7 @@ const CheckablePlaceList = ({
             isModal={isModal}
             addCheckedItem={addCheckedList}
             removeCheckedItem={removeNoneCheckedList}
+            isDisable={isDisable(placeInfo.id)}
           />
         ))}
       </tbody>

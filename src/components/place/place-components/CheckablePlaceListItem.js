@@ -35,9 +35,10 @@ const CheckablePlaceListItem = ({
   isModal,
   addCheckedItem,
   removeCheckedItem,
+  isDisable,
 }) => {
   const history = useHistory();
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(isDisable ? true : false);
 
   const checkBox = useRef();
 
@@ -65,7 +66,7 @@ const CheckablePlaceListItem = ({
           <label
             className="custom-control-label"
             htmlFor="customCheck1_4"
-            onClick={() => onChangeCheckBox()}
+            onClick={isDisable ? null : () => onChangeCheckBox()}
           >
             <span className="text-hide">Check</span>
           </label>

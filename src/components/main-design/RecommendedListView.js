@@ -23,19 +23,26 @@ const pagePathList = [
 ];
 
 const RecommendedListView = () => {
-  const [page, setPage] = useState("event");
   const [modalOn, setModalOn] = useState(false);
 
   const toggleModal = () => {
     setModalOn(!modalOn);
   };
 
-  const { actions } = useContext(MenuContext);
+  const [recommendList, setRecommendList] = useState(null);
+  const [addedList, setAddedList] = useState([]);
 
+  const getListAtModal = (selectedList) => {
+    setAddedList(selectedList);
+  };
+
+  const onClickSaveBtn = () => {
+    // axios 요청
+  };
+
+  const { actions } = useContext(MenuContext);
   useEffect(() => {
     if (window.location.href.includes("place")) {
-      setPage("place");
-
       actions.setMenu({
         topMenu: 1,
         subMenu: 2,
@@ -46,6 +53,9 @@ const RecommendedListView = () => {
         subMenu: 1,
       });
     }
+
+    // 초기화
+    setRecommendList([]);
 
     const srcList = [
       `${process.env.PUBLIC_URL}/assets/vendor/jquery.min.js`,
@@ -76,9 +86,9 @@ const RecommendedListView = () => {
     };
   }, []);
 
-  return (
-    <>
-      {/* <div className="preloader">
+  if (recommendList === null) {
+    return (
+      <div className="preloader">
         <div className="sk-chase">
           <div className="sk-chase-dot"></div>
           <div className="sk-chase-dot"></div>
@@ -87,99 +97,109 @@ const RecommendedListView = () => {
           <div className="sk-chase-dot"></div>
           <div className="sk-chase-dot"></div>
         </div>
-      </div> */}
-      <div
-        className="mdk-drawer-layout js-mdk-drawer-layout"
-        data-push
-        data-responsive-width="992px"
-      >
-        <div className="mdk-drawer-layout__content page-content">
-          <GlobalBar />
+      </div>
+    );
+  }
 
-          {modalOn ? (
-            <SelectListModal
-              CheckableListComponent={
-                page === "event" ? CheckableEventList : CheckablePlaceList
-              }
-              closeModal={toggleModal}
-            />
-          ) : (
-            ""
-          )}
+  return (
+    <div
+      className="mdk-drawer-layout js-mdk-drawer-layout"
+      data-push
+      data-responsive-width="992px"
+    >
+      <div className="mdk-drawer-layout__content page-content">
+        <GlobalBar />
 
-          <PageTitle
-            pageTitle={
-              page === "event" ? "추천 문화행사 리스트" : "추천 문화공간 리스트"
+        {modalOn ? (
+          <SelectListModal
+            CheckableListComponent={
+              window.location.href.includes("event")
+                ? CheckableEventList
+                : CheckablePlaceList
             }
-            pagePathList={pagePathList}
+            getListAtModal={getListAtModal}
+            closeModal={toggleModal}
+            disabledList={recommendList}
           />
+        ) : (
+          ""
+        )}
 
-          <div className="container-fluid page__container">
-            <div className="page-section">
-              <RecommendedList />
-            </div>
+        <PageTitle
+          pageTitle={
+            window.location.href.includes("event")
+              ? "추천 문화행사 리스트"
+              : "추천 문화공간 리스트"
+          }
+          pagePathList={pagePathList}
+        />
 
+        <div className="container-fluid page__container">
+          <div className="page-section">
+            <RecommendedList list={addedList} />
+          </div>
+
+          <button
+            className="btn btn-primary modal-btn"
+            style={{
+              textAlign: "center",
+              color: "#fff",
+              fontSize: "18px",
+              marginTop: "40px",
+              width: "100%",
+            }}
+            onClick={toggleModal}
+          >
+            {window.location.href.includes("event")
+              ? "기존 문화행사 가져오기 +"
+              : "기존 문화공간 가져오기 +"}
+          </button>
+          <div
+            className="btn-wrap"
+            style={{ display: "flex", justifyContent: "center" }}
+          >
             <button
-              className="btn btn-primary modal-btn"
+              className="btn btn-secondary"
               style={{
                 textAlign: "center",
                 color: "#fff",
                 fontSize: "18px",
                 marginTop: "40px",
-                width: "100%",
+                width: "49%",
+                marginRight: "5px",
               }}
-              onClick={toggleModal}
             >
-              {page === "event"
-                ? "기존 문화행사 가져오기 +"
-                : "기존 문화공간 가져오기 +"}
+              초기화
             </button>
-            <div
-              className="btn-wrap"
-              style={{ display: "flex", justifyContent: "center" }}
+            <button
+              className="btn btn-primary"
+              style={{
+                textAlign: "center",
+                color: "#fff",
+                fontSize: "18px",
+                marginTop: "40px",
+                width: "49%",
+                marginLeft: "5px",
+              }}
+              onClick={() => onClickSaveBtn()}
             >
-              <button
-                className="btn btn-secondary"
-                style={{
-                  textAlign: "center",
-                  color: "#fff",
-                  fontSize: "18px",
-                  marginTop: "40px",
-                  width: "49%",
-                  marginRight: "5px",
-                }}
-              >
-                초기화
-              </button>
-              <button
-                className="btn btn-primary"
-                style={{
-                  textAlign: "center",
-                  color: "#fff",
-                  fontSize: "18px",
-                  marginTop: "40px",
-                  width: "49%",
-                  marginLeft: "5px",
-                }}
-              >
-                저장
-              </button>
-            </div>
-            <div className="page-section">
-              <div className="page-separator">
-                <div className="page-separator__text">
-                  {page === "event"
-                    ? "메인에 노출되는 문화행사(20)"
-                    : "메인에 노출되는 문화공간(20)"}
-                </div>
+              저장
+            </button>
+          </div>
+          <div className="page-section">
+            <div className="page-separator">
+              <div className="page-separator__text">
+                {window.location.href.includes("event")
+                  ? `메인에 노출되는 문화행사(${recommendList.length})`
+                  : `메인에 노출되는 문화공간(${recommendList.length})`}
               </div>
-              <RecommendedList />
             </div>
+            <RecommendedList list={recommendList} />
           </div>
         </div>
-        <SideMenuBar />
       </div>
-    </>
+      <SideMenuBar />
+    </div>
   );
 };
 

@@ -1,13 +1,51 @@
 import React from "react";
 
-const RecommendedListItem = () => {
+const RecommendedListItem = ({ listItem, totalCount }) => {
+  const getImage = (resources) => {
+    if (Object.keys(resources).includes("images")) {
+      if (Object.keys(resources.images).includes("images")) {
+        return resources.images.images[0].url;
+      } else {
+        return resources.images[0].url;
+      }
+    } else {
+      return null;
+    }
+  };
+
+  const getImgSrc = (reources) => {
+    const imgSrc = getImage(reources);
+
+    if (imgSrc) {
+      if (imgSrc.includes("/upload/")) {
+        return imgSrc;
+      } else if (imgSrc.includes("/images/")) {
+        return `http://118.67.154.118:3000${imgSrc}`;
+      }
+    } else {
+      return "../assets/images/stories/256_rsz_thomas-russell-751613-unsplash.jpg";
+    }
+  };
+
+  const getOptions = () => {
+    let ary = [];
+    for (let i = 1; i <= totalCount; i++) {
+      ary.push(
+        <option value={i} key={i}>
+          {i}
+        </option>
+      );
+    }
+    return ary;
+  };
+
   return (
     <div className="col-sm-6 col-md-4 card-group-row__col">
       <div className="card card-sm card-group-row__card">
         <div className="position-relative">
           <div className="card-img-top">
             <img
-              src="../assets/images/stories/256_rsz_thomas-russell-751613-unsplash.jpg"
+              src={getImgSrc(listItem.resources)}
               className="card-img-top card-img-cover"
               alt=""
             />
@@ -16,9 +54,11 @@ const RecommendedListItem = () => {
         <div className="card-body d-flex">
           <div className="flex">
             <h5 className="card-title m-0">
-              <a href="/..event/event-detail.html">문화행사/공간 이름</a>
+              <a href="/..event/event-detail.html">{listItem.name}</a>
             </h5>
-            <small className="text-muted">주소</small>
+            <small className="text-muted">
+              {listItem.address1 + " " + listItem.address2}
+            </small>
             <div
               className="navbar navbar-expand x-0 navbar-light bg-body"
               id="default-navbar"
@@ -37,10 +77,7 @@ const RecommendedListItem = () => {
                     id="custom-select"
                     className="form-control custom-select"
                   >
-                    <option selected="">1</option>
-                    <option value="1">2</option>
-                    <option value="2">3</option>
-                    <option value="3">4</option>
+                    {getOptions()}
                   </select>
                 </form>
               </div>

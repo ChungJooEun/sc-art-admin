@@ -22,9 +22,10 @@ const CheckableEventListItem = ({
   isModal,
   addCheckedItem,
   removeCheckedItem,
+  isDisable,
 }) => {
   const history = useHistory();
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(isDisable ? true : false);
 
   const checkBox = useRef();
 
@@ -39,6 +40,7 @@ const CheckableEventListItem = ({
       removeCheckedItem(eventInfo.id);
     }
   };
+
   return (
     <tr className={checked ? "selected" : ""}>
       <td className="pr-0">
@@ -51,7 +53,7 @@ const CheckableEventListItem = ({
           <label
             className="custom-control-label"
             htmlFor="customCheck1_1"
-            onClick={() => onChangeCheckBox()}
+            onClick={isDisable ? null : () => onChangeCheckBox()}
           >
             <span className="text-hide">Check</span>
           </label>
