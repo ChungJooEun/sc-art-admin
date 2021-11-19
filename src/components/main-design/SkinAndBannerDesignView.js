@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 import MenuContext from "../../context/menu";
 
@@ -129,20 +130,78 @@ const SkinAndBannerDesignView = () => {
     }
   };
 
-  const saveBannerInfo = async (data) => {
-    const url = "http://118.67.154.118:3000/api/admin/main/modify";
+  // 저장 버튼 클릭
+  const onClickSaveBtn = () => {
+    const data = new FormData();
+
+    //     main: 메인이미지, # 메인 배경
+    if (!mainBanner) {
+      data.append("main", mainBanner);
+    }
+
+    //     banners: [{file: 배너이미지, link: 링크주소}, …], # 공지사항/이벤트 배너
+    for (let i = 0; i < noticeAndEventBanner.length; i++) {
+      data.append(
+        "banners",
+        JSON.stringify({
+          file: noticeAndEventBanner[i].imgFile,
+          link: noticeAndEventBanner[i].link,
+        })
+      );
+    }
+
+    //     videos1: [{url}, …], # 서리플 청년 아트 갤러리
+    for (let i = 0; i < artGalleryVideos.length; i++) {
+      data.append("videos1", JSON.stringify({ url: artGalleryVideos[i].url }));
+    }
+    //     videos2: [{url}, …], # 서리풀 악기거리 (악끼 아님, 오타)
+    for (let i = 0; i < instrumentStreetVideos.length; i++) {
+      data.append(
+        "videos2",
+        JSON.stringify({ url: instrumentStreetVideos[i].url })
+      );
+    }
+    //     videos3: [{url}, …], # 서초 금요 음악회
+    for (let i = 0; i < fridayConcertVideos.length; i++) {
+      data.append(
+        "videos3",
+        JSON.stringify({ url: fridayConcertVideos[i].url })
+      );
+    }
+    //     videos4: [{url}, …],  # 서초 실내악 축제
+    for (let i = 0; i < chamverMusicVideos.length; i++) {
+      data.append(
+        "videos4",
+        JSON.stringify({ url: chamverMusicVideos[i].url })
+      );
+    }
+
+    //     등록자
+    data.append("userid", window.sessionStorage.getItem("userid"));
+
+    saveMainDesignInfo(data);
+  };
+
+  const saveMainDesignInfo = async (data) => {
+    const url = "http://localhost:9000/api/main/theme";
 
     try {
-      const res = await axios.post(url, data);
+      const res = await axios.post(url, data, {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      });
 
       if (res.status === 200) {
-        console.log(" ==== seccess save data ====");
+        console.log(" ==== seccess save main design data ====");
+        console.log(res.data);
       }
     } catch (e) {
       console.log(e);
     }
   };
 
+  const history = useHistory();
   const { actions } = useContext(MenuContext);
   useEffect(() => {
     const srcList = [
@@ -215,13 +274,19 @@ const SkinAndBannerDesignView = () => {
           />
 
           <div className="save-button page-section">
-            <button className="btn btn btn-secondary ml-16pt">취소</button>
+            <button
+              className="btn btn btn-secondary ml-16pt"
+              onClick={() => history.push("/")}
+            >
+              취소
+            </button>
             <button
               className="btn btn-success"
               data-toggle="swal"
               data-swal-title="완료!"
               data-swal-text="새로운 관리자가 등록되었습니다!"
               data-swal-type="success"
+              onClick={() => onClickSaveBtn()}
             >
               저장
             </button>

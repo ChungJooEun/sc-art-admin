@@ -11,7 +11,7 @@ const BannerAddForm = ({ getBannerInfo }) => {
     const imgFileAry = e.target.files;
 
     setImgBase64([]);
-    setImgFile(imgFileAry);
+    setImgFile(imgFileAry[0]);
 
     for (let i = 0; i < imgFileAry.length; i++) {
       if (imgFileAry[i]) {

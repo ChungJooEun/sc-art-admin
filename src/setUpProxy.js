@@ -44,6 +44,15 @@ module.exports = function (app) {
     })
   );
 
+  // 메인 디자인 관련
+  app.use(
+    "/api/main",
+    createProxyMiddleware({
+      target: "http://localhost:9000",
+      changeOrigin: true,
+    })
+  );
+
   app.use(
     "/api/admin",
     createProxyMiddleware({
