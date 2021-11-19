@@ -112,7 +112,7 @@ const CheckablePlaceListItem = ({
         {addDot(placeInfo.create_date.slice(0, 10))}
       </td>
       <td className="js-lists-values-employer-name small">
-        {placeInfo.writer}
+        {placeInfo.creator}
       </td>
       <td
         className={
