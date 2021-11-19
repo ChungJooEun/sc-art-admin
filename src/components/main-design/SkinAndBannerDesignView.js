@@ -25,16 +25,22 @@ const pagePathList = [
 const SkinAndBannerDesignView = () => {
   // 메인 베너 -> base64
   const [mainBanner, setMainBanner] = useState(null);
+
   // 공지사항/이벤트 배너
   const [noticeAndEventBanner, setNoticeAndEventBanner] = useState([]);
-  // 서리풀 청년 아트 개럴리
+  const [initialNEIdList, setInitialNEIdList] = useState([]);
+  // 서리풀 청년 아트 갤러리
   const [artGalleryVideos, setArtGalleryVideos] = useState([]);
+  const [initialAGVIdList, setInitialAGVIdList] = useState([]);
   // 서리풀 악기거리
   const [instrumentStreetVideos, setInstrumentStreetVideos] = useState([]);
+  const [initialISVIdList, setInitialISVIdList] = useState([]);
   // 서초 금요 음악회
   const [fridayConcertVideos, setFridayConcertVideos] = useState([]);
+  const [initialFCVIdList, setInitialFCVIdList] = useState([]);
   // 서초 실내악 축제
   const [chamverMusicVideos, setChamverMusicVidoes] = useState([]);
+  const [initialCMVIdList, setInitialCMNIdList] = useState([]);
 
   const [vIdInfos, setvIdInfos] = useState({
     artId: 0,
@@ -103,9 +109,33 @@ const SkinAndBannerDesignView = () => {
     }
   };
 
+  // 초기 initial data를 삭제시, db삭제 요청
+  const requestDelVideo = async (rId) => {
+    const url = "http://localhost:9200/api/";
+
+    try {
+      const res = await axios.delete(url);
+
+      if (res === 200) {
+        console.log(res.data);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   // 배열과 삭제할 id를 받아 조건으로 삭제 후 return
-  const removeAtList = (rId, list) => {
+  const removeAtList = (rId, list, initialIdList) => {
     let ary = list;
+
+    // 처음에 init한 data를 지우려는지 체크
+    for (let i = 0; i < initialIdList.length; i++) {
+      if (rId === initialIdList[i]) {
+        // 기존 데이터를 삭제하려 한다면, 삭제 api 호출
+        requestDelVideo(rId);
+      }
+    }
+
     ary = ary.filter((item) => item.vId !== rId);
     return ary;
   };
@@ -114,16 +144,24 @@ const SkinAndBannerDesignView = () => {
   const getRemoveVideoInfo = (rId, type) => {
     switch (type) {
       case 0:
-        setArtGalleryVideos(removeAtList(rId, artGalleryVideos));
+        setArtGalleryVideos(
+          removeAtList(rId, artGalleryVideos, initialAGVIdList)
+        );
         break;
       case 1:
-        setInstrumentStreetVideos(removeAtList(rId, instrumentStreetVideos));
+        setInstrumentStreetVideos(
+          removeAtList(rId, instrumentStreetVideos, initialISVIdList)
+        );
         break;
       case 2:
-        setFridayConcertVideos(removeAtList(rId, fridayConcertVideos));
+        setFridayConcertVideos(
+          removeAtList(rId, fridayConcertVideos, initialFCVIdList)
+        );
         break;
       case 3:
-        setChamverMusicVidoes(removeAtList(rId, chamverMusicVideos));
+        setChamverMusicVidoes(
+          removeAtList(rId, chamverMusicVideos, initialCMVIdList)
+        );
         break;
       default:
         break;
@@ -278,6 +316,72 @@ const SkinAndBannerDesignView = () => {
   const history = useHistory();
   const { actions } = useContext(MenuContext);
   useEffect(() => {
+    // initial data 받아오기
+    const getInitialData = async () => {
+      const url = "http://localhost:9200/api/";
+
+      try {
+        const res = await axios.get(url);
+
+        if (res.status === 200) {
+          let ary;
+          const { main, banners, videos1, videos2, videos3, videos4 } =
+            res.data;
+
+          // 메인 배너
+          setMainBanner(main);
+
+          // 공지사항 & 이벤트 베너
+          setNoticeAndEventBanner(banners);
+
+          // api에서 받아온 공지사항 & 이벤트 id 저장
+          ary = [];
+          for (let i = 0; i < banners.length; i++) {
+            ary.push(banners[i].id);
+          }
+          setInitialNEIdList(ary);
+
+          // 서리풀 청년 아트 갤러리
+          setArtGalleryVideos(videos1);
+          ary = [];
+          for (let i = 0; i < videos1; i++) {
+            ary.push(videos1[i].id);
+          }
+          setInitialAGVIdList(ary);
+
+          // 서리풀 악기거리
+          setInstrumentStreetVideos(videos2);
+          ary = [];
+          for (let i = 0; i < videos2.length; i++) {
+            ary.push(videos2[i].id);
+          }
+          setInitialISVIdList(ary);
+
+          // 서초 금요 음악회
+          setFridayConcertVideos(videos3);
+          ary = [];
+          for (let i = 0; i < videos3.length; i++) {
+            ary.push(videos3[i].id);
+          }
+          setInitialFCVIdList(ary);
+
+          // 서초 실내악 축제
+          setChamverMusicVidoes(videos4);
+          ary = [];
+          for (let i = 0; i < videos4.length; i++) {
+            ary.push(videos4[i].id);
+          }
+          setInitialCMNIdList(ary);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    // initial data는 해당 data의 Id 정보를 가지고 있음
+    // 받아온 데이터를 기존의 데이터에 init, initailIdList에는 id 값을 추출하여 사용
+    // getInitialData();
+
     const srcList = [
       `${process.env.PUBLIC_URL}/assets/vendor/jquery.min.js`,
       `${process.env.PUBLIC_URL}/assets/vendor/popper.min.js`,
