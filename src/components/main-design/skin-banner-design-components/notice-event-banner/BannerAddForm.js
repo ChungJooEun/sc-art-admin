@@ -72,6 +72,7 @@ const BannerAddForm = ({ getBannerInfo }) => {
                   type="file"
                   accept="image/*"
                   className=""
+                  name="noticeEventFile"
                   // id="customFileUploadMultiple"
                   onChange={(e) => {
                     onChangeImgFile(e);

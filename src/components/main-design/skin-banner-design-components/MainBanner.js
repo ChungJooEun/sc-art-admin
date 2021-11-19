@@ -86,6 +86,7 @@ const MainBanner = ({ getMainBannerImg, imgFile }) => {
                   type="file"
                   accept="image/*"
                   className=""
+                  name="mainFile"
                   id="customFileUploadMultiple"
                   onChange={(e) => onChangeImgFile(e)}
                 />

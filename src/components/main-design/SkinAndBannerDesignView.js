@@ -29,7 +29,7 @@ const SkinAndBannerDesignView = () => {
   const [noticeAndEventBanner, setNoticeAndEventBanner] = useState([]);
   // 서리풀 청년 아트 개럴리
   const [artGalleryVideos, setArtGalleryVideos] = useState([]);
-  // 서리풀 악끼거리
+  // 서리풀 악기거리
   const [instrumentStreetVideos, setInstrumentStreetVideos] = useState([]);
   // 서초 금요 음악회
   const [fridayConcertVideos, setFridayConcertVideos] = useState([]);
@@ -223,7 +223,7 @@ const SkinAndBannerDesignView = () => {
     for (let i = 0; i < artGalleryVideos.length; i++) {
       data.append("videos1", JSON.stringify({ url: artGalleryVideos[i].url }));
     }
-    //     videos2: [{url}, …], # 서리풀 악기거리 (악끼 아님, 오타)
+    //     videos2: [{url}, …], # 서리풀 악기거리 (악기 아님, 오타)
     for (let i = 0; i < instrumentStreetVideos.length; i++) {
       data.append(
         "videos2",
