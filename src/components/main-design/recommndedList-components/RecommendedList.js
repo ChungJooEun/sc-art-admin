@@ -1,7 +1,7 @@
 import React from "react";
 import RecommendedListItem from "./RecommendedListItem";
 
-const RecommendedList = ({ list }) => {
+const RecommendedList = ({ list, deletItem, getSortNumber }) => {
   return (
     <div className="row card-group-row" data-toggle="dragula">
       {list.map((listItem) => (
@@ -9,6 +9,8 @@ const RecommendedList = ({ list }) => {
           listItem={listItem}
           totalCount={list.length}
           key={listItem.id}
+          deletItem={deletItem}
+          getSortNumber={getSortNumber}
         />
       ))}
     </div>

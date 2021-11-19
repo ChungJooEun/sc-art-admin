@@ -1,21 +1,12 @@
 import React from "react";
 
-const RecommendedListItem = ({ listItem, totalCount }) => {
-  const getImage = (resources) => {
-    if (Object.keys(resources).includes("images")) {
-      if (Object.keys(resources.images).includes("images")) {
-        return resources.images.images[0].url;
-      } else {
-        return resources.images[0].url;
-      }
-    } else {
-      return null;
-    }
-  };
-
-  const getImgSrc = (reources) => {
-    const imgSrc = getImage(reources);
-
+const RecommendedListItem = ({
+  listItem,
+  totalCount,
+  deletItem,
+  getSortNumber,
+}) => {
+  const getImgSrc = (imgSrc) => {
     if (imgSrc) {
       if (imgSrc.includes("/upload/")) {
         return imgSrc;
@@ -25,6 +16,10 @@ const RecommendedListItem = ({ listItem, totalCount }) => {
     } else {
       return "../assets/images/stories/256_rsz_thomas-russell-751613-unsplash.jpg";
     }
+  };
+
+  const onChangeSortNumber = (e) => {
+    getSortNumber(listItem.id, e.target.value);
   };
 
   const getOptions = () => {
@@ -45,7 +40,7 @@ const RecommendedListItem = ({ listItem, totalCount }) => {
         <div className="position-relative">
           <div className="card-img-top">
             <img
-              src={getImgSrc(listItem.resources)}
+              src={getImgSrc(listItem.image)}
               className="card-img-top card-img-cover"
               alt=""
             />
@@ -56,9 +51,7 @@ const RecommendedListItem = ({ listItem, totalCount }) => {
             <h5 className="card-title m-0">
               <a href="/..event/event-detail.html">{listItem.name}</a>
             </h5>
-            <small className="text-muted">
-              {listItem.address1 + " " + listItem.address2}
-            </small>
+            <small className="text-muted">{listItem.location}</small>
             <div
               className="navbar navbar-expand x-0 navbar-light bg-body"
               id="default-navbar"
@@ -76,6 +69,8 @@ const RecommendedListItem = ({ listItem, totalCount }) => {
                   <select
                     id="custom-select"
                     className="form-control custom-select"
+                    defaultValue={listItem.sort}
+                    onChange={(e) => onChangeSortNumber(e)}
                   >
                     {getOptions()}
                   </select>
@@ -91,6 +86,7 @@ const RecommendedListItem = ({ listItem, totalCount }) => {
                 data-swal-confirm-button-text="확인"
                 data-swal-confirm-cb="#swal-confirm-delete"
                 data-swal-close-on-confirm="false"
+                onClick={() => deletItem(listItem.id)}
               >
                 삭제
               </button>

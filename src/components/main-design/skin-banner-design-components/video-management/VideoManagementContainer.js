@@ -13,7 +13,7 @@ const VideoManagementContainer = ({
       case "서리풀 청년 아트 갤러리":
         getVideoInfo(url, 0);
         break;
-      case "서리풀 악끼거리":
+      case "서리풀 악기거리":
         getVideoInfo(url, 1);
         break;
       case "서초 금요 음악회":
@@ -32,7 +32,7 @@ const VideoManagementContainer = ({
       case "서리풀 청년 아트 갤러리":
         getRemoveVideoInfo(rId, 0);
         break;
-      case "서리풀 악끼거리":
+      case "서리풀 악기거리":
         getRemoveVideoInfo(rId, 1);
         break;
       case "서초 금요 음악회":

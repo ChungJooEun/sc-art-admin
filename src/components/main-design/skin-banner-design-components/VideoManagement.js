@@ -23,7 +23,7 @@ const VideoManagement = ({
         getRemoveVideoInfo={getRemoveVideoInfo}
       />
       <VideoManagementContainer
-        containerTitle="서리풀 악끼거리"
+        containerTitle="서리풀 악기거리"
         videosInfo={instrumentStreetVideos}
         getVideoInfo={getVideoInfo}
         getRemoveVideoInfo={getRemoveVideoInfo}

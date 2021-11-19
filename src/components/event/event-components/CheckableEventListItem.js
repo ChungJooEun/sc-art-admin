@@ -80,9 +80,9 @@ const CheckableEventListItem = ({
               </p>
 
               {eventInfo.festival_name !== null ? (
-                <smal className="js-lists-values-employee-email text-50">
+                <small className="js-lists-values-employee-email text-50">
                   {eventInfo.festival_name}
-                </smal>
+                </small>
               ) : (
                 ""
               )}

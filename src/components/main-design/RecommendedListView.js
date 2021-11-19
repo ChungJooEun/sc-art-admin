@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import MenuContext from "../../context/menu";
+import axios from "axios";
 
 import GlobalBar from "../basic-components/GlobalBar";
 import PageTitle from "../basic-components/PageTitle";
@@ -32,12 +33,158 @@ const RecommendedListView = () => {
   const [recommendList, setRecommendList] = useState(null);
   const [addedList, setAddedList] = useState([]);
 
+  const deleteItemAddList = (rId) => {
+    let ary = addedList;
+    ary = ary.filter((item) => item.id !== rId);
+
+    setAddedList(ary);
+  };
+
+  const deleteItemRecommendList = (rId) => {
+    let ary = recommendList;
+    ary = ary.filter((item) => item.id !== rId);
+
+    setRecommendList(ary);
+  };
+
   const getListAtModal = (selectedList) => {
-    setAddedList(selectedList);
+    let ary;
+
+    // 이미 추가된 리스트 중복 제거
+    if (addedList.length > 0) {
+      ary = selectedList;
+
+      for (let i = 0; i < addedList.length; i++) {
+        ary = ary.filter((item) => item.id !== addedList[i].id);
+      }
+    } else {
+      ary = selectedList;
+    }
+
+    const isEvent = window.location.href.includes("event") ? true : false;
+    let convertAry = [];
+    for (let i = 0; i < ary.length; i++) {
+      convertAry.push({
+        id: ary[i].id,
+        name: ary[i].name,
+        location: isEvent
+          ? ary[i].location
+          : ary[i].address1 + " " + ary[i].address2,
+        image: Object.keys(ary[i].resources).includes("images")
+          ? ary[i].resources.images[0].url
+          : null,
+        sort: 1,
+      });
+    }
+
+    setAddedList(addedList.concat(convertAry));
+  };
+
+  const hasSameSortNumber = () => {
+    let checked = new Array(addedList.length + recommendList.length);
+
+    checked.fill(0);
+
+    for (let i = 0; i < addedList.length; i++) {
+      if (checked[addedList[i].sort - 1] === 0) {
+        checked[addedList[i].sort - 1] = 1;
+      } else {
+        console.log("같은 순서값이 존재합니다");
+        return false;
+      }
+    }
+
+    for (let i = 0; i < recommendList.length; i++) {
+      if (checked[recommendList[i].sort - 1] === 0) {
+        checked[recommendList[i].sort - 1] = 1;
+      } else {
+        console.log("같은 순서값이 존재합니다");
+        return false;
+      }
+    }
+    return true;
+  };
+
+  const getSortNumberAddedList = (id, sortNumber) => {
+    let ary = [];
+
+    for (let i = 0; i < addedList.length; i++) {
+      if (addedList[i].id === id) {
+        ary.push({
+          ...addedList[i],
+          sort: sortNumber,
+        });
+      } else {
+        ary.push(addedList[i]);
+      }
+    }
+
+    setAddedList(ary);
+  };
+
+  const getSortNumberRecommendList = (id, sortNumber) => {
+    let ary = [];
+
+    for (let i = 0; i < recommendList.length; i++) {
+      if (recommendList[i].id !== id) {
+        ary.push({
+          ...recommendList[i],
+          sort: sortNumber,
+        });
+      } else {
+        ary.push(recommendList[i]);
+      }
+    }
+
+    setRecommendList(ary);
   };
 
   const onClickSaveBtn = () => {
-    // axios 요청
+    if (!hasSameSortNumber()) {
+      return;
+    }
+
+    const formdata = new FormData();
+
+    //   type: 행사 or 공간,
+    formdata.append(
+      "type",
+      window.location.href.includes("event") ? "event" : "space"
+    );
+
+    // data:{id: 행사/공간 ID, name: 행사/공간명, location: 주소, sort: 순서, image : 이미지 저장 경로}
+    for (let i = 0; i < recommendList.length; i++) {
+      formdata.append("data", JSON.stringify(recommendList[i]));
+    }
+
+    for (let i = 0; i < addedList.length; i++) {
+      formdata.append("data", JSON.stringify(addedList[i]));
+    }
+
+    // 등록자
+    formdata.append("userid", window.sessionStorage.getItem("userid"));
+
+    for (let key of formdata.keys()) console.log("formData KEY : " + key);
+
+    for (let value of formdata.values())
+      console.log("formDaa VALUE : " + value);
+
+    saveRecommendList(formdata);
+  };
+
+  const saveRecommendList = async (data) => {
+    const url = "http://localhost:9200/api/main/recommend";
+
+    try {
+      const res = await axios.post(url, data);
+
+      if (res.status === 200) {
+        console.log(" ======= success to post recommended list ========");
+        console.log(res.data);
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const { actions } = useContext(MenuContext);
@@ -136,7 +283,11 @@ const RecommendedListView = () => {
 
         <div className="container-fluid page__container">
           <div className="page-section">
-            <RecommendedList list={addedList} />
+            <RecommendedList
+              list={addedList}
+              deletItem={deleteItemAddList}
+              getSortNumber={getSortNumberAddedList}
+            />
           </div>
 
           <button
@@ -194,7 +345,11 @@ const RecommendedListView = () => {
                   : `메인에 노출되는 문화공간(${recommendList.length})`}
               </div>
             </div>
-            <RecommendedList list={recommendList} />
+            <RecommendedList
+              list={recommendList}
+              deletItem={deleteItemRecommendList}
+              getSortNumber={getSortNumberRecommendList}
+            />
           </div>
         </div>
       </div>
