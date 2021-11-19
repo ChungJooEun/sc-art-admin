@@ -183,7 +183,7 @@ const SkinAndBannerDesignView = () => {
   };
 
   const saveMainDesignInfo = async (data) => {
-    const url = "http://localhost:9000/api/main/theme";
+    const url = "http://localhost:9200/api/main/theme";
 
     try {
       const res = await axios.post(url, data, {
