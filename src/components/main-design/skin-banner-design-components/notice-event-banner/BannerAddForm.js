@@ -41,6 +41,15 @@ const BannerAddForm = ({ getBannerInfo }) => {
   };
 
   const onClickAddBtn = () => {
+    if (
+      imgFile === null ||
+      link === "" ||
+      link === undefined ||
+      link === null ||
+      imgBase64.length === 0
+    ) {
+      return;
+    }
     getBannerInfo(imgFile, link, imgBase64);
 
     // 초기화

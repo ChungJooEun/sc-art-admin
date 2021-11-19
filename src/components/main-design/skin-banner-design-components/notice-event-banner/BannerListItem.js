@@ -1,6 +1,6 @@
 import React from "react";
 
-const BannerListItem = ({ bannerInfo }) => {
+const BannerListItem = ({ bannerInfo, removeNoticeBanner }) => {
   return (
     <div className="col-lg-6 card-group-row__col">
       <div className="card card-group-row__card p-16pt">
@@ -13,7 +13,6 @@ const BannerListItem = ({ bannerInfo }) => {
             <div className="form-row">
               <div className="flex" style={{ maxWidth: "100%" }}>
                 <img
-                  // src="../assets/images/256_rsz_thomas-russell-751613-unsplash.jpg"
                   src={bannerInfo.imgBase64[0]}
                   className="avatar-img rounded"
                   alt=""
@@ -42,6 +41,7 @@ const BannerListItem = ({ bannerInfo }) => {
                 <button
                   className="btn btn-secondary ml-16pt"
                   data-toggle="swal"
+                  onClick={() => removeNoticeBanner(bannerInfo.id)}
                 >
                   삭제{" "}
                 </button>

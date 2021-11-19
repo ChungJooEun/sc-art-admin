@@ -29,6 +29,9 @@ const SkinAndBannerDesignView = () => {
   // 공지사항/이벤트 배너
   const [noticeAndEventBanner, setNoticeAndEventBanner] = useState([]);
   const [initialNEIdList, setInitialNEIdList] = useState([]);
+
+  const [noticeBannerId, setNoticeBannerId] = useState(0);
+
   // 서리풀 청년 아트 갤러리
   const [artGalleryVideos, setArtGalleryVideos] = useState([]);
   const [initialAGVIdList, setInitialAGVIdList] = useState([]);
@@ -61,8 +64,46 @@ const SkinAndBannerDesignView = () => {
         imgFile: imgFile,
         link: link,
         imgBase64: imgBase64,
+        id: noticeBannerId,
       })
     );
+
+    setNoticeBannerId(noticeBannerId + 1);
+  };
+
+  // 삭제 버튼 클릭시, db에서 삭제 요청 api
+  const requestDelNoticeEventBanner = async (rId) => {
+    const url = "http://localhost:9200/api/";
+
+    try {
+      const res = await axios.delete(url);
+
+      if (res.status === 200) {
+        console.log(
+          `===== success delete notice and event banner data : ${rId} =====`
+        );
+        console.log(res.data);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  // 삭제 버튼 클릭시, 공지사항 / 이벤트 베너 삭제 요청
+  const removeNoticeBanner = (rId) => {
+    // 삭제를 요청한 데이터가 초기 데이터인지 검사
+    for (let i = 0; i < initialNEIdList.length; i++) {
+      if (rId === initialNEIdList[i]) {
+        requestDelNoticeEventBanner(rId);
+        break;
+      }
+    }
+
+    let ary = noticeAndEventBanner;
+
+    ary = ary.filter((item) => item.id !== rId);
+
+    setNoticeAndEventBanner(ary);
   };
 
   // 동영상 관리 > 추가 버튼 눌렀을 시에 해당 리스트에 저장(id도 증가)
@@ -109,7 +150,7 @@ const SkinAndBannerDesignView = () => {
     }
   };
 
-  // 초기 initial data를 삭제시, db삭제 요청
+  // 초기 initial data를 삭제시, db삭제 요청 api
   const requestDelVideo = async (rId) => {
     const url = "http://localhost:9200/api/";
 
@@ -133,6 +174,7 @@ const SkinAndBannerDesignView = () => {
       if (rId === initialIdList[i]) {
         // 기존 데이터를 삭제하려 한다면, 삭제 api 호출
         requestDelVideo(rId);
+        break;
       }
     }
 
@@ -441,7 +483,7 @@ const SkinAndBannerDesignView = () => {
           <div className="save-button">
             <button
               className="btn btn btn-secondary ml-16pt"
-              onClick={() => history.push("/")}
+              onClick={() => history.push("/dashboard")}
             >
               취소
             </button>
@@ -459,6 +501,7 @@ const SkinAndBannerDesignView = () => {
           <NoticeAndEventBanner
             getBannerInfo={getBannerInfo}
             noticeAndEventBanner={noticeAndEventBanner}
+            removeNoticeBanner={removeNoticeBanner}
           />
           <div className="save-button">
             <button

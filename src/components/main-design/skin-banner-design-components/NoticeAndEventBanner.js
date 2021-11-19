@@ -3,8 +3,11 @@ import React from "react";
 import BannerAddForm from "./notice-event-banner/BannerAddForm";
 import BannerListItem from "./notice-event-banner/BannerListItem";
 
-const NoticeAndEventBanner = ({ getBannerInfo, noticeAndEventBanner }) => {
-  let i = 0;
+const NoticeAndEventBanner = ({
+  getBannerInfo,
+  noticeAndEventBanner,
+  removeNoticeBanner,
+}) => {
   return (
     <div className="page-section">
       <div className="page-separator">
@@ -13,7 +16,11 @@ const NoticeAndEventBanner = ({ getBannerInfo, noticeAndEventBanner }) => {
       <div className="row">
         <BannerAddForm getBannerInfo={getBannerInfo} />
         {noticeAndEventBanner.map((bannerInfo) => (
-          <BannerListItem bannerInfo={bannerInfo} key={bannerInfo.link + i--} />
+          <BannerListItem
+            bannerInfo={bannerInfo}
+            removeNoticeBanner={removeNoticeBanner}
+            key={bannerInfo.id}
+          />
         ))}
       </div>
     </div>
