@@ -13,7 +13,7 @@ const barGraphOptions = {
   // maintainAspectRatio: false,
 };
 
-const SummaryBarGraph = ({ graphTitle, data }) => {
+const SummaryBarGraph = ({ graphTitle, totalCount, data }) => {
   return (
     <div className="col-md-6 card-group-row__col">
       <div className="card card-group-row__card">
@@ -21,7 +21,7 @@ const SummaryBarGraph = ({ graphTitle, data }) => {
           <div className="row no-gutters flex" role="tablist">
             <div className="col-auto">
               <div className="p-card-header d-flex align-items-center">
-                <div className="h2 mb-0 mr-3">417</div>
+                <div className="h2 mb-0 mr-3">{totalCount}</div>
                 <div className="flex">
                   <p className="mb-0">
                     <strong>{graphTitle}</strong>

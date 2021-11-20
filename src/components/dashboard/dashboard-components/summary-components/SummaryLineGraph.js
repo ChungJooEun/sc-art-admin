@@ -19,7 +19,11 @@ const options = {
   },
 };
 
-const SummaryLineGraph = ({ graphTitle, data }) => {
+const calcTotalCount = (data) => {
+  console.log(data);
+};
+
+const SummaryLineGraph = ({ graphTitle, totalCount, data }) => {
   return (
     <div className="col-md-6 card-group-row__col">
       <div className="card card-group-row__card">
@@ -27,7 +31,7 @@ const SummaryLineGraph = ({ graphTitle, data }) => {
           <div className="row no-gutters flex" role="tablist">
             <div className="col-auto">
               <div className="p-card-header d-flex align-items-center">
-                <div className="h2 mb-0 mr-3">2,412</div>
+                <div className="h2 mb-0 mr-3">{totalCount}</div>
                 <div className="flex d-flex flex-column">
                   <p className="mb-0">
                     <strong>{graphTitle}</strong>

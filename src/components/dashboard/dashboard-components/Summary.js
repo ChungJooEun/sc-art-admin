@@ -4,32 +4,18 @@ import axios from "axios";
 import SummaryLineGraph from "./summary-components/SummaryLineGraph";
 import SummaryBarGraph from "./summary-components/SummaryBarGraph";
 
-const barGraphData = {
-  labels: ["11/15", "11/16", "11/17", "11/18", "11/19", "11/20", "11/21"],
-  datasets: [
-    {
-      label: "지난주",
-      data: [5, 25, 38, 50, 39, 110, 120],
-      fill: true,
-      backgroundColor: "rgb(220, 230, 244)",
-      borderColor: "rgb(220, 230, 244)",
-      borderWidth: 1,
-      borderRadius: 7,
-    },
-    {
-      label: "이번주",
-      data: [12, 19, 35, 53, 29, 130, 99],
-      fill: true,
-      backgroundColor: "rgb(30, 128, 240)",
-      borderColor: "rgb(30, 128, 240)",
-      borderWidth: 1,
-      borderRadius: 7,
-    },
-  ],
-};
-
 const labelParing = (dateString) => {
   return dateString.slice(4, 6) + "/" + dateString.slice(6);
+};
+
+const calcTotalCount = (data) => {
+  let sum = 0;
+
+  for (let i = 0; i < data.length; i++) {
+    sum += data[i];
+  }
+
+  return sum;
 };
 
 const Summary = () => {
@@ -51,6 +37,7 @@ const Summary = () => {
   useEffect(() => {
     const getSummary = async () => {
       const url = "http://118.67.154.118:3000/api/admin/dashboard/list";
+      // const url = "http://localhost:3000/api/admin/dashboard/list";
 
       try {
         const res = await axios.get(url);
@@ -133,6 +120,7 @@ const Summary = () => {
       <div className="row mb-lg-8pt">
         <SummaryLineGraph
           graphTitle="사이트 방문"
+          totalCount={calcTotalCount(visitorCount.data)}
           data={{
             labels: visitorCount.labels,
             datasets: [
@@ -150,6 +138,7 @@ const Summary = () => {
         />
         <SummaryLineGraph
           graphTitle="신규 가입"
+          totalCount={calcTotalCount(subscriberCount.data)}
           data={{
             labels: subscriberCount.labels,
             datasets: [
@@ -169,6 +158,7 @@ const Summary = () => {
       <div className="row mb-lg-8pt">
         <SummaryLineGraph
           graphTitle="신규 리뷰"
+          totalCount={calcTotalCount(reviewCount.data)}
           data={{
             labels: reviewCount.labels,
             datasets: [
@@ -189,6 +179,7 @@ const Summary = () => {
       <div className="row card-group-row mb-lg-8pt">
         <SummaryBarGraph
           graphTitle="신규 등록 행사"
+          totalCount={calcTotalCount(eventCount.data.thisWeek)}
           data={{
             labels: eventCount.labels.thisWeek,
             datasets: [
@@ -215,6 +206,7 @@ const Summary = () => {
         />
         <SummaryBarGraph
           graphTitle="신규 등록 공간"
+          totalCount={calcTotalCount(placeCount.data.thisWeek)}
           data={{
             labels: placeCount.labels.thisWeek,
             datasets: [
