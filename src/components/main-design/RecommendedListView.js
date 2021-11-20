@@ -61,6 +61,13 @@ const RecommendedListView = () => {
       ary = selectedList;
     }
 
+    //
+    if (recommendList.length > 0) {
+      for (let i = 0; i < recommendList.length; i++) {
+        ary = ary.filter((item) => item.id !== recommendList[i].id);
+      }
+    }
+
     const isEvent = window.location.href.includes("event") ? true : false;
     let convertAry = [];
     for (let i = 0; i < ary.length; i++) {
