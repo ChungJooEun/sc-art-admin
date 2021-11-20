@@ -127,7 +127,7 @@ const AddPlaceView = ({ options }) => {
     formData.append("address2", formInfo.address2);
     formData.append("homepage", formInfo.homepage);
     formData.append("phone", formInfo.phone);
-    // formData.append("price", formInfo.price);
+    formData.append("holiday", formInfo.holiday);
     formData.append("open_time", openTime);
     formData.append("close_time", closeTime);
     formData.append("state", formState);

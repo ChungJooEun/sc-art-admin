@@ -116,7 +116,7 @@ const PlaceDetailView = ({ options, isApproved, match }) => {
     formData.append("address2", formInfo.address2);
     formData.append("homepage", formInfo.homepage);
     formData.append("phone", formInfo.phone);
-    // formData.append("price", formInfo.price);
+    formData.append("holiday", formInfo.holiday);
     formData.append("open_time", openTime);
     formData.append("close_time", closeTime);
     formData.append("state", formState);
@@ -194,7 +194,7 @@ const PlaceDetailView = ({ options, isApproved, match }) => {
             address2: response.data.address2,
             homepage: response.data.homepage,
             phone: response.data.phone,
-            holiday: "",
+            holiday: response.data.holiday,
             state: response.data.state,
             space_type: response.data.space_type,
             space_type_name: response.data.space_type_name,
