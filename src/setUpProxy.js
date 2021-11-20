@@ -48,7 +48,25 @@ module.exports = function (app) {
   app.use(
     "/api/main",
     createProxyMiddleware({
-      target: "http://localhost:9200",
+      target: "http://118.67.154.134:22000",
+      changeOrigin: true,
+    })
+  );
+
+  // 메인 디자인 관련 - 상세조회, 매엔베너/공지사항 이벤트 베너 삭제
+  app.use(
+    "/api/main/theme",
+    createProxyMiddleware({
+      target: "http://118.67.154.134:22000",
+      changeOrigin: true,
+    })
+  );
+
+  // 추천 문화 행사/공간 관련
+  app.use(
+    "/api/admin/main/",
+    createProxyMiddleware({
+      target: "http://118.67.154.134:3000",
       changeOrigin: true,
     })
   );

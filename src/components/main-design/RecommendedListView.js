@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useCallback } from "react";
 import MenuContext from "../../context/menu";
 import axios from "axios";
 
@@ -112,7 +112,7 @@ const RecommendedListView = () => {
       if (addedList[i].id === id) {
         ary.push({
           ...addedList[i],
-          sort: sortNumber,
+          sort: parseInt(sortNumber),
         });
       } else {
         ary.push(addedList[i]);
@@ -125,11 +125,12 @@ const RecommendedListView = () => {
   const getSortNumberRecommendList = (id, sortNumber) => {
     let ary = [];
 
+    console.log(id + "    " + sortNumber);
     for (let i = 0; i < recommendList.length; i++) {
-      if (recommendList[i].id !== id) {
+      if (recommendList[i].id === id) {
         ary.push({
           ...recommendList[i],
-          sort: sortNumber,
+          sort: parseInt(sortNumber),
         });
       } else {
         ary.push(recommendList[i]);
@@ -149,17 +150,22 @@ const RecommendedListView = () => {
     //   type: 행사 or 공간,
     formdata.append(
       "type",
-      window.location.href.includes("event") ? "event" : "space"
+      window.location.href.includes("event")
+        ? "cultural_event"
+        : "cultural_space"
     );
 
+    let ary = new Array();
     // data:{id: 행사/공간 ID, name: 행사/공간명, location: 주소, sort: 순서, image : 이미지 저장 경로}
     for (let i = 0; i < recommendList.length; i++) {
-      formdata.append("data", JSON.stringify(recommendList[i]));
+      ary.push(recommendList[i]);
     }
 
     for (let i = 0; i < addedList.length; i++) {
-      formdata.append("data", JSON.stringify(addedList[i]));
+      ary.push(addedList[i]);
     }
+
+    formdata.append("data", JSON.stringify(ary));
 
     // 등록자
     formdata.append("userid", window.sessionStorage.getItem("userid"));
@@ -173,7 +179,9 @@ const RecommendedListView = () => {
   };
 
   const saveRecommendList = async (data) => {
-    const url = "http://localhost:9200/api/main/recommend";
+    const url =
+      "http://118.67.154.118:3000/api/admin/main/regist/recommendations";
+    // const url = "/api/admin/main/regist/recommendations";
 
     try {
       const res = await axios.post(url, data);
@@ -181,11 +189,49 @@ const RecommendedListView = () => {
       if (res.status === 200) {
         console.log(" ======= success to post recommended list ========");
         console.log(res.data);
+        getRecommendedList();
+        setAddedList([]);
       }
     } catch (e) {
       console.log(e);
     }
   };
+
+  // 초기화
+  const getRecommendedList = useCallback(async () => {
+    const url =
+      "http://118.67.154.118:3000/api/admin/main/list/recommendations";
+
+    try {
+      const res = await axios.get(url, {
+        params: {
+          type: window.location.href.includes("place")
+            ? "cultural_space"
+            : "cultural_event",
+        },
+      });
+
+      if (res.status === 200) {
+        const { list } = res.data;
+
+        let ary = [];
+        for (let i = 0; i < list.length; i++) {
+          ary.push({
+            id: list[i].content_id,
+            name: list[i].content_name,
+            location: list[i].content_location,
+            image: list[i].image,
+            sort: list[i].sort,
+          });
+        }
+
+        setRecommendList(ary);
+      }
+    } catch (e) {
+      console.log(e);
+      setRecommendList([]);
+    }
+  }, []);
 
   const { actions } = useContext(MenuContext);
   useEffect(() => {
@@ -200,9 +246,8 @@ const RecommendedListView = () => {
         subMenu: 1,
       });
     }
-
-    // 초기화
-    setRecommendList([]);
+    setAddedList([]);
+    getRecommendedList();
 
     const srcList = [
       `${process.env.PUBLIC_URL}/assets/vendor/jquery.min.js`,
@@ -231,7 +276,7 @@ const RecommendedListView = () => {
         document.body.removeChild(scriptList[i]);
       }
     };
-  }, []);
+  }, [getRecommendedList, window.location.href]);
 
   if (recommendList === null) {
     return (
@@ -287,6 +332,7 @@ const RecommendedListView = () => {
               list={addedList}
               deletItem={deleteItemAddList}
               getSortNumber={getSortNumberAddedList}
+              totalCount={recommendList.length + addedList.length}
             />
           </div>
 
@@ -349,6 +395,7 @@ const RecommendedListView = () => {
               list={recommendList}
               deletItem={deleteItemRecommendList}
               getSortNumber={getSortNumberRecommendList}
+              totalCount={recommendList.length + addedList.length}
             />
           </div>
         </div>

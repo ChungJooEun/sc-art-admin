@@ -7,11 +7,11 @@ const RecommendedListItem = ({
   getSortNumber,
 }) => {
   const getImgSrc = (imgSrc) => {
-    if (imgSrc) {
-      if (imgSrc.includes("/upload/")) {
-        return imgSrc;
-      } else if (imgSrc.includes("/images/")) {
+    if (imgSrc !== null) {
+      if (imgSrc.includes("/images/")) {
         return `http://118.67.154.118:3000${imgSrc}`;
+      } else {
+        return "../assets/images/stories/256_rsz_thomas-russell-751613-unsplash.jpg";
       }
     } else {
       return "../assets/images/stories/256_rsz_thomas-russell-751613-unsplash.jpg";
