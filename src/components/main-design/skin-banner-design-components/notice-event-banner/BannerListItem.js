@@ -1,6 +1,17 @@
 import React from "react";
 
 const BannerListItem = ({ bannerInfo, removeNoticeBanner }) => {
+  const getImgSrc = (bannerInfo) => {
+    if (bannerInfo.imgBase64.length === 1) {
+      return bannerInfo.imgBase64[0];
+    } else if (bannerInfo.imgFile) {
+      return `http://118.67.154.134:22000/main/${bannerInfo.imgFile}`;
+      // return `http://localhost:3000${imgSrc}`;
+    } else {
+      return "/assets/images/256_rsz_thomas-russell-751613-unsplash.jpg";
+    }
+  };
+
   return (
     <div className="col-lg-6 card-group-row__col">
       <div className="card card-group-row__card p-16pt">
@@ -13,7 +24,7 @@ const BannerListItem = ({ bannerInfo, removeNoticeBanner }) => {
             <div className="form-row">
               <div className="flex" style={{ maxWidth: "100%" }}>
                 <img
-                  src={bannerInfo.imgBase64[0]}
+                  src={getImgSrc(bannerInfo)}
                   className="avatar-img rounded"
                   alt=""
                   data-dz-thumbnail

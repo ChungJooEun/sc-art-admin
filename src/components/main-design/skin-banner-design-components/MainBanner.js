@@ -36,7 +36,7 @@ const MainBanner = ({ getMainBannerImg, imgFile }) => {
     if (imgBase64.length === 1) {
       return imgBase64[0];
     } else if (imgFile) {
-      return `http://118.67.154.118:3000${imgFile}`;
+      return `http://118.67.154.134:22000/main/${imgFile}`;
       // return `http://localhost:3000${imgSrc}`;
     } else {
       return "/assets/images/256_rsz_thomas-russell-751613-unsplash.jpg";

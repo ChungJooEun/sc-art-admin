@@ -28,22 +28,26 @@ const SkinAndBannerDesignView = () => {
 
   // 공지사항/이벤트 배너
   const [noticeAndEventBanner, setNoticeAndEventBanner] = useState([]);
-  const [initialNEIdList, setInitialNEIdList] = useState([]);
+  const [initialNoticeEvent, setInitialNoticeEvent] = useState([]);
 
   const [noticeBannerId, setNoticeBannerId] = useState(0);
 
   // 서리풀 청년 아트 갤러리
   const [artGalleryVideos, setArtGalleryVideos] = useState([]);
-  const [initialAGVIdList, setInitialAGVIdList] = useState([]);
+  const [initialArtGalleryVideos, setInitialArtGalleryVideos] = useState([]);
   // 서리풀 악기거리
   const [instrumentStreetVideos, setInstrumentStreetVideos] = useState([]);
-  const [initialISVIdList, setInitialISVIdList] = useState([]);
+  const [initialInstrumentStreetVideos, setInitialInstrumentStreetVideos] =
+    useState([]);
   // 서초 금요 음악회
   const [fridayConcertVideos, setFridayConcertVideos] = useState([]);
-  const [initialFCVIdList, setInitialFCVIdList] = useState([]);
+  const [initialFridayConcertVideos, setInitialFridayConcertVideosList] =
+    useState([]);
   // 서초 실내악 축제
   const [chamverMusicVideos, setChamverMusicVidoes] = useState([]);
-  const [initialCMVIdList, setInitialCMNIdList] = useState([]);
+  const [initialChamverMusicVideos, setInitialChamverMusicVideos] = useState(
+    []
+  );
 
   const [vIdInfos, setvIdInfos] = useState({
     artId: 0,
@@ -73,7 +77,8 @@ const SkinAndBannerDesignView = () => {
 
   // 삭제 버튼 클릭시, db에서 삭제 요청 api
   const requestDelNoticeEventBanner = async (rId) => {
-    const url = "http://localhost:9200/api/";
+    const url = `http://118.67.154.134:22000/api/main/theme/${rId}`;
+    // const url = `http://localhost:9200/api/main/theme/${rId}`;
 
     try {
       const res = await axios.delete(url);
@@ -91,19 +96,34 @@ const SkinAndBannerDesignView = () => {
 
   // 삭제 버튼 클릭시, 공지사항 / 이벤트 베너 삭제 요청
   const removeNoticeBanner = (rId) => {
+    console.log(rId);
     // 삭제를 요청한 데이터가 초기 데이터인지 검사
-    for (let i = 0; i < initialNEIdList.length; i++) {
-      if (rId === initialNEIdList[i]) {
+    let ary;
+    if (isInitalData_NoticeEvent(rId)) {
+      ary = initialNoticeEvent;
+      ary = ary.filter((item) => item.id !== rId);
+      setInitialNoticeEvent(ary);
+    } else {
+      ary = noticeAndEventBanner;
+      ary = ary.filter((item) => item.id !== rId);
+      setNoticeAndEventBanner(ary);
+    }
+  };
+
+  const isInitalData_NoticeEvent = (rId) => {
+    let isInitialData = false;
+
+    // 처음에 init한 data를 지우려는지 체크
+    for (let i = 0; i < initialNoticeEvent.length; i++) {
+      if (rId === initialNoticeEvent[i].id) {
+        isInitialData = true;
+        // 기존 데이터를 삭제 api 호출
         requestDelNoticeEventBanner(rId);
         break;
       }
     }
 
-    let ary = noticeAndEventBanner;
-
-    ary = ary.filter((item) => item.id !== rId);
-
-    setNoticeAndEventBanner(ary);
+    return isInitialData;
   };
 
   // 동영상 관리 > 추가 버튼 눌렀을 시에 해당 리스트에 저장(id도 증가)
@@ -152,7 +172,7 @@ const SkinAndBannerDesignView = () => {
 
   // 초기 initial data를 삭제시, db삭제 요청 api
   const requestDelVideo = async (rId) => {
-    const url = "http://localhost:9200/api/";
+    const url = `http://118.67.154.134:22000/api/main/theme/${rId}`;
 
     try {
       const res = await axios.delete(url);
@@ -166,44 +186,62 @@ const SkinAndBannerDesignView = () => {
   };
 
   // 배열과 삭제할 id를 받아 조건으로 삭제 후 return
-  const removeAtList = (rId, list, initialIdList) => {
+  const removeAtList = (rId, list) => {
     let ary = list;
 
+    ary = ary.filter((item) => item.vId !== rId);
+    return ary;
+  };
+
+  // 삭제하려는 데이터가 초기 데이터이면 api 삭제 요청, true/false 반환
+  const isInitalData = (rId, initialVideoList) => {
+    let isInitialData = false;
+
     // 처음에 init한 data를 지우려는지 체크
-    for (let i = 0; i < initialIdList.length; i++) {
-      if (rId === initialIdList[i]) {
-        // 기존 데이터를 삭제하려 한다면, 삭제 api 호출
+    for (let i = 0; i < initialVideoList.length; i++) {
+      if (rId === initialVideoList[i].vId) {
+        isInitialData = true;
+        // 기존 데이터를 삭제 api 호출
         requestDelVideo(rId);
         break;
       }
     }
 
-    ary = ary.filter((item) => item.vId !== rId);
-    return ary;
+    return isInitialData;
   };
 
   // 비디오 삭제 버튼 클릭시,
   const getRemoveVideoInfo = (rId, type) => {
     switch (type) {
       case 0:
-        setArtGalleryVideos(
-          removeAtList(rId, artGalleryVideos, initialAGVIdList)
-        );
+        isInitalData(rId, initialArtGalleryVideos)
+          ? setInitialArtGalleryVideos(
+              removeAtList(rId, initialArtGalleryVideos)
+            )
+          : setArtGalleryVideos(removeAtList(rId, artGalleryVideos));
         break;
       case 1:
-        setInstrumentStreetVideos(
-          removeAtList(rId, instrumentStreetVideos, initialISVIdList)
-        );
+        isInitalData(rId, initialInstrumentStreetVideos)
+          ? setInitialInstrumentStreetVideos(
+              removeAtList(rId, initialInstrumentStreetVideos)
+            )
+          : setInstrumentStreetVideos(
+              removeAtList(rId, instrumentStreetVideos)
+            );
         break;
       case 2:
-        setFridayConcertVideos(
-          removeAtList(rId, fridayConcertVideos, initialFCVIdList)
-        );
+        isInitalData(rId, initialFridayConcertVideos)
+          ? setInitialFridayConcertVideosList(
+              removeAtList(rId, initialFridayConcertVideos)
+            )
+          : setFridayConcertVideos(removeAtList(rId, fridayConcertVideos));
         break;
       case 3:
-        setChamverMusicVidoes(
-          removeAtList(rId, chamverMusicVideos, initialCMVIdList)
-        );
+        isInitalData(rId, initialChamverMusicVideos)
+          ? setInitialChamverMusicVideos(
+              removeAtList(rId, initialChamverMusicVideos)
+            )
+          : setChamverMusicVidoes(removeAtList(rId, chamverMusicVideos));
         break;
       default:
         break;
@@ -233,7 +271,7 @@ const SkinAndBannerDesignView = () => {
 
   // 메인 배경 저장 api
   const saveMainDesignInfo = async (data) => {
-    const url = "http://localhost:9200/api/main/bg";
+    const url = "http://118.67.154.134:9200/api/main/bg";
 
     try {
       const res = await axios.post(url, data, {
@@ -277,7 +315,7 @@ const SkinAndBannerDesignView = () => {
 
   // 공지사항/이벤트 저장 api
   const saveNoticeEventInfo = async (data) => {
-    const url = "http://localhost:9200/api/main/banners";
+    const url = "http://118.67.154.134:9200/api/main/banners";
 
     try {
       const res = await axios.post(url, data, {
@@ -341,7 +379,7 @@ const SkinAndBannerDesignView = () => {
 
   // 비디오 저장 api
   const saveVideosInfo = async (data) => {
-    const url = "http://localhost:9200/api/main/videos";
+    const url = "http://118.67.154.134:9200/api/main/videos";
 
     try {
       const res = await axios.post(url, data);
@@ -360,60 +398,60 @@ const SkinAndBannerDesignView = () => {
   useEffect(() => {
     // initial data 받아오기
     const getInitialData = async () => {
-      const url = "http://localhost:9200/api/";
+      const url = "http://118.67.154.134:22000/api/main/theme";
+      // const url = "http://localhost:9000/api/main/theme";
 
       try {
         const res = await axios.get(url);
 
         if (res.status === 200) {
           let ary;
+
           const { main, banners, videos1, videos2, videos3, videos4 } =
             res.data;
 
           // 메인 배너
           setMainBanner(main);
 
-          // 공지사항 & 이벤트 베너
-          setNoticeAndEventBanner(banners);
-
-          // api에서 받아온 공지사항 & 이벤트 id 저장
+          // 공지사항 & 이벤트 베너 초기화
           ary = [];
           for (let i = 0; i < banners.length; i++) {
-            ary.push(banners[i].id);
+            ary.push({
+              imgFile: banners[i].image,
+              link: banners[i].link,
+              imgBase64: [],
+              id: banners[i].id,
+            });
           }
-          setInitialNEIdList(ary);
+          setInitialNoticeEvent(ary);
 
           // 서리풀 청년 아트 갤러리
-          setArtGalleryVideos(videos1);
           ary = [];
-          for (let i = 0; i < videos1; i++) {
-            ary.push(videos1[i].id);
+          for (let i = 0; i < videos1.length; i++) {
+            ary.push({ vId: videos1[i].id, url: videos1[i].video });
           }
-          setInitialAGVIdList(ary);
+          setInitialArtGalleryVideos(ary);
 
           // 서리풀 악기거리
-          setInstrumentStreetVideos(videos2);
           ary = [];
           for (let i = 0; i < videos2.length; i++) {
-            ary.push(videos2[i].id);
+            ary.push({ vId: videos2[i].id, url: videos2[i].video });
           }
-          setInitialISVIdList(ary);
+          setInitialInstrumentStreetVideos(ary);
 
           // 서초 금요 음악회
-          setFridayConcertVideos(videos3);
           ary = [];
           for (let i = 0; i < videos3.length; i++) {
-            ary.push(videos3[i].id);
+            ary.push({ vId: videos3[i].id, url: videos3[i].video });
           }
-          setInitialFCVIdList(ary);
+          setInitialFridayConcertVideosList(ary);
 
           // 서초 실내악 축제
-          setChamverMusicVidoes(videos4);
           ary = [];
           for (let i = 0; i < videos4.length; i++) {
-            ary.push(videos4[i].id);
+            ary.push({ vId: videos4[i].id, url: videos4[i].video });
           }
-          setInitialCMNIdList(ary);
+          setInitialChamverMusicVideos(ary);
         }
       } catch (e) {
         console.log(e);
@@ -422,7 +460,7 @@ const SkinAndBannerDesignView = () => {
 
     // initial data는 해당 data의 Id 정보를 가지고 있음
     // 받아온 데이터를 기존의 데이터에 init, initailIdList에는 id 값을 추출하여 사용
-    // getInitialData();
+    getInitialData();
 
     const srcList = [
       `${process.env.PUBLIC_URL}/assets/vendor/jquery.min.js`,
@@ -500,7 +538,9 @@ const SkinAndBannerDesignView = () => {
           </div>
           <NoticeAndEventBanner
             getBannerInfo={getBannerInfo}
-            noticeAndEventBanner={noticeAndEventBanner}
+            noticeAndEventBanner={noticeAndEventBanner.concat(
+              initialNoticeEvent
+            )}
             removeNoticeBanner={removeNoticeBanner}
           />
           <div className="save-button">
@@ -523,10 +563,16 @@ const SkinAndBannerDesignView = () => {
           </div>
 
           <VideoManagement
-            artGalleryVideos={artGalleryVideos}
-            instrumentStreetVideos={instrumentStreetVideos}
-            fridayConcertVideos={fridayConcertVideos}
-            chamverMusicVideos={chamverMusicVideos}
+            artGalleryVideos={artGalleryVideos.concat(initialArtGalleryVideos)}
+            instrumentStreetVideos={instrumentStreetVideos.concat(
+              initialInstrumentStreetVideos
+            )}
+            fridayConcertVideos={fridayConcertVideos.concat(
+              initialFridayConcertVideos
+            )}
+            chamverMusicVideos={chamverMusicVideos.concat(
+              initialChamverMusicVideos
+            )}
             getVideoInfo={getVideoInfo}
             getRemoveVideoInfo={getRemoveVideoInfo}
           />
