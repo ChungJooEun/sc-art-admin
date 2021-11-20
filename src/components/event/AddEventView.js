@@ -56,7 +56,7 @@ const AddEventView = ({ options }) => {
     close_date: new Date(),
     age: "",
     homepage: "",
-    reservsite: "",
+    reservation_site: "",
     phone: "",
     price: "",
     state: "TEMP_SAVE",
@@ -112,6 +112,7 @@ const AddEventView = ({ options }) => {
     formData.append("close_date", convertDateFormat(formInfo.close_date));
     formData.append("age", formInfo.age);
     formData.append("homepage", formInfo.homepage);
+    formData.append("reservation_site", formInfo.reservation_site);
     formData.append("phone", formInfo.phone);
     formData.append("price", formInfo.price);
     formData.append("open_time", openTime);

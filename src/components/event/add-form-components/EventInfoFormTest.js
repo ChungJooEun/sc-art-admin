@@ -437,6 +437,10 @@ const EventInfoFormTest = React.memo(
                     data-mask="#.##0,00"
                     data-mask-reverse="true"
                     autoComplete="off"
+                    value={formInfo.reservation_site}
+                    onChange={(e) =>
+                      getFormInfo("reservation_site", e.target.value)
+                    }
                   />
                 </div>
               </div>

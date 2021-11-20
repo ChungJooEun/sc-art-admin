@@ -93,13 +93,14 @@ const EventDetailView = ({ options, isApproved, match }) => {
   const onSubmitEvent = (formState) => {
     let formData = new FormData();
 
+    formData.append("id", formInfo.id);
     if (imgFile) {
       formData.append("file", imgFile[0]);
     }
 
     formData.append("name", formInfo.name);
     formData.append("location", formInfo.location);
-    formData.append("address1", formInfo.adderss1);
+    formData.append("address1", formInfo.address1);
     formData.append("address2", formInfo.address2);
     formData.append("open_date", convertDateFormat(formInfo.open_date));
     formData.append("close_date", convertDateFormat(formInfo.close_date));
@@ -142,6 +143,12 @@ const EventDetailView = ({ options, isApproved, match }) => {
       vAry.push(temp);
     }
     formData.append("videos", vAry);
+
+    for (let key of formData.keys()) {
+      console.log(key);
+    }
+
+    for (let v of formData.values()) console.log(v);
 
     postEvent(formData);
   };
@@ -210,8 +217,8 @@ const EventDetailView = ({ options, isApproved, match }) => {
   };
 
   const removeEventPost = async () => {
-    const url = `http://118.67.154.118:3000/api/admin/cultural-event/${formInfo.id}`;
-
+    // const url = `http://118.67.154.118:3000/api/admin/cultural-event/${formInfo.id}`;
+    const url = `/api/admin/cultural-event/${formInfo.id}`;
     try {
       const res = await axios.delete(url);
 
@@ -243,17 +250,20 @@ const EventDetailView = ({ options, isApproved, match }) => {
             close_date: convertToDate(response.data.close_date),
             age: response.data.age,
             homepage: response.data.homepage,
-            reservsite: "",
+            reservation_site: response.data.reservation_site,
             phone: response.data.phone,
             price: response.data.price,
             state: response.data.state,
+            // rejection_reason : response.data.rejection_reason
           });
 
           // 큐레이션 정보
+          // console.log(JSON.parse(response.data.event_field));
+
           setCurationInfo({
             event_type: response.data.event_type,
-            event_theme: response.data.event_theme,
-            event_field: response.data.event_field,
+            event_theme: JSON.parse(response.data.event_theme).split(","),
+            event_field: JSON.parse(response.data.event_field).split(","),
             festival_id: response.data.festival_id,
             festival_name: response.data.festival_name,
           });
@@ -418,7 +428,14 @@ const EventDetailView = ({ options, isApproved, match }) => {
                     onClickRemoveBtn={onClickRemoveBtn}
                     showDelBtn={true}
                   />
-                  {isApproved ? "" : <RejectSection />}
+                  {isApproved ? (
+                    ""
+                  ) : (
+                    <RejectSection
+                      rejection_reason={formInfo.rejection_reason}
+                      state={formInfo.state}
+                    />
+                  )}
                 </div>
               </div>
             </div>

@@ -1,6 +1,6 @@
 import React from "react";
 
-const RejectSection = React.memo(({ reason }) => {
+const RejectSection = React.memo(({ rejection_reason, state }) => {
   return (
     <>
       <div className="list-group-item">
@@ -39,7 +39,7 @@ const RejectSection = React.memo(({ reason }) => {
               placeholder="기각사유..."
               rows="4"
               className="form-control"
-              value={reason}
+              value={rejection_reason}
             ></textarea>
           </div>
         </div>
