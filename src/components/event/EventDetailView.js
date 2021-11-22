@@ -73,8 +73,8 @@ const EventDetailView = ({ options, match }) => {
   const history = useHistory();
 
   const postEvent = async (eventData) => {
-    const url = "http://118.67.154.118:3000/api/admin/cultural-event/regist";
-    // const url = "http://localhost:3000/api/admin/cultural-event/regist";
+    // const url = "http://118.67.154.118:3000/api/admin/cultural-event/regist";
+    const url = "http://localhost:3000/api/admin/cultural-event/regist";
 
     try {
       const response = await axios.post(url, eventData, {
@@ -93,7 +93,7 @@ const EventDetailView = ({ options, match }) => {
     }
   };
 
-  const onSubmitEvent = (formState) => {
+  const onSubmitEvent = () => {
     let formData = new FormData();
 
     formData.append("id", formInfo.id);
@@ -109,12 +109,12 @@ const EventDetailView = ({ options, match }) => {
     formData.append("close_date", convertDateFormat(formInfo.close_date));
     formData.append("age", formInfo.age);
     formData.append("homepage", formInfo.homepage);
+    formData.append("reservation_site", formInfo.reservation_site);
     formData.append("phone", formInfo.phone);
     formData.append("price", formInfo.price);
     formData.append("open_time", openTime);
     formData.append("close_time", closeTime);
-    formData.append("festival_id", formInfo.festival_id);
-    formData.append("state", formState);
+    formData.append("state", formInfo.state);
     formData.append("more_information", detail);
     formData.append("userid", window.sessionStorage.getItem("userid"));
 
@@ -136,7 +136,7 @@ const EventDetailView = ({ options, match }) => {
 
     formData.append("event_type", curationInfo.event_type);
 
-    formData.append("fesival_id", curationInfo.festival_id);
+    formData.append("festival_id", curationInfo.festival_id);
 
     // youtube
     vAry = new Array();
@@ -145,7 +145,7 @@ const EventDetailView = ({ options, match }) => {
       temp.url = videos[i].url;
       vAry.push(temp);
     }
-    formData.append("videos", vAry);
+    formData.append("videos", JSON.stringify(vAry));
 
     // 거절 사유
     formData.append("rejection_reason", rejectionReason.code);
@@ -169,6 +169,14 @@ const EventDetailView = ({ options, match }) => {
       ...formInfo,
       [dataName]: data,
     });
+
+    if (dataName === "state") {
+      if (data === "REJECT" || data === "WAIT") {
+        setIsApproved(false);
+      } else {
+        setIsApproved(true);
+      }
+    }
   };
 
   const getPeriod = (date1, date2) => {
@@ -271,11 +279,14 @@ const EventDetailView = ({ options, match }) => {
           });
 
           // 큐레이션 정보
-
           setCurationInfo({
             event_type: response.data.event_type,
-            event_theme: JSON.parse(response.data.event_theme).split(","),
-            event_field: JSON.parse(response.data.event_field).split(","),
+            event_theme: response.data.event_theme.includes(",")
+              ? response.data.event_theme.replace(/"/gi, "").split(",")
+              : [response.data.event_theme.replace(/"/gi, "")],
+            event_field: response.data.event_field.includes(",")
+              ? response.data.event_field.replace(/"/gi, "").split(",")
+              : [response.data.event_field.replace(/"/gi, "")],
             festival_id: response.data.festival_id,
             festival_name: response.data.festival_name,
           });
@@ -287,33 +298,44 @@ const EventDetailView = ({ options, match }) => {
           setCloseTime(response.data.close_time);
 
           // 비디오 목록 파싱
-          let ary = response.data.videos.split('"');
-          let id = 1;
+          let ary = [];
 
-          let vAry = [];
-          for (let i = 0; i < ary.length; i++) {
-            if (ary[i].includes("https://www.youtube.com")) {
-              vAry.push({
+          // let vAry = [];
+          // for (let i = 0; i < ary.length; i++) {
+          //   if (ary[i].includes("https://www.youtube.com")) {
+          //     vAry.push({
+          //       vId: id++,
+          //       url: ary[i],
+          //     });
+          //   }
+          // }
+          // setVideos(vAry);
+
+          let id = 1;
+          if (Object.keys(response.data.resources).includes("videos")) {
+            for (let i = 0; i < response.data.resources.videos.length; i++) {
+              ary.push({
+                url: response.data.resources.videos[i].url,
                 vId: id++,
-                url: ary[i],
               });
             }
           }
-          setVideos(vAry);
+          setVideos(ary);
           setVId(id);
 
           // 이미지
-          // ary = response.data.images.split('"');
-          // for (let i = 0; i < ary.length; i++) {
-          //   if (ary[i].includes("/images/")) {
-          //     setImgFile(ary[i]);
-          //   }
-          // }
-          setImgFile(
-            Object.keys(response.data.resources).includes("images")
-              ? response.data.resources.images[0].url
-              : null
-          );
+          if (Object.keys(response.data).includes("images")) {
+            ary = response.data.images.split('"');
+            for (let i = 0; i < ary.length; i++) {
+              if (ary[i].includes("/images/")) {
+                setImgFile(ary[i]);
+              }
+            }
+          } else if (Object.keys(response.data.resources).includes("images")) {
+            setImgFile(response.data.resources.images[0].url);
+          } else {
+            setImgFile(null);
+          }
 
           // 거절
           setRejectionReason({
@@ -367,7 +389,7 @@ const EventDetailView = ({ options, match }) => {
         document.body.removeChild(scriptList[i]);
       }
     };
-  }, []);
+  }, [match.params]);
 
   if (formInfo === null || curationInfo === null || rejectionReason === null) {
     return (
@@ -460,6 +482,7 @@ const EventDetailView = ({ options, match }) => {
                     state={formInfo.state}
                     onClickRemoveBtn={onClickRemoveBtn}
                     showDelBtn={true}
+                    getFormInfo={getFormInfo}
                   />
                   {isApproved ? (
                     ""

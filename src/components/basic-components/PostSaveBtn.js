@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 const PostSaveBtn = ({
   options,
@@ -6,6 +6,7 @@ const PostSaveBtn = ({
   state,
   onClickRemoveBtn,
   showDelBtn,
+  getFormInfo,
 }) => {
   const getOptions = () => {
     let optionAry = [];
@@ -13,8 +14,9 @@ const PostSaveBtn = ({
     for (let i = 0; i < options.length; i++) {
       optionAry.push(
         <option
-          selected={state === options[i].value ? true : false}
+          // selected={state === options[i].value ? true : false}
           value={options[i].value}
+          key={options[i].value}
         >
           {options[i].name}
         </option>
@@ -22,12 +24,6 @@ const PostSaveBtn = ({
     }
 
     return optionAry;
-  };
-
-  const [formState, setFormState] = useState(state);
-
-  const onChangeState = (e) => {
-    setFormState(e.target.value);
   };
 
   return (
@@ -43,8 +39,8 @@ const PostSaveBtn = ({
             <select
               id="custom-select"
               className="form-control custom-select"
-              defaultValue={formState}
-              onChange={(e) => onChangeState(e)}
+              defaultValue={state}
+              onChange={(e) => getFormInfo("state", e.target.value)}
             >
               {getOptions()}
             </select>
@@ -73,7 +69,7 @@ const PostSaveBtn = ({
             <button
               type="button"
               className="btn btn-primary"
-              onClick={() => onSubmitEvent(formState)}
+              onClick={() => onSubmitEvent()}
             >
               확인
             </button>

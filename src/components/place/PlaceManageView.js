@@ -60,7 +60,7 @@ const PlaceManageView = () => {
 
   const getPlaceList = useCallback(async () => {
     const url = "http://118.67.154.118:3000/api/admin/cultural-space/list";
-    // const url = "/api/admin/cultural-space/list";
+    // const url = "http://localhost:3000/api/admin/cultural-space/list";
 
     try {
       const response = await axios.get(url, {

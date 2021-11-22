@@ -61,13 +61,12 @@ const CurationTest = ({ curationInfo, getCurationInfo }) => {
     }
 
     if (typeof fields === "string") {
-      const ary = fields.split(",");
+      let string = fields.replace(/"/gi, "");
 
-      for (let i = 0; i < ary.length; i++) {
-        for (let j = 0; j < fieldOptions.length; j++) {
-          if (ary[i] === fieldOptions[j].value) {
-            defaultOptions.push(fieldOptions[j]);
-          }
+      console.log(string);
+      for (let j = 0; j < fieldOptions.length; j++) {
+        if (string === fieldOptions[j].value) {
+          defaultOptions.push(fieldOptions[j]);
         }
       }
     } else {
@@ -91,13 +90,9 @@ const CurationTest = ({ curationInfo, getCurationInfo }) => {
     }
 
     if (typeof themes === "string") {
-      const ary = themes.split(",");
-
-      for (let i = 0; i < ary.length; i++) {
-        for (let j = 0; j < themeOptions.length; j++) {
-          if (ary[i] === themeOptions[j].value) {
-            defaultOptions.push(themeOptions[j]);
-          }
+      for (let j = 0; j < themeOptions.length; j++) {
+        if (themes === themeOptions[j].value) {
+          defaultOptions.push(themeOptions[j]);
         }
       }
     } else {
@@ -153,7 +148,7 @@ const CurationTest = ({ curationInfo, getCurationInfo }) => {
   const [festivalOptions, setFestivalOptions] = useState(null);
 
   useEffect(() => {
-    const getFesivalInfo = async () => {
+    const getfestivalInfo = async () => {
       const url = `http://118.67.154.118:3000/api/admin/seochogu-festival/list`;
       // const url = `/api/admin/seochogu-festival/list`;
 
@@ -184,7 +179,7 @@ const CurationTest = ({ curationInfo, getCurationInfo }) => {
         console.log(e);
       }
     };
-    getFesivalInfo();
+    getfestivalInfo();
   }, []);
 
   return (

@@ -428,9 +428,10 @@ const EventManageView = () => {
                   id="custom-select"
                   className="form-control custom-select"
                   placeholder="축제 선택"
+                  defaultValue="default"
                   onChange={(e) => onChangeScEvent(e)}
                 >
-                  <option disabled selected>
+                  <option disabled value="default">
                     서초구 축제 선택
                   </option>
                   {scList.map((scInfo) => (

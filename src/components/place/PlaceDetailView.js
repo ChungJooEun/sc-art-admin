@@ -52,6 +52,14 @@ const PlaceDetailView = ({ options, match }) => {
       ...formInfo,
       [dataName]: data,
     });
+
+    if (dataName === "state") {
+      if (data === "REJECT" || data === "WAIT") {
+        setIsApproved(false);
+      } else {
+        setIsApproved(true);
+      }
+    }
   };
 
   const getDetail = (e) => {
@@ -105,7 +113,7 @@ const PlaceDetailView = ({ options, match }) => {
     }
   };
 
-  const onSubmitEvent = (formState) => {
+  const onSubmitEvent = () => {
     let formData = new FormData();
 
     if (imgFile) {
@@ -121,15 +129,20 @@ const PlaceDetailView = ({ options, match }) => {
     formData.append("holiday", formInfo.holiday);
     formData.append("open_time", openTime);
     formData.append("close_time", closeTime);
-    formData.append("state", formState);
+    formData.append("state", formInfo.state);
     formData.append("more_information", detail);
     formData.append("userid", window.sessionStorage.getItem("userid"));
     formData.append("space_type", formInfo.space_type);
 
     // youtube
+    let vAry = new Array();
+    let temp;
     for (let i = 0; i < videos.length; i++) {
-      formData.append("videos", JSON.stringify({ url: videos[i].url }));
+      temp = new Object();
+      temp.url = videos[i].url;
+      vAry.push(temp);
     }
+    formData.append("videos", JSON.stringify(vAry));
 
     // 거절 사유
     formData.append("rejection_reason", rejectionReason.code);
@@ -220,28 +233,46 @@ const PlaceDetailView = ({ options, match }) => {
           setCloseTime(response.data.close_time);
 
           // 비디오 목록 파싱
-          let ary = response.data.videos.split('"');
-          let id = 1;
+          // let ary = response.data.videos.split('"');
+          // let id = 1;
 
-          let vAry = [];
-          for (let i = 0; i < ary.length; i++) {
-            if (ary[i].includes("https://www.youtube.com")) {
-              vAry.push({
+          // let vAry = [];
+          // for (let i = 0; i < ary.length; i++) {
+          //   if (ary[i].includes("https://www.youtube.com")) {
+          //     vAry.push({
+          //       vId: id++,
+          //       url: ary[i],
+          //     });
+          //   }
+          // }
+          // setVideos(vAry);
+          // setVId(id);
+          let ary = [];
+          let id = 1;
+          if (Object.keys(response.data.resources).includes("videos")) {
+            for (let i = 0; i < response.data.resources.videos.length; i++) {
+              ary.push({
+                url: response.data.resources.videos[i].url,
                 vId: id++,
-                url: ary[i],
               });
             }
           }
-          setVideos(vAry);
+          setVideos(ary);
           setVId(id);
 
           // 이미지
-          ary = response.data.images.split('"');
-          for (let i = 0; i < ary.length; i++) {
-            if (ary[i].includes("/images/")) {
-              setImgFile(ary[i]);
-            }
-          }
+          // ary = response.data.images.split('"');
+          // for (let i = 0; i < ary.length; i++) {
+          //   if (ary[i].includes("/images/")) {
+          //     setImgFile(ary[i]);
+          //   }
+          // }
+
+          setImgFile(
+            Object.keys(response.data.resources).includes("images")
+              ? response.data.resources.images[0].url
+              : null
+          );
 
           // 거절
           setRejectionReason({
@@ -396,6 +427,7 @@ const PlaceDetailView = ({ options, match }) => {
                     state={formInfo.state}
                     onClickRemoveBtn={onClickRemoveBtn}
                     showDelBtn={true}
+                    getFormInfo={getFormInfo}
                   />
                   {isApproved ? (
                     ""

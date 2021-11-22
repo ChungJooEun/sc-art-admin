@@ -43,6 +43,8 @@ const detailViewPostOptions = [
   { value: "TEMP_SAVE", name: "임시저장" },
   { value: "POST", name: "게시" },
   { value: "PRIVATE", name: "비공개" },
+  { value: "REJECT", name: "기각" },
+  { value: "WAIT", name: "대기중" },
 ];
 
 const waitingPostOptions = [

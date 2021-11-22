@@ -95,7 +95,7 @@ const AddPlaceView = ({ options }) => {
 
   const postPlace = async (placeData) => {
     const url = "http://118.67.154.118:3000/api/admin/cultural-space/regist";
-    // const url = "/api/admin/cultural-space/regist";
+    // const url = "http://localhost:3000/api/admin/cultural-space/regist";
 
     try {
       const response = await axios.post(url, placeData, {
@@ -114,7 +114,7 @@ const AddPlaceView = ({ options }) => {
     }
   };
 
-  const onSubmitEvent = (formState) => {
+  const onSubmitEvent = () => {
     let formData = new FormData();
 
     if (imgFile) {
@@ -130,14 +130,26 @@ const AddPlaceView = ({ options }) => {
     formData.append("holiday", formInfo.holiday);
     formData.append("open_time", openTime);
     formData.append("close_time", closeTime);
-    formData.append("state", formState);
+    formData.append("state", formInfo.state);
     formData.append("more_information", detail);
     formData.append("userid", window.sessionStorage.getItem("userid"));
     formData.append("space_type", formInfo.space_type);
 
-    // youtube
+    let vAry = new Array();
+    let temp;
     for (let i = 0; i < videos.length; i++) {
-      formData.append("videos", JSON.stringify({ url: videos[i].url }));
+      temp = new Object();
+      temp.url = videos[i].url;
+      vAry.push(temp);
+    }
+    formData.append("videos", JSON.stringify(vAry));
+
+    for (let key of formData.keys()) {
+      console.log(key);
+    }
+
+    for (let v of formData.values()) {
+      console.log(v);
     }
 
     postPlace(formData);
@@ -279,6 +291,7 @@ const AddPlaceView = ({ options }) => {
                   options={options}
                   onSubmitEvent={onSubmitEvent}
                   state={formInfo.state}
+                  getFormInfo={getFormInfo}
                 />
               </div>
             </div>

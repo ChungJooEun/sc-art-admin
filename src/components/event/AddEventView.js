@@ -97,7 +97,7 @@ const AddEventView = ({ options }) => {
     }
   };
 
-  const onSubmitEvent = (formState) => {
+  const onSubmitEvent = () => {
     let formData = new FormData();
 
     if (imgFile) {
@@ -118,7 +118,7 @@ const AddEventView = ({ options }) => {
     formData.append("open_time", openTime);
     formData.append("close_time", closeTime);
     formData.append("festival_id", curationInfo.festival_id);
-    formData.append("state", formState);
+    formData.append("state", formInfo.state);
     formData.append("more_information", detail);
     formData.append("userid", window.sessionStorage.getItem("userid"));
 
@@ -139,9 +139,18 @@ const AddEventView = ({ options }) => {
 
     formData.append("event_type", curationInfo.event_type);
 
+    vAry = new Array();
+    let temp;
     for (let i = 0; i < videos.length; i++) {
-      formData.append("videos", JSON.stringify({ url: videos[i].url }));
+      temp = new Object();
+      temp.url = videos[i].url;
+      vAry.push(temp);
     }
+    formData.append("videos", JSON.stringify(vAry));
+
+    // for (let i = 0; i < videos.length; i++) {
+    //   formData.append("videos", JSON.stringify({ url: videos[i].url }));
+    // }
 
     postEvent(formData);
   };
@@ -316,6 +325,7 @@ const AddEventView = ({ options }) => {
                     options={options}
                     onSubmitEvent={onSubmitEvent}
                     state={formInfo.state}
+                    getFormInfo={getFormInfo}
                   />
                 </div>
               </div>

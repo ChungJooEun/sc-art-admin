@@ -117,7 +117,7 @@ const CheckableEventList = ({
         {list.map((eventInfo) => (
           <CheckableEventListItem
             eventInfo={eventInfo}
-            key={eventInfo.id}
+            key={eventInfo.id + no}
             no={no++}
             isModal={isModal}
             addCheckedItem={addCheckedItem}

@@ -105,7 +105,6 @@ const TaskRequest = () => {
           count: count,
           search_type: "STATE",
           search_word: "WAIT",
-          userid: window.sessionStorage.getItem("userid"),
         },
       });
 
@@ -131,7 +130,6 @@ const TaskRequest = () => {
           count: count,
           search_type: "STATE",
           search_word: "WAIT",
-          userid: window.sessionStorage.getItem("userid"),
         },
       });
 
