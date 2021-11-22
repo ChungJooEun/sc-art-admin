@@ -68,7 +68,7 @@ const convertToDate = (str) => {
 const count = 5;
 
 const addPostOptions = [
-  { value: "TEMP_SAVE", name: "임시 저장" },
+  { value: "TEMP_SAVE", name: "임시저장" },
   { value: "POST", name: "게시" },
   { value: "PRIVATE", name: "비공개" },
 ];
@@ -106,10 +106,6 @@ const ScFestivalDetailView = ({ match }) => {
     setTitle(e.target.value);
   };
 
-  const onChangePeriod = (item) => {
-    let itemAry = [item.selection];
-    setPeriod(itemAry);
-  };
   const getDescription = (e) => {
     setDescription(e.target.value);
   };
@@ -171,13 +167,18 @@ const ScFestivalDetailView = ({ match }) => {
   const [bannerImg, setBannerImg] = useState(null);
   const [imgBase64, setImgBase64] = useState([]);
   const [title, setTitle] = useState("");
-  const [period, setPeriod] = useState([
-    {
-      startDate: "",
-      endDate: "",
-      key: "selection",
-    },
-  ]);
+  const [period, setPeriod] = useState({
+    startDate: new Date(),
+    endDate: new Date(),
+    key: "selection",
+  });
+  const onChangePeriod = (item) => {
+    setPeriod({
+      startDate: item["selection"].startDate,
+      endDate: item["selection"].endDate,
+      key: item["selection"].key,
+    });
+  };
   const [description, setDescription] = useState("");
   const [moreInformation, setMoreInformation] = useState("");
   const [eventList, setEventList] = useState([]);
@@ -331,13 +332,11 @@ const ScFestivalDetailView = ({ match }) => {
         setPostState(res.data.state);
 
         // 기간
-        setPeriod([
-          {
-            startDate: convertToDate(res.data.open_date),
-            endDate: convertToDate(res.data.close_date),
-            key: "selection",
-          },
-        ]);
+        setPeriod({
+          startDate: convertToDate(res.data.open_date),
+          endDate: convertToDate(res.data.close_date),
+          key: "selection",
+        });
 
         // 설명
         setDescription(res.data.description);
@@ -509,7 +508,7 @@ const ScFestivalDetailView = ({ match }) => {
                       editableDateInputs={true}
                       onChange={(item) => onChangePeriod(item)}
                       moveRangeOnFirstSelection={false}
-                      ranges={period}
+                      ranges={[period]}
                       direction="horizontal"
                       locale={locales["ko"]}
                       weekStartsOn={1}

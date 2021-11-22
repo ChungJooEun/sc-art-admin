@@ -102,16 +102,17 @@ const AddScFestivalView = () => {
   const getPostState = (dataName, data) => {
     setPostState(data);
   };
-  const [period, setPeriod] = useState([
-    {
-      startDate: new Date(),
-      endDate: new Date(),
-      key: "selection",
-    },
-  ]);
+  const [period, setPeriod] = useState({
+    startDate: new Date(),
+    endDate: new Date(),
+    key: "selection",
+  });
   const onChangePeriod = (item) => {
-    let itemAry = [item.selection];
-    setPeriod(itemAry);
+    setPeriod({
+      startDate: item["selection"].startDate,
+      endDate: item["selection"].endDate,
+      key: item["selection"].key,
+    });
   };
 
   const [description, setDescription] = useState("");
@@ -215,8 +216,8 @@ const AddScFestivalView = () => {
     data.append("name", title);
 
     // 시작일, 마감일
-    data.append("open_date", convertDateFormat(period[0].startDate));
-    data.append("close_date", convertDateFormat(period[0].endDate));
+    data.append("open_date", convertDateFormat(period.startDate));
+    data.append("close_date", convertDateFormat(period.endDate));
 
     // 설명
     data.append("description", description);
@@ -239,7 +240,7 @@ const AddScFestivalView = () => {
     //
     data.append("userid", window.sessionStorage.getItem("userid"));
 
-    postScEvent(data);
+    // postScEvent(data);
   };
 
   const { actions } = useContext(MenuContext);
@@ -400,7 +401,7 @@ const AddScFestivalView = () => {
                       editableDateInputs={true}
                       onChange={(item) => onChangePeriod(item)}
                       moveRangeOnFirstSelection={false}
-                      ranges={period}
+                      ranges={[period]}
                       direction="horizontal"
                       locale={locales["ko"]}
                       weekStartsOn={1}

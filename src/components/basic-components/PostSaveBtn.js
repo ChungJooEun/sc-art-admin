@@ -79,4 +79,4 @@ const PostSaveBtn = ({
     </div>
   );
 };
-export default React.memo(PostSaveBtn);
+export default PostSaveBtn;
