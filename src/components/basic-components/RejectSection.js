@@ -1,6 +1,6 @@
 import React from "react";
 
-const RejectSection = React.memo(({ rejection_reason, state }) => {
+const RejectSection = ({ rejectionReason, getRejectionReason }) => {
   return (
     <>
       <div className="list-group-item">
@@ -12,16 +12,21 @@ const RejectSection = React.memo(({ rejection_reason, state }) => {
           <div className="form-row align-items-center">
             <label
               id="label-question"
-              for="question"
+              htmlFor="question"
               className="col-md-1 col-form-label form-label"
             >
               기각사유
             </label>
             <div className="col-md-8">
-              <select id="custom-select" className="form-control custom-select">
-                <option selected="">정보 불충분</option>
-                <option value="1">부적절</option>
-                <option value="2">기타</option>
+              <select
+                id="custom-select"
+                className="form-control custom-select"
+                defaultValue={rejectionReason.code}
+                onChange={(e) => getRejectionReason("code", e.target.value)}
+              >
+                <option value="INSUFFICIENT">정보 불충분</option>
+                <option value="INAPPROPRIATE">부적절</option>
+                <option value="OTHER">기타</option>
               </select>
             </div>
           </div>
@@ -39,13 +44,14 @@ const RejectSection = React.memo(({ rejection_reason, state }) => {
               placeholder="기각사유..."
               rows="4"
               className="form-control"
-              value={rejection_reason}
+              value={rejectionReason.text}
+              onChange={(e) => getRejectionReason("text", e.target.value)}
             ></textarea>
           </div>
         </div>
       </div>
     </>
   );
-});
+};
 
 export default React.memo(RejectSection);

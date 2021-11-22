@@ -57,7 +57,7 @@ const convertDateFormat = (dateString) => {
   return str;
 };
 
-const EventDetailView = ({ options, isApproved, match }) => {
+const EventDetailView = ({ options, match }) => {
   const [formInfo, setFormInfo] = useState(null);
   const [openTime, setOpenTime] = useState("10:00");
   const [closeTime, setCloseTime] = useState("22:00");
@@ -67,11 +67,14 @@ const EventDetailView = ({ options, isApproved, match }) => {
   const [videos, setVideos] = useState([]);
   const [vId, setVId] = useState(1);
 
+  const [rejectionReason, setRejectionReason] = useState(null);
+  const [isApproved, setIsApproved] = useState(true);
+
   const history = useHistory();
 
   const postEvent = async (eventData) => {
     const url = "http://118.67.154.118:3000/api/admin/cultural-event/regist";
-    // const url = "/api/admin/cultural-event/regist";
+    // const url = "http://localhost:3000/api/admin/cultural-event/regist";
 
     try {
       const response = await axios.post(url, eventData, {
@@ -83,7 +86,7 @@ const EventDetailView = ({ options, isApproved, match }) => {
       console.log(response.status);
       if (response.status === 200) {
         console.log(response.data);
-        history.push("/event/event-manage");
+        history.goBack();
       }
     } catch (e) {
       console.log(e);
@@ -143,6 +146,10 @@ const EventDetailView = ({ options, isApproved, match }) => {
       vAry.push(temp);
     }
     formData.append("videos", vAry);
+
+    // 거절 사유
+    formData.append("rejection_reason", rejectionReason.code);
+    formData.append("rejection_reason_text", rejectionReason.text);
 
     for (let key of formData.keys()) {
       console.log(key);
@@ -217,8 +224,8 @@ const EventDetailView = ({ options, isApproved, match }) => {
   };
 
   const removeEventPost = async () => {
-    // const url = `http://118.67.154.118:3000/api/admin/cultural-event/${formInfo.id}`;
-    const url = `/api/admin/cultural-event/${formInfo.id}`;
+    const url = `http://118.67.154.118:3000/api/admin/cultural-event/${formInfo.id}`;
+    // const url = `/api/admin/cultural-event/${formInfo.id}`;
     try {
       const res = await axios.delete(url);
 
@@ -230,11 +237,18 @@ const EventDetailView = ({ options, isApproved, match }) => {
     }
   };
 
+  const getRejectionReason = (dataName, data) => {
+    setRejectionReason({
+      ...rejectionReason,
+      [dataName]: data,
+    });
+  };
+
   useEffect(() => {
     const getEventDetail = async () => {
       const { id } = match.params;
       const url = `http://118.67.154.118:3000/api/admin/cultural-event/detail/${id}`;
-      // const url = `/api/admin/cultural-event/detail/${id}`;
+      // const url = `http://localhost:3000/api/admin/cultural-event/detail/${id}`;
 
       try {
         const response = await axios.get(url);
@@ -254,11 +268,9 @@ const EventDetailView = ({ options, isApproved, match }) => {
             phone: response.data.phone,
             price: response.data.price,
             state: response.data.state,
-            // rejection_reason : response.data.rejection_reason
           });
 
           // 큐레이션 정보
-          // console.log(JSON.parse(response.data.event_field));
 
           setCurationInfo({
             event_type: response.data.event_type,
@@ -291,11 +303,32 @@ const EventDetailView = ({ options, isApproved, match }) => {
           setVId(id);
 
           // 이미지
-          ary = response.data.images.split('"');
-          for (let i = 0; i < ary.length; i++) {
-            if (ary[i].includes("/images/")) {
-              setImgFile(ary[i]);
-            }
+          // ary = response.data.images.split('"');
+          // for (let i = 0; i < ary.length; i++) {
+          //   if (ary[i].includes("/images/")) {
+          //     setImgFile(ary[i]);
+          //   }
+          // }
+          setImgFile(
+            Object.keys(response.data.resources).includes("images")
+              ? response.data.resources.images[0].url
+              : null
+          );
+
+          // 거절
+          setRejectionReason({
+            code:
+              response.data.rejection_reason === ""
+                ? "INSUFFICIENT"
+                : response.data.rejection_reason,
+            text: response.data.rejection_reason_text,
+          });
+
+          if (
+            response.data.state === "WAIT" ||
+            response.data.state === "REJECTION"
+          ) {
+            setIsApproved(false);
           }
 
           console.log("====== 성공 ======");
@@ -336,7 +369,7 @@ const EventDetailView = ({ options, isApproved, match }) => {
     };
   }, []);
 
-  if (formInfo === null || curationInfo === null) {
+  if (formInfo === null || curationInfo === null || rejectionReason === null) {
     return (
       <div className="preloader">
         <div className="sk-chase">
@@ -432,8 +465,8 @@ const EventDetailView = ({ options, isApproved, match }) => {
                     ""
                   ) : (
                     <RejectSection
-                      rejection_reason={formInfo.rejection_reason}
-                      state={formInfo.state}
+                      rejectionReason={rejectionReason}
+                      getRejectionReason={getRejectionReason}
                     />
                   )}
                 </div>

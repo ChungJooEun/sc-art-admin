@@ -156,11 +156,7 @@ const App = () => {
         <Route
           path="/event/event-detail/:id"
           component={(props) => (
-            <EventDetailView
-              options={detailViewPostOptions}
-              isApproved={true}
-              {...props}
-            />
+            <EventDetailView options={detailViewPostOptions} {...props} />
           )}
         />
 
@@ -168,11 +164,7 @@ const App = () => {
         <Route
           path="/event/event-application-detail/:id"
           component={(props) => (
-            <EventDetailView
-              options={waitingPostOptions}
-              isApproved={false}
-              {...props}
-            />
+            <EventDetailView options={waitingPostOptions} {...props} />
           )}
         />
 
@@ -238,22 +230,14 @@ const App = () => {
         <Route
           path="/place/place-detail/:id"
           component={(props) => (
-            <PlaceDetailView
-              options={detailViewPostOptions}
-              isApproved={true}
-              {...props}
-            />
+            <PlaceDetailView options={detailViewPostOptions} {...props} />
           )}
         />
         {/* 문화공간 관리 > 등록 신청한 문화공간 상세조회 */}
         <Route
           path="/place/place-application-detail/:id"
           component={(props) => (
-            <PlaceDetailView
-              options={waitingPostOptions}
-              isApproved={false}
-              {...props}
-            />
+            <PlaceDetailView options={waitingPostOptions} {...props} />
           )}
         />
 

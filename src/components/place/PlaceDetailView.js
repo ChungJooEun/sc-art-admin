@@ -34,7 +34,7 @@ const categoryOptions = [
   { value: "INSTRUMENT", label: "악기상점" },
 ];
 
-const PlaceDetailView = ({ options, isApproved, match }) => {
+const PlaceDetailView = ({ options, match }) => {
   const history = useHistory();
 
   const [formInfo, setFormInfo] = useState(null);
@@ -44,6 +44,8 @@ const PlaceDetailView = ({ options, isApproved, match }) => {
   const [detail, setDetail] = useState("");
   const [videos, setVideos] = useState([]);
   const [vId, setVId] = useState(1);
+  const [rejectionReason, setRejectionReason] = useState(null);
+  const [isApproved, setIsApproved] = useState(true);
 
   const getFormInfo = (dataName, data) => {
     setFormInfo({
@@ -129,6 +131,10 @@ const PlaceDetailView = ({ options, isApproved, match }) => {
       formData.append("videos", JSON.stringify({ url: videos[i].url }));
     }
 
+    // 거절 사유
+    formData.append("rejection_reason", rejectionReason.code);
+    formData.append("rejection_reason_text", rejectionReason.text);
+
     postPlace(formData);
   };
 
@@ -173,6 +179,13 @@ const PlaceDetailView = ({ options, isApproved, match }) => {
     } catch (e) {
       console.log(e);
     }
+  };
+
+  const getRejectionReason = (dataName, data) => {
+    setRejectionReason({
+      ...rejectionReason,
+      [dataName]: data,
+    });
   };
 
   useEffect(() => {
@@ -228,6 +241,22 @@ const PlaceDetailView = ({ options, isApproved, match }) => {
             if (ary[i].includes("/images/")) {
               setImgFile(ary[i]);
             }
+          }
+
+          // 거절
+          setRejectionReason({
+            code:
+              response.data.rejection_reason === ""
+                ? "INSUFFICIENT"
+                : response.data.rejection_reason,
+            text: response.data.rejection_reason_text,
+          });
+
+          if (
+            response.data.state === "WAIT" ||
+            response.data.state === "REJECTION"
+          ) {
+            setIsApproved(false);
           }
 
           console.log("====== 성공 ======");
@@ -368,7 +397,14 @@ const PlaceDetailView = ({ options, isApproved, match }) => {
                     onClickRemoveBtn={onClickRemoveBtn}
                     showDelBtn={true}
                   />
-                  {isApproved ? "" : <RejectSection />}
+                  {isApproved ? (
+                    ""
+                  ) : (
+                    <RejectSection
+                      rejectionReason={rejectionReason}
+                      getRejectionReason={getRejectionReason}
+                    />
+                  )}
                 </div>
               </div>
             </div>
