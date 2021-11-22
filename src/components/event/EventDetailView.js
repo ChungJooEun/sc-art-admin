@@ -326,7 +326,7 @@ const EventDetailView = ({ options, match }) => {
 
           if (
             response.data.state === "WAIT" ||
-            response.data.state === "REJECTION"
+            response.data.state === "REJECT"
           ) {
             setIsApproved(false);
           }

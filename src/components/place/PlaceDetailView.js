@@ -86,7 +86,7 @@ const PlaceDetailView = ({ options, match }) => {
 
   const postPlace = async (placeData) => {
     const url = "http://118.67.154.118:3000/api/admin/cultural-space/regist";
-    // const url = "/api/admin/cultural-space/regist";
+    // const url = "http://localhost:3000/api/admin/cultural-space/regist";
 
     try {
       const response = await axios.post(url, placeData, {
@@ -192,7 +192,7 @@ const PlaceDetailView = ({ options, match }) => {
     const getPlaceDetail = async () => {
       const { id } = match.params;
       const url = `http://118.67.154.118:3000/api/admin/cultural-space/detail/${id}`;
-      // const url = `/api/admin/cultural-space/detail/${id}`;
+      // const url = `http://localhost:3000/api/admin/cultural-space/detail/${id}`;
 
       try {
         const response = await axios.get(url);
@@ -254,7 +254,7 @@ const PlaceDetailView = ({ options, match }) => {
 
           if (
             response.data.state === "WAIT" ||
-            response.data.state === "REJECTION"
+            response.data.state === "REJECT"
           ) {
             setIsApproved(false);
           }
