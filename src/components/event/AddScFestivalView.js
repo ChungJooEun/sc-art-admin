@@ -240,7 +240,7 @@ const AddScFestivalView = () => {
     //
     data.append("userid", window.sessionStorage.getItem("userid"));
 
-    // postScEvent(data);
+    postScEvent(data);
   };
 
   const { actions } = useContext(MenuContext);
