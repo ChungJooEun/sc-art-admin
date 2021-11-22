@@ -35,8 +35,23 @@ const pagePathList = [
   },
 ];
 
-const convertDateFormat = (date) => {
-  return "" + date.getFullYear() + (date.getMonth() + 1) + date.getDate();
+const convertDateFormat = (dateString) => {
+  const date = new Date(dateString);
+
+  let str = "" + date.getFullYear();
+
+  if (date.getMonth() < 9) {
+    str += "0" + (date.getMonth() + 1);
+  } else {
+    str += date.getMonth() + 1;
+  }
+
+  if (date.getDate() < 10) {
+    str += "0" + date.getDate();
+  } else {
+    str += date.getDate();
+  }
+  return str;
 };
 
 const convertToDate = (str) => {
@@ -92,13 +107,9 @@ const ScFestivalDetailView = ({ match }) => {
   };
 
   const onChangePeriod = (item) => {
-    setPeriod({
-      startDate: item["selection"].startDate,
-      endDate: item["selection"].endDate,
-      key: item["selection"].key,
-    });
+    let itemAry = [item.selection];
+    setPeriod(itemAry);
   };
-
   const getDescription = (e) => {
     setDescription(e.target.value);
   };
@@ -160,20 +171,26 @@ const ScFestivalDetailView = ({ match }) => {
   const [bannerImg, setBannerImg] = useState(null);
   const [imgBase64, setImgBase64] = useState([]);
   const [title, setTitle] = useState("");
-  const [period, setPeriod] = useState({
-    startDate: "",
-    endDate: "",
-    key: "selection",
-  });
+  const [period, setPeriod] = useState([
+    {
+      startDate: "",
+      endDate: "",
+      key: "selection",
+    },
+  ]);
   const [description, setDescription] = useState("");
   const [moreInformation, setMoreInformation] = useState("");
   const [eventList, setEventList] = useState([]);
   const [postState, setPostState] = useState("");
+  const getPostState = (dataName, data) => {
+    setPostState(data);
+  };
+
   // 게시
   const history = useHistory();
   const postScEvent = async (data) => {
     const url = "http://118.67.154.118:3000/api/admin/seochogu-festival/regist";
-    // const url = "/api/admin/seochogu-festival/regist";
+    // const url = "http://localhost:3000/api/admin/seochogu-festival/regist";
 
     const config = {
       headers: {
@@ -193,7 +210,7 @@ const ScFestivalDetailView = ({ match }) => {
     }
   };
 
-  const onSubmitPost = (state) => {
+  const onSubmitPost = () => {
     const data = new FormData();
 
     // 배너 이미지
@@ -207,8 +224,8 @@ const ScFestivalDetailView = ({ match }) => {
     data.append("name", title);
 
     // 시작일, 마감일
-    data.append("open_date", convertDateFormat(period["selection"].startDate));
-    data.append("close_date", convertDateFormat(period["selection"].endDate));
+    data.append("open_date", convertDateFormat(period[0].startDate));
+    data.append("close_date", convertDateFormat(period[0].endDate));
 
     // 설명
     data.append("description", description);
@@ -224,9 +241,15 @@ const ScFestivalDetailView = ({ match }) => {
     for (let i = 0; i < eventList.length; i++) {
       data.append("related_event_list", eventList[i].id);
     }
+    // let ary = new Array();
+    // for (let i = 0; i < eventList.length; i++) {
+    //   ary.push(eventList[i].id);
+    // }
+
+    // data.append("related_event_list", JSON.stringify(ary));
 
     // 상태
-    data.append("state", state);
+    data.append("state", postState);
 
     //
     data.append("userid", "admin");
@@ -282,7 +305,7 @@ const ScFestivalDetailView = ({ match }) => {
     const getScFestivalInfo = async () => {
       const { id } = match.params;
       const url = `http://118.67.154.118:3000/api/admin/seochogu-festival/detail/${id}`;
-      // const url = `/api/admin/seochogu-festival/detail/${id}`;
+      // const url = `http://localhost:3000/api/admin/seochogu-festival/detail/${id}`;
 
       const res = await axios.get(url);
 
@@ -305,12 +328,16 @@ const ScFestivalDetailView = ({ match }) => {
         // 제목
         setTitle(res.data.name);
 
+        setPostState(res.data.state);
+
         // 기간
-        setPeriod({
-          startDate: convertToDate(res.data.open_date),
-          endDate: convertToDate(res.data.close_date),
-          key: "selection",
-        });
+        setPeriod([
+          {
+            startDate: convertToDate(res.data.open_date),
+            endDate: convertToDate(res.data.close_date),
+            key: "selection",
+          },
+        ]);
 
         // 설명
         setDescription(res.data.description);
@@ -482,7 +509,7 @@ const ScFestivalDetailView = ({ match }) => {
                       editableDateInputs={true}
                       onChange={(item) => onChangePeriod(item)}
                       moveRangeOnFirstSelection={false}
-                      ranges={[period]}
+                      ranges={period}
                       direction="horizontal"
                       locale={locales["ko"]}
                       weekStartsOn={1}
@@ -490,6 +517,18 @@ const ScFestivalDetailView = ({ match }) => {
                       monthDisplayFormat="yyyy년 MM월"
                       dateDisplayFormat="yyyy년 MM월 dd일"
                     />
+                    {/* <DateRange
+                      editableDateInputs={true}
+                      onChange={(item) => onChangePeriod(item)}
+                      moveRangeOnFirstSelection={false}
+                      ranges={[period]}
+                      direction="horizontal"
+                      locale={locales["ko"]}
+                      weekStartsOn={1}
+                      months={2}
+                      monthDisplayFormat="yyyy년 MM월"
+                      dateDisplayFormat="yyyy년 MM월 dd일"
+                    /> */}
                   </div>
                 </div>
               </div>
@@ -625,6 +664,7 @@ const ScFestivalDetailView = ({ match }) => {
                 onSubmitEvent={onSubmitPost}
                 showDelBtn={true}
                 state={postState}
+                getFormInfo={getPostState}
                 onClickRemoveBtn={onClickRemoveBtn}
               />
             </div>

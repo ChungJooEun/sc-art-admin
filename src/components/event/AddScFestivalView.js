@@ -98,6 +98,10 @@ const AddScFestivalView = () => {
     setTitle(e.target.value);
   };
 
+  const [postState, setPostState] = useState("TEMP_SAVE");
+  const getPostState = (dataName, data) => {
+    setPostState(data);
+  };
   const [period, setPeriod] = useState([
     {
       startDate: new Date(),
@@ -181,7 +185,7 @@ const AddScFestivalView = () => {
   const history = useHistory();
   const postScEvent = async (data) => {
     const url = "http://118.67.154.118:3000/api/admin/seochogu-festival/regist";
-    // const url = "/api/admin/seochogu-festival/regist";
+    // const url = "http://localhost:3000/api/admin/seochogu-festival/regist";
     const config = {
       headers: {
         "content-type": "multipart/form-data",
@@ -200,7 +204,7 @@ const AddScFestivalView = () => {
     }
   };
 
-  const onSubmitPost = (state) => {
+  const onSubmitPost = () => {
     const data = new FormData();
 
     // 배너 이미지
@@ -230,7 +234,7 @@ const AddScFestivalView = () => {
     }
 
     // 상태
-    data.append("state", state);
+    data.append("state", postState);
 
     //
     data.append("userid", window.sessionStorage.getItem("userid"));
@@ -263,16 +267,16 @@ const AddScFestivalView = () => {
       document.body.appendChild(script);
     }
 
+    actions.setMenu({
+      topMenu: 2,
+      subMenu: 4,
+    });
+
     return () => {
       for (let i = 0; i < scriptList.length; i++) {
         document.body.removeChild(scriptList[i]);
       }
     };
-
-    actions.setMenu({
-      topMenu: 2,
-      subMenu: 4,
-    });
   }, []);
 
   return (
@@ -608,6 +612,8 @@ const AddScFestivalView = () => {
               <PostSaveBtn
                 options={addPostOptions}
                 onSubmitEvent={onSubmitPost}
+                getFormInfo={getPostState}
+                state={postState}
               />
             </div>
           </div>
