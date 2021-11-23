@@ -149,7 +149,7 @@ const AddScFestivalView = () => {
   const removeEventList = () => {
     let ary = eventList;
     for (let i = 0; i < checkedList.length; i++) {
-      ary = ary.filter((item) => item.id !== checkedList[i].id);
+      ary = ary.filter((item) => item.id !== checkedList[i]);
     }
 
     setEventList(ary);
@@ -160,14 +160,33 @@ const AddScFestivalView = () => {
   };
 
   const [checkedList, setCheckedList] = useState([]);
+  const [allChecked, setAllChecked] = useState(false);
+
   const addCheckedList = (eventInfo) => {
-    setCheckedList(checkedList.concat(eventInfo));
+    setCheckedList(checkedList.concat(eventInfo.id));
   };
   const removeNoneCheckedList = (rId) => {
     let ary = checkedList;
     ary = ary.filter((item) => item.id !== rId);
 
     setCheckedList(ary);
+  };
+
+  const toggleAllChecked = (state) => {
+    if (state === true) {
+      // 전부 체크 리스트 추가
+      let ary = [];
+      for (let i = 0; i < eventList.length; i++) {
+        ary.push(eventList[i].id);
+      }
+
+      setCheckedList(ary);
+      setAllChecked(true);
+    } else {
+      // 체크리스트에서 전부 삭제
+      setCheckedList([]);
+      setAllChecked(false);
+    }
   };
 
   const [pageNumber, setPageNumber] = useState(1);
@@ -595,6 +614,8 @@ const AddScFestivalView = () => {
                   count={count}
                   addCheckedList={addCheckedList}
                   removeNoneCheckedList={removeNoneCheckedList}
+                  toggleAllChecked={toggleAllChecked}
+                  allChecked={allChecked}
                 />
                 <Paging
                   pageNumber={pageNumber}

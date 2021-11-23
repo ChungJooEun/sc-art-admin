@@ -135,9 +135,9 @@ const ScFestivalDetailView = ({ match }) => {
     return;
   };
   const removeEventList = () => {
-    let ary = checkedList;
+    let ary = eventList;
     for (let i = 0; i < checkedList.length; i++) {
-      ary = ary.filter((item) => item.id !== checkedList[i].id);
+      ary = ary.filter((item) => item.id !== checkedList[i]);
     }
 
     setEventList(ary);
@@ -150,7 +150,7 @@ const ScFestivalDetailView = ({ match }) => {
   const [checkedList, setCheckedList] = useState([]);
   const [allChecked, setAllChecked] = useState(false);
   const addCheckedList = (eventInfo) => {
-    setCheckedList(checkedList.concat(eventInfo));
+    setCheckedList(checkedList.concat(eventInfo.id));
   };
   const removeNoneCheckedList = (rId) => {
     let ary = checkedList;
@@ -525,7 +525,7 @@ const ScFestivalDetailView = ({ match }) => {
                     className="col-md-2 col-form-label form-label"
                   >
                     기간
-                  </label>
+                  </label>{" "}
                   <div className="col-md-7">
                     <DateRange
                       editableDateInputs={true}
