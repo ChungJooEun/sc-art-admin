@@ -46,7 +46,7 @@ const EventManageView = () => {
 
   const getEventList = useCallback(async () => {
     const url = "http://118.67.154.118:3000/api/admin/cultural-event/list";
-    // const url = "/api/admin/cultural-event/list";
+    // const url = "http://localhost:3000/api/admin/cultural-event/list";
 
     try {
       const response = await axios.get(url, {
@@ -114,7 +114,13 @@ const EventManageView = () => {
   const toggleAllChecked = (state) => {
     if (state === true) {
       // 전부 체크 리스트 추가
-      setCheckedList(eventList);
+
+      let ary = [];
+      for (let i = 0; i < eventList.length; i++) {
+        ary.push(eventList[i].id);
+      }
+
+      setCheckedList(ary);
       setAllChecked(true);
     } else {
       // 체크리스트에서 전부 삭제
@@ -151,7 +157,7 @@ const EventManageView = () => {
   const addRelatedEvent = async (formData) => {
     const url =
       "http://118.67.154.118:3000/api/admin/seochogu-festival/add/related-event";
-    // const url = "/api/admin/seochogu-festival/add/related-event";
+    // const url = "http://localhost:3000/api/admin/seochogu-festival/add/related-event";
 
     try {
       const res = await axios.post(url, formData);
@@ -170,13 +176,13 @@ const EventManageView = () => {
       return;
     } else {
       const data = new Object();
-      let ary = new Array();
+      let ary = [];
 
       for (let i = 0; i < checkedList.length; i++) {
         ary.push(checkedList[i]);
       }
 
-      data.id_list = ary;
+      data.id_list = JSON.stringify(ary);
       data.userid = window.sessionStorage.getItem("userid");
 
       deleteEvents(data);
@@ -185,7 +191,7 @@ const EventManageView = () => {
 
   const deleteEvents = async (data) => {
     const url = "http://118.67.154.118:3000/api/admin/cultural-event";
-    // const url = "/api/admin/cultural-event";
+    // const url = "http://localhost:3000/api/admin/cultural-event";
 
     try {
       const res = await axios.delete(url, {
@@ -229,7 +235,7 @@ const EventManageView = () => {
 
     const getScEventList = async () => {
       const url = `http://118.67.154.118:3000/api/admin/seochogu-festival/list`;
-      // const url = `/api/admin/seochogu-festival/list`;
+      // const url = `http://localhost:3000/api/admin/seochogu-festival/list`;
 
       const today = new Date();
       let fromDate = "" + today.getFullYear();

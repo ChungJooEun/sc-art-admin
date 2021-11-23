@@ -230,8 +230,15 @@ const AddScFestivalView = () => {
     data.append("more_information", moreInformation);
 
     // 관련 행사
-    for (let i = 0; i < eventList.length; i++) {
-      data.append("related_event_list", eventList[i].id);
+
+    if (eventList.length === 0) {
+      data.append("related_event_list", "");
+    } else if (eventList.length === 1) {
+      data.append("related_event_list", JSON.stringify([eventList[0].id]));
+    } else {
+      for (let i = 0; i < eventList.length; i++) {
+        data.append("related_event_list", eventList[i].id);
+      }
     }
 
     // 상태

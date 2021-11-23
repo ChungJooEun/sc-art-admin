@@ -135,7 +135,7 @@ const ScFestivalDetailView = ({ match }) => {
     return;
   };
   const removeEventList = () => {
-    let ary = eventList;
+    let ary = checkedList;
     for (let i = 0; i < checkedList.length; i++) {
       ary = ary.filter((item) => item.id !== checkedList[i].id);
     }
@@ -148,6 +148,7 @@ const ScFestivalDetailView = ({ match }) => {
   };
 
   const [checkedList, setCheckedList] = useState([]);
+  const [allChecked, setAllChecked] = useState(false);
   const addCheckedList = (eventInfo) => {
     setCheckedList(checkedList.concat(eventInfo));
   };
@@ -156,6 +157,23 @@ const ScFestivalDetailView = ({ match }) => {
     ary = ary.filter((item) => item.id !== rId);
 
     setCheckedList(ary);
+  };
+
+  const toggleAllChecked = (state) => {
+    if (state === true) {
+      // 전부 체크 리스트 추가
+      let ary = [];
+      for (let i = 0; i < eventList.length; i++) {
+        ary.push(eventList[i].id);
+      }
+
+      setCheckedList(ary);
+      setAllChecked(true);
+    } else {
+      // 체크리스트에서 전부 삭제
+      setCheckedList([]);
+      setAllChecked(false);
+    }
   };
 
   const [pageNumber, setPageNumber] = useState(1);
@@ -225,8 +243,8 @@ const ScFestivalDetailView = ({ match }) => {
     data.append("name", title);
 
     // 시작일, 마감일
-    data.append("open_date", convertDateFormat(period[0].startDate));
-    data.append("close_date", convertDateFormat(period[0].endDate));
+    data.append("open_date", convertDateFormat(period.startDate));
+    data.append("close_date", convertDateFormat(period.endDate));
 
     // 설명
     data.append("description", description);
@@ -239,21 +257,26 @@ const ScFestivalDetailView = ({ match }) => {
     data.append("more_information", moreInformation);
 
     // 관련 행사
-    for (let i = 0; i < eventList.length; i++) {
-      data.append("related_event_list", eventList[i].id);
-    }
-    // let ary = new Array();
-    // for (let i = 0; i < eventList.length; i++) {
-    //   ary.push(eventList[i].id);
-    // }
 
-    // data.append("related_event_list", JSON.stringify(ary));
+    if (eventList.length === 0) {
+      data.append("related_event_list", JSON.stringify([]));
+    } else if (eventList.length === 1) {
+      data.append("related_event_list", JSON.stringify([eventList[0].id]));
+    } else {
+      for (let i = 0; i < eventList.length; i++) {
+        data.append("related_event_list", eventList[i].id);
+      }
+    }
 
     // 상태
     data.append("state", postState);
 
     //
     data.append("userid", "admin");
+
+    for (let k of data.keys()) console.log(k);
+
+    for (let v of data.values()) console.log(v);
 
     postScEvent(data);
   };
@@ -636,6 +659,8 @@ const ScFestivalDetailView = ({ match }) => {
                   count={count}
                   addCheckedList={addCheckedList}
                   removeNoneCheckedList={removeNoneCheckedList}
+                  toggleAllChecked={toggleAllChecked}
+                  allChecked={allChecked}
                 />
                 <Paging
                   pageNumber={pageNumber}

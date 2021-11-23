@@ -94,7 +94,7 @@ const ScEventListView = () => {
 
   const deleteEvents = async (formData) => {
     const url = "http://118.67.154.118:3000/api/admin/seochogu-festival";
-    // const url = "/api/admin/seochogu-festival";
+    // const url = "http://localhost:3000/api/admin/seochogu-festival";
 
     try {
       const res = await axios.delete(url, {
@@ -113,7 +113,7 @@ const ScEventListView = () => {
 
   const getList = useCallback(async () => {
     const url = `http://118.67.154.118:3000/api/admin/seochogu-festival/list`;
-    // const url = `/api/admin/seochogu-festival/list`;
+    // const url = `http://localhost:3000/api/admin/seochogu-festival/list`;
 
     try {
       const response = await axios.get(url, {

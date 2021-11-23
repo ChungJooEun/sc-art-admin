@@ -63,7 +63,6 @@ const CurationTest = ({ curationInfo, getCurationInfo }) => {
     if (typeof fields === "string") {
       let string = fields.replace(/"/gi, "");
 
-      console.log(string);
       for (let j = 0; j < fieldOptions.length; j++) {
         if (string === fieldOptions[j].value) {
           defaultOptions.push(fieldOptions[j]);
@@ -150,7 +149,7 @@ const CurationTest = ({ curationInfo, getCurationInfo }) => {
   useEffect(() => {
     const getfestivalInfo = async () => {
       const url = `http://118.67.154.118:3000/api/admin/seochogu-festival/list`;
-      // const url = `/api/admin/seochogu-festival/list`;
+      // const url = `http://localhost:3000/api/admin/seochogu-festival/list`;
 
       try {
         const response = await axios.get(url, {

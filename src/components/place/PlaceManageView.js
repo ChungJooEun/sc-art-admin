@@ -104,7 +104,12 @@ const PlaceManageView = () => {
   const toggleAllChecked = (state) => {
     if (state === true) {
       // 전부 체크 리스트 추가
-      setCheckedList(placeList);
+      let ary = [];
+      for (let i = 0; i < placeList.length; i++) {
+        ary.push(placeList[i].id);
+      }
+
+      setCheckedList(ary);
       setAllChecked(true);
     } else {
       // 체크리스트에서 전부 삭제
