@@ -45,6 +45,8 @@ const RecommendedListView = () => {
     ary = ary.filter((item) => item.id !== rId);
 
     setRecommendList(ary);
+
+    alert('삭제 후, "저장"하셔야 수정사항이 저장됩니다.');
   };
 
   const getListAtModal = (selectedList) => {
@@ -96,7 +98,7 @@ const RecommendedListView = () => {
       if (checked[addedList[i].sort - 1] === 0) {
         checked[addedList[i].sort - 1] = 1;
       } else {
-        console.log("같은 순서값이 존재합니다");
+        alert("동일한 순서가 존재하기때문에 저장에 실패하였습니다.");
         return false;
       }
     }
@@ -105,7 +107,7 @@ const RecommendedListView = () => {
       if (checked[recommendList[i].sort - 1] === 0) {
         checked[recommendList[i].sort - 1] = 1;
       } else {
-        console.log("같은 순서값이 존재합니다");
+        alert("동일한 순서가 존재하기때문에 저장에 실패하였습니다.");
         return false;
       }
     }
@@ -194,6 +196,7 @@ const RecommendedListView = () => {
       const res = await axios.post(url, data);
 
       if (res.status === 200) {
+        alert("저장에 성공하였습니다. ");
         console.log(" ======= success to post recommended list ========");
         console.log(res.data);
         getRecommendedList();
