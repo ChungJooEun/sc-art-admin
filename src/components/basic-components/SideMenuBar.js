@@ -682,7 +682,7 @@ const SideMenuBar = React.memo(() => {
                 className="sidebar-menu-button"
                 onClick={() =>
                   (window.location.href =
-                    "http://118.67.154.134:10000/admin/list")
+                    "http://118.67.154.134:9000/admin/list")
                 }
               >
                 <span className="material-icons sidebar-menu-icon sidebar-menu-icon--left">
