@@ -30,7 +30,7 @@ const RecommendedListView = () => {
     setModalOn(!modalOn);
   };
 
-  const [recommendList, setRecommendList] = useState(null);
+  const [recommendList, setRecommendList] = useState([]);
   const [addedList, setAddedList] = useState([]);
 
   const deleteItemAddList = (rId) => {
@@ -41,12 +41,21 @@ const RecommendedListView = () => {
   };
 
   const deleteItemRecommendList = (rId) => {
-    let ary = recommendList;
-    ary = ary.filter((item) => item.id !== rId);
+    alert('삭제 후, "저장"하셔야 수정사항이 저장됩니다.');
+
+    let ary = [];
+    for (let i = 0; i < recommendList.length; i++) {
+      if (recommendList[i].sort === recommendList.length) {
+        ary.push({
+          ...recommendList[i],
+          sort: 1,
+        });
+      } else if (rId !== recommendList[i].id) {
+        ary.push(recommendList[i]);
+      }
+    }
 
     setRecommendList(ary);
-
-    alert('삭제 후, "저장"하셔야 수정사항이 저장됩니다.');
   };
 
   const getListAtModal = (selectedList) => {
