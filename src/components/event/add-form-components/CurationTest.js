@@ -16,7 +16,6 @@ const showFieldOptions = [
   { value: "CHILD_DRAMA", label: "아동극/인형극" },
   { value: "DANCE", label: "무용" },
   { value: "OTHER", label: "기타" },
-
   { value: "COME_KOREA", label: "내한" },
   { value: "CLASSIC", label: "클래식" },
   { value: "TRADITIONAL_ART", label: "전통예술" },
@@ -25,7 +24,7 @@ const showFieldOptions = [
   { value: "KPOP", label: "K-pop" },
   { value: "ROCK", label: "Rock" },
   { value: "BALLAD", label: "발라드" },
-  { value: "DANCE", label: "댄스" },
+  { value: "DANCEPOP", label: "댄스" },
   { value: "RNB", label: "R&B/소울" },
   { value: "HIPHOP", label: "힙합" },
 ];
