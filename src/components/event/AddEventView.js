@@ -10,7 +10,7 @@ import EditorTest from "../basic-components/editor-components/EditorTest";
 import VideoAddFormTest from "../basic-components/video-components/VideoAddFormTest";
 import VideoListItem from "../basic-components/video-components/VideoListItem";
 import PostSaveBtn from "../basic-components/PostSaveBtn";
-import ImageFormTest from "../basic-components/ImageFormTest";
+import ImageFormEvent from "../basic-components/ImageFormEvent";
 import PostCodeModal from "../basic-components/PostCodeModal";
 
 import EventInfoFormTest from "./add-form-components/EventInfoFormTest";
@@ -276,7 +276,7 @@ const AddEventView = ({ options }) => {
           <div className="container-fluid page__container">
             <div className="page-section">
               <div className="row">
-                <ImageFormTest imgSrc={imgFile} getImgFile={getImgFile} />
+                <ImageFormEvent imgSrc={imgFile} getImgFile={getImgFile} />
                 <EventInfoFormTest
                   formInfo={formInfo}
                   getFormInfo={getFormInfo}

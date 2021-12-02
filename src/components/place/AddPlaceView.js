@@ -7,7 +7,7 @@ import MenuContext from "../../context/menu";
 import SideMenuBar from "../basic-components/SideMenuBar";
 import GlobalBar from "../basic-components/GlobalBar";
 import PageTitle from "../basic-components/PageTitle";
-import ImageFormTest from "../basic-components/ImageFormTest";
+import ImageFormPlace from "../basic-components/ImageFormPlace";
 import PostCodeModal from "../basic-components/PostCodeModal";
 
 import PlaceInfoForm from "./add-form-components/PlaceInfoForm";
@@ -236,7 +236,7 @@ const AddPlaceView = ({ options }) => {
         <div className="container-fluid page__container">
           <div className="page-section">
             <div className="row">
-              <ImageFormTest imgSrc={imgFile} getImgFile={getImgFile} />
+              <ImageFormPlace imgSrc={imgFile} getImgFile={getImgFile} />
               <PlaceInfoForm
                 formInfo={formInfo}
                 getFormInfo={getFormInfo}

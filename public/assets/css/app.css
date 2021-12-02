@@ -26275,7 +26275,6 @@ body {
 }
 .card-img-cover {
   position: relative;
-  height: 200px;
   -o-object-fit: cover;
   object-fit: cover;
 }
