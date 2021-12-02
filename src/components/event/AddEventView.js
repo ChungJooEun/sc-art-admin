@@ -175,10 +175,18 @@ const AddEventView = ({ options }) => {
   };
 
   const getCurationInfo = (dataName, data) => {
-    setCurationInfo({
-      ...curationInfo,
-      [dataName]: data,
-    });
+    if (dataName === "event_type") {
+      setCurationInfo({
+        ...curationInfo,
+        [dataName]: data,
+        event_field: null,
+      });
+    } else {
+      setCurationInfo({
+        ...curationInfo,
+        [dataName]: data,
+      });
+    }
   };
 
   const getImgFile = (imgFile) => {

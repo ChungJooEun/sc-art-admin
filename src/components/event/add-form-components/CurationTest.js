@@ -9,75 +9,103 @@ const categoryOptions = [
   { value: "OTHER", label: "기타" },
 ];
 
-const fieldOptions = [
-  { value: "CHILD_DRAMA", label: "아동극" },
-  { value: "DANCE", label: "무용" },
+const showFieldOptions = [
   { value: "MUSICAL_OPERA", label: "뮤지컬/오페라" },
   { value: "MUSIC_CONCERT", label: "음악/콘서트" },
-  { value: "OTHER", label: "기타" },
   { value: "PLAY", label: "연극" },
+  { value: "CHILD_DRAMA", label: "아동극/인형극" },
+  { value: "DANCE", label: "무용" },
+  { value: "OTHER", label: "기타" },
+
+  { value: "COME_KOREA", label: "내한" },
+  { value: "CLASSIC", label: "클래식" },
+  { value: "TRADITIONAL_ART", label: "전통예술" },
+  { value: "INDIE", label: "인디" },
+  { value: "JAZZ", label: "재즈" },
+  { value: "KPOP", label: "K-pop" },
+  { value: "ROCK", label: "Rock" },
+  { value: "BALLAD", label: "발라드" },
+  { value: "DANCE", label: "댄스" },
+  { value: "RNB", label: "R&B/소울" },
+  { value: "HIPHOP", label: "힙합" },
+];
+
+const exhibitionFieldOptions = [
+  { value: "KOREAN_WRITERS", label: "국내 작가" },
+  { value: "FOREIGN_WRITERS", label: "해외 작가" },
+  { value: "HISTORY", label: "역사" },
+  { value: "SCULPTURE", label: "조각" },
+  { value: "PHOTO", label: "사진" },
+  { value: "TRADITIONAL_ART", label: "전통미술" },
+  { value: "KOREAN_PAINTING", label: "한국화" },
+  { value: "ENGRAVING", label: "판화" },
+  { value: "WATERCOLOR", label: "수채화" },
+  { value: "CRAFTS", label: "공예" },
+  { value: "CALLIGRPHY", label: "서예" },
+  { value: "EXHIBITION_OTHER", label: "기타" },
+];
+
+const otherFieldOptions = [
+  { value: "FESTIVAL", label: "축제" },
+  { value: "EXPERIENCE_EDUCATION", label: "체험/교육" },
+  { value: "MOVIE", label: "영화" },
+  { value: "OTHER_OTHER", label: "기타" },
 ];
 
 const themeOptions = [
-  { value: "ALONE", label: "나홀로" },
-  { value: "ANNIVERSARY", label: "기념일" },
-  { value: "BALLAD", label: "발라드" },
-  { value: "CHRISTMAS", label: "성탄절" },
-  { value: "CLASSIC", label: "클래식" },
-  { value: "CLOUDY_RAIN", label: "흐림/비" },
-  { value: "COME_KOREA", label: "내한" },
-  { value: "COUPLE", label: "커플" },
-  { value: "DANCE", label: "댄스" },
-  { value: "FALL", label: "가을" },
-  { value: "FAMILY", label: "가족" },
-  { value: "FRIEND", label: "친구" },
-  { value: "FUNNY", label: "재미있는" },
-  { value: "HIPHOP", label: "힙합" },
-  { value: "HOLIDAY", label: "명절" },
-  { value: "IMPRESSIVE", label: "감동적인" },
-  { value: "INDIE", label: "인디" },
-  { value: "JAZZ", label: "재즈" },
-  { value: "KID", label: "아이랑" },
-  { value: "KPOP", label: "K-pop" },
-  { value: "LEARN", label: "학습을 돕는" },
-  { value: "PARENTS", label: "부모랑" },
-  { value: "PARTY", label: "일행" },
-  { value: "RNB", label: "R&B" },
-  { value: "ROCK", label: "Rock" },
   { value: "SPRING", label: "봄" },
   { value: "SUMMER", label: "여름" },
-  { value: "SUNNY", label: "화창함" },
-  { value: "TRADITIONAL_ART", label: "전통예술" },
-  { value: "UNIQUE", label: "이색적인" },
+  { value: "FALL", label: "가을" },
   { value: "WINTER", label: "겨울" },
+  { value: "CHRISTMAS", label: "크리스마스" },
+  { value: "VALENTINES_DAY", label: "발렌타인데이" },
+  { value: "HOLIDAY", label: "명절" },
+  { value: "ANNIVERSARY", label: "기념일" },
+  { value: "SUNNY", label: "화창함" },
+  { value: "CLOUDY_RAIN", label: "흐림/비" },
+
+  { value: "ALONE", label: "나홀로" },
+  { value: "FRIEND", label: "친구" },
+  { value: "COUPLE", label: "커플" },
+  { value: "KID", label: "아이랑" },
+  { value: "PARENTS", label: "부모님" },
+  { value: "FAMILY", label: "가족" },
+
+  { value: "FUNNY", label: "재미있는" },
+  { value: "UNIQUE", label: "이색적인" },
+  { value: "LEARN", label: "학습을 돕는" },
+  { value: "IMPRESSIVE", label: "감동적인" },
 ];
 
 const CurationTest = ({ curationInfo, getCurationInfo }) => {
-  const getDefaultOptions_field = (fields) => {
+  const getDefaultOptions_field = (fields, options) => {
     const defaultOptions = [];
 
-    if (fields === undefined) {
+    console.log(fields);
+
+    if (fields === undefined || fields === null) {
       return [];
     }
 
     if (typeof fields === "string") {
       let string = fields.replace(/"/gi, "");
 
-      for (let j = 0; j < fieldOptions.length; j++) {
-        if (string === fieldOptions[j].value) {
-          defaultOptions.push(fieldOptions[j]);
+      for (let j = 0; j < options.length; j++) {
+        if (string === options[j].value) {
+          defaultOptions.push(options[j]);
         }
       }
     } else {
       for (let i = 0; i < fields.length; i++) {
-        for (let j = 0; j < fieldOptions.length; j++) {
-          if (fields[i] === fieldOptions[j].value) {
-            defaultOptions.push(fieldOptions[j]);
+        for (let j = 0; j < options.length; j++) {
+          if (fields[i] === options[j].value) {
+            defaultOptions.push(options[j]);
           }
         }
       }
     }
 
+    console.log(defaultOptions);
     return defaultOptions;
   };
 
@@ -145,6 +173,7 @@ const CurationTest = ({ curationInfo, getCurationInfo }) => {
   };
 
   const [festivalOptions, setFestivalOptions] = useState(null);
+  const [fieldOptions, setFieldOptions] = useState(null);
 
   useEffect(() => {
     const getfestivalInfo = async () => {
@@ -179,7 +208,33 @@ const CurationTest = ({ curationInfo, getCurationInfo }) => {
       }
     };
     getfestivalInfo();
-  }, []);
+
+    let ary = [];
+    switch (curationInfo.event_type) {
+      case "EXHIBITION":
+        ary = getDefaultOptions_field(
+          curationInfo.event_field,
+          exhibitionFieldOptions
+        );
+        break;
+      case "SHOW":
+        ary = getDefaultOptions_field(
+          curationInfo.event_field,
+          showFieldOptions
+        );
+        break;
+      case "OTHER":
+        ary = getDefaultOptions_field(
+          curationInfo.event_field,
+          otherFieldOptions
+        );
+        break;
+      default:
+        break;
+    }
+
+    setFieldOptions(ary);
+  }, [curationInfo.event_field, curationInfo.event_type]);
 
   return (
     <div className="page-section">
@@ -201,8 +256,14 @@ const CurationTest = ({ curationInfo, getCurationInfo }) => {
           분야
         </label>
         <Select
-          options={fieldOptions}
-          defaultValue={getDefaultOptions_field(curationInfo.event_field)}
+          options={
+            {
+              EXHIBITION: exhibitionFieldOptions,
+              SHOW: showFieldOptions,
+              OTHER: otherFieldOptions,
+            }[curationInfo.event_type]
+          }
+          value={fieldOptions}
           closeMenuOnSelect={false}
           id="select02"
           isMulti
