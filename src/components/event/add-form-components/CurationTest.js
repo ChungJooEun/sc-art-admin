@@ -24,7 +24,7 @@ const showFieldOptions = [
   { value: "KPOP", label: "K-pop" },
   { value: "ROCK", label: "Rock" },
   { value: "BALLAD", label: "발라드" },
-  { value: "DANCEPOP", label: "댄스" },
+  { value: "DANCE_POP", label: "댄스" },
   { value: "RNB", label: "R&B/소울" },
   { value: "HIPHOP", label: "힙합" },
 ];
