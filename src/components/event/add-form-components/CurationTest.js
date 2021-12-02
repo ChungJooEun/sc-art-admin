@@ -36,7 +36,7 @@ const exhibitionFieldOptions = [
   { value: "HISTORY", label: "역사" },
   { value: "SCULPTURE", label: "조각" },
   { value: "PHOTO", label: "사진" },
-  { value: "TRADITIONAL_ART", label: "전통미술" },
+  { value: "FOLK_ART", label: "전통미술" },
   { value: "KOREAN_PAINTING", label: "한국화" },
   { value: "ENGRAVING", label: "판화" },
   { value: "WATERCOLOR", label: "수채화" },
