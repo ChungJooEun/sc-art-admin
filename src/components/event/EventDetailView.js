@@ -27,7 +27,7 @@ const pagePathList = [
 ];
 
 const convertToDate = (str) => {
-  if (str === null || str === undefined) {
+  if (str === null || str === undefined || str === "") {
     return new Date();
   }
 
