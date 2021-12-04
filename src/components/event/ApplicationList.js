@@ -26,6 +26,8 @@ const ApplicationList = ({ tableTitle, Table, type }) => {
     sort_type: "desc",
   });
 
+  const [adminGroup, setAdminGroup] = useState();
+
   const sorting = (columnName) => {
     if (columnName === sortInfo.sort_column) {
       setSortInfo({
@@ -91,8 +93,10 @@ const ApplicationList = ({ tableTitle, Table, type }) => {
           sort_column: sortInfo.sort_column,
           page: pageNumber,
           count: count,
-          search_type: "STATE",
-          search_word: "WAIT",
+          userid:
+            adminGroup === "PARTNER"
+              ? window.sessionStorage.getItem("userid")
+              : "",
         },
       });
 
@@ -120,8 +124,10 @@ const ApplicationList = ({ tableTitle, Table, type }) => {
           sort_column: sortInfo.sort_column,
           page: pageNumber,
           count: count,
-          search_type: "STATE",
-          search_word: "WAIT",
+          userid:
+            adminGroup === "PARTNER"
+              ? window.sessionStorage.getItem("userid")
+              : "",
         },
       });
 
@@ -141,6 +147,12 @@ const ApplicationList = ({ tableTitle, Table, type }) => {
 
     if (!token || token === undefined) {
       history.push("/common/login");
+    }
+
+    let admingroup = window.sessionStorage.getItem("adminGroup");
+
+    if (admingroup !== null && admingroup !== undefined) {
+      setAdminGroup(admingroup);
     }
 
     if (type === "event") {
