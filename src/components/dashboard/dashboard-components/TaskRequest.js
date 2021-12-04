@@ -21,6 +21,8 @@ const TaskRequest = () => {
     sort_type: "desc",
   });
 
+  const [adminGroup, setAdminGroup] = useState();
+
   const sorting = (columnName) => {
     if (columnName === sortInfo.sort_column) {
       setSortInfo({
@@ -103,8 +105,11 @@ const TaskRequest = () => {
           sort_column: sortInfo.sort_column,
           page: pageNumber_Event,
           count: count,
-          search_type: "STATE",
-          search_word: "WAIT",
+          is_dashboard: 1,
+          userid:
+            adminGroup === "PARTNER"
+              ? window.sessionStorage.getItem("userid")
+              : "",
         },
       });
 
@@ -115,7 +120,7 @@ const TaskRequest = () => {
     } catch (e) {
       console.log(e);
     }
-  }, [pageNumber_Event, sortInfo]);
+  }, [pageNumber_Event, sortInfo, adminGroup]);
 
   const getPlaceList = useCallback(async () => {
     const url = "http://118.67.154.118:3000/api/admin/cultural-space/list";
@@ -128,8 +133,11 @@ const TaskRequest = () => {
           sort_column: sortInfo.sort_column,
           page: pageNumber_Place,
           count: count,
-          search_type: "STATE",
-          search_word: "WAIT",
+          is_dashboard: 1,
+          userid:
+            adminGroup === "PARTNER"
+              ? window.sessionStorage.getItem("userid")
+              : "",
         },
       });
 
@@ -140,7 +148,7 @@ const TaskRequest = () => {
     } catch (e) {
       console.log(e);
     }
-  }, [pageNumber_Place, sortInfo]);
+  }, [pageNumber_Place, sortInfo, adminGroup]);
 
   const getPageNumber = (pickNumber) => {
     if (tapMenu === 1) {
@@ -151,6 +159,11 @@ const TaskRequest = () => {
   };
 
   useEffect(() => {
+    const admingroup = window.sessionStorage.getItem("adminGroup");
+    if (admingroup !== null || admingroup !== undefined) {
+      setAdminGroup(admingroup);
+    }
+
     getEventList();
     getPlaceList();
   }, [getEventList, getPlaceList]);
