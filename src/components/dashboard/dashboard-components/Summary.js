@@ -96,9 +96,6 @@ const Summary = () => {
             placeAry.data.thisWeek.push(thisWeek[i].space_count);
           }
 
-          console.log(visitorAry);
-          console.log(eventAry);
-
           setVisitorCount(visitorAry);
           setSubscriberCount(subscriberAry);
           setReviewCount(reviewAry);

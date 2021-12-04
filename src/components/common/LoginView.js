@@ -22,8 +22,6 @@ const LoginView = () => {
     data.id = loginInfo.id;
     data.password = loginInfo.password;
 
-    // console.log(data);
-
     const url = "http://118.67.154.134:9000/login";
     // const url = "/login";
     const config = {
@@ -37,12 +35,13 @@ const LoginView = () => {
 
       if (response.status === 200) {
         console.log(response.headers);
-        console.log("login success!");
-        // window.localStorage.setItem("token", response.headers.token);
-        // window.localStorage.setItem("userid", response.headers.userid);
 
         window.sessionStorage.setItem("token", response.headers.token);
-        window.sessionStorage.setItem("userid", data.id);
+        window.sessionStorage.setItem("userid", response.headers.userid);
+        window.sessionStorage.setItem(
+          "adminGroup",
+          response.headers.admingroup
+        );
 
         history.push("/dashboard");
       } else {
@@ -64,7 +63,7 @@ const LoginView = () => {
             <div className="container-fluid page__container">
               <div className="col-md-5 p-0 mx-auto">
                 <div className="form-group text-center">
-                  <img src="" />
+                  {/* <img src="" /> */}
                 </div>
                 <div className="form-group text-center">
                   <h2>서초 문화포털 관리자 로그인</h2>

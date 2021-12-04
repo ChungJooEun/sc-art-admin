@@ -31,7 +31,9 @@ import AddBoardView from "./components/community/AddBoardView";
 import EditorTest from "./components/basic-components/editor-components/EditorTest";
 import AddScFestivalView from "./components/event/AddScFestivalView";
 import { MenuProvier } from "./context/menu";
+import { ExternalHtmlProvider } from "./context/externalHtml";
 import ScFestivalDetailView from "./components/event/ScFestivalDetailView";
+import ExternalPageView from "./components/basic-components/ExternalPageView";
 
 const addPostOptions = [
   { value: "TEMP_SAVE", name: "임시저장" },
@@ -97,7 +99,7 @@ const AppProvider = ({ contexts, children }) =>
 
 const App = () => {
   return (
-    <AppProvider contexts={[MenuProvier]}>
+    <AppProvider contexts={[MenuProvier, ExternalHtmlProvider]}>
       <Switch>
         {/* 대시보드 */}
         <Route path="/" exact={true}>
@@ -245,6 +247,7 @@ const App = () => {
 
         {/* 커뮤니티 > 공지사항 */}
         <Route path="/community/notice-board">
+          {/* <ExternalPageView /> */}
           <BoardView
             pageTitle="공지사항"
             addPostUrl="/community/add-notice-board"

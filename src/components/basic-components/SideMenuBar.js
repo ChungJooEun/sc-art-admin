@@ -1,15 +1,24 @@
-import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useCallback, useState, useEffect } from "react";
+import { Link, useHistory } from "react-router-dom";
+import axios from "axios";
 import MenuContext from "../../context/menu";
+import ExternalHtmlContext from "../../context/externalHtml";
 
 const SideMenuBar = React.memo(() => {
   const { actions, state } = useContext(MenuContext);
+  const externalHtml = useContext(ExternalHtmlContext);
+
+  const [isRedirect, setIsRedirect] = useState(false);
 
   const onSelectMenu = (topM, subM) => {
     actions.setMenu({
       topMenu: topM,
       subMenu: subM,
     });
+
+    if (isRedirect) {
+      setIsRedirect(false);
+    }
   };
 
   const openSubMenu = (e) => {
@@ -25,6 +34,37 @@ const SideMenuBar = React.memo(() => {
       [e.target.name]: false,
     });
   };
+
+  const history = useHistory();
+
+  // const movingInPage = async (url, path) => {
+  //   try {
+  //     const res = await axios.get(url, {
+  //       headers: {
+  //         Authorization: `Bearer ${window.sessionStorage.getItem("token")}`,
+  //       },
+  //     });
+
+  //     if (res.status === 200) {
+  //       console.log(res.data);
+
+  //       externalHtml.actions.setExternalHtml(res.data);
+  //       history.push(path);
+  //     }
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
+
+  const movingInPage = (url) => {
+    window.location.assign(url);
+  };
+
+  const [adminGroup, setAdminGroup] = useState();
+
+  useEffect(() => {
+    setAdminGroup(window.sessionStorage.getItem("adminGroup"));
+  }, []);
 
   return (
     <div
@@ -73,92 +113,96 @@ const SideMenuBar = React.memo(() => {
                 <span className="sidebar-menu-text">대시보드</span>
               </Link>
             </li>
-            <li
-              className={
-                state.subMenu.topMenu1
-                  ? state.menu.topMenu === 1
-                    ? "sidebar-menu-item active open"
-                    : "sidebar-menu-item open"
-                  : state.menu.topMenu === 1
-                  ? "sidebar-menu-item active"
-                  : "sidebar-menu-item"
-              }
-            >
-              <a
-                className="sidebar-menu-button collapsed"
-                name="topMenu1"
-                onClick={(e) =>
-                  state.subMenu.topMenu1 ? closeSubMenu(e) : openSubMenu(e)
-                }
-              >
-                <span className="material-icons sidebar-menu-icon sidebar-menu-icon--left">
-                  photo_size_select_large
-                </span>
-                메인 디자인 관리{" "}
-                <span className="ml-auto sidebar-menu-toggle-icon"></span>
-              </a>
-
-              <ul
+            {adminGroup === "PARTNER" ? (
+              ""
+            ) : (
+              <li
                 className={
                   state.subMenu.topMenu1
-                    ? "sidebar-submenu sm-indent collapse show"
-                    : "sidebar-submenu collapse sm-indent"
+                    ? state.menu.topMenu === 1
+                      ? "sidebar-menu-item active open"
+                      : "sidebar-menu-item open"
+                    : state.menu.topMenu === 1
+                    ? "sidebar-menu-item active"
+                    : "sidebar-menu-item"
                 }
-                id="dashboards_menu"
               >
-                <li
-                  className={
-                    state.menu.topMenu === 1 && state.menu.subMenu === 0
-                      ? "sidebar-menu-item active"
-                      : "sidebar-menu-item"
+                <a
+                  className="sidebar-menu-button collapsed"
+                  name="topMenu1"
+                  onClick={(e) =>
+                    state.subMenu.topMenu1 ? closeSubMenu(e) : openSubMenu(e)
                   }
-                  onClick={() => onSelectMenu(1, 0)}
                 >
-                  <Link
-                    className="sidebar-menu-button"
-                    to="/main-design/skin-and-banner-design"
-                  >
-                    <span className="sidebar-menu-text">
-                      메인 배너&스킨 관리
-                    </span>
-                  </Link>
-                </li>
-                <li
+                  <span className="material-icons sidebar-menu-icon sidebar-menu-icon--left">
+                    photo_size_select_large
+                  </span>
+                  메인 디자인 관리{" "}
+                  <span className="ml-auto sidebar-menu-toggle-icon"></span>
+                </a>
+
+                <ul
                   className={
-                    state.menu.topMenu === 1 && state.menu.subMenu === 1
-                      ? "sidebar-menu-item active"
-                      : "sidebar-menu-item"
+                    state.subMenu.topMenu1
+                      ? "sidebar-submenu sm-indent collapse show"
+                      : "sidebar-submenu collapse sm-indent"
                   }
-                  onClick={() => onSelectMenu(1, 1)}
+                  id="dashboards_menu"
                 >
-                  <Link
-                    className="sidebar-menu-button"
-                    to="/main-design/recommend-event"
+                  <li
+                    className={
+                      state.menu.topMenu === 1 && state.menu.subMenu === 0
+                        ? "sidebar-menu-item active"
+                        : "sidebar-menu-item"
+                    }
+                    onClick={() => onSelectMenu(1, 0)}
                   >
-                    <span className="sidebar-menu-text">
-                      추천 문화행사 리스트
-                    </span>
-                  </Link>
-                </li>
-                <li
-                  className={
-                    state.menu.topMenu === 1 && state.menu.subMenu === 2
-                      ? "sidebar-menu-item active"
-                      : "sidebar-menu-item"
-                  }
-                  onClick={() => onSelectMenu(1, 2)}
-                >
-                  <Link
-                    className="sidebar-menu-button"
-                    to="/main-design/recommend-place"
+                    <Link
+                      className="sidebar-menu-button"
+                      to="/main-design/skin-and-banner-design"
+                    >
+                      <span className="sidebar-menu-text">
+                        메인 배너&스킨 관리
+                      </span>
+                    </Link>
+                  </li>
+                  <li
+                    className={
+                      state.menu.topMenu === 1 && state.menu.subMenu === 1
+                        ? "sidebar-menu-item active"
+                        : "sidebar-menu-item"
+                    }
+                    onClick={() => onSelectMenu(1, 1)}
                   >
-                    <span className="sidebar-menu-text">
-                      추천 문화공간 리스트
-                    </span>
-                  </Link>
-                </li>
-              </ul>
-            </li>
+                    <Link
+                      className="sidebar-menu-button"
+                      to="/main-design/recommend-event"
+                    >
+                      <span className="sidebar-menu-text">
+                        추천 문화행사 리스트
+                      </span>
+                    </Link>
+                  </li>
+                  <li
+                    className={
+                      state.menu.topMenu === 1 && state.menu.subMenu === 2
+                        ? "sidebar-menu-item active"
+                        : "sidebar-menu-item"
+                    }
+                    onClick={() => onSelectMenu(1, 2)}
+                  >
+                    <Link
+                      className="sidebar-menu-button"
+                      to="/main-design/recommend-place"
+                    >
+                      <span className="sidebar-menu-text">
+                        추천 문화공간 리스트
+                      </span>
+                    </Link>
+                  </li>
+                </ul>
+              </li>
+            )}
             <li
               className={
                 state.subMenu.topMenu2
@@ -469,228 +513,249 @@ const SideMenuBar = React.memo(() => {
                 </li>
               </ul>
             </li>
-            <li
-              className={
-                state.subMenu.topMenu4
-                  ? state.menu.topMenu === 4
-                    ? "sidebar-menu-item active open"
-                    : "sidebar-menu-item open"
-                  : state.menu.topMenu === 4
-                  ? "sidebar-menu-item active"
-                  : "sidebar-menu-item"
-              }
-            >
-              <a
-                className="sidebar-menu-button"
-                data-toggle="collapse"
-                name="topMenu4"
-                onClick={(e) =>
-                  state.subMenu.topMenu4 ? closeSubMenu(e) : openSubMenu(e)
-                }
-              >
-                <span className="material-icons sidebar-menu-icon sidebar-menu-icon--left">
-                  comment
-                </span>
-                커뮤니티
-                <span className="ml-auto sidebar-menu-toggle-icon"></span>
-              </a>
-              <ul
+            {adminGroup === "PARTNER" ? (
+              ""
+            ) : (
+              <li
                 className={
                   state.subMenu.topMenu4
-                    ? "sidebar-submenu sm-indent collapse show"
-                    : "sidebar-submenu collapse sm-indent"
-                }
-                id="community_menu"
-              >
-                <li
-                  className={
-                    state.menu.topMenu === 4 && state.menu.subMenu === 0
-                      ? "sidebar-menu-item active"
-                      : "sidebar-menu-item"
-                  }
-                  onClick={() => onSelectMenu(4, 0)}
-                >
-                  <span
-                    className="sidebar-menu-button"
-                    onClick={() =>
-                      (window.location.href =
-                        "http://118.67.154.134:22000/community/notice-board")
-                    }
-                  >
-                    <span className="sidebar-menu-text">공지사항</span>
-                  </span>
-                </li>
-                <li
-                  className={
-                    state.menu.topMenu === 4 && state.menu.subMenu === 1
-                      ? "sidebar-menu-item active"
-                      : "sidebar-menu-item"
-                  }
-                  onClick={() => onSelectMenu(4, 1)}
-                >
-                  <span
-                    className="sidebar-menu-button"
-                    onClick={() =>
-                      (window.location.href =
-                        "http://118.67.154.134:22000/community/event-board")
-                    }
-                  >
-                    <span className="sidebar-menu-text">이벤트</span>
-                  </span>
-                </li>
-                <li
-                  className={
-                    state.menu.topMenu === 4 && state.menu.subMenu === 2
-                      ? "sidebar-menu-item active"
-                      : "sidebar-menu-item"
-                  }
-                  onClick={() => onSelectMenu(4, 2)}
-                >
-                  <span
-                    className="sidebar-menu-button"
-                    onClick={() =>
-                      (window.location.href =
-                        "http://118.67.154.134:22000/community/news-board")
-                    }
-                  >
-                    <span className="sidebar-menu-text">문화계 소식</span>
-                  </span>
-                </li>
-                <li
-                  className={
-                    state.menu.topMenu === 4 && state.menu.subMenu === 3
-                      ? "sidebar-menu-item active"
-                      : "sidebar-menu-item"
-                  }
-                  onClick={() => onSelectMenu(4, 3)}
-                >
-                  <span
-                    className="sidebar-menu-button"
-                    onClick={() =>
-                      (window.location.href =
-                        "http://118.67.154.134:22000/community/press-release")
-                    }
-                  >
-                    <span className="sidebar-menu-text">보도자료</span>
-                  </span>
-                </li>
-              </ul>
-            </li>
-            <li
-              className={
-                state.subMenu.topMenu5
-                  ? state.menu.topMenu === 5
-                    ? "sidebar-menu-item active open"
-                    : "sidebar-menu-item open"
-                  : state.menu.topMenu === 5
-                  ? "sidebar-menu-item active"
-                  : "sidebar-menu-item"
-              }
-            >
-              <a
-                className="sidebar-menu-button"
-                data-toggle="collapse"
-                name="topMenu5"
-                onClick={(e) =>
-                  state.subMenu.topMenu5 ? closeSubMenu(e) : openSubMenu(e)
+                    ? state.menu.topMenu === 4
+                      ? "sidebar-menu-item active open"
+                      : "sidebar-menu-item open"
+                    : state.menu.topMenu === 4
+                    ? "sidebar-menu-item active"
+                    : "sidebar-menu-item"
                 }
               >
-                <span className="material-icons sidebar-menu-icon sidebar-menu-icon--left">
-                  people
-                </span>
-                문화 파트너스
-                <span className="ml-auto sidebar-menu-toggle-icon"></span>
-              </a>
-              <ul
+                <a
+                  className="sidebar-menu-button"
+                  data-toggle="collapse"
+                  name="topMenu4"
+                  onClick={(e) =>
+                    state.subMenu.topMenu4 ? closeSubMenu(e) : openSubMenu(e)
+                  }
+                >
+                  <span className="material-icons sidebar-menu-icon sidebar-menu-icon--left">
+                    comment
+                  </span>
+                  커뮤니티
+                  <span className="ml-auto sidebar-menu-toggle-icon"></span>
+                </a>
+                <ul
+                  className={
+                    state.subMenu.topMenu4
+                      ? "sidebar-submenu sm-indent collapse show"
+                      : "sidebar-submenu collapse sm-indent"
+                  }
+                  id="community_menu"
+                >
+                  <li
+                    className={
+                      state.menu.topMenu === 4 && state.menu.subMenu === 0
+                        ? "sidebar-menu-item active"
+                        : "sidebar-menu-item"
+                    }
+                    onClick={() => onSelectMenu(4, 0)}
+                  >
+                    <span
+                      className="sidebar-menu-button"
+                      onClick={() =>
+                        movingInPage(
+                          "http://118.67.154.134:22000/community/notice-board"
+                        )
+                      }
+                    >
+                      <span className="sidebar-menu-text">공지사항</span>
+                    </span>
+                  </li>
+                  <li
+                    className={
+                      state.menu.topMenu === 4 && state.menu.subMenu === 1
+                        ? "sidebar-menu-item active"
+                        : "sidebar-menu-item"
+                    }
+                    onClick={() => onSelectMenu(4, 1)}
+                  >
+                    <span
+                      className="sidebar-menu-button"
+                      onClick={() =>
+                        movingInPage(
+                          "http://118.67.154.134:22000/community/event-board"
+                        )
+                      }
+                    >
+                      <span className="sidebar-menu-text">이벤트</span>
+                    </span>
+                  </li>
+                  <li
+                    className={
+                      state.menu.topMenu === 4 && state.menu.subMenu === 2
+                        ? "sidebar-menu-item active"
+                        : "sidebar-menu-item"
+                    }
+                    onClick={() => onSelectMenu(4, 2)}
+                  >
+                    <span
+                      className="sidebar-menu-button"
+                      onClick={() =>
+                        movingInPage(
+                          "http://118.67.154.134:22000/community/news-board"
+                        )
+                      }
+                    >
+                      <span className="sidebar-menu-text">문화계 소식</span>
+                    </span>
+                  </li>
+                  <li
+                    className={
+                      state.menu.topMenu === 4 && state.menu.subMenu === 3
+                        ? "sidebar-menu-item active"
+                        : "sidebar-menu-item"
+                    }
+                    onClick={() => onSelectMenu(4, 3)}
+                  >
+                    <span
+                      className="sidebar-menu-button"
+                      onClick={() =>
+                        movingInPage(
+                          "http://118.67.154.134:22000/community/press-release"
+                        )
+                      }
+                    >
+                      <span className="sidebar-menu-text">보도자료</span>
+                    </span>
+                  </li>
+                </ul>
+              </li>
+            )}
+            {adminGroup === "PARTNER" ? (
+              ""
+            ) : (
+              <li
                 className={
                   state.subMenu.topMenu5
-                    ? "sidebar-submenu sm-indent collapse show"
-                    : "sidebar-submenu collapse sm-indent"
+                    ? state.menu.topMenu === 5
+                      ? "sidebar-menu-item active open"
+                      : "sidebar-menu-item open"
+                    : state.menu.topMenu === 5
+                    ? "sidebar-menu-item active"
+                    : "sidebar-menu-item"
                 }
-                id="related-sites"
               >
-                <li
-                  className={
-                    state.menu.topMenu === 5 && state.menu.subMenu === 0
-                      ? "sidebar-menu-item active"
-                      : "sidebar-menu-item"
+                <a
+                  className="sidebar-menu-button"
+                  data-toggle="collapse"
+                  name="topMenu5"
+                  onClick={(e) =>
+                    state.subMenu.topMenu5 ? closeSubMenu(e) : openSubMenu(e)
                   }
-                  onClick={() => onSelectMenu(5, 0)}
                 >
-                  <span
-                    className="sidebar-menu-button"
-                    onClick={() =>
-                      (window.location.href =
-                        "http://118.67.154.134:22000/related-sites/list")
-                    }
-                  >
-                    <span className="sidebar-menu-text">문화 파트너스</span>
+                  <span className="material-icons sidebar-menu-icon sidebar-menu-icon--left">
+                    people
                   </span>
-                </li>
-                <li
+                  문화 파트너스
+                  <span className="ml-auto sidebar-menu-toggle-icon"></span>
+                </a>
+                <ul
                   className={
-                    state.menu.topMenu === 5 && state.menu.subMenu === 1
-                      ? "sidebar-menu-item active"
-                      : "sidebar-menu-item"
+                    state.subMenu.topMenu5
+                      ? "sidebar-submenu sm-indent collapse show"
+                      : "sidebar-submenu collapse sm-indent"
                   }
-                  onClick={() => onSelectMenu(5, 1)}
+                  id="related-sites"
                 >
-                  <span
-                    className="sidebar-menu-button"
-                    onClick={() =>
-                      (window.location.href =
-                        "http://118.67.154.134:22000/related-sites/add")
+                  <li
+                    className={
+                      state.menu.topMenu === 5 && state.menu.subMenu === 0
+                        ? "sidebar-menu-item active"
+                        : "sidebar-menu-item"
                     }
+                    onClick={() => onSelectMenu(5, 0)}
                   >
-                    <span className="sidebar-menu-text">
-                      문화 파트너스 추가
+                    <span
+                      className="sidebar-menu-button"
+                      onClick={() =>
+                        movingInPage(
+                          "http://118.67.154.134:22000/related-sites/list"
+                        )
+                      }
+                    >
+                      <span className="sidebar-menu-text">문화 파트너스</span>
                     </span>
+                  </li>
+                  <li
+                    className={
+                      state.menu.topMenu === 5 && state.menu.subMenu === 1
+                        ? "sidebar-menu-item active"
+                        : "sidebar-menu-item"
+                    }
+                    onClick={() => onSelectMenu(5, 1)}
+                  >
+                    <span
+                      className="sidebar-menu-button"
+                      onClick={() =>
+                        movingInPage(
+                          "http://118.67.154.134:22000/related-sites/add"
+                        )
+                      }
+                    >
+                      <span className="sidebar-menu-text">
+                        문화 파트너스 추가
+                      </span>
+                    </span>
+                  </li>
+                </ul>
+              </li>
+            )}
+            {adminGroup === "PARTNER" ? (
+              ""
+            ) : (
+              <li
+                className={
+                  state.menu.topMenu === 6 && state.menu.subMenu === 0
+                    ? "sidebar-menu-item active"
+                    : "sidebar-menu-item"
+                }
+                onClick={() => onSelectMenu(6, 0)}
+              >
+                <span
+                  className="sidebar-menu-button"
+                  onClick={() =>
+                    movingInPage("http://118.67.154.134:10000/user/list")
+                  }
+                >
+                  <span className="material-icons sidebar-menu-icon sidebar-menu-icon--left">
+                    people
                   </span>
-                </li>
-              </ul>
-            </li>
-            <li
-              className={
-                state.menu.topMenu === 6 && state.menu.subMenu === 0
-                  ? "sidebar-menu-item active"
-                  : "sidebar-menu-item"
-              }
-              onClick={() => onSelectMenu(6, 0)}
-            >
-              <span
-                className="sidebar-menu-button"
-                onClick={() =>
-                  (window.location.href =
-                    "http://118.67.154.134:10000/user/list")
-                }
-              >
-                <span className="material-icons sidebar-menu-icon sidebar-menu-icon--left">
-                  people
+                  <span className="sidebar-menu-text">사용자</span>
                 </span>
-                <span className="sidebar-menu-text">사용자</span>
-              </span>
-            </li>
-            <li
-              className={
-                state.menu.topMenu === 7 && state.menu.subMenu === 0
-                  ? "sidebar-menu-item active"
-                  : "sidebar-menu-item"
-              }
-              onClick={() => onSelectMenu(7, 0)}
-            >
-              <span
-                className="sidebar-menu-button"
-                onClick={() =>
-                  (window.location.href =
-                    "http://118.67.154.134:9000/admin/list")
+              </li>
+            )}
+
+            {adminGroup === "SUPER" ? (
+              <li
+                className={
+                  state.menu.topMenu === 7 && state.menu.subMenu === 0
+                    ? "sidebar-menu-item active"
+                    : "sidebar-menu-item"
                 }
+                onClick={() => onSelectMenu(7, 0)}
               >
-                <span className="material-icons sidebar-menu-icon sidebar-menu-icon--left">
-                  assignment_ind
+                <span
+                  className="sidebar-menu-button"
+                  onClick={() =>
+                    movingInPage("http://118.67.154.134:9000/admin/list")
+                  }
+                >
+                  <span className="material-icons sidebar-menu-icon sidebar-menu-icon--left">
+                    assignment_ind
+                  </span>
+                  <span className="sidebar-menu-text">관리자 관리</span>
                 </span>
-                <span className="sidebar-menu-text">관리자 관리</span>
-              </span>
-            </li>
+              </li>
+            ) : (
+              ""
+            )}
           </ul>
         </div>
       </div>
