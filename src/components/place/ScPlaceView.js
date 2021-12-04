@@ -25,6 +25,19 @@ const options = [
   { value: "PRIVATE", name: "비공개" },
 ];
 const ScPlaceView = ({ pageTitle }) => {
+  const useConfirm = (message = null, onConfirm) => {
+    if (!onConfirm || typeof onConfirm !== "function") {
+      return;
+    }
+
+    const confirmAction = () => {
+      if (window.confirm(message)) {
+        onConfirm();
+      }
+    };
+    return confirmAction;
+  };
+
   const history = useHistory();
   const [postState, setPostState] = useState("");
   const [detail, setDetail] = useState("");
@@ -45,15 +58,16 @@ const ScPlaceView = ({ pageTitle }) => {
 
       console.log(response.status);
       if (response.status === 200) {
-        console.log(response.data);
+        alert("수정사항이 저장되었습니다.");
         history.push("/place/place-manage");
       }
     } catch (e) {
+      alert("수정 중, 오류가 발생하였습니다.");
       console.log(e);
     }
   };
 
-  const onSubmitEvent = (formState) => {
+  const onHandleSubmitPlace = (formState) => {
     console.log(formState);
 
     let formData = new FormData();
@@ -65,6 +79,11 @@ const ScPlaceView = ({ pageTitle }) => {
 
     postScPlace(formData);
   };
+
+  const onSubmitPlace = useConfirm(
+    "수정사항을 저장하시겠습니까?",
+    onHandleSubmitPlace
+  );
 
   const { actions } = useContext(MenuContext);
   useEffect(() => {
@@ -160,7 +179,7 @@ const ScPlaceView = ({ pageTitle }) => {
                 <div className="card">
                   <PostSaveBtn
                     options={options}
-                    onSubmitEvent={onSubmitEvent}
+                    onSubmitEvent={onSubmitPlace}
                     state={postState}
                   />
                 </div>
