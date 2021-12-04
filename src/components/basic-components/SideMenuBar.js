@@ -1,24 +1,15 @@
-import React, { useContext, useCallback, useState, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
-import axios from "axios";
+import React, { useContext, useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import MenuContext from "../../context/menu";
-import ExternalHtmlContext from "../../context/externalHtml";
 
 const SideMenuBar = React.memo(() => {
   const { actions, state } = useContext(MenuContext);
-  const externalHtml = useContext(ExternalHtmlContext);
-
-  const [isRedirect, setIsRedirect] = useState(false);
 
   const onSelectMenu = (topM, subM) => {
     actions.setMenu({
       topMenu: topM,
       subMenu: subM,
     });
-
-    if (isRedirect) {
-      setIsRedirect(false);
-    }
   };
 
   const openSubMenu = (e) => {
@@ -34,27 +25,6 @@ const SideMenuBar = React.memo(() => {
       [e.target.name]: false,
     });
   };
-
-  const history = useHistory();
-
-  // const movingInPage = async (url, path) => {
-  //   try {
-  //     const res = await axios.get(url, {
-  //       headers: {
-  //         Authorization: `Bearer ${window.sessionStorage.getItem("token")}`,
-  //       },
-  //     });
-
-  //     if (res.status === 200) {
-  //       console.log(res.data);
-
-  //       externalHtml.actions.setExternalHtml(res.data);
-  //       history.push(path);
-  //     }
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
 
   const movingInPage = (url) => {
     window.location.assign(
