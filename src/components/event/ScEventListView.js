@@ -25,6 +25,19 @@ const searchOptions = [
 ];
 
 const ScEventListView = () => {
+  const useConfirm = (message = null, onConfirm) => {
+    if (!onConfirm || typeof onConfirm !== "function") {
+      return;
+    }
+
+    const confirmAction = () => {
+      if (window.confirm(message)) {
+        onConfirm();
+      }
+    };
+    return confirmAction;
+  };
+
   const [scList, setScList] = useState([]);
   const [totalNumber, setTotalNumber] = useState(0);
   const [pageNumber, setPageNumber] = useState(1);
@@ -40,6 +53,8 @@ const ScEventListView = () => {
     sort_column: "create_date",
     sort_type: "desc",
   });
+
+  const [adminGroup, setAdminGroup] = useState();
 
   const searching = (dateRange, searchInfos) => {
     setPeriod(dateRange);
@@ -76,7 +91,7 @@ const ScEventListView = () => {
     setCheckedList(ary);
   };
 
-  const onClickDeleteBtn = () => {
+  const onHandleDelete = () => {
     if (checkedList.length === 0) {
       return;
     } else {
@@ -102,14 +117,19 @@ const ScEventListView = () => {
       });
 
       if (res.status === 200) {
-        console.log(res.data);
+        alert("삭제되었습니다.");
+        getList();
       }
-
-      getList();
     } catch (e) {
+      alert("삭제 중, 오류가 발생하였습니다.");
       console.log(e);
     }
   };
+
+  const onClickDeleteBtn = useConfirm(
+    "선택하신 서초 축제를 삭제하시겠습니까?\n삭제된 축제는 다시 되돌릴 수 없습니다.",
+    onHandleDelete
+  );
 
   const getList = useCallback(async () => {
     const url = `http://118.67.154.118:3000/api/admin/seochogu-festival/list`;
@@ -126,7 +146,10 @@ const ScEventListView = () => {
           to_date: period.to_date,
           search_type: searchInfo.search_type,
           search_word: searchInfo.search_word,
-          userid: window.sessionStorage.getItem("userid"),
+          userid:
+            adminGroup === "PARTNER"
+              ? window.sessionStorage.getItem("userid")
+              : "",
         },
       });
 
@@ -137,7 +160,7 @@ const ScEventListView = () => {
     } catch (e) {
       console.log(e);
     }
-  }, [pageNumber, period, searchInfo, sortInfo]);
+  }, [pageNumber, period, searchInfo, sortInfo, adminGroup]);
 
   const history = useHistory();
   const { actions } = useContext(MenuContext);
@@ -147,6 +170,12 @@ const ScEventListView = () => {
 
     if (!token || token === undefined) {
       history.push("/common/login");
+    }
+
+    const admingroup = window.sessionStorage.getItem("adminGroup");
+
+    if (admingroup !== null && admingroup !== undefined) {
+      setAdminGroup(admingroup);
     }
 
     getList();
