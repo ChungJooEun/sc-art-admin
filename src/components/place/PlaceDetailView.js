@@ -35,6 +35,19 @@ const categoryOptions = [
 ];
 
 const PlaceDetailView = ({ options, match }) => {
+  const useConfirm = (message = null, onConfirm) => {
+    if (!onConfirm || typeof onConfirm !== "function") {
+      return;
+    }
+
+    const confirmAction = () => {
+      if (window.confirm(message)) {
+        onConfirm();
+      }
+    };
+    return confirmAction;
+  };
+
   const history = useHistory();
 
   const [formInfo, setFormInfo] = useState(null);
@@ -105,15 +118,16 @@ const PlaceDetailView = ({ options, match }) => {
 
       console.log(response.status);
       if (response.status === 200) {
-        console.log(response.data);
+        alert("수정되었습니다.");
         history.push("/place/place-manage");
       }
     } catch (e) {
+      alert("수정 중, 오류가 발생하였습니다.");
       console.log(e);
     }
   };
 
-  const onSubmitEvent = () => {
+  const onHandleSubmitPlace = () => {
     let formData = new FormData();
 
     if (imgFile) {
@@ -151,6 +165,11 @@ const PlaceDetailView = ({ options, match }) => {
     postPlace(formData);
   };
 
+  const onSubmitPlace = useConfirm(
+    "수정 사항을 저장하시겠습니까?",
+    onHandleSubmitPlace
+  );
+
   const getDefaultOptions_category = (category) => {
     const defaultOptions = [];
 
@@ -176,7 +195,7 @@ const PlaceDetailView = ({ options, match }) => {
     setVideos(ary);
   };
 
-  const onClickRemoveBtn = () => {
+  const onHandleDelete = () => {
     removeEventPost();
   };
 
@@ -187,12 +206,19 @@ const PlaceDetailView = ({ options, match }) => {
       const res = await axios.delete(url);
 
       if (res.status === 200) {
+        alert("삭제되었습니다.");
         history.push("/place/place-manage");
       }
     } catch (e) {
+      alert("삭제 중, 오류가 발생하였습니다.");
       console.log(e);
     }
   };
+
+  const onClickRemoveBtn = useConfirm(
+    "삭제하시겠습니까?\n삭제된 문화공간은 다시 되돌릴 수 없습니다.",
+    onHandleDelete
+  );
 
   const getRejectionReason = (dataName, data) => {
     setRejectionReason({
@@ -429,7 +455,7 @@ const PlaceDetailView = ({ options, match }) => {
                 <div className="card">
                   <PostSaveBtn
                     options={options}
-                    onSubmitEvent={onSubmitEvent}
+                    onSubmitEvent={onSubmitPlace}
                     state={formInfo.state}
                     onClickRemoveBtn={onClickRemoveBtn}
                     showDelBtn={true}

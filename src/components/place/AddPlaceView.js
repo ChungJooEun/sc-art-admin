@@ -35,6 +35,19 @@ const categoryOptions = [
 ];
 
 const AddPlaceView = ({ options }) => {
+  const useConfirm = (message = null, onConfirm) => {
+    if (!onConfirm || typeof onConfirm !== "function") {
+      return;
+    }
+
+    const confirmAction = () => {
+      if (window.confirm(message)) {
+        onConfirm();
+      }
+    };
+    return confirmAction;
+  };
+
   const history = useHistory();
 
   const [formInfo, setFormInfo] = useState({
@@ -106,15 +119,16 @@ const AddPlaceView = ({ options }) => {
 
       console.log(response.status);
       if (response.status === 200) {
-        console.log(response.data);
+        alert("등록되었습니다.");
         history.push("/place/place-manage");
       }
     } catch (e) {
+      alert("문화공간 등록 중, 오류가 발생하였습니다.");
       console.log(e);
     }
   };
 
-  const onSubmitEvent = () => {
+  const onHandleSubmitPlace = () => {
     let formData = new FormData();
 
     if (imgFile) {
@@ -154,6 +168,11 @@ const AddPlaceView = ({ options }) => {
 
     postPlace(formData);
   };
+
+  const onSubmitPlace = useConfirm(
+    "새로운 문화공간을 등록하시겠습니까?",
+    onHandleSubmitPlace
+  );
 
   const getDefaultOptions_category = (category) => {
     const defaultOptions = [];
@@ -295,7 +314,7 @@ const AddPlaceView = ({ options }) => {
               <div className="card">
                 <PostSaveBtn
                   options={options}
-                  onSubmitEvent={onSubmitEvent}
+                  onSubmitEvent={onSubmitPlace}
                   state={formInfo.state}
                   getFormInfo={getFormInfo}
                 />
