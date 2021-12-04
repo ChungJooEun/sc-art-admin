@@ -58,6 +58,19 @@ const convertDateFormat = (dateString) => {
 };
 
 const EventDetailView = ({ options, match }) => {
+  const useConfirm = (message = null, onConfirm) => {
+    if (!onConfirm || typeof onConfirm !== "function") {
+      return;
+    }
+
+    const confirmAction = () => {
+      if (window.confirm(message)) {
+        onConfirm();
+      }
+    };
+    return confirmAction;
+  };
+
   const [formInfo, setFormInfo] = useState(null);
   const [openTime, setOpenTime] = useState("10:00");
   const [closeTime, setCloseTime] = useState("22:00");
@@ -72,28 +85,7 @@ const EventDetailView = ({ options, match }) => {
 
   const history = useHistory();
 
-  const postEvent = async (eventData) => {
-    const url = "http://118.67.154.118:3000/api/admin/cultural-event/regist";
-    // const url = "http://localhost:3000/api/admin/cultural-event/regist";
-
-    try {
-      const response = await axios.post(url, eventData, {
-        headers: {
-          "content-type": "multipart/form-data",
-        },
-      });
-
-      console.log(response.status);
-      if (response.status === 200) {
-        console.log(response.data);
-        history.goBack();
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  const onSubmitEvent = () => {
+  const onHandleSubmitEvent = () => {
     let formData = new FormData();
 
     formData.append("id", formInfo.id);
@@ -159,6 +151,32 @@ const EventDetailView = ({ options, match }) => {
 
     postEvent(formData);
   };
+
+  const postEvent = async (eventData) => {
+    const url = "http://118.67.154.118:3000/api/admin/cultural-event/regist";
+    // const url = "http://localhost:3000/api/admin/cultural-event/regist";
+
+    try {
+      const response = await axios.post(url, eventData, {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      });
+
+      if (response.status === 200) {
+        alert("수정되었습니다.");
+        history.goBack();
+      }
+    } catch (e) {
+      alert("수정중, 오류가 발생하였습니다.");
+      console.log(e);
+    }
+  };
+
+  const onSubmitEvent = useConfirm(
+    "수정 사항을 저장하시겠습니까?",
+    onHandleSubmitEvent
+  );
 
   const getDetail = (e) => {
     setDetail(e);
@@ -227,7 +245,7 @@ const EventDetailView = ({ options, match }) => {
     setVideos(ary);
   };
 
-  const onClickRemoveBtn = () => {
+  const onHandleRemoveEvent = () => {
     removeEventPost();
   };
 
@@ -238,12 +256,19 @@ const EventDetailView = ({ options, match }) => {
       const res = await axios.delete(url);
 
       if (res.status === 200) {
+        alert("삭제되었습니다.");
         history.push("/event/event-manage");
       }
     } catch (e) {
+      alert("삭제중 오류가 발생하였습니다.");
       console.log(e);
     }
   };
+
+  const onClickRemoveBtn = useConfirm(
+    "삭제하시겠습니까?\n삭제된 문화행사는 되돌릴 수 없습니다.",
+    onHandleRemoveEvent
+  );
 
   const getRejectionReason = (dataName, data) => {
     setRejectionReason({
