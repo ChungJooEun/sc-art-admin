@@ -27,6 +27,19 @@ const searchOptions = [
   { value: "LOCATION", label: "위치" },
 ];
 const PlaceListView = ({ pageTitle, type }) => {
+  const useConfirm = (message = null, onConfirm) => {
+    if (!onConfirm || typeof onConfirm !== "function") {
+      return;
+    }
+
+    const confirmAction = () => {
+      if (window.confirm(message)) {
+        onConfirm();
+      }
+    };
+    return confirmAction;
+  };
+
   const history = useHistory();
 
   const [placeList, setPlaceList] = useState([]);
@@ -123,7 +136,7 @@ const PlaceListView = ({ pageTitle, type }) => {
     }
   };
 
-  const onClickDeleteBtn = () => {
+  const onHandleDelete = () => {
     if (checkedList.length === 0) {
       return;
     } else {
@@ -146,14 +159,20 @@ const PlaceListView = ({ pageTitle, type }) => {
       const res = await axios.delete(url, { data: formData });
 
       if (res.status === 200) {
-        console.log(res.data);
+        alert("삭제되었습니다.");
       }
 
       getPlaceList();
     } catch (e) {
+      alert("삭제 중, 오류가 발생하였습니다.");
       console.log(e);
     }
   };
+
+  const onClickDeleteBtn = useConfirm(
+    "선택하신 문화공간 삭제하시겠습니까?\n삭제된 문화공간은 다시 되돌릴 수 없습니다.",
+    onHandleDelete
+  );
 
   const { actions } = useContext(MenuContext);
   useEffect(() => {
