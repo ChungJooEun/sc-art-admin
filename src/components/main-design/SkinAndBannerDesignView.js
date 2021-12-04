@@ -396,6 +396,12 @@ const SkinAndBannerDesignView = () => {
   const history = useHistory();
   const { actions } = useContext(MenuContext);
   useEffect(() => {
+    let token = window.sessionStorage.getItem("token");
+
+    if (!token || token === undefined) {
+      history.push("/common/login");
+    }
+
     // initial data 받아오기
     const getInitialData = async () => {
       const url = "http://118.67.154.134:22000/api/main/theme";

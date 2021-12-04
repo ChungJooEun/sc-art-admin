@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext, useCallback } from "react";
 import MenuContext from "../../context/menu";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 import GlobalBar from "../basic-components/GlobalBar";
 import PageTitle from "../basic-components/PageTitle";
@@ -253,7 +254,14 @@ const RecommendedListView = () => {
   }, []);
 
   const { actions } = useContext(MenuContext);
+  const history = useHistory();
   useEffect(() => {
+    let token = window.sessionStorage.getItem("token");
+
+    if (!token || token === undefined) {
+      history.push("/common/login");
+    }
+
     if (window.location.href.includes("place")) {
       actions.setMenu({
         topMenu: 1,

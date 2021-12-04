@@ -272,6 +272,12 @@ const AddScFestivalView = () => {
   const { actions } = useContext(MenuContext);
 
   useEffect(() => {
+    let token = window.sessionStorage.getItem("token");
+
+    if (!token || token === undefined) {
+      history.push("/common/login");
+    }
+
     const srcList = [
       `${process.env.PUBLIC_URL}/assets/vendor/jquery.min.js`,
       `${process.env.PUBLIC_URL}/assets/vendor/popper.min.js`,

@@ -225,6 +225,12 @@ const AddEventView = ({ options }) => {
 
   const { actions } = useContext(MenuContext);
   useEffect(() => {
+    let token = window.sessionStorage.getItem("token");
+
+    if (!token || token === undefined) {
+      history.push("/common/login");
+    }
+
     actions.setMenu({
       topMenu: 2,
       subMenu: 5,

@@ -68,6 +68,12 @@ const ScPlaceView = ({ pageTitle }) => {
 
   const { actions } = useContext(MenuContext);
   useEffect(() => {
+    let token = window.sessionStorage.getItem("token");
+
+    if (!token || token === undefined) {
+      history.push("/common/login");
+    }
+
     const getScplaceInfo = async () => {
       const url = `http://118.67.154.118:3000/api/admin/seoripul-space/detail/${encodeURIComponent(
         pageTitle

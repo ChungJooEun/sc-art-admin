@@ -202,6 +202,12 @@ const PlaceDetailView = ({ options, match }) => {
   };
 
   useEffect(() => {
+    let token = window.sessionStorage.getItem("token");
+
+    if (!token || token === undefined) {
+      history.push("/common/login");
+    }
+
     const getPlaceDetail = async () => {
       const { id } = match.params;
       const url = `http://118.67.154.118:3000/api/admin/cultural-space/detail/${id}`;

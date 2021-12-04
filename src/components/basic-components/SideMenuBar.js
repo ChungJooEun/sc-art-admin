@@ -57,7 +57,9 @@ const SideMenuBar = React.memo(() => {
   // };
 
   const movingInPage = (url) => {
-    window.location.assign(url);
+    window.location.assign(
+      `${url}?token=${window.sessionStorage.getItem("token")}`
+    );
   };
 
   const [adminGroup, setAdminGroup] = useState();

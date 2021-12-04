@@ -209,8 +209,11 @@ const EventManageView = () => {
 
   const { actions } = useContext(MenuContext);
   useEffect(() => {
-    // console.log(window.sessionStorage.getItem("userid"));
+    let token = window.sessionStorage.getItem("token");
 
+    if (!token || token === undefined) {
+      history.push("/common/login");
+    }
     const srcList = [
       `${process.env.PUBLIC_URL}/assets/vendor/jquery.min.js`,
       `${process.env.PUBLIC_URL}/assets/vendor/popper.min.js`,

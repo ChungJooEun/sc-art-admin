@@ -152,6 +152,12 @@ const PlaceListView = ({ pageTitle, type }) => {
 
   const { actions } = useContext(MenuContext);
   useEffect(() => {
+    let token = window.sessionStorage.getItem("token");
+
+    if (!token || token === undefined) {
+      history.push("/common/login");
+    }
+
     switch (type) {
       case "hall":
         actions.setMenu({

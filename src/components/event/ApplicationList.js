@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback, useContext } from "react";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 import MenuContext from "../../context/menu";
 
 import GlobalBar from "../basic-components/GlobalBar";
@@ -133,8 +134,15 @@ const ApplicationList = ({ tableTitle, Table, type }) => {
     }
   }, [pageNumber, sortInfo]);
 
+  const history = useHistory();
   const { actions } = useContext(MenuContext);
   useEffect(() => {
+    let token = window.sessionStorage.getItem("token");
+
+    if (!token || token === undefined) {
+      history.push("/common/login");
+    }
+
     if (type === "event") {
       actions.setMenu({
         topMenu: 2,

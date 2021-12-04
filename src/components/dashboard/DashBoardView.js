@@ -21,10 +21,9 @@ const DashBoardView = () => {
 
   const { actions } = useContext(MenuContext);
   useEffect(() => {
-    let userId = window.sessionStorage.getItem("userid");
     let token = window.sessionStorage.getItem("token");
 
-    if (!userId || userId === undefined) {
+    if (!token || token === undefined) {
       history.push("/common/login");
     }
 
