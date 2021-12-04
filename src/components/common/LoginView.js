@@ -47,7 +47,8 @@ const LoginView = () => {
       } else {
       }
     } catch (e) {
-      console.log(e);
+      alert("로그인 실패\n아이디와 비밀번호를 확인해주세요. ");
+      // console.log(e);
     }
   };
 
