@@ -62,6 +62,19 @@ const addPostOptions = [
 ];
 
 const AddScFestivalView = () => {
+  const useConfirm = (message = null, onConfirm) => {
+    if (!onConfirm || typeof onConfirm !== "function") {
+      return;
+    }
+
+    const confirmAction = () => {
+      if (window.confirm(message)) {
+        onConfirm();
+      }
+    };
+    return confirmAction;
+  };
+
   const [bannerImg, setBannerImg] = useState(null);
   const [imgBase64, setImgBase64] = useState([]);
   const onChangeImgFile = (e) => {
@@ -216,15 +229,16 @@ const AddScFestivalView = () => {
       const response = await axios.post(url, data, config);
 
       if (response.status === 200) {
-        console.log(response.data);
+        alert("새로운 축제가 등록되었습니다.");
         history.push("/event/seocho-festival");
       }
     } catch (e) {
+      alert("등록 중, 오류가 발생하였습니다.");
       console.log(e);
     }
   };
 
-  const onSubmitPost = () => {
+  const onHandleSubmitPost = () => {
     const data = new FormData();
 
     // 배너 이미지
@@ -268,6 +282,11 @@ const AddScFestivalView = () => {
 
     postScEvent(data);
   };
+
+  const onSubmitPost = useConfirm(
+    "새로운 축제를 등록하시겠습니까?",
+    onHandleSubmitPost
+  );
 
   const { actions } = useContext(MenuContext);
 
