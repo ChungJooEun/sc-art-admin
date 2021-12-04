@@ -41,6 +41,8 @@ const PlaceListView = ({ pageTitle, type }) => {
     sort_type: "desc",
   });
 
+  const [adminGroup, setAdminGroup] = useState();
+
   const searching = (dateRange, searchInfos) => {
     setSearchInfo(searchInfos);
     setPageNumber(1);
@@ -73,7 +75,10 @@ const PlaceListView = ({ pageTitle, type }) => {
           count: count,
           search_type: searchInfo.search_type,
           search_word: searchInfo.search_word,
-          userid: window.sessionStorage.getItem("userid"),
+          userid:
+            adminGroup === "PARTNER"
+              ? window.sessionStorage.getItem("userid")
+              : "",
         },
       });
 
@@ -84,7 +89,7 @@ const PlaceListView = ({ pageTitle, type }) => {
     } catch (e) {
       console.log(e);
     }
-  }, [pageNumber, type, searchInfo, sortInfo]);
+  }, [pageNumber, type, searchInfo, sortInfo, adminGroup]);
 
   const getPageNumber = (pickNumber) => {
     setPageNumber(pickNumber);
@@ -156,6 +161,12 @@ const PlaceListView = ({ pageTitle, type }) => {
 
     if (!token || token === undefined) {
       history.push("/common/login");
+    }
+
+    let admingroup = window.sessionStorage.getItem("adminGroup");
+
+    if (admingroup !== null && admingroup !== null) {
+      setAdminGroup(admingroup);
     }
 
     switch (type) {

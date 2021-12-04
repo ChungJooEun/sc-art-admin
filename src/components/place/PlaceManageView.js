@@ -39,6 +39,8 @@ const PlaceManageView = () => {
     sort_type: "desc",
   });
 
+  const [adminGroup, setAdminGroup] = useState();
+
   const searching = (dateRange, searchInfos) => {
     setSearchInfo(searchInfos);
     setPageNumber(1);
@@ -71,7 +73,10 @@ const PlaceManageView = () => {
           count: count,
           search_type: searchInfo.search_type,
           search_word: searchInfo.search_word,
-          userid: window.sessionStorage.getItem("userid"),
+          userid:
+            adminGroup === "PARTNER"
+              ? window.sessionStorage.getItem("userid")
+              : "",
         },
       });
 
@@ -82,7 +87,7 @@ const PlaceManageView = () => {
     } catch (e) {
       console.log(e);
     }
-  }, [pageNumber, searchInfo, sortInfo]);
+  }, [pageNumber, searchInfo, sortInfo, adminGroup]);
 
   const getPageNumber = (pickNumber) => {
     setPageNumber(pickNumber);
@@ -160,6 +165,12 @@ const PlaceManageView = () => {
 
     if (!token || token === undefined) {
       history.push("/common/login");
+    }
+
+    let admingroup = window.sessionStorage.getItem("adminGroup");
+
+    if (admingroup !== null && admingroup !== undefined) {
+      setAdminGroup(admingroup);
     }
 
     actions.setMenu({
