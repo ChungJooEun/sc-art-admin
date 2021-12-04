@@ -74,6 +74,19 @@ const addPostOptions = [
 ];
 
 const ScFestivalDetailView = ({ match }) => {
+  const useConfirm = (message = null, onConfirm) => {
+    if (!onConfirm || typeof onConfirm !== "function") {
+      return;
+    }
+
+    const confirmAction = () => {
+      if (window.confirm(message)) {
+        onConfirm();
+      }
+    };
+    return confirmAction;
+  };
+
   const onChangeImgFile = (e) => {
     const imgFileAry = e.target.files;
 
@@ -207,29 +220,8 @@ const ScFestivalDetailView = ({ match }) => {
 
   // 게시
   const history = useHistory();
-  const postScEvent = async (data) => {
-    const url = "http://118.67.154.118:3000/api/admin/seochogu-festival/regist";
-    // const url = "http://localhost:3000/api/admin/seochogu-festival/regist";
 
-    const config = {
-      headers: {
-        "content-type": "multipart/form-data",
-      },
-    };
-
-    try {
-      const response = await axios.post(url, data, config);
-
-      if (response.status === 200) {
-        console.log(response.data);
-        history.push("/event/seocho-festival");
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  const onSubmitPost = () => {
+  const onHandleSubmitPost = () => {
     const data = new FormData();
 
     // 배너 이미지
@@ -281,6 +273,34 @@ const ScFestivalDetailView = ({ match }) => {
     postScEvent(data);
   };
 
+  const postScEvent = async (data) => {
+    const url = "http://118.67.154.118:3000/api/admin/seochogu-festival/regist";
+    // const url = "http://localhost:3000/api/admin/seochogu-festival/regist";
+
+    const config = {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    };
+
+    try {
+      const response = await axios.post(url, data, config);
+
+      if (response.status === 200) {
+        alert("수정되었습니다.");
+        history.push("/event/seocho-festival");
+      }
+    } catch (e) {
+      alert("수정중, 오류가 발생하였습니다.");
+      console.log(e);
+    }
+  };
+
+  const onSubmitPost = useConfirm(
+    "수정사항을 저장하시겠습니까?",
+    onHandleSubmitPost
+  );
+
   const getImgSrc = () => {
     if (imgBase64.length === 1) {
       return imgBase64[0];
@@ -292,7 +312,7 @@ const ScFestivalDetailView = ({ match }) => {
     }
   };
 
-  const onClickRemoveBtn = () => {
+  const onHandleRemoveEvent = () => {
     if (id === null) {
       return;
     }
@@ -316,13 +336,19 @@ const ScFestivalDetailView = ({ match }) => {
       const res = await axios.delete(url, { data: formdata });
 
       if (res.status === 200) {
-        console.log(res.dsta);
+        alert("삭제되었습니다.");
         history.push("/event/seocho-festival");
       }
     } catch (e) {
+      alert("삭제중 오류가 발생하였습니다.");
       console.log(e);
     }
   };
+
+  const onClickRemoveBtn = useConfirm(
+    "삭제하시겠습니까?\n삭제된 서초 축제는 되돌릴 수 없습니다.",
+    onHandleRemoveEvent
+  );
 
   const { actions } = useContext(MenuContext);
   useEffect(() => {
@@ -340,8 +366,6 @@ const ScFestivalDetailView = ({ match }) => {
       const res = await axios.get(url);
 
       if (res.status === 200) {
-        console.log(res.data);
-
         if (res.data.resources) {
           // 배너 이미지
           let ary = JSON.stringify(res.data.resources).split('"');
@@ -372,8 +396,6 @@ const ScFestivalDetailView = ({ match }) => {
 
         // 상세정보
         setMoreInformation(res.data.more_information);
-
-        console.log(typeof res.data.related_event_list2);
 
         // 관련행사
         setEventList(res.data.related_event_list2);
