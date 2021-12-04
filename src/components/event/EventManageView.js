@@ -44,6 +44,8 @@ const EventManageView = () => {
     sort_type: "desc",
   });
 
+  const [adminGroup, setAdminGroup] = useState();
+
   const getEventList = useCallback(async () => {
     const url = "http://118.67.154.118:3000/api/admin/cultural-event/list";
     // const url = "http://localhost:3000/api/admin/cultural-event/list";
@@ -59,7 +61,10 @@ const EventManageView = () => {
           to_date: period.to_date,
           search_type: searchInfo.search_type,
           search_word: searchInfo.search_word,
-          userid: window.sessionStorage.getItem("userid"),
+          userid:
+            adminGroup === "PARTNER"
+              ? window.sessionStorage.getItem("userid")
+              : "",
         },
       });
 
@@ -72,7 +77,7 @@ const EventManageView = () => {
     } catch (e) {
       console.log(e);
     }
-  }, [pageNumber, period, searchInfo, sortInfo]);
+  }, [pageNumber, period, searchInfo, sortInfo, adminGroup]);
 
   const getPageNumber = (pickNumber) => {
     setPageNumber(pickNumber);
@@ -214,6 +219,13 @@ const EventManageView = () => {
     if (!token || token === undefined) {
       history.push("/common/login");
     }
+
+    const admingroup = window.sessionStorage.getItem("adminGroup");
+
+    if (admingroup !== null && admingroup !== undefined) {
+      setAdminGroup(admingroup);
+    }
+
     const srcList = [
       `${process.env.PUBLIC_URL}/assets/vendor/jquery.min.js`,
       `${process.env.PUBLIC_URL}/assets/vendor/popper.min.js`,
@@ -236,7 +248,7 @@ const EventManageView = () => {
       document.body.appendChild(script);
     }
 
-    const getScEventList = async () => {
+    const getScEventList = async (admingroup) => {
       const url = `http://118.67.154.118:3000/api/admin/seochogu-festival/list`;
       // const url = `http://localhost:3000/api/admin/seochogu-festival/list`;
 
@@ -261,7 +273,10 @@ const EventManageView = () => {
             page: 1,
             count: 1000,
             from_date: fromDate,
-            userid: window.sessionStorage.getItem("userid"),
+            userid:
+              admingroup === "PARTNER"
+                ? window.sessionStorage.getItem("userid")
+                : "",
           },
         });
 
@@ -286,7 +301,7 @@ const EventManageView = () => {
         document.body.removeChild(scriptList[i]);
       }
     };
-  }, [getEventList]);
+  }, [getEventList, history]);
 
   if (eventList === null) {
     return (

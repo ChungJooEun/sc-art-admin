@@ -45,6 +45,8 @@ const EventListView = ({ pageTitle, type }) => {
     sort_type: "desc",
   });
 
+  const [adminGroup, setAdminGroup] = useState();
+
   const searching = (dateRange, searchInfos) => {
     setPeriod(dateRange);
     setSearchInfo(searchInfos);
@@ -186,7 +188,10 @@ const EventListView = ({ pageTitle, type }) => {
           to_date: period.to_date,
           search_type: searchInfo.search_type,
           search_word: searchInfo.search_word,
-          userid: window.sessionStorage.getItem("userid"),
+          userid:
+            adminGroup === "PARTNER"
+              ? window.sessionStorage.getItem("userid")
+              : "",
         },
       });
 
@@ -197,7 +202,7 @@ const EventListView = ({ pageTitle, type }) => {
     } catch (e) {
       console.log(e);
     }
-  }, [pageNumber, period, searchInfo, type, sortInfo]);
+  }, [pageNumber, period, searchInfo, type, sortInfo, adminGroup]);
 
   const getPageNumber = (pickNumber) => {
     setPageNumber(pickNumber);
@@ -209,6 +214,12 @@ const EventListView = ({ pageTitle, type }) => {
 
     if (!token || token === undefined) {
       history.push("/common/login");
+    }
+
+    let admingroup = window.sessionStorage.getItem("adminGroup");
+
+    if (admingroup !== undefined && admingroup !== null) {
+      setAdminGroup(admingroup);
     }
 
     switch (type) {
@@ -234,7 +245,7 @@ const EventListView = ({ pageTitle, type }) => {
         break;
     }
 
-    const getScEventList = async () => {
+    const getScEventList = async (admingroup) => {
       const url = `http://118.67.154.118:3000/api/admin/seochogu-festival/list`;
       // const url = `/api/admin/seochogu-festival/list`;
 
@@ -259,7 +270,10 @@ const EventListView = ({ pageTitle, type }) => {
             page: 1,
             count: 1000,
             from_date: fromDate,
-            userid: window.sessionStorage.getItem("userid"),
+            userid:
+              admingroup === "PARTNER"
+                ? window.sessionStorage.getItem("userid")
+                : "",
           },
         });
 
