@@ -66,10 +66,11 @@ const TaskRequest = () => {
       const res = await axios.post(url, data);
 
       if (res.status === 200) {
-        console.log("======== STATE 변경 성공 ========");
+        alert("게시물 상태가 변경되었습니다.");
         getPlaceList();
       }
     } catch (e) {
+      alert("게시물 상태 변경에 오류가 발생하였습니다.");
       console.log(e);
     }
   };
@@ -86,10 +87,11 @@ const TaskRequest = () => {
       const res = await axios.post(url, data);
 
       if (res.status === 200) {
-        console.log("======== STATE 변경 성공 ========");
+        alert("게시물 상태가 변경되었습니다.");
         getEventList();
       }
     } catch (e) {
+      alert("게시물 상태 변경에 오류가 발생하였습니다.");
       console.log(e);
     }
   };
