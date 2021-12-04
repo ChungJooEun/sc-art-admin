@@ -26,6 +26,19 @@ const searchOptions = [
   { value: "FESTIVAL_NAME", label: "축제명" },
 ];
 const EventManageView = () => {
+  const useConfirm = (message = null, onConfirm) => {
+    if (!onConfirm || typeof onConfirm !== "function") {
+      return;
+    }
+
+    const confirmAction = () => {
+      if (window.confirm(message)) {
+        onConfirm();
+      }
+    };
+    return confirmAction;
+  };
+
   const history = useHistory();
 
   const [eventList, setEventList] = useState([]);
@@ -140,7 +153,7 @@ const EventManageView = () => {
     setSelectedScEvent(e.target.value);
   };
 
-  const onClickAddBtn = () => {
+  const onHandleAddFestival = () => {
     if (selectedScEvent === "" || checkedList.length === 0) {
       return;
     } else {
@@ -168,15 +181,21 @@ const EventManageView = () => {
       const res = await axios.post(url, formData);
 
       if (res.status === 200) {
-        console.log(res.data);
+        alert("관련 문화행사 목록 추가 및 변경이 완료되었습니다.");
         getEventList();
       }
     } catch (e) {
+      alert("관련 문화행사 목록 추가 및 변경에 실패하였습니다.");
       console.log(e);
     }
   };
 
-  const onClickDeleteBtn = () => {
+  const onClickAddBtn = useConfirm(
+    "선택하신 문화행사를 관련행사 목록으로 등록하시겠습니까?",
+    onHandleAddFestival
+  );
+
+  const onHandleDelete = () => {
     if (checkedList.length === 0) {
       return;
     } else {
@@ -204,13 +223,19 @@ const EventManageView = () => {
       });
 
       if (res.status === 200) {
-        console.log(res.data);
+        alert("삭제되었습니다.");
         getEventList();
       }
     } catch (e) {
+      alert("삭제 중, 오류가 발생하였습니다.");
       console.log(e);
     }
   };
+
+  const onClickDeleteBtn = useConfirm(
+    "선택하신 문화행사를 삭제하시겠습니까?\n삭제된 문화행사는 다시 되돌릴 수 없습니다.",
+    onHandleDelete
+  );
 
   const { actions } = useContext(MenuContext);
   useEffect(() => {
