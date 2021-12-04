@@ -47,6 +47,19 @@ const convertDateFormat = (dateString) => {
 };
 
 const AddEventView = ({ options }) => {
+  const useConfirm = (message = null, onConfirm) => {
+    if (!onConfirm || typeof onConfirm !== "function") {
+      return;
+    }
+
+    const confirmAction = () => {
+      if (window.confirm(message)) {
+        onConfirm();
+      }
+    };
+    return confirmAction;
+  };
+
   const [formInfo, setFormInfo] = useState({
     name: "",
     location: "",
@@ -89,15 +102,16 @@ const AddEventView = ({ options }) => {
       });
 
       if (response.status === 200) {
-        console.log(response.status + " /// " + response.data);
+        alert("새로운 문화행사가 등록되었습니다.");
         history.push("/event/event-manage");
       }
     } catch (e) {
+      alert("새로운 문화행사가 등록중, 오류가 발생하였습니다.");
       console.log(e);
     }
   };
 
-  const onSubmitEvent = () => {
+  const onHandleSubmitEvent = () => {
     let formData = new FormData();
 
     if (imgFile) {
@@ -148,12 +162,13 @@ const AddEventView = ({ options }) => {
     }
     formData.append("videos", JSON.stringify(vAry));
 
-    // for (let i = 0; i < videos.length; i++) {
-    //   formData.append("videos", JSON.stringify({ url: videos[i].url }));
-    // }
-
     postEvent(formData);
   };
+
+  const onSubmitEvent = useConfirm(
+    "문화행사를 등록하시겠습니까?",
+    onHandleSubmitEvent
+  );
 
   const getDetail = (e) => {
     setDetail(e);
