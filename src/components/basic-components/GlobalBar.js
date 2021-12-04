@@ -1,6 +1,67 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import axios from "axios";
 
 const GlobalBar = React.memo(() => {
+  const [userId, setUserId] = useState(null);
+  const history = useHistory();
+
+  const logout = async () => {
+    const url = "http://118.67.154.134:9000/logout";
+
+    try {
+      const res = await axios.get(url, {
+        params: {
+          userId: userId,
+        },
+      });
+
+      if (res.status === 302) {
+        alert("로그아웃 되었습니다.");
+
+        window.sessionStorage.removeItem("userid");
+        window.sessionStorage.removeItem("token");
+        window.sessionStorage.removeItem("adminGroup");
+
+        history.push("/common/login");
+      }
+    } catch (e) {
+      alert("로그아웃에 실패하였습니다.");
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    setUserId(window.sessionStorage.getItem("userid"));
+
+    const srcList = [
+      `${process.env.PUBLIC_URL}/assets/vendor/jquery.min.js`,
+      `${process.env.PUBLIC_URL}/assets/vendor/popper.min.js`,
+      `${process.env.PUBLIC_URL}/assets/vendor/bootstrap.min.js`,
+      `${process.env.PUBLIC_URL}/assets/vendor/perfect-scrollbar.min.js`,
+      `${process.env.PUBLIC_URL}/assets/vendor/dom-factory.js`,
+      `${process.env.PUBLIC_URL}/assets/vendor/material-design-kit.js`,
+      `${process.env.PUBLIC_URL}/assets/js/app.js`,
+      `${process.env.PUBLIC_URL}/assets/js/hljs.js`,
+      `${process.env.PUBLIC_URL}/assets/js/settings.js`,
+      `${process.env.PUBLIC_URL}/assets/js/app-settings.js`,
+    ];
+    let scriptList = [];
+
+    for (let i = 0; i < srcList.length; i++) {
+      const script = document.createElement("script");
+      script.src = process.env.PUBLIC_URL + srcList[i];
+      script.async = true;
+      scriptList.push(script);
+      document.body.appendChild(script);
+    }
+
+    return () => {
+      for (let i = 0; i < scriptList.length; i++) {
+        document.body.removeChild(scriptList[i]);
+      }
+    };
+  }, []);
   return (
     <div
       className="navbar navbar-expand navbar-shadow px-0 pl-lg-16pt navbar-light bg-body"
@@ -39,18 +100,22 @@ const GlobalBar = React.memo(() => {
                 <b className="material-icons sidebar-menu-icon sidebar-menu-icon--left">
                   person_pin
                 </b>
-                username
+                {userId}
               </span>
             </span>
           </a>
-          <div className="dropdown-menu dropdown-menu-right">
-            <div className="dropdown-header">
-              <strong>계정</strong>
+          {userId ? (
+            <div className="dropdown-menu dropdown-menu-right">
+              <div className="dropdown-header">
+                <strong>계정</strong>
+              </div>
+              <a className="dropdown-item" onClick={() => logout()}>
+                로그아웃
+              </a>
             </div>
-            <a className="dropdown-item" href="../common/login.html">
-              로그아웃
-            </a>
-          </div>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </div>
