@@ -6,29 +6,39 @@ const GlobalBar = React.memo(() => {
   const [userId, setUserId] = useState(null);
   const history = useHistory();
 
-  const logout = async () => {
-    const url = "http://118.67.154.134:9000/logout";
+  // const logout = async () => {
+  //   const url = "http://118.67.154.134:9000/logout";
 
-    try {
-      const res = await axios.get(url, {
-        params: {
-          userId: userId,
-        },
-      });
+  //   try {
+  //     const res = await axios.get(url, {
+  //       params: {
+  //         userId: userId,
+  //       },
+  //     });
 
-      if (res.status === 302) {
-        alert("로그아웃 되었습니다.");
+  //     if (res.status === 302) {
+  //       alert("로그아웃 되었습니다.");
 
-        window.sessionStorage.removeItem("userid");
-        window.sessionStorage.removeItem("token");
-        window.sessionStorage.removeItem("adminGroup");
+  //       window.sessionStorage.removeItem("userid");
+  //       window.sessionStorage.removeItem("token");
+  //       window.sessionStorage.removeItem("adminGroup");
 
-        history.push("/common/login");
-      }
-    } catch (e) {
-      alert("로그아웃에 실패하였습니다.");
-      console.log(e);
-    }
+  //       history.push("/common/login");
+  //     }
+  //   } catch (e) {
+  //     alert("로그아웃에 실패하였습니다.");
+  //     console.log(e);
+  //   }
+  // };
+
+  const logout = () => {
+    alert("로그아웃 되었습니다.");
+
+    window.sessionStorage.removeItem("userid");
+    window.sessionStorage.removeItem("token");
+    window.sessionStorage.removeItem("adminGroup");
+
+    history.push("/common/login");
   };
 
   useEffect(() => {
