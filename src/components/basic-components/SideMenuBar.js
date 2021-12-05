@@ -422,7 +422,7 @@ const SideMenuBar = React.memo(() => {
                     <span className="sidebar-menu-text">- 갤러리</span>
                   </Link>
                 </li>
-                <li
+                {/* <li
                   className={
                     state.menu.topMenu === 3 && state.menu.subMenu === 5
                       ? "sidebar-menu-item active"
@@ -455,7 +455,7 @@ const SideMenuBar = React.memo(() => {
                       서리풀 청년아트 갤러리
                     </span>
                   </Link>
-                </li>
+                </li> */}
                 <li
                   className={
                     state.menu.topMenu === 3 && state.menu.subMenu === 7
