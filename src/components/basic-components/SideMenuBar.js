@@ -533,7 +533,7 @@ const SideMenuBar = React.memo(() => {
                       className="sidebar-menu-button"
                       onClick={() =>
                         movingInPage(
-                          "http://118.67.154.134:9000/community/notice-board"
+                          "http://culture.seocho.go.kr:9000/community/notice-board"
                         )
                       }
                     >
@@ -552,7 +552,7 @@ const SideMenuBar = React.memo(() => {
                       className="sidebar-menu-button"
                       onClick={() =>
                         movingInPage(
-                          "http://118.67.154.134:9000/community/event-board"
+                          "http://culture.seocho.go.kr:9000/community/event-board"
                         )
                       }
                     >
@@ -571,7 +571,7 @@ const SideMenuBar = React.memo(() => {
                       className="sidebar-menu-button"
                       onClick={() =>
                         movingInPage(
-                          "http://118.67.154.134:9000/community/news-board"
+                          "http://culture.seocho.go.kr:9000/community/news-board"
                         )
                       }
                     >
@@ -590,7 +590,7 @@ const SideMenuBar = React.memo(() => {
                       className="sidebar-menu-button"
                       onClick={() =>
                         movingInPage(
-                          "http://118.67.154.134:9000/community/press-release"
+                          "http://culture.seocho.go.kr:9000/community/press-release"
                         )
                       }
                     >
@@ -648,7 +648,7 @@ const SideMenuBar = React.memo(() => {
                       className="sidebar-menu-button"
                       onClick={() =>
                         movingInPage(
-                          "http://118.67.154.134:9000/related-sites/list"
+                          "http://culture.seocho.go.kr:9000/related-sites/list"
                         )
                       }
                     >
@@ -667,7 +667,7 @@ const SideMenuBar = React.memo(() => {
                       className="sidebar-menu-button"
                       onClick={() =>
                         movingInPage(
-                          "http://118.67.154.134:9000/related-sites/add"
+                          "http://culture.seocho.go.kr:9000/related-sites/add"
                         )
                       }
                     >
@@ -693,7 +693,7 @@ const SideMenuBar = React.memo(() => {
                 <span
                   className="sidebar-menu-button"
                   onClick={() =>
-                    movingInPage("http://118.67.154.134:9000/user/list")
+                    movingInPage("http://culture.seocho.go.kr:9000/user/list")
                   }
                 >
                   <span className="material-icons sidebar-menu-icon sidebar-menu-icon--left">
@@ -716,7 +716,7 @@ const SideMenuBar = React.memo(() => {
                 <span
                   className="sidebar-menu-button"
                   onClick={() =>
-                    movingInPage("http://118.67.154.134:9000/admin/list")
+                    movingInPage("http://culture.seocho.go.kr:9000/admin/list")
                   }
                 >
                   <span className="material-icons sidebar-menu-icon sidebar-menu-icon--left">
