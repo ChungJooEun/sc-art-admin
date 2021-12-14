@@ -337,7 +337,6 @@ const EventInfoFormTest = React.memo(
                     data-no-calendar="true"
                     data-alt-format="H:i"
                     data-date-format="H:i"
-                    ㄴ
                     type="text"
                     defaultValue={close_time}
                     value={close_time}
