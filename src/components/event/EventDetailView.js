@@ -15,17 +15,6 @@ import EventInfoFormTest from "./add-form-components/EventInfoFormTest";
 import CurationTest from "./add-form-components/CurationTest";
 import RejectSection from "../basic-components/RejectSection";
 
-const pagePathList = [
-  {
-    pageUrl: "/dashboard",
-    pageName: "홈",
-  },
-  {
-    pageUrl: "/event/event-manage",
-    pageName: "문화행사 관리",
-  },
-];
-
 const convertToDate = (str) => {
   if (str === null || str === undefined || str === "") {
     return new Date();
@@ -57,7 +46,7 @@ const convertDateFormat = (dateString) => {
   return str;
 };
 
-const EventDetailView = ({ options, match }) => {
+const EventDetailView = ({ options, pagePathList, match }) => {
   const useConfirm = (message = null, onConfirm) => {
     if (!onConfirm || typeof onConfirm !== "function") {
       return;

@@ -34,6 +34,33 @@ import ScFestivalDetailView from "./components/event/ScFestivalDetailView";
 import StatisticalTableView from "./components/event/StatisticalTableView";
 import PublicApiInfoView from "./components/event/PublicApiInfoView";
 
+const pagePathList_EventDetail = [
+  {
+    pageUrl: "/dashboard",
+    pageName: "홈",
+  },
+  {
+    pageUrl: "/event/event-manage",
+    pageName: "문화행사 관리",
+  },
+];
+
+const pagePathList_PublicApiEventDetail = [
+  {
+    pageUrl: "/dashboard",
+    pageName: "홈",
+  },
+  {
+    pageUrl: "/event/event-manage",
+    pageName: "문화행사 관리",
+  },
+];
+
+const publicApiPostOptions = [
+  { value: "POST", name: "게시" },
+  { value: "PRIVATE", name: "미게시" },
+];
+
 const addPostOptions = [
   { value: "TEMP_SAVE", name: "임시저장" },
   { value: "POST", name: "게시" },
@@ -159,7 +186,11 @@ const App = () => {
         <Route
           path="/event/event-detail/:id"
           component={(props) => (
-            <EventDetailView options={detailViewPostOptions} {...props} />
+            <EventDetailView
+              options={detailViewPostOptions}
+              pagePathList={pagePathList_EventDetail}
+              {...props}
+            />
           )}
         />
 
@@ -167,7 +198,11 @@ const App = () => {
         <Route
           path="/event/event-application-detail/:id"
           component={(props) => (
-            <EventDetailView options={waitingPostOptions} {...props} />
+            <EventDetailView
+              options={waitingPostOptions}
+              pagePathList={pagePathList_EventDetail}
+              {...props}
+            />
           )}
         />
 
@@ -352,6 +387,17 @@ const App = () => {
         <Route path="/event/event-db-conform-list">
           <PublicApiInfoView />
         </Route>
+
+        <Route
+          path="/event/event-db-detail/:id"
+          component={(props) => (
+            <EventDetailView
+              options={publicApiPostOptions}
+              pagePathList={pagePathList_PublicApiEventDetail}
+              {...props}
+            />
+          )}
+        />
 
         <Route component={() => <h2>Page Not Found</h2>} />
       </Switch>
