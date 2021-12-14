@@ -271,7 +271,7 @@ const SkinAndBannerDesignView = () => {
 
   // 메인 배경 저장 api
   const saveMainDesignInfo = async (data) => {
-    const url = "http://118.67.154.134:9200/api/main/bg";
+    const url = "https://culture.seocho.go.kr:8443/upload-service/api/main/bg";
 
     try {
       const res = await axios.post(url, data, {
@@ -315,7 +315,8 @@ const SkinAndBannerDesignView = () => {
 
   // 공지사항/이벤트 저장 api
   const saveNoticeEventInfo = async (data) => {
-    const url = "http://118.67.154.134:9200/api/main/banners";
+    const url =
+      "https://culture.seocho.go.kr:8443/upload-service/api/main/banners";
 
     try {
       const res = await axios.post(url, data, {
@@ -379,7 +380,8 @@ const SkinAndBannerDesignView = () => {
 
   // 비디오 저장 api
   const saveVideosInfo = async (data) => {
-    const url = "http://118.67.154.134:9200/api/main/videos";
+    const url =
+      "https://culture.seocho.go.kr:8443/upload-service/api/main/videos";
 
     try {
       const res = await axios.post(url, data);
@@ -405,7 +407,6 @@ const SkinAndBannerDesignView = () => {
     // initial data 받아오기
     const getInitialData = async () => {
       const url = "http://118.67.154.134:22000/api/main/theme";
-      // const url = "http://localhost:9000/api/main/theme";
 
       try {
         const res = await axios.get(url);
