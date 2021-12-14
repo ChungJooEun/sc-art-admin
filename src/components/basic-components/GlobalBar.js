@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 // import axios from "axios";
 
 const GlobalBar = React.memo(() => {
@@ -86,10 +87,7 @@ const GlobalBar = React.memo(() => {
         <span className="material-icons">menu</span>
       </button>
 
-      <a
-        href="../dashboard/index.html"
-        className="navbar-brand mr-16pt d-lg-none"
-      >
+      <Link to="/dashboard" className="navbar-brand mr-16pt d-lg-none">
         <img
           className="navbar-brand-icon mr-0 mr-lg-8pt"
           src="../assets/images/logo/accent-teal-100@2x.png"
@@ -97,7 +95,7 @@ const GlobalBar = React.memo(() => {
           alt="Huma"
         />
         <span className="d-none d-lg-block">seocho art</span>
-      </a>
+      </Link>
       <div className="flex"></div>
       <div className="nav navbar-nav flex-nowrap d-flex ml-0 mr-16pt">
         <div className="nav-item dropdown d-none d-sm-flex">
