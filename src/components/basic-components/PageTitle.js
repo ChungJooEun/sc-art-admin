@@ -8,6 +8,7 @@ const PageTitle = ({
   showSearchBar,
   searching,
   searchOptions,
+  onlyPeriodBar,
 }) => {
   return (
     <div className="border-bottom-2 py-32pt position-relative z-1">
@@ -25,7 +26,11 @@ const PageTitle = ({
             </ol>
           </div>
           {showSearchBar ? (
-            <SearchBar searching={searching} searchOptions={searchOptions} />
+            <SearchBar
+              searching={searching}
+              searchOptions={searchOptions}
+              onlyPeriodBar={onlyPeriodBar}
+            />
           ) : (
             ""
           )}

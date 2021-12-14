@@ -32,6 +32,7 @@ import EditorTest from "./components/basic-components/editor-components/EditorTe
 import AddScFestivalView from "./components/event/AddScFestivalView";
 import { MenuProvier } from "./context/menu";
 import ScFestivalDetailView from "./components/event/ScFestivalDetailView";
+import StatisticalTableView from "./components/event/StatisticalTableView";
 
 const addPostOptions = [
   { value: "TEMP_SAVE", name: "임시저장" },
@@ -346,6 +347,10 @@ const App = () => {
 
         <Route path="/editor">
           <EditorTest />
+        </Route>
+
+        <Route path="/event/event-statistical-table">
+          <StatisticalTableView />
         </Route>
 
         <Route component={() => <h2>Page Not Found</h2>} />

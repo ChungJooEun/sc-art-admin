@@ -22,7 +22,7 @@ const convertDateFormat = (dateString) => {
   return str;
 };
 
-const SearchBar = ({ searching, searchOptions }) => {
+const SearchBar = ({ searching, searchOptions, onlyPeriodBar }) => {
   const [dateRange, setDateRange] = useState({
     from_date: "",
     to_date: "",
@@ -87,40 +87,44 @@ const SearchBar = ({ searching, searchOptions }) => {
           </div>
         )}
 
-        <div>
-          <div className="search-form search-form--dark">
-            <select
-              id="custom-select"
-              className="form-control custom-select"
-              onChange={(e) =>
-                onChangeSearchInfo("search_type", e.target.value)
-              }
-            >
-              {searchOptions.map((option) => (
-                <option value={option.value} key={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="검색"
-              id="searchSample03"
-              value={searchInfo.search_word}
-              onChange={(e) =>
-                onChangeSearchInfo("search_word", e.target.value)
-              }
-            />
-            <button
-              className="btn"
-              type="button"
-              onClick={() => onClickSearchButton()}
-            >
-              <i className="material-icons">search</i>
-            </button>
+        {onlyPeriodBar ? (
+          ""
+        ) : (
+          <div>
+            <div className="search-form search-form--dark">
+              <select
+                id="custom-select"
+                className="form-control custom-select"
+                onChange={(e) =>
+                  onChangeSearchInfo("search_type", e.target.value)
+                }
+              >
+                {searchOptions.map((option) => (
+                  <option value={option.value} key={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="검색"
+                id="searchSample03"
+                value={searchInfo.search_word}
+                onChange={(e) =>
+                  onChangeSearchInfo("search_word", e.target.value)
+                }
+              />
+              <button
+                className="btn"
+                type="button"
+                onClick={() => onClickSearchButton()}
+              >
+                <i className="material-icons">search</i>
+              </button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </>
   );

@@ -223,7 +223,21 @@ const SideMenuBar = React.memo(() => {
                     <span className="sidebar-menu-text">문화행사</span>
                   </Link>
                 </li>
-
+                <li
+                  className={
+                    state.menu.topMenu === 2 && state.menu.subMenu === 7
+                      ? "sidebar-menu-item active"
+                      : "sidebar-menu-item"
+                  }
+                  onClick={() => onSelectMenu(2, 7)}
+                >
+                  <Link
+                    className="sidebar-menu-button"
+                    to="/event/event-statistical-table"
+                  >
+                    <span className="sidebar-menu-text">문화행사 통계</span>
+                  </Link>
+                </li>
                 <li
                   className={
                     state.menu.topMenu === 2 && state.menu.subMenu === 1
@@ -309,6 +323,21 @@ const SideMenuBar = React.memo(() => {
                     to="/event/event-application-list"
                   >
                     <span className="sidebar-menu-text">등록 신청 리스트</span>
+                  </Link>
+                </li>
+                <li
+                  className={
+                    state.menu.topMenu === 2 && state.menu.subMenu === 8
+                      ? "sidebar-menu-item active"
+                      : "sidebar-menu-item"
+                  }
+                  onClick={() => onSelectMenu(2, 8)}
+                >
+                  <Link
+                    className="sidebar-menu-button"
+                    to="/event/event-statistical-table"
+                  >
+                    <span className="sidebar-menu-text">공공API 정보</span>
                   </Link>
                 </li>
               </ul>

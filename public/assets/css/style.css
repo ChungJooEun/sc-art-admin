@@ -10,6 +10,10 @@ button{
   background-color: rgba(0, 0, 0, 0);
 }
 
+.material-icons {
+  color: rgb(89, 89, 89);
+}
+
 .left-menu-title{
   margin-top: 100px !important;
 }
@@ -42,7 +46,14 @@ text-align: right;
 }
 
 .txt_line_table_title {
-  max-width:150px;
+  max-width:80px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.js-lists-values-place {
+  max-width:80px;
   overflow:hidden;
   text-overflow:ellipsis;
   white-space:nowrap;
@@ -98,7 +109,7 @@ a {
 }
 
 .material-icons-red {
-  color: red;
+  color: #ef5797;
 }
 
 .material-icons-yellow {
@@ -136,4 +147,8 @@ review-text-aline-right {
 
 .save-button {
   margin-bottom: 100px;
+}
+
+.material-icons-point {
+  color: #ef5797;
 }
