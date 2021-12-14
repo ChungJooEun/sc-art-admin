@@ -1,4 +1,4 @@
-const { createProxyMiddleware } = require("https-proxy-middleware");
+const { createProxyMiddleware } = require("http-proxy-middleware");
 module.exports = function (app) {
   // 관리자 목록 보기
   app.use(
