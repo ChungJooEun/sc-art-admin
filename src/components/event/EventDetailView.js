@@ -153,8 +153,8 @@ const EventDetailView = ({ options, match }) => {
   };
 
   const postEvent = async (eventData) => {
-    const url = "http://118.67.154.118:3000/api/admin/cultural-event/regist";
-    // const url = "http://localhost:3000/api/admin/cultural-event/regist";
+    const url =
+      "https://culture.seocho.go.kr:3000/api/admin/cultural-event/regist";
 
     try {
       const response = await axios.post(url, eventData, {
@@ -250,8 +250,7 @@ const EventDetailView = ({ options, match }) => {
   };
 
   const removeEventPost = async () => {
-    const url = `http://118.67.154.118:3000/api/admin/cultural-event/${formInfo.id}`;
-    // const url = `/api/admin/cultural-event/${formInfo.id}`;
+    const url = `https://culture.seocho.go.kr:3000/api/admin/cultural-event/${formInfo.id}`;
     try {
       const res = await axios.delete(url);
 
@@ -286,8 +285,7 @@ const EventDetailView = ({ options, match }) => {
 
     const getEventDetail = async () => {
       const { id } = match.params;
-      const url = `http://118.67.154.118:3000/api/admin/cultural-event/detail/${id}`;
-      // const url = `http://localhost:3000/api/admin/cultural-event/detail/${id}`;
+      const url = `https://culture.seocho.go.kr:3000/api/admin/cultural-event/detail/${id}`;
 
       try {
         const response = await axios.get(url);

@@ -9,7 +9,7 @@ const RecommendedListItem = ({
   const getImgSrc = (imgSrc) => {
     if (imgSrc !== null) {
       if (imgSrc.includes("/images/")) {
-        return `http://118.67.154.118:3000${imgSrc}`;
+        return `https://culture.seocho.go.kr:3000${imgSrc}`;
       } else {
         return "../assets/images/stories/256_rsz_thomas-russell-751613-unsplash.jpg";
       }

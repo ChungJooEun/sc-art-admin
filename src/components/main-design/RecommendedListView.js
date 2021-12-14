@@ -199,8 +199,7 @@ const RecommendedListView = () => {
 
   const saveRecommendList = async (data) => {
     const url =
-      "http://118.67.154.118:3000/api/admin/main/regist/recommendations";
-    // const url = "/api/admin/main/regist/recommendations";
+      "https://culture.seocho.go.kr:3000/api/admin/main/regist/recommendations";
 
     try {
       const res = await axios.post(url, data);
@@ -220,7 +219,7 @@ const RecommendedListView = () => {
   // 초기화
   const getRecommendedList = useCallback(async () => {
     const url =
-      "http://118.67.154.118:3000/api/admin/main/list/recommendations";
+      "https://culture.seocho.go.kr:3000/api/admin/main/list/recommendations";
 
     try {
       const res = await axios.get(url, {

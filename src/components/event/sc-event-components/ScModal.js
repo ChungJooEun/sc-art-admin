@@ -58,8 +58,8 @@ const ScModal = ({ closeModal, getEventList }) => {
 
   useEffect(() => {
     const getEventList = async () => {
-      const url = "http://118.67.154.118:3000/api/admin/cultural-event/list";
-      // const url = "http://localhost:3000/api/admin/cultural-event/list";
+      const url =
+        "https://culture.seocho.go.kr:3000/api/admin/cultural-event/list";
 
       try {
         const response = await axios.get(url, {

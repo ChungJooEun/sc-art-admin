@@ -46,8 +46,8 @@ const ScPlaceView = ({ pageTitle }) => {
   };
 
   const postScPlace = async (placeData) => {
-    const url = "http://118.67.154.118:3000/api/admin/seoripul-space/regist";
-    // const url = "/api/admin/seoripul-space/regist";
+    const url =
+      "https://culture.seocho.go.kr:3000/api/admin/seoripul-space/regist";
 
     try {
       const response = await axios.post(url, placeData, {
@@ -94,7 +94,7 @@ const ScPlaceView = ({ pageTitle }) => {
     }
 
     const getScplaceInfo = async () => {
-      const url = `http://118.67.154.118:3000/api/admin/seoripul-space/detail/${encodeURIComponent(
+      const url = `https://culture.seocho.go.kr:3000/api/admin/seoripul-space/detail/${encodeURIComponent(
         pageTitle
       )}`;
 

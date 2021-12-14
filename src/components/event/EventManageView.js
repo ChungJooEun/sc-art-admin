@@ -60,8 +60,8 @@ const EventManageView = () => {
   const [adminGroup, setAdminGroup] = useState();
 
   const getEventList = useCallback(async () => {
-    const url = "http://118.67.154.118:3000/api/admin/cultural-event/list";
-    // const url = "http://localhost:3000/api/admin/cultural-event/list";
+    const url =
+      "https://culture.seocho.go.kr:3000/api/admin/cultural-event/list";
 
     try {
       const response = await axios.get(url, {
@@ -174,8 +174,7 @@ const EventManageView = () => {
 
   const addRelatedEvent = async (formData) => {
     const url =
-      "http://118.67.154.118:3000/api/admin/seochogu-festival/add/related-event";
-    // const url = "http://localhost:3000/api/admin/seochogu-festival/add/related-event";
+      "https://culture.seocho.go.kr:3000/api/admin/seochogu-festival/add/related-event";
 
     try {
       const res = await axios.post(url, formData);
@@ -214,8 +213,7 @@ const EventManageView = () => {
   };
 
   const deleteEvents = async (data) => {
-    const url = "http://118.67.154.118:3000/api/admin/cultural-event";
-    // const url = "http://localhost:3000/api/admin/cultural-event";
+    const url = "https://culture.seocho.go.kr:3000/api/admin/cultural-event";
 
     try {
       const res = await axios.delete(url, {
@@ -274,8 +272,8 @@ const EventManageView = () => {
     }
 
     const getScEventList = async (admingroup) => {
-      const url = `http://118.67.154.118:3000/api/admin/seochogu-festival/list`;
-      // const url = `http://localhost:3000/api/admin/seochogu-festival/list`;
+      const url =
+        "https://culture.seocho.go.kr:3000/api/admin/seochogu-festival/list";
 
       const today = new Date();
       let fromDate = "" + today.getFullYear();

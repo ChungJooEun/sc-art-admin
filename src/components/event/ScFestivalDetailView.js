@@ -274,8 +274,8 @@ const ScFestivalDetailView = ({ match }) => {
   };
 
   const postScEvent = async (data) => {
-    const url = "http://118.67.154.118:3000/api/admin/seochogu-festival/regist";
-    // const url = "http://localhost:3000/api/admin/seochogu-festival/regist";
+    const url =
+      "https://culture.seocho.go.kr:3000/api/admin/seochogu-festival/regist";
 
     const config = {
       headers: {
@@ -305,8 +305,7 @@ const ScFestivalDetailView = ({ match }) => {
     if (imgBase64.length === 1) {
       return imgBase64[0];
     } else if (bannerImg) {
-      return `http://118.67.154.118:3000${bannerImg}`;
-      // return `http://localhost:3000${bannerImg}`;
+      return `https://culture.seocho.go.kr:3000${bannerImg}`;
     } else {
       return "/assets/images/256_rsz_thomas-russell-751613-unsplash.jpg";
     }
@@ -330,8 +329,7 @@ const ScFestivalDetailView = ({ match }) => {
   };
 
   const removeEventPost = async (formdata) => {
-    const url = "http://118.67.154.118:3000/api/admin/seochogu-festival";
-    // const url = "/api/admin/seochogu-festival";
+    const url = "https://culture.seocho.go.kr:3000/api/admin/seochogu-festival";
     try {
       const res = await axios.delete(url, { data: formdata });
 
@@ -360,8 +358,7 @@ const ScFestivalDetailView = ({ match }) => {
 
     const getScFestivalInfo = async () => {
       const { id } = match.params;
-      const url = `http://118.67.154.118:3000/api/admin/seochogu-festival/detail/${id}`;
-      // const url = `http://localhost:3000/api/admin/seochogu-festival/detail/${id}`;
+      const url = `https://culture.seocho.go.kr:3000/api/admin/seochogu-festival/detail/${id}`;
 
       const res = await axios.get(url);
 

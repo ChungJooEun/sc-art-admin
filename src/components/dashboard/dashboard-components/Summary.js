@@ -36,8 +36,7 @@ const Summary = () => {
 
   useEffect(() => {
     const getSummary = async () => {
-      const url = "http://118.67.154.118:3000/api/admin/dashboard/list";
-      // const url = "http://localhost:3000/api/admin/dashboard/list";
+      const url = "https://culture.seocho.go.kr:3000/api/admin/dashboard/list";
 
       try {
         const res = await axios.get(url);

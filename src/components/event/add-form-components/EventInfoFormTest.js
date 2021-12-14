@@ -113,8 +113,7 @@ const EventInfoFormTest = React.memo(
 
     useEffect(() => {
       const getPlaceList = async () => {
-        const url = `http://118.67.154.118:3000/api/admin/cultural-space/list`;
-        // const url = `/api/admin/cultural-space/list`;
+        const url = `https://culture.seocho.go.kr:3000/api/admin/cultural-space/list`;
 
         try {
           const response = await axios.get(url, {
@@ -324,8 +323,6 @@ const EventInfoFormTest = React.memo(
                     data-no-calendar="true"
                     data-alt-format="H:i"
                     data-date-format="H:i"
-                    // data-toggle="flatpickr"
-                    // id="flatpickrSample05"
                     type="text"
                     defaultValue={open_time}
                     value={open_time}
@@ -340,8 +337,7 @@ const EventInfoFormTest = React.memo(
                     data-no-calendar="true"
                     data-alt-format="H:i"
                     data-date-format="H:i"
-                    // data-toggle="flatpickr"
-                    // id="flatpickrSample05"
+                    ㄴ
                     type="text"
                     defaultValue={close_time}
                     value={close_time}

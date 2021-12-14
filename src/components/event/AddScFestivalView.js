@@ -217,8 +217,8 @@ const AddScFestivalView = () => {
   // 게시
   const history = useHistory();
   const postScEvent = async (data) => {
-    const url = "http://118.67.154.118:3000/api/admin/seochogu-festival/regist";
-    // const url = "http://localhost:3000/api/admin/seochogu-festival/regist";
+    const url =
+      "https://culture.seocho.go.kr:3000/api/admin/seochogu-festival/regist";
     const config = {
       headers: {
         "content-type": "multipart/form-data",
