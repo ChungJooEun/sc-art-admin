@@ -335,7 +335,7 @@ const SideMenuBar = React.memo(() => {
                 >
                   <Link
                     className="sidebar-menu-button"
-                    to="/event/event-statistical-table"
+                    to="/event/event-db-conform-list"
                   >
                     <span className="sidebar-menu-text">공공API 정보</span>
                   </Link>

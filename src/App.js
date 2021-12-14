@@ -28,11 +28,11 @@ import AdminManageView from "./components/admin/AdminManageView";
 import AdminDetailView from "./components/admin/AdminDetailView";
 import AddAdminView from "./components/admin/AddAdminView";
 import AddBoardView from "./components/community/AddBoardView";
-import EditorTest from "./components/basic-components/editor-components/EditorTest";
 import AddScFestivalView from "./components/event/AddScFestivalView";
 import { MenuProvier } from "./context/menu";
 import ScFestivalDetailView from "./components/event/ScFestivalDetailView";
 import StatisticalTableView from "./components/event/StatisticalTableView";
+import PublicApiInfoView from "./components/event/PublicApiInfoView";
 
 const addPostOptions = [
   { value: "TEMP_SAVE", name: "임시저장" },
@@ -345,12 +345,12 @@ const App = () => {
           component={(props) => <LoginView {...props} />}
         />
 
-        <Route path="/editor">
-          <EditorTest />
-        </Route>
-
         <Route path="/event/event-statistical-table">
           <StatisticalTableView />
+        </Route>
+
+        <Route path="/event/event-db-conform-list">
+          <PublicApiInfoView />
         </Route>
 
         <Route component={() => <h2>Page Not Found</h2>} />
