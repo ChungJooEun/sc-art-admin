@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import axios from "axios";
+// import axios from "axios";
 
 const GlobalBar = React.memo(() => {
   const [userId, setUserId] = useState(null);
   const history = useHistory();
 
   // const logout = async () => {
-  //   const url = "http://118.67.154.134:9000/logout";
+  //   const url = "https://culture.seocho.go.kr:8443/admin-service/logout";
 
   //   try {
   //     const res = await axios.get(url, {

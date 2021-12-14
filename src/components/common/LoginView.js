@@ -22,8 +22,7 @@ const LoginView = () => {
     data.id = loginInfo.id;
     data.password = loginInfo.password;
 
-    const url = "http://118.67.154.134:9000/login";
-    // const url = "/login";
+    const url = "https://culture.seocho.go.kr:8443/admin-service/login";
     const config = {
       headers: {
         "Content-Type": "application/json",

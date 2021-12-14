@@ -32,8 +32,9 @@ const AddAdminView = () => {
   };
 
   const registAdmin = async () => {
-    const url = "http://118.67.154.134:9000/api/admin/regist";
-    // const url = "/api/admin/regist";
+    const url =
+      "https://culture.seocho.go.kr:8443/admin-service/api/admin/regist";
+
     const config = { headers: { "Content-Type": "application/json" } };
 
     var data = new Object();
