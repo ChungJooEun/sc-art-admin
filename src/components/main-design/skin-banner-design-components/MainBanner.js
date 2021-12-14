@@ -36,8 +36,7 @@ const MainBanner = ({ getMainBannerImg, imgFile }) => {
     if (imgBase64.length === 1) {
       return imgBase64[0];
     } else if (imgFile) {
-      return `http://118.67.154.134:22000/main/${imgFile}`;
-      // return `http://localhost:3000${imgSrc}`;
+      return `https://culture.seocho.go.kr:8443/community-service/main/${imgFile}`;
     } else {
       return "/assets/images/256_rsz_thomas-russell-751613-unsplash.jpg";
     }

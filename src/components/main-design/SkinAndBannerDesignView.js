@@ -77,8 +77,7 @@ const SkinAndBannerDesignView = () => {
 
   // 삭제 버튼 클릭시, db에서 삭제 요청 api
   const requestDelNoticeEventBanner = async (rId) => {
-    const url = `http://118.67.154.134:22000/api/main/theme/${rId}`;
-    // const url = `http://localhost:9200/api/main/theme/${rId}`;
+    const url = `https://culture.seocho.go.kr:8443/community-service/api/main/theme/${rId}`;
 
     try {
       const res = await axios.delete(url);
@@ -172,7 +171,7 @@ const SkinAndBannerDesignView = () => {
 
   // 초기 initial data를 삭제시, db삭제 요청 api
   const requestDelVideo = async (rId) => {
-    const url = `http://118.67.154.134:22000/api/main/theme/${rId}`;
+    const url = `https://culture.seocho.go.kr:8443/community-service/api/main/theme/${rId}`;
 
     try {
       const res = await axios.delete(url);
@@ -406,7 +405,8 @@ const SkinAndBannerDesignView = () => {
 
     // initial data 받아오기
     const getInitialData = async () => {
-      const url = "http://118.67.154.134:22000/api/main/theme";
+      const url =
+        "https://culture.seocho.go.kr:8443/community-service/api/main/theme";
 
       try {
         const res = await axios.get(url);

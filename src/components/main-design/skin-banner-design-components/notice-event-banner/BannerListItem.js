@@ -5,8 +5,7 @@ const BannerListItem = ({ bannerInfo, removeNoticeBanner }) => {
     if (bannerInfo.imgBase64.length === 1) {
       return bannerInfo.imgBase64[0];
     } else if (bannerInfo.imgFile) {
-      return `http://118.67.154.134:22000/main/${bannerInfo.imgFile}`;
-      // return `http://localhost:3000${imgSrc}`;
+      return `https://culture.seocho.go.kr:8443/community-service/main/${bannerInfo.imgFile}`;
     } else {
       return "/assets/images/256_rsz_thomas-russell-751613-unsplash.jpg";
     }
