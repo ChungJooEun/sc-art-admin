@@ -48,7 +48,7 @@ const UserReviewItem = ({ reviewInfo, deleteReview }) => {
   return (
     <div className="list-group-item d-flex align-items-start bg-transparent">
       <div className="mr-3 d-flex flex-column align-items-center">
-        <a href="../user/user-detail.html" className="avatar avatar-xs mb-2">
+        <a className="avatar avatar-xs mb-2">
           <b className="material-icons sidebar-menu-icon sidebar-menu-icon--left">
             person_pin
           </b>
@@ -58,7 +58,7 @@ const UserReviewItem = ({ reviewInfo, deleteReview }) => {
         <p className="m-0">
           {drawStar(reviewInfo.stars)}
           <span className="d-flex align-items-center mb-1">
-            <a href="../user/user-detail.html" className="text-body">
+            <a className="text-body">
               <strong>{reviewInfo.user}</strong>
             </a>
             <small className="ml-auto text-muted">{reviewInfo.date}</small>
