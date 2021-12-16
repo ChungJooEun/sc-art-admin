@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 
@@ -14,6 +14,8 @@ import PostCodeModal from "../basic-components/PostCodeModal";
 import EventInfoFormTest from "./add-form-components/EventInfoFormTest";
 import CurationTest from "./add-form-components/CurationTest";
 import RejectSection from "../basic-components/RejectSection";
+import UserReviewItem from "../basic-components/user-review-components/UserReviewItem";
+import ReviewPaging from "../basic-components/user-review-components/ReviewPaging";
 
 const convertToDate = (str) => {
   if (str === null || str === undefined || str === "") {
@@ -71,6 +73,9 @@ const EventDetailView = ({ options, pagePathList, match }) => {
 
   const [rejectionReason, setRejectionReason] = useState(null);
   const [isApproved, setIsApproved] = useState(true);
+
+  const [totalReviews, setTotalReviews] = useState(0);
+  const [reviewList, setReviewList] = useState([]);
 
   const history = useHistory();
 
@@ -132,11 +137,11 @@ const EventDetailView = ({ options, pagePathList, match }) => {
     formData.append("rejection_reason", rejectionReason.code);
     formData.append("rejection_reason_text", rejectionReason.text);
 
-    for (let key of formData.keys()) {
-      console.log(key);
-    }
+    // for (let key of formData.keys()) {
+    //   console.log(key);
+    // }
 
-    for (let v of formData.values()) console.log(v);
+    // for (let v of formData.values()) console.log(v);
 
     postEvent(formData);
   };
@@ -265,6 +270,62 @@ const EventDetailView = ({ options, pagePathList, match }) => {
     });
   };
 
+  const [curPage, setCurPage] = useState(1);
+  const getCurPage = (pageNum) => {
+    setCurPage(pageNum);
+  };
+
+  const getReviewList = useCallback(
+    async (id) => {
+      const url = `https://culture.seocho.go.kr:8443/user-service/api/admin/review/event/${id}`;
+
+      try {
+        const res = await axios.get(url, {
+          params: {
+            page: curPage,
+            rows: 3,
+          },
+        });
+
+        if (res.status === 200) {
+          const { totalRows, data } = res.data;
+
+          setTotalReviews(totalRows);
+
+          let ary = [];
+          for (let i = 0; i < data.length; i++) {
+            ary.push({
+              id: data[i].id,
+              user: data[i].createUid,
+              date: data[i].reviewDate,
+              content: data[i].content,
+              stars: data[i].score,
+            });
+          }
+
+          setReviewList(ary);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    [curPage]
+  );
+
+  const deleteReview = async (rId) => {
+    const url = `https://culture.seocho.go.kr:8443/user-service/api/admin/review/${rId}`;
+
+    try {
+      const res = await axios.delete(url);
+
+      if (res.status === 200) {
+        getReviewList(match.params.id);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     let token = window.sessionStorage.getItem("token");
 
@@ -272,8 +333,8 @@ const EventDetailView = ({ options, pagePathList, match }) => {
       history.push("/common/login");
     }
 
+    const { id } = match.params;
     const getEventDetail = async () => {
-      const { id } = match.params;
       const url = `https://culture.seocho.go.kr:3000/api/admin/cultural-event/detail/${id}`;
 
       try {
@@ -371,7 +432,7 @@ const EventDetailView = ({ options, pagePathList, match }) => {
             setIsApproved(false);
           }
 
-          console.log("====== 성공 ======");
+          // console.log("====== 성공 ======");
         }
       } catch (e) {
         console.log(e);
@@ -379,6 +440,7 @@ const EventDetailView = ({ options, pagePathList, match }) => {
     };
 
     getEventDetail();
+    getReviewList(id);
 
     const srcList = [
       `${process.env.PUBLIC_URL}/assets/vendor/jquery.min.js`,
@@ -407,20 +469,21 @@ const EventDetailView = ({ options, pagePathList, match }) => {
         document.body.removeChild(scriptList[i]);
       }
     };
-  }, [match.params]);
+  }, [getReviewList, match.params]);
 
   if (formInfo === null || curationInfo === null || rejectionReason === null) {
     return (
-      <div className="preloader">
-        <div className="sk-chase">
-          <div className="sk-chase-dot"></div>
-          <div className="sk-chase-dot"></div>
-          <div className="sk-chase-dot"></div>
-          <div className="sk-chase-dot"></div>
-          <div className="sk-chase-dot"></div>
-          <div className="sk-chase-dot"></div>
-        </div>
-      </div>
+      // <div className="preloader">
+      //   <div className="sk-chase">
+      //     <div className="sk-chase-dot"></div>
+      //     <div className="sk-chase-dot"></div>
+      //     <div className="sk-chase-dot"></div>
+      //     <div className="sk-chase-dot"></div>
+      //     <div className="sk-chase-dot"></div>
+      //     <div className="sk-chase-dot"></div>
+      //   </div>
+      // </div>
+      <div></div>
     );
   }
 
@@ -475,41 +538,92 @@ const EventDetailView = ({ options, pagePathList, match }) => {
               </div>
 
               <div className="page-section">
-                <div className="page-separator">
-                  <div className="page-separator__text">관련 영상 업로드</div>
+                <div className="border-bottom-2 py-32pt position-relative z-1">
+                  <div className="page-separator">
+                    <div className="page-separator__text">관련 영상 업로드</div>
+                  </div>
+                  <div className="list-group-item">
+                    <VideoAddFormTest getVideoInfo={getVideoInfo} />
+                  </div>
+                  <div className="row card-group-row">
+                    {videos.map((video) => (
+                      <VideoListItem
+                        videoInfo={video}
+                        removeVideo={removeVideo}
+                        key={video.vId}
+                      />
+                    ))}
+                  </div>
                 </div>
-                <div className="list-group-item">
-                  <VideoAddFormTest getVideoInfo={getVideoInfo} />
+
+                <div className="container-fluid page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left">
+                  <div className="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
+                    <div className="mb-24pt mb-sm-0 mr-sm-24pt mt-24pt">
+                      <h2 className="">리뷰({totalReviews})</h2>
+                    </div>
+                  </div>
+
+                  <div className="row" role="tablist">
+                    <div className="col-auto d-flex flex-column">
+                      <h6 className="m-0">4</h6>
+                      <p className="text-50 mb-0 d-flex align-items-center">
+                        총 평점
+                      </p>
+                    </div>
+                    <div className="col-auto border-left d-flex flex-column">
+                      <h6 className="m-0">2</h6>
+                      <p className="text-50 mb-0 d-flex align-items-center">
+                        하트 수
+                      </p>
+                    </div>
+                    <div className="col-auto border-left">
+                      <h6 className="m-0">264</h6>
+                      <p className="text-50 mb-0 d-flex align-items-center">
+                        클릭 수
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                <div className="row card-group-row">
-                  {videos.map((video) => (
-                    <VideoListItem
-                      videoInfo={video}
-                      removeVideo={removeVideo}
-                      key={video.vId}
+                <div
+                  className="list-group bg-white list-group-flush flex-shrink-0"
+                  style={{ position: "relative", zIndex: "0" }}
+                >
+                  {reviewList.map((reviewInfo) => (
+                    <UserReviewItem
+                      reviewInfo={reviewInfo}
+                      deleteReview={deleteReview}
+                      key={reviewInfo.id}
                     />
                   ))}
                 </div>
+                <ReviewPaging
+                  curPage={curPage}
+                  getCurPage={getCurPage}
+                  onePage={3}
+                  all={totalReviews}
+                />
               </div>
 
-              <div className="detail_under_menu ">
-                <div className="card">
-                  <PostSaveBtn
-                    options={options}
-                    onSubmitEvent={onSubmitEvent}
-                    state={formInfo.state}
-                    onClickRemoveBtn={onClickRemoveBtn}
-                    showDelBtn={true}
-                    getFormInfo={getFormInfo}
-                  />
-                  {isApproved ? (
-                    ""
-                  ) : (
-                    <RejectSection
-                      rejectionReason={rejectionReason}
-                      getRejectionReason={getRejectionReason}
+              <div className="page-section">
+                <div className="detail_under_menu ">
+                  <div className="card">
+                    <PostSaveBtn
+                      options={options}
+                      onSubmitEvent={onSubmitEvent}
+                      state={formInfo.state}
+                      onClickRemoveBtn={onClickRemoveBtn}
+                      showDelBtn={true}
+                      getFormInfo={getFormInfo}
                     />
-                  )}
+                    {isApproved ? (
+                      ""
+                    ) : (
+                      <RejectSection
+                        rejectionReason={rejectionReason}
+                        getRejectionReason={getRejectionReason}
+                      />
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
