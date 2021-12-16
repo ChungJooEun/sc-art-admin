@@ -355,6 +355,7 @@ const EventDetailView = ({ options, pagePathList, match }) => {
             phone: response.data.phone,
             price: response.data.price,
             state: response.data.state,
+            averageScore: response.data.averageScore,
           });
 
           // 큐레이션 정보
@@ -565,7 +566,7 @@ const EventDetailView = ({ options, pagePathList, match }) => {
 
                   <div className="row" role="tablist">
                     <div className="col-auto d-flex flex-column">
-                      <h6 className="m-0">4</h6>
+                      <h6 className="m-0">{formInfo.averageScore}</h6>
                       <p className="text-50 mb-0 d-flex align-items-center">
                         총 평점
                       </p>
