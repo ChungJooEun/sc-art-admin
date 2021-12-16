@@ -242,7 +242,6 @@ const AddScFestivalView = () => {
     const data = new FormData();
 
     // 배너 이미지
-    console.log(bannerImg);
     if (bannerImg) data.append("file", bannerImg[0]);
 
     // 제목

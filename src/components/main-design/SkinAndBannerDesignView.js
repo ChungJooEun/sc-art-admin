@@ -83,10 +83,10 @@ const SkinAndBannerDesignView = () => {
       const res = await axios.delete(url);
 
       if (res.status === 200) {
-        console.log(
-          `===== success delete notice and event banner data : ${rId} =====`
-        );
-        console.log(res.data);
+        // console.log(
+        //   `===== success delete notice and event banner data : ${rId} =====`
+        // );
+        // console.log(res.data);
       }
     } catch (e) {
       console.log(e);
@@ -95,7 +95,6 @@ const SkinAndBannerDesignView = () => {
 
   // 삭제 버튼 클릭시, 공지사항 / 이벤트 베너 삭제 요청
   const removeNoticeBanner = (rId) => {
-    console.log(rId);
     // 삭제를 요청한 데이터가 초기 데이터인지 검사
     let ary;
     if (isInitalData_NoticeEvent(rId)) {
@@ -177,7 +176,7 @@ const SkinAndBannerDesignView = () => {
       const res = await axios.delete(url);
 
       if (res === 200) {
-        console.log(res.data);
+        // console.log(res.data);
       }
     } catch (e) {
       console.log(e);
@@ -257,13 +256,13 @@ const SkinAndBannerDesignView = () => {
     //     등록자
     data.append("userid", window.sessionStorage.getItem("userid"));
 
-    for (let key of data.keys()) {
-      console.log("key : " + key);
-    }
+    // for (let key of data.keys()) {
+    //   console.log("key : " + key);
+    // }
 
-    for (let value of data.values()) {
-      console.log("value : " + value);
-    }
+    // for (let value of data.values()) {
+    //   console.log("value : " + value);
+    // }
 
     saveMainDesignInfo(data);
   };
@@ -280,8 +279,8 @@ const SkinAndBannerDesignView = () => {
       });
 
       if (res.status === 200) {
-        console.log(" ==== seccess save main design data ====");
-        console.log(res.data);
+        // console.log(" ==== seccess save main design data ====");
+        // console.log(res.data);
       }
     } catch (e) {
       console.log(e);
@@ -301,13 +300,13 @@ const SkinAndBannerDesignView = () => {
     //     등록자
     data.append("userid", window.sessionStorage.getItem("userid"));
 
-    for (let key of data.keys()) {
-      console.log("key : " + key);
-    }
+    // for (let key of data.keys()) {
+    //   console.log("key : " + key);
+    // }
 
-    for (let value of data.values()) {
-      console.log("value : " + value);
-    }
+    // for (let value of data.values()) {
+    //   console.log("value : " + value);
+    // }
 
     saveNoticeEventInfo(data);
   };
@@ -325,8 +324,8 @@ const SkinAndBannerDesignView = () => {
       });
 
       if (res.status === 200) {
-        console.log(" ==== seccess save main banner data ====");
-        console.log(res.data);
+        // console.log(" ==== seccess save main banner data ====");
+        // console.log(res.data);
       }
     } catch (e) {
       console.log(e);
@@ -366,13 +365,13 @@ const SkinAndBannerDesignView = () => {
     //     등록자
     data.append("userid", window.sessionStorage.getItem("userid"));
 
-    for (let key of data.keys()) {
-      console.log("key : " + key);
-    }
+    // for (let key of data.keys()) {
+    //   console.log("key : " + key);
+    // }
 
-    for (let value of data.values()) {
-      console.log("value : " + value);
-    }
+    // for (let value of data.values()) {
+    //   console.log("value : " + value);
+    // }
 
     saveVideosInfo(data);
   };
@@ -386,8 +385,8 @@ const SkinAndBannerDesignView = () => {
       const res = await axios.post(url, data);
 
       if (res.status === 200) {
-        console.log(" ==== seccess save main videos data ====");
-        console.log(res.data);
+        // console.log(" ==== seccess save main videos data ====");
+        // console.log(res.data);
       }
     } catch (e) {
       console.log(e);

@@ -56,7 +56,6 @@ const ScPlaceView = ({ pageTitle }) => {
         },
       });
 
-      console.log(response.status);
       if (response.status === 200) {
         alert("수정사항이 저장되었습니다.");
         history.push("/place/place-manage");
@@ -68,8 +67,6 @@ const ScPlaceView = ({ pageTitle }) => {
   };
 
   const onHandleSubmitPlace = (formState) => {
-    console.log(formState);
-
     let formData = new FormData();
 
     formData.append("name", pageTitle);
@@ -102,8 +99,6 @@ const ScPlaceView = ({ pageTitle }) => {
         const res = await axios.get(url);
 
         if (res.status === 200) {
-          console.log(res.data);
-
           setPostState(res.data.state);
           setDetail(res.data.more_information);
         }

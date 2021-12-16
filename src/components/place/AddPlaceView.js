@@ -117,7 +117,6 @@ const AddPlaceView = ({ options }) => {
         },
       });
 
-      console.log(response.status);
       if (response.status === 200) {
         alert("등록되었습니다.");
         history.push("/place/place-manage");
@@ -158,13 +157,13 @@ const AddPlaceView = ({ options }) => {
     }
     formData.append("videos", JSON.stringify(vAry));
 
-    for (let key of formData.keys()) {
-      console.log(key);
-    }
+    // for (let key of formData.keys()) {
+    //   console.log(key);
+    // }
 
-    for (let v of formData.values()) {
-      console.log(v);
-    }
+    // for (let v of formData.values()) {
+    //   console.log(v);
+    // }
 
     postPlace(formData);
   };

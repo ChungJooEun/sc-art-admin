@@ -80,8 +80,6 @@ const CurationTest = ({ curationInfo, getCurationInfo }) => {
   const getDefaultOptions_field = (fields, options) => {
     const defaultOptions = [];
 
-    console.log(fields);
-
     if (fields === undefined || fields === null) {
       return [];
     }
@@ -104,7 +102,6 @@ const CurationTest = ({ curationInfo, getCurationInfo }) => {
       }
     }
 
-    console.log(defaultOptions);
     return defaultOptions;
   };
 

@@ -116,7 +116,6 @@ const PlaceDetailView = ({ options, match }) => {
         },
       });
 
-      console.log(response.status);
       if (response.status === 200) {
         alert("수정되었습니다.");
         history.push("/place/place-manage");
@@ -241,8 +240,6 @@ const PlaceDetailView = ({ options, match }) => {
       try {
         const response = await axios.get(url);
 
-        console.log(response.data);
-
         if (response.status === 200) {
           setFormInfo({
             id: response.data.id,
@@ -313,7 +310,7 @@ const PlaceDetailView = ({ options, match }) => {
             setIsApproved(false);
           }
 
-          console.log("====== 성공 ======");
+          // console.log("====== 성공 ======");
         }
       } catch (e) {
         console.log(e);

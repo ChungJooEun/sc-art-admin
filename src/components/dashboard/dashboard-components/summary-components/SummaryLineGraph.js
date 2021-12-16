@@ -19,10 +19,6 @@ const options = {
   },
 };
 
-const calcTotalCount = (data) => {
-  console.log(data);
-};
-
 const SummaryLineGraph = ({ graphTitle, totalCount, data }) => {
   return (
     <div className="col-md-6 card-group-row__col">

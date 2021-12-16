@@ -40,8 +40,6 @@ const TaskRequest = () => {
   const onChangeTapMenu = (menu) => {
     setTapMenu(menu);
 
-    console.log(menu);
-
     if (menu === 1) {
       setPageNumber_Event(1);
     } else {

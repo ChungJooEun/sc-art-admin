@@ -225,7 +225,6 @@ const ScFestivalDetailView = ({ match }) => {
     const data = new FormData();
 
     // 배너 이미지
-    console.log(bannerImg);
     if (bannerImg) data.append("file", bannerImg[0]);
 
     // id
@@ -266,9 +265,9 @@ const ScFestivalDetailView = ({ match }) => {
     //
     data.append("userid", "admin");
 
-    for (let k of data.keys()) console.log(k);
+    // for (let k of data.keys()) console.log(k);
 
-    for (let v of data.values()) console.log(v);
+    // for (let v of data.values()) console.log(v);
 
     postScEvent(data);
   };
@@ -316,7 +315,7 @@ const ScFestivalDetailView = ({ match }) => {
       return;
     }
 
-    console.log(" ======= 삭제 버튼 클릭 ======");
+    // console.log(" ======= 삭제 버튼 클릭 ======");
 
     const obj = new Object();
     let ary = new Array();

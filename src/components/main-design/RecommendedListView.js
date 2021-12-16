@@ -144,7 +144,7 @@ const RecommendedListView = () => {
   const getSortNumberRecommendList = (id, sortNumber) => {
     let ary = [];
 
-    console.log(id + "    " + sortNumber);
+    // console.log(id + "    " + sortNumber);
     for (let i = 0; i < recommendList.length; i++) {
       if (recommendList[i].id === id) {
         ary.push({
@@ -189,10 +189,10 @@ const RecommendedListView = () => {
     // 등록자
     formdata.append("userid", window.sessionStorage.getItem("userid"));
 
-    for (let key of formdata.keys()) console.log("formData KEY : " + key);
+    // for (let key of formdata.keys()) console.log("formData KEY : " + key);
 
-    for (let value of formdata.values())
-      console.log("formDaa VALUE : " + value);
+    // for (let value of formdata.values())
+    //   console.log("formDaa VALUE : " + value);
 
     saveRecommendList(formdata);
   };
@@ -206,8 +206,8 @@ const RecommendedListView = () => {
 
       if (res.status === 200) {
         alert("저장에 성공하였습니다. ");
-        console.log(" ======= success to post recommended list ========");
-        console.log(res.data);
+        // console.log(" ======= success to post recommended list ========");
+        // console.log(res.data);
         getRecommendedList();
         setAddedList([]);
       }

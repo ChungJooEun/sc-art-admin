@@ -33,8 +33,6 @@ const LoginView = () => {
       const response = await axios.post(url, data, config);
 
       if (response.status === 200) {
-        console.log(response.headers);
-
         window.sessionStorage.setItem("token", response.headers.token);
         window.sessionStorage.setItem("userid", response.headers.userid);
         window.sessionStorage.setItem(
@@ -47,7 +45,7 @@ const LoginView = () => {
       }
     } catch (e) {
       alert("로그인 실패\n아이디와 비밀번호를 확인해주세요. ");
-      // console.log(e);
+      console.log(e);
     }
   };
 
