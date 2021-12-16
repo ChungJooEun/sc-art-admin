@@ -566,7 +566,9 @@ const EventDetailView = ({ options, pagePathList, match }) => {
 
                   <div className="row" role="tablist">
                     <div className="col-auto d-flex flex-column">
-                      <h6 className="m-0">{formInfo.averageScore}</h6>
+                      <h6 className="m-0">
+                        {formInfo.averageScore ? formInfo.averageScore : "0.0"}
+                      </h6>
                       <p className="text-50 mb-0 d-flex align-items-center">
                         총 평점
                       </p>
@@ -597,12 +599,14 @@ const EventDetailView = ({ options, pagePathList, match }) => {
                     />
                   ))}
                 </div>
-                <ReviewPaging
-                  curPage={curPage}
-                  getCurPage={getCurPage}
-                  onePage={3}
-                  all={totalReviews}
-                />
+                {totalReviews === 0 ? null : (
+                  <ReviewPaging
+                    curPage={curPage}
+                    getCurPage={getCurPage}
+                    onePage={3}
+                    all={totalReviews}
+                  />
+                )}
               </div>
 
               <div className="page-section">
