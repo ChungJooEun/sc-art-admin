@@ -18,14 +18,21 @@ const Paging = React.memo(({ pageNumber, getPageNumber, totalNum, count }) => {
 
   const calcFirstPage = () => {
     if (pageNumber % count === 0) {
-      return (parseInt(pageNumber / count) - 1) * count;
+      return pageNumber - count + 1;
     } else {
       return pageNumber - parseInt(pageNumber % count) + 1;
     }
   };
 
   const calcEndPage = () => {
-    let endpage = (parseInt(pageNumber / count) + 1) * count;
+    let endpage;
+
+    if (pageNumber % count === 0) {
+      endpage = pageNumber;
+    } else {
+      endpage = (parseInt(pageNumber / count) + 1) * count;
+    }
+
     if (endpage >= lastPage) {
       return lastPage;
     } else {
