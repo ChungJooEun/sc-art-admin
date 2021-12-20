@@ -50,7 +50,7 @@ const CulturalEventByLocation = ({ period }) => {
   return (
     <div className="col-lg-6">
       <div className="page-separator">
-        <div className="page-separator__text">장소 별 문화행사</div>
+        <div className="page-separator__text">장소별 문화행사</div>
       </div>
 
       <div className="card card-group-row__card">
