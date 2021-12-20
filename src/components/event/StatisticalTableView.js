@@ -86,7 +86,7 @@ const StatisticalTableView = () => {
           <div className="page-section">
             <div className="row mb-lg-8pt">
               <CulturalEventByField />
-              <CulturalEventByLocation />
+              <CulturalEventByLocation period={period} />
             </div>
             <StatisticalTable period={period} />
           </div>

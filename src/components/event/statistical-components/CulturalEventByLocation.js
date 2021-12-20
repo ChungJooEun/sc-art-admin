@@ -1,6 +1,52 @@
-import React from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import axios from "axios";
 
-const CulturalEventByLocation = () => {
+const calcRate = (sum, num) => {
+  return parseInt((num / sum) * 100);
+};
+
+const CulturalEventByLocation = ({ period }) => {
+  const [totalRows, setTotalRows] = useState(0);
+  const [stat, setStat] = useState([]);
+
+  const getEventStat = useCallback(async () => {
+    const url =
+      "https://culture.seocho.go.kr:8443/cultural-service/api/v2/admin/stat/event/location";
+
+    try {
+      const response = await axios.get(url, {
+        params: {
+          openDate: period.from_date,
+          closeDate: period.to_date,
+        },
+      });
+
+      if (response.status === 200) {
+        const { totalRows, data } = response.data;
+
+        setTotalRows(totalRows);
+
+        let ary = [];
+
+        for (let i = 0; i < data.length; i++) {
+          ary.push({
+            location: data[i].location,
+            totalCount: data[i].totalEventRows,
+            rate: calcRate(totalRows, data[i].totalEventRows),
+          });
+        }
+
+        setStat(ary);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }, [period]);
+
+  useEffect(() => {
+    getEventStat();
+  }, [getEventStat]);
+
   return (
     <div className="col-lg-6">
       <div className="page-separator">
@@ -12,7 +58,7 @@ const CulturalEventByLocation = () => {
           <div className="row no-gutters flex" role="tablist">
             <div className="col-auto">
               <div className="p-card-header d-flex align-items-center">
-                <div className="h2 mb-0 mr-3">103</div>
+                <div className="h2 mb-0 mr-3">{totalRows}</div>
                 <div className="flex">
                   <p className="mb-0">
                     <strong>전체 문화행사</strong>
@@ -23,109 +69,32 @@ const CulturalEventByLocation = () => {
             </div>
           </div>
         </div>
+
         <div className="card-body d-flex flex-column">
           <div className="d-flex flex flex-column align-items-center justify-content-center">
             <ul className="list-unstyled list-skills w-100">
-              <li className="mb-8pt">
-                <div className="text-50 border-right">
-                  <small>장소1</small>
-                </div>
-                <div className="flex">
-                  <div className="progress" style={{ height: "4px" }}>
-                    <div
-                      className="progress-bar bg-primary"
-                      role="progressbar"
-                      style={{ width: "60%" }}
-                      aria-valuenow="40"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                    ></div>
+              {stat.map((info) => (
+                <li className="mb-8pt" key={info.location}>
+                  <div className="text-50 border-right">
+                    <small>{info.location}</small>
                   </div>
-                </div>
-                <div className="text-70">
-                  <small>60</small>
-                </div>
-              </li>
-              <li className="mb-8pt">
-                <div className="text-50 border-right">
-                  <small>장소2</small>
-                </div>
-                <div className="flex">
-                  <div className="progress" style={{ height: "4px" }}>
-                    <div
-                      className="progress-bar bg-primary"
-                      role="progressbar"
-                      style={{ width: "50%" }}
-                      aria-valuenow="50"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                    ></div>
+                  <div className="flex">
+                    <div className="progress" style={{ height: "4px" }}>
+                      <div
+                        className="progress-bar bg-primary"
+                        role="progressbar"
+                        style={{ width: `${info.rate}%` }}
+                        aria-valuenow={info.rate}
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                      ></div>
+                    </div>
                   </div>
-                </div>
-                <div className="text-70">
-                  <small>50</small>
-                </div>
-              </li>
-              <li className="mb-8pt">
-                <div className="text-50 border-right">
-                  <small>장소3</small>
-                </div>
-                <div className="flex">
-                  <div className="progress" style={{ height: "4px" }}>
-                    <div
-                      className="progress-bar bg-primary"
-                      role="progressbar"
-                      style={{ width: "40%" }}
-                      aria-valuenow="60"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                    ></div>
+                  <div className="text-70">
+                    <small>{info.totalCount}</small>
                   </div>
-                </div>
-                <div className="text-70">
-                  <small>40</small>
-                </div>
-              </li>
-              <li className="mb-8pt">
-                <div className="text-50 border-right">
-                  <small>장소4</small>
-                </div>
-                <div className="flex">
-                  <div className="progress" style={{ height: "4px" }}>
-                    <div
-                      className="progress-bar bg-primary"
-                      role="progressbar"
-                      style={{ width: "30%" }}
-                      aria-valuenow="90"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                    ></div>
-                  </div>
-                </div>
-                <div className="text-70">
-                  <small>30</small>
-                </div>
-              </li>
-              <li className="mb-0">
-                <div className="text-50 border-right">
-                  <small>장소5</small>
-                </div>
-                <div className="flex">
-                  <div className="progress" style={{ height: "4px" }}>
-                    <div
-                      className="progress-bar bg-primary"
-                      role="progressbar"
-                      style={{ width: "12%" }}
-                      aria-valuenow="25"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                    ></div>
-                  </div>
-                </div>
-                <div className="text-70">
-                  <small>12</small>
-                </div>
-              </li>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
