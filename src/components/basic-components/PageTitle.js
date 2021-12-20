@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import SearchBar from "../basic-components/SeachBar";
 
 const PageTitle = ({
   pageTitle,
@@ -8,7 +7,7 @@ const PageTitle = ({
   showSearchBar,
   searching,
   searchOptions,
-  onlyPeriodBar,
+  SearchComponent,
 }) => {
   return (
     <div className="border-bottom-2 py-32pt position-relative z-1">
@@ -26,10 +25,9 @@ const PageTitle = ({
             </ol>
           </div>
           {showSearchBar ? (
-            <SearchBar
+            <SearchComponent
               searching={searching}
               searchOptions={searchOptions}
-              onlyPeriodBar={onlyPeriodBar}
             />
           ) : (
             ""

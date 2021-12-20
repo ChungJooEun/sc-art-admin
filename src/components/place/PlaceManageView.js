@@ -6,9 +6,9 @@ import MenuContext from "../../context/menu";
 import GlobalBar from "../basic-components/GlobalBar";
 import PageTitle from "../basic-components/PageTitle";
 import Paging from "../basic-components/Paging";
-import SearchBar from "../basic-components/SeachBar";
 import SideMenuBar from "../basic-components/SideMenuBar";
 import CheckablePlaceList from "./place-components/CheckablePlaceList";
+import SearchKeywordBar from "../basic-components/search-bar-components/SearchKeywordBar";
 
 const pagePathList = [
   {
@@ -54,7 +54,7 @@ const PlaceManageView = () => {
 
   const [adminGroup, setAdminGroup] = useState();
 
-  const searching = (dateRange, searchInfos) => {
+  const searching = (searchInfos) => {
     setSearchInfo(searchInfos);
     setPageNumber(1);
   };
@@ -387,7 +387,7 @@ const PlaceManageView = () => {
                   <h2 className="mb-0">전체 문화공간</h2>
                 </div>
 
-                <SearchBar
+                <SearchKeywordBar
                   searching={searching}
                   searchOptions={searchOptions}
                 />

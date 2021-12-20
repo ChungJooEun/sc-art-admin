@@ -9,6 +9,7 @@ import GlobarBar from "../basic-components/GlobalBar";
 import Paging from "../basic-components/Paging";
 
 import CheckableEventList from "./event-components/CheckableEventList";
+import SearchBar from "../basic-components/search-bar-components/SeachBar";
 
 const pagePathList = [
   {
@@ -369,6 +370,7 @@ const EventListView = ({ pageTitle, type }) => {
           showSearchBar={true}
           searching={searching}
           searchOptions={searchOptions}
+          SearchComponent={SearchBar}
         />
 
         <div className="container-fluid page__container">

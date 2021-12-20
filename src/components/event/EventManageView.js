@@ -6,7 +6,7 @@ import MenuContext from "../../context/menu";
 import SideMenuBar from "../basic-components/SideMenuBar";
 import GlobalBar from "../basic-components/GlobalBar";
 import PageTitle from "../basic-components/PageTitle";
-import SearchBar from "../basic-components/SeachBar";
+import SearchBar from "../basic-components/search-bar-components/SeachBar";
 import Paging from "../basic-components/Paging";
 
 import CheckableEventList from "../event/event-components/CheckableEventList";

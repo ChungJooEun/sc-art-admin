@@ -8,6 +8,7 @@ import PageTitle from "../basic-components/PageTitle";
 import CheckablePlaceList from "./place-components/CheckablePlaceList";
 import SideMenuBar from "../basic-components/SideMenuBar";
 import MenuContext from "../../context/menu";
+import SearchKeywordBar from "../basic-components/search-bar-components/SearchKeywordBar";
 
 const pagePathList = [
   {
@@ -56,7 +57,7 @@ const PlaceListView = ({ pageTitle, type }) => {
 
   const [adminGroup, setAdminGroup] = useState();
 
-  const searching = (dateRange, searchInfos) => {
+  const searching = (searchInfos) => {
     setSearchInfo(searchInfos);
     setPageNumber(1);
   };
@@ -276,6 +277,7 @@ const PlaceListView = ({ pageTitle, type }) => {
           showSearchBar={true}
           searching={searching}
           searchOptions={searchOptions}
+          SearchComponent={SearchKeywordBar}
         />
 
         <div className="container-fluid page__container">

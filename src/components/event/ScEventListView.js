@@ -9,6 +9,7 @@ import GlobalBar from "../basic-components/GlobalBar";
 import PageTitle from "../basic-components/PageTitle";
 
 import CheckableScEventList from "./sc-event-components/CheckableScEventList";
+import SearchBar from "../basic-components/search-bar-components/SeachBar";
 
 const pagePathList = [
   {
@@ -21,7 +22,6 @@ const count = 5;
 const searchOptions = [
   { value: "FESTIVAL_NAME", label: "축제명" },
   { value: "WRITER", label: "작성자" },
-  { value: "LOCATION", label: "위치" },
 ];
 
 const ScEventListView = () => {
@@ -109,6 +109,7 @@ const ScEventListView = () => {
 
   const deleteEvents = async (formData) => {
     const url = "https://culture.seocho.go.kr:3000/api/admin/seochogu-festival";
+    // const url = "http://localhost:3000/api/admin/seochogu-festival";
 
     try {
       const res = await axios.delete(url, {
@@ -241,6 +242,7 @@ const ScEventListView = () => {
           showSearchBar={true}
           searching={searching}
           searchOptions={searchOptions}
+          SearchComponent={SearchBar}
         />
 
         <div className="container-fluid page__container">
