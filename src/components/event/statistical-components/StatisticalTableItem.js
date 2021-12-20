@@ -1,22 +1,11 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 
-const StatisticalTableItem = () => {
+const StatisticalTableItem = ({ eventInfo, no }) => {
+  const history = useHistory();
   return (
-    <tr className="selected">
-      <td className="pr-0">
-        <div className="custom-control custom-checkbox">
-          <input
-            type="checkbox"
-            className="custom-control-input js-check-selected-row"
-            checked=""
-            id="customCheck1_1"
-          />
-          <label className="custom-control-label" htmlFor="customCheck1_1">
-            <span className="text-hide">Check</span>
-          </label>
-        </div>
-      </td>
-      <td className="js-lists-values-place small">5</td>
+    <tr>
+      <td className="js-lists-values-place small">{no}</td>
       <td className="text-aline-left">
         <div
           className="media flex-nowrap align-items-center"
@@ -25,11 +14,15 @@ const StatisticalTableItem = () => {
           <div className="media-body">
             <div className="d-flex flex-column">
               <p className="mb-0 txt_line_table_title">
-                <a href="../event/event-detail.html">
+                <span
+                  onClick={() =>
+                    history.push(`/event/event-detail/${eventInfo.id}`)
+                  }
+                >
                   <strong className="js-lists-values-cultural-event">
-                    행사이름행사이름행사이름행사이름행사이름행사이름행사이름행사이름
+                    {eventInfo.title}
                   </strong>
-                </a>
+                </span>
               </p>
               <small className="js-lists-values-employee-email text-50"></small>
             </div>
@@ -37,16 +30,26 @@ const StatisticalTableItem = () => {
         </div>
       </td>
       <td>
-        <a className="chip chip-outline-secondary js-lists-values-tag">기타</a>
+        <span className="chip chip-outline-secondary js-lists-values-tag">
+          {
+            {
+              SHOW: "공연",
+              EXHIBITION: "전시",
+              OTHER: "기타",
+            }[eventInfo.eventType]
+          }
+        </span>
       </td>
-      <td className="js-lists-values-place small">장소1</td>
+      <td className="js-lists-values-place small">{eventInfo.location}</td>
       <td className="js-lists-values-star small">
         <i className="material-icons material-icons-point icon-16pt">star</i>
-        4.5
+        {eventInfo.averageScore}
       </td>
-      <td className="js-lists-values-review small">10</td>
-      <td className="js-lists-values-heart small">10</td>
-      <td className="js-lists-values-click small">1112</td>
+      <td className="js-lists-values-review small">
+        {eventInfo.totalReviewRows}
+      </td>
+      <td className="js-lists-values-heart small">{eventInfo.totalLikeRows}</td>
+      <td className="js-lists-values-click small">{eventInfo.viewCount}</td>
     </tr>
   );
 };
