@@ -1,10 +1,11 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
 import MenuContext from "../../context/menu";
 
 import GlobalBar from "../basic-components/GlobalBar";
 import PageTitle from "../basic-components/PageTitle";
 import SideMenuBar from "../basic-components/SideMenuBar";
+import SearchPeriodBar from "../basic-components/search-bar-components/SearchPeriodBar";
 
 import Summary from "../dashboard/dashboard-components/Summary";
 import TaskRequest from "./dashboard-components/TaskRequest";
@@ -18,8 +19,17 @@ const pagePathList = [
 
 const DashBoardView = () => {
   const history = useHistory();
-
   const { actions } = useContext(MenuContext);
+
+  const [period, setPeriod] = useState({
+    from_date: "",
+    to_date: "",
+  });
+
+  const searching = (dateRange) => {
+    setPeriod(dateRange);
+  };
+
   useEffect(() => {
     let token = window.sessionStorage.getItem("token");
 
@@ -70,7 +80,13 @@ const DashBoardView = () => {
       <div className="mdk-drawer-layout__content page-content">
         <GlobalBar />
 
-        <PageTitle pageTitle={"대시보드"} pagePathList={pagePathList} />
+        <PageTitle
+          pageTitle={"대시보드"}
+          pagePathList={pagePathList}
+          showSearchBar={true}
+          searching={searching}
+          SearchComponent={SearchPeriodBar}
+        />
 
         <div className="container-fluid page__container">
           <Summary />
