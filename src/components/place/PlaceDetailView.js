@@ -315,6 +315,7 @@ const PlaceDetailView = ({ options, match }) => {
             space_type: response.data.space_type,
             space_type_name: response.data.space_type_name,
             averageScore: response.data.averageScore,
+            viewCount: response.data.viewCount,
           });
 
           // 상세조회
@@ -508,14 +509,8 @@ const PlaceDetailView = ({ options, match }) => {
                         총 평점
                       </p>
                     </div>
-                    <div className="col-auto border-left d-flex flex-column">
-                      <h6 className="m-0">2</h6>
-                      <p className="text-50 mb-0 d-flex align-items-center">
-                        하트 수
-                      </p>
-                    </div>
                     <div className="col-auto border-left">
-                      <h6 className="m-0">264</h6>
+                      <h6 className="m-0">{formInfo.viewCount}</h6>
                       <p className="text-50 mb-0 d-flex align-items-center">
                         클릭 수
                       </p>

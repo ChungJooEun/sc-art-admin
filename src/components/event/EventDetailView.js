@@ -356,6 +356,8 @@ const EventDetailView = ({ options, pagePathList, match }) => {
             price: response.data.price,
             state: response.data.state,
             averageScore: response.data.averageScore,
+            totalLikeRows: response.data.totalLikeRows,
+            viewCount: response.data.viewCount,
           });
 
           // 큐레이션 정보
@@ -574,13 +576,13 @@ const EventDetailView = ({ options, pagePathList, match }) => {
                       </p>
                     </div>
                     <div className="col-auto border-left d-flex flex-column">
-                      <h6 className="m-0">2</h6>
+                      <h6 className="m-0">{formInfo.totalLikeRows}</h6>
                       <p className="text-50 mb-0 d-flex align-items-center">
                         하트 수
                       </p>
                     </div>
                     <div className="col-auto border-left">
-                      <h6 className="m-0">264</h6>
+                      <h6 className="m-0">{formInfo.viewCount}</h6>
                       <p className="text-50 mb-0 d-flex align-items-center">
                         클릭 수
                       </p>
