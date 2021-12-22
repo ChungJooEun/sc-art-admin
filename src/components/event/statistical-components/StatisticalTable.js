@@ -65,8 +65,8 @@ const StatisticalTable = ({ period }) => {
             averageScore: data[i].averageScore.toString().includes(".")
               ? data[i].averageScore
               : data[i].averageScore + ".0",
-            totalReviewRows: data[i].totalReviewRows,
-            totalLikeRows: data[i].totalLikeRows,
+            totalReviewRows: data[i].totalReviewCount,
+            totalLikeRows: data[i].totalLikeCount,
             viewCount: data[i].viewCount,
           });
         }
