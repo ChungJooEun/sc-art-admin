@@ -340,46 +340,6 @@ const PlaceManageView = () => {
             </div>
           </div>
 
-          <div className="page-section">
-            <div className="page-separator">
-              <div className="page-separator__text">
-                서리풀 자체 운영 문화공간
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-md-12">
-                <div className="row">
-                  <div className="col-md-3">
-                    <button
-                      type="button"
-                      className="btn btn-block btn-lg btn-big gradient-4"
-                      onClick={() => history.push("/place/scplace-art-center")}
-                    >
-                      서리풀 청년아트 센터
-                    </button>
-                  </div>
-                  <div className="col-md-3">
-                    <button
-                      type="button"
-                      className="btn btn-block btn-lg btn-big gradient-4"
-                      onClick={() => history.push("/place/scplace-art-gallery")}
-                    >
-                      서리풀 청년아트 갤러리
-                    </button>
-                  </div>
-                  <div className="col-md-3">
-                    <button
-                      type="button"
-                      className="btn btn-block btn-lg btn-big btn-accent"
-                    >
-                      + 추가하기
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
           <div className="py-32pt position-relative z-1">
             <div className="container-fluid page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left">
               <div className="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
