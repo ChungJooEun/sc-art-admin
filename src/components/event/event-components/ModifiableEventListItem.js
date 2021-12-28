@@ -79,7 +79,7 @@ const ModifiableEventListItem = ({ eventInfo, no, modifyEventState }) => {
         {addDot(eventInfo.close_date)}
       </td>
       <td className="js-lists-values-employer-name small">
-        {eventInfo.creator}
+        {eventInfo.creator ? eventInfo.creator : eventInfo.creator2}
       </td>
       <td className="js-lists-values-status small">
         <select

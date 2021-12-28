@@ -63,7 +63,7 @@ const ModifiablePlaceListItem = ({ placeInfo, no, modifyPlaceState }) => {
         {addDot(placeInfo.create_date)}
       </td>
       <td className="js-lists-values-employer-name small">
-        {placeInfo.creator}
+        {placeInfo.creator ? placeInfo.creator : placeInfo.creator2}
       </td>
       <td className="js-lists-values-status small">
         <select
