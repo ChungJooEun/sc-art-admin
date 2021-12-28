@@ -33,7 +33,6 @@ const SelectListModal = ({
           sort_column: sortInfo.sort_column,
           page: pageNumber,
           count: count,
-          userid: window.sessionStorage.getItem("userid"),
         },
       });
 

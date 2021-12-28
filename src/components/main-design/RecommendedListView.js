@@ -81,6 +81,7 @@ const RecommendedListView = () => {
     }
 
     const isEvent = window.location.href.includes("event") ? true : false;
+
     let convertAry = [];
     for (let i = 0; i < ary.length; i++) {
       convertAry.push({
@@ -92,7 +93,7 @@ const RecommendedListView = () => {
         image: Object.keys(ary[i].resources).includes("images")
           ? ary[i].resources.images[0].url
           : null,
-        sort: 1,
+        sort: recommendList.length + (i + 1),
       });
     }
 
