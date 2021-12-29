@@ -33,6 +33,7 @@ const EventInfoFormTest = React.memo(
     close_time,
     getTimeInfo,
     togglePostCodeModal,
+    selectPlace,
   }) => {
     const [showInputBox, setShowInputBox] = useState(false);
     const toggleInputBox = () => {
@@ -109,6 +110,12 @@ const EventInfoFormTest = React.memo(
       getFormInfo("price", parseInt(e.target.value));
     };
 
+    const onSelectPlace = (e) => {
+      const { label, value } = e;
+
+      selectPlace(label, value.address1, value.address2);
+    };
+
     const [placeOptions, setPlaceOptions] = useState(null);
 
     useEffect(() => {
@@ -122,7 +129,6 @@ const EventInfoFormTest = React.memo(
               sort_column: "create_date",
               page: 1,
               count: 1000,
-              userid: window.sessionStorage.getItem("userid"),
             },
           });
 
@@ -131,7 +137,10 @@ const EventInfoFormTest = React.memo(
 
             for (let i = 0; i < response.data.list.length; i++) {
               options.push({
-                value: response.data.list[i].id,
+                value: {
+                  address1: response.data.list[i].address1,
+                  address2: response.data.list[i].address2,
+                },
                 label: response.data.list[i].name,
               });
             }
@@ -206,11 +215,17 @@ const EventInfoFormTest = React.memo(
                     <div className="col-md-8">
                       <Select
                         options={placeOptions}
-                        defaultValue={{ label: formInfo.location, value: "1" }}
+                        defaultValue={{
+                          label: formInfo.location,
+                          value: {
+                            address1: formInfo.address1,
+                            address2: formInfo.address2,
+                          },
+                        }}
                         closeMenuOnSelect={true}
                         id="select01"
                         placeholder="종류 선택"
-                        onChange={(e) => getFormInfo("location", e.label)}
+                        onChange={(e) => onSelectPlace(e)}
                         isSearchable={true}
                         select
                       />

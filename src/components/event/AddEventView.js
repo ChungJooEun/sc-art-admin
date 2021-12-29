@@ -183,6 +183,15 @@ const AddEventView = ({ options }) => {
     });
   };
 
+  const selectPlace = (location, address1, address2) => {
+    setFormInfo({
+      ...formInfo,
+      location: location,
+      address1: address1,
+      address2: address2,
+    });
+  };
+
   const getCurationInfo = (dataName, data) => {
     if (dataName === "event_type") {
       setCurationInfo({
@@ -323,6 +332,7 @@ const AddEventView = ({ options }) => {
                   close_time={closeTime}
                   getTimeInfo={getTimeInfo}
                   togglePostCodeModal={togglePostCodeModal}
+                  selectPlace={selectPlace}
                 />
               </div>
 

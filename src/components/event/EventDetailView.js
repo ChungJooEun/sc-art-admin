@@ -191,6 +191,15 @@ const EventDetailView = ({ options, pagePathList, match }) => {
     }
   };
 
+  const selectPlace = (location, address1, address2) => {
+    setFormInfo({
+      ...formInfo,
+      location: location,
+      address1: address1,
+      address2: address2,
+    });
+  };
+
   const getPeriod = (date1, date2) => {
     setFormInfo({
       ...formInfo,
@@ -524,6 +533,7 @@ const EventDetailView = ({ options, pagePathList, match }) => {
                   close_time={closeTime}
                   getTimeInfo={getTimeInfo}
                   togglePostCodeModal={togglePostCodeModal}
+                  selectPlace={selectPlace}
                 />
               </div>
 
