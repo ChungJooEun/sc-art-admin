@@ -50,18 +50,7 @@ const AddPlaceView = ({ options }) => {
 
   const history = useHistory();
 
-  const [formInfo, setFormInfo] = useState({
-    name: "",
-    address1: "",
-    address2: "",
-    homepage: "",
-    phone: "",
-    holiday: "",
-    resources: null,
-    state: "TEMP_SAVE",
-    space_type: "",
-    space_type_name: "",
-  });
+  const [formInfo, setFormInfo] = useState(null);
   const [imgFile, setImgFile] = useState(null);
   const [openTime, setOpenTime] = useState("10:00");
   const [closeTime, setCloseTime] = useState("22:00");
@@ -211,6 +200,22 @@ const AddPlaceView = ({ options }) => {
       subMenu: 7,
     });
 
+    setFormInfo({
+      name: "",
+      address1: "",
+      address2: "",
+      homepage: "",
+      phone: "",
+      holiday: "",
+      resources: null,
+      state: "TEMP_SAVE",
+      space_type:
+        typeof history.location.state === "undefined"
+          ? ""
+          : history.location.state.spaceType,
+      space_type_name: "",
+    });
+
     const srcList = [
       `${process.env.PUBLIC_URL}/assets/vendor/jquery.min.js`,
       `${process.env.PUBLIC_URL}/assets/vendor/popper.min.js`,
@@ -239,6 +244,11 @@ const AddPlaceView = ({ options }) => {
       }
     };
   }, []);
+
+  if (!formInfo) {
+    return <div></div>;
+  }
+
   return (
     <div
       className="mdk-drawer-layout js-mdk-drawer-layout"

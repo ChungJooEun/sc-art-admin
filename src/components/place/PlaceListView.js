@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback, useContext } from "react";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 
 import GlobalBar from "../basic-components/GlobalBar";
 import Paging from "../basic-components/Paging";
@@ -293,13 +293,20 @@ const PlaceListView = ({ pageTitle, type }) => {
               data-primary=""
             >
               <form className="d-none d-md-flex">
-                <button
-                  type="button"
-                  className="btn btn-accent"
-                  onClick={() => history.push("/place/add-place")}
+                <Link
+                  to={{
+                    pathname: "/place/add-place",
+                    state: { spaceType: type.toUpperCase() },
+                  }}
                 >
-                  새로운 공간 등록하기 +{" "}
-                </button>
+                  <button
+                    type="button"
+                    className="btn btn-accent"
+                    onClick={() => history.push("/place/add-place")}
+                  >
+                    새로운 공간 등록하기 +{" "}
+                  </button>
+                </Link>
               </form>
               <div className="flex"></div>
               <button
