@@ -1,9 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
+import MenuContext from "../../context/menu";
 // import axios from "axios";
 
 const GlobalBar = React.memo(() => {
+  const { actions, state } = useContext(MenuContext);
+
+  const onToggleMenuBar = () => {
+    actions.setHideMenu(!state.hideMenu);
+  };
+
   const [userId, setUserId] = useState(null);
   const history = useHistory();
 
@@ -73,6 +80,11 @@ const GlobalBar = React.memo(() => {
       }
     };
   }, []);
+
+  if (!userId) {
+    return <div></div>;
+  }
+
   return (
     <div
       className="navbar navbar-expand navbar-shadow px-0 pl-lg-16pt navbar-light bg-body"
@@ -82,7 +94,7 @@ const GlobalBar = React.memo(() => {
       <button
         className="navbar-toggler d-block d-lg-none rounded-0"
         type="button"
-        data-toggle="sidebar"
+        onClick={onToggleMenuBar}
       >
         <span className="material-icons">menu</span>
       </button>

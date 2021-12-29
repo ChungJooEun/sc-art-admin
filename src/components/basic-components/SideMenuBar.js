@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import MenuContext from "../../context/menu";
 
@@ -32,22 +32,46 @@ const SideMenuBar = React.memo(() => {
     );
   };
 
+  const handleResize = useCallback(() => {
+    if (window.innerWidth < 993) {
+      if (state.hideMenu === true) {
+        actions.setHideMenu(false);
+      }
+    } else {
+      if (state.hideMenu === false) {
+        actions.setHideMenu(true);
+      }
+    }
+  }, [state.hideMenu, actions]);
+
   const [adminGroup, setAdminGroup] = useState();
 
   useEffect(() => {
     setAdminGroup(window.sessionStorage.getItem("adminGroup"));
-  }, []);
+
+    window.addEventListener("resize", handleResize);
+
+    if (window.innerWidth > 992) {
+      if (state.hideMenu === false) {
+        actions.setHideMenu(true);
+      }
+    }
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [handleResize, state.hideMenu]);
 
   return (
     <div
-      className="mdk-drawer js-mdk-drawer"
+      className={
+        state.hideMenu
+          ? "mdk-drawer js-mdk-drawer side-menu-bar-active"
+          : "mdk-drawer js-mdk-drawer side-menu-bar"
+      }
       id="default-drawer"
-      style={{ width: "255px" }}
     >
-      <div
-        className=""
-        style={{ height: "100%", position: "fixed", width: "inherit" }}
-      >
+      <div className="side-menu-bar-div">
         <div
           className="sidebar sidebar-dark sidebar-left"
           data-perfect-scrollbar

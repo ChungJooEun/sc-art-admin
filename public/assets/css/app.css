@@ -378,7 +378,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: Exo\2, Helvetica Neue, Arial, sans-serif;
+  font-family: exo\2, Helvetica Neue, Arial, sans-serif;
   font-weight: 600;
   line-height: 1.5;
   color: #272c33;
@@ -3199,7 +3199,7 @@ textarea.form-control {
 }
 .btn {
   display: inline-block;
-  font-family: Exo\2, Helvetica Neue, Arial, sans-serif;
+  font-family: exo\2, Helvetica Neue, Arial, sans-serif;
   font-weight: 600;
   color: #272c33;
   vertical-align: middle;
@@ -22375,6 +22375,7 @@ a.text-primary-pickled-bluewood:hover {
 }
 .mdk-drawer {
   position: relative;
+  visibility: hidden;
 }
 .mdk-drawer[data-closing],
 .mdk-drawer[data-opened] {
@@ -22409,21 +22410,21 @@ a.text-primary-pickled-bluewood:hover {
 [dir] [data-opened] > .mdk-drawer__content {
   transform: translateZ(0);
 }
-.mdk-drawer__scrim {
+/* .mdk-drawer__scrim {
   position: fixed;
   top: 0;
   bottom: 0;
   transition: opacity 0.2s ease;
   opacity: 0;
-}
+} */
 [dir] .mdk-drawer__scrim {
   transform: translateZ(0);
   background-color: rgba(0, 0, 0, 0.5);
 }
 [dir="ltr"] .mdk-drawer__scrim,
 [dir="rtl"] .mdk-drawer__scrim {
-  /* left:0;
-	right:0 */
+  left: 0;
+  right: 0;
 }
 [data-opened] > .mdk-drawer__scrim {
   opacity: 1;
@@ -23792,7 +23793,7 @@ a.text-primary-pickled-bluewood:hover {
   white-space: nowrap;
 }
 .text-headings {
-  font-family: Exo\2, Helvetica Neue, Arial, sans-serif !important;
+  font-family: exo\2, Helvetica Neue, Arial, sans-serif !important;
 }
 .lh-24pt {
   line-height: 1.5rem;
@@ -24717,7 +24718,7 @@ strong {
 }
 .display-1 {
   line-height: 1.25;
-  font-family: Exo\2, Helvetica Neue, Arial, sans-serif;
+  font-family: exo\2, Helvetica Neue, Arial, sans-serif;
 }
 .h1,
 .h2,
@@ -24749,7 +24750,7 @@ h5 {
 .headings-family-exo2 h4,
 .headings-family-exo2 h5,
 .headings-family-exo2 h6 {
-  font-family: Exo\2, Helvetica Neue, Arial, sans-serif;
+  font-family: exo\2, Helvetica Neue, Arial, sans-serif;
   font-weight: 600;
 }
 .headings-family-lato .h1,
@@ -25328,7 +25329,7 @@ body {
   font-size: 0.8125rem;
   font-weight: 600;
   text-transform: uppercase;
-  font-family: Exo\2, Helvetica Neue, Arial, sans-serif;
+  font-family: exo\2, Helvetica Neue, Arial, sans-serif;
   letter-spacing: 2px;
 }
 [dir] .container > .breadcrumb:first-of-type {
@@ -25338,7 +25339,7 @@ body {
   font-size: 0.8125rem;
   font-weight: 600;
   text-transform: uppercase;
-  font-family: Exo\2, Helvetica Neue, Arial, sans-serif;
+  font-family: exo\2, Helvetica Neue, Arial, sans-serif;
   letter-spacing: 2px;
   color: rgba(39, 44, 51, 0.5);
 }
@@ -26135,7 +26136,7 @@ body {
 }
 .card-title {
   font-size: 1rem;
-  font-family: Exo\2, Helvetica Neue, Arial, sans-serif;
+  font-family: exo\2, Helvetica Neue, Arial, sans-serif;
   font-weight: 600;
   color: #272c33;
   line-height: 1.25;
@@ -26320,7 +26321,7 @@ body {
 }
 .card-header-tabs-basic a {
   color: rgba(39, 44, 51, 0.54);
-  font-family: Exo\2, Helvetica Neue, Arial, sans-serif;
+  font-family: exo\2, Helvetica Neue, Arial, sans-serif;
   font-weight: 400;
 }
 [dir] .card-header-tabs-basic a {
@@ -26534,7 +26535,7 @@ body {
 .table thead th {
   color: #272c33;
   text-transform: uppercase;
-  font-family: Exo\2, Helvetica Neue, Arial, sans-serif;
+  font-family: exo\2, Helvetica Neue, Arial, sans-serif;
   font-weight: 600;
   letter-spacing: 2px;
 }
@@ -27039,7 +27040,7 @@ body {
   color: #272c33;
   font-weight: 600;
   letter-spacing: 2px;
-  font-family: Exo\2, Helvetica Neue, Arial, sans-serif;
+  font-family: exo\2, Helvetica Neue, Arial, sans-serif;
 }
 [dir] .page-separator__text {
   border-radius: 0.25rem;
@@ -27269,7 +27270,7 @@ body {
 .page-num {
   width: 2.5rem;
   height: 2.5rem;
-  font-family: Exo\2, Helvetica Neue, Arial, sans-serif;
+  font-family: exo\2, Helvetica Neue, Arial, sans-serif;
   font-weight: 600;
   line-height: 1.5;
   font-size: 1.414rem;
@@ -27807,7 +27808,7 @@ code.django .hljs-template-tag {
 .tooltip-inner {
   font-size: 0.9375rem;
   font-weight: 600;
-  font-family: Exo\2, Helvetica Neue, Arial, sans-serif;
+  font-family: exo\2, Helvetica Neue, Arial, sans-serif;
 }
 [dir] .tooltip-inner {
   box-shadow: 0 2px 1px -1px rgba(39, 44, 51, 0.1),
@@ -30206,7 +30207,7 @@ label {
   color: #272c33;
   text-transform: uppercase;
   font-size: 0.8125rem;
-  font-family: Exo\2, Helvetica Neue, Arial, sans-serif;
+  font-family: exo\2, Helvetica Neue, Arial, sans-serif;
   font-weight: 600;
   letter-spacing: 2px;
 }
@@ -30232,7 +30233,7 @@ label {
   color: #272c33;
   text-transform: uppercase;
   font-size: 0.8125rem;
-  font-family: Exo\2, Helvetica Neue, Arial, sans-serif;
+  font-family: exo\2, Helvetica Neue, Arial, sans-serif;
   font-weight: 600;
   letter-spacing: 2px;
 }
@@ -30626,7 +30627,7 @@ label {
 .sidebar-heading {
   font-weight: 600;
   font-size: 0.9rem;
-  font-family: Exo\2, Helvetica Neue, Arial, sans-serif;
+  font-family: exo\2, Helvetica Neue, Arial, sans-serif;
   text-transform: uppercase;
   letter-spacing: 2px;
   line-height: normal;
