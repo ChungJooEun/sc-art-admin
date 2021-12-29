@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback, useContext } from "react";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import MenuContext from "../../context/menu";
 
 import SideMenuBar from "../basic-components/SideMenuBar";
@@ -386,13 +386,16 @@ const EventListView = ({ pageTitle, type }) => {
               data-primary=""
             >
               <form className="d-none d-md-flex">
-                <button
-                  type="button"
-                  className="btn btn-accent"
-                  onClick={() => history.push("/event/add-event")}
+                <Link
+                  to={{
+                    pathname: "/event/add-event",
+                    state: { eventType: type.toUpperCase() },
+                  }}
                 >
-                  새로운 행사 등록하기 +{" "}
-                </button>
+                  <button type="button" className="btn btn-accent">
+                    새로운 행사 등록하기 +{" "}
+                  </button>
+                </Link>
               </form>
               <div className="flex"></div>
               <form className="d-none d-md-flex">

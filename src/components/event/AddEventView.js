@@ -77,13 +77,7 @@ const AddEventView = ({ options }) => {
   const [openTime, setOpenTime] = useState("10:00");
   const [closeTime, setCloseTime] = useState("22:00");
   const [imgFile, setImgFile] = useState(null);
-  const [curationInfo, setCurationInfo] = useState({
-    event_type: "",
-    event_theme: "",
-    event_field: "",
-    festival_id: "",
-    festival_name: "",
-  });
+  const [curationInfo, setCurationInfo] = useState(null);
   const [detail, setDetail] = useState("");
   const [videos, setVideos] = useState([]);
   const [vId, setVId] = useState(1);
@@ -251,6 +245,17 @@ const AddEventView = ({ options }) => {
       subMenu: 5,
     });
 
+    setCurationInfo({
+      event_type:
+        typeof history.location.state === "undefined"
+          ? ""
+          : history.location.state.eventType,
+      event_theme: "",
+      event_field: "",
+      festival_id: "",
+      festival_name: "",
+    });
+
     const srcList = [
       `${process.env.PUBLIC_URL}/assets/vendor/jquery.min.js`,
       `${process.env.PUBLIC_URL}/assets/vendor/popper.min.js`,
@@ -278,7 +283,11 @@ const AddEventView = ({ options }) => {
         document.body.removeChild(scriptList[i]);
       }
     };
-  }, []);
+  }, [history]);
+
+  if (!curationInfo) {
+    return <div></div>;
+  }
 
   return (
     <>
