@@ -11,10 +11,10 @@ const RecommendedListItem = ({
       if (imgSrc.includes("/images/")) {
         return `https://culture.seocho.go.kr:3000${imgSrc}`;
       } else {
-        return "../assets/images/stories/256_rsz_thomas-russell-751613-unsplash.jpg";
+        return `${process.env.PUBLIC_URL}/assets/images/stories/256_rsz_thomas-russell-751613-unsplash.jpg`;
       }
     } else {
-      return "../assets/images/stories/256_rsz_thomas-russell-751613-unsplash.jpg";
+      return `${process.env.PUBLIC_URL}/assets/images/stories/256_rsz_thomas-russell-751613-unsplash.jpg`;
     }
   };
 

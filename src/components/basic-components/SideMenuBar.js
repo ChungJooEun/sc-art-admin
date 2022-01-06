@@ -83,7 +83,7 @@ const SideMenuBar = React.memo(() => {
           >
             <img
               className="sidebar-brand-icon"
-              src="../assets/images/logo-w.png"
+              src={`${process.env.PUBLIC_URL}/assets/images/logo-w.png`}
               alt=""
             />
           </Link>

@@ -12,7 +12,7 @@ const BoardInfo = () => {
           <div className="form-row">
             <div className="flex" style={{ maxWidth: "100%" }}>
               <img
-                src="../assets/images/256_rsz_thomas-russell-751613-unsplash.jpg"
+                src={`${process.env.PUBLIC_URL}/assets/images/256_rsz_thomas-russell-751613-unsplash.jpg`}
                 className="avatar-img rounded"
                 alt=""
                 data-dz-thumbnail
