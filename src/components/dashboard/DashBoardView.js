@@ -89,8 +89,8 @@ const DashBoardView = () => {
         />
 
         <div className="container-fluid page__container">
-          <Summary />
-          <TaskRequest />
+          <Summary period={period}/>
+          <TaskRequest period={period}/>
         </div>
       </div>
 

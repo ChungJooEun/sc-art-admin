@@ -7,7 +7,7 @@ import ModifiablePlaceList from "../../place/place-components/ModifiablePlaceLis
 
 const count = 5;
 
-const TaskRequest = () => {
+const TaskRequest = ({period}) => {
   const [eventList, setEventList] = useState([]);
   const [placeList, setPlaceList] = useState([]);
   const [pageNumber_Event, setPageNumber_Event] = useState(1);
@@ -93,8 +93,9 @@ const TaskRequest = () => {
   };
 
   const getEventList = useCallback(async () => {
-    const url =
-      "https://culture.seocho.go.kr:3000/api/admin/cultural-event/list";
+    // const url = "https://culture.seocho.go.kr:3000/api/admin/cultural-event/list";
+    const url = "http://localhost:3000/api/admin/cultural-event/list";
+
 
     try {
       const response = await axios.get(url, {
@@ -104,10 +105,9 @@ const TaskRequest = () => {
           page: pageNumber_Event,
           count: count,
           is_dashboard: 1,
-          userid:
-            adminGroup === "PARTNER"
-              ? window.sessionStorage.getItem("userid")
-              : "",
+          userid: adminGroup === "PARTNER" ? window.sessionStorage.getItem("userid") : "",
+          from_date : period.from_date,
+          to_date : period.to_date,
         },
       });
 
@@ -118,11 +118,12 @@ const TaskRequest = () => {
     } catch (e) {
       console.log(e);
     }
-  }, [pageNumber_Event, sortInfo, adminGroup]);
+  }, [pageNumber_Event, sortInfo, adminGroup, period]);
 
   const getPlaceList = useCallback(async () => {
-    const url =
-      "https://culture.seocho.go.kr:3000/api/admin/cultural-space/list";
+    // const url = "https://culture.seocho.go.kr:3000/api/admin/cultural-space/list";
+    const url = "http://localhost:3000/api/admin/cultural-space/list";
+
 
     try {
       const response = await axios.get(url, {
@@ -136,6 +137,8 @@ const TaskRequest = () => {
             adminGroup === "PARTNER"
               ? window.sessionStorage.getItem("userid")
               : "",
+          from_date : period.from_date,
+          to_date : period.to_date,
         },
       });
 
@@ -146,7 +149,7 @@ const TaskRequest = () => {
     } catch (e) {
       console.log(e);
     }
-  }, [pageNumber_Place, sortInfo, adminGroup]);
+  }, [pageNumber_Place, sortInfo, adminGroup, period]);
 
   const getPageNumber = (pickNumber) => {
     if (tapMenu === 1) {

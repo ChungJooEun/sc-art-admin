@@ -18,7 +18,7 @@ const calcTotalCount = (data) => {
   return sum;
 };
 
-const Summary = () => {
+const Summary = ({period}) => {
   const [visitorCount, setVisitorCount] = useState({ labels: [], data: [] });
   const [subscriberCount, setSubscriberCount] = useState({
     labels: [],
@@ -36,7 +36,8 @@ const Summary = () => {
 
   useEffect(() => {
     const getSummary = async () => {
-      const url = "https://culture.seocho.go.kr:3000/api/admin/dashboard/list";
+      // const url = "https://culture.seocho.go.kr:3000/api/admin/dashboard/list";
+      const url = "http://localhost:3000/api/admin/dashboard/list";
 
       try {
         const res = await axios.get(url);
