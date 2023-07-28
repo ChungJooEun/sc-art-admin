@@ -1,19 +1,7 @@
 import React from "react";
 import { Bar } from "react-chartjs-2";
 
-const barGraphOptions = {
-  scales: {
-    y: {
-      ticks: {
-        beginAtZero: true,
-        stepSize: 50,
-      },
-    },
-  },
-  // maintainAspectRatio: false,
-};
-
-const SummaryBarGraph = ({ graphTitle, totalCount, data }) => {
+const SummaryBarGraph = ({ graphTitle, totalCount, data, dateRange }) => {
   return (
     <div className="col-md-6 card-group-row__col">
       <div className="card card-group-row__card">
@@ -27,7 +15,7 @@ const SummaryBarGraph = ({ graphTitle, totalCount, data }) => {
                     <strong>{graphTitle}</strong>
                   </p>
                   <p className="text-50 mb-0 d-flex align-items-center">
-                    <small>2021</small>
+                    <small>{dateRange}</small>
                   </p>
                 </div>
               </div>
@@ -35,7 +23,24 @@ const SummaryBarGraph = ({ graphTitle, totalCount, data }) => {
           </div>
         </div>
         <div className="card-body">
-          <Bar data={data} options={barGraphOptions} />
+          <Bar
+              data={data}
+              options={{
+                scales: {
+                  y: {
+                    ticks: {
+                      beginAtZero: true,
+                      stepSize: 50,
+                    },
+                  },
+                },
+                plugins: {
+                  legend : {
+                    display : dateRange === "최근 일주일",
+                  }
+                }
+              }}
+          />
         </div>
       </div>
     </div>

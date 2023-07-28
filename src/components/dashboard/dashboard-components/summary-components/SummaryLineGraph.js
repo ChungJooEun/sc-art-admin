@@ -19,7 +19,7 @@ const options = {
   },
 };
 
-const SummaryLineGraph = ({ graphTitle, totalCount, data }) => {
+const SummaryLineGraph = ({ graphTitle, totalCount, data, dateRange}) => {
   return (
     <div className="col-md-6 card-group-row__col">
       <div className="card card-group-row__card">
@@ -32,7 +32,7 @@ const SummaryLineGraph = ({ graphTitle, totalCount, data }) => {
                   <p className="mb-0">
                     <strong>{graphTitle}</strong>
                   </p>
-                  <small className="text-black-50">최근 일주일</small>
+                  <small className="text-black-50">{dateRange}</small>
                 </div>
               </div>
             </div>
