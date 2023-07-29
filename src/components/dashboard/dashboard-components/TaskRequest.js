@@ -93,8 +93,8 @@ const TaskRequest = ({period}) => {
   };
 
   const getEventList = useCallback(async () => {
-    // const url = "https://culture.seocho.go.kr:3000/api/admin/cultural-event/list";
-    const url = "http://localhost:3000/api/admin/cultural-event/list";
+    const url = "https://culture.seocho.go.kr:3000/api/admin/cultural-event/list";
+    // const url = "http://localhost:3000/api/admin/cultural-event/list";
 
 
     try {
@@ -121,8 +121,8 @@ const TaskRequest = ({period}) => {
   }, [pageNumber_Event, sortInfo, adminGroup, period]);
 
   const getPlaceList = useCallback(async () => {
-    // const url = "https://culture.seocho.go.kr:3000/api/admin/cultural-space/list";
-    const url = "http://localhost:3000/api/admin/cultural-space/list";
+    const url = "https://culture.seocho.go.kr:3000/api/admin/cultural-space/list";
+    // const url = "http://localhost:3000/api/admin/cultural-space/list";
 
 
     try {
